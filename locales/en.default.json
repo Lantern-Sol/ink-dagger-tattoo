@@ -329,6 +329,9 @@
       "expired": "Expired"
     }
   },
+  "onboarding": {
+    "no_content": "Add a Collection grid block to display tabbed product collections."
+  },
   "placeholders": {
     "password": "Password",
     "search": "Search",

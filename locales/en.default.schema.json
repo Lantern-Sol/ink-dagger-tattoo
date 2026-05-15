@@ -213,6 +213,7 @@
   "info": {
     "actions_display_style": "Icons are always used on mobile",
     "applies_on_image_only": "Applies to images only",
+    "background_image_mobile": "Shown instead of the background image on mobile devices",
     "aspect_ratio_adjusted": "Adjusted in some layouts",
     "carousel_hover_behavior_not_supported": "\"Carousel\" hover is not supported when \"Carousel\" type is selected at the section level",
     "carousel_layout_on_mobile": "Carousel is always used on mobile",
@@ -549,6 +550,7 @@
     "h4": "Heading 4",
     "h5": "Heading 5",
     "h6": "Heading 6",
+    "h7": "Heading 7",
     "heading": "Heading",
     "heading_extra_large": "Heading (Extra large)",
     "heading_extra_small": "Heading (Extra small)",
@@ -769,6 +771,7 @@
     "autoplay": "Autoplay",
     "background": "Background",
     "background_color": "Background color",
+    "background_image_mobile": "Mobile background image",
     "background_overlay": "Background overlay",
     "badge_corner_radius": "Corner radius",
     "background_media": "Background media",
@@ -850,6 +853,7 @@
     "divider_thickness": "Divider thickness",
     "divider_width": "Divider width",
     "dividers": "Dividers",
+    "drawer": "Drawer",
     "drop_shadow": "Drop shadow",
     "empty_cart_button_link": "Empty cart button link",
     // Collection setting for products shown before search input
