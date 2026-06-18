@@ -29,6 +29,10 @@
   if onboarding == false and article.tags.size > 0
     assign first_tag = article.tags | first
   endif
+
+  if block_settings.background_color != blank
+    render 'contrast-override', background_color: block_settings.background_color, section_id: block.id
+  endif
 %}
 
 {% capture image %}
@@ -73,7 +77,7 @@
   class="
     featured-blog-posts-card spacing-style border-style
     {% if section.settings.layout_type == 'editorial' %}blog-post-card--flexible-aspect-ratio{% endif %}
-    {% if block_settings.inherit_color_scheme == false %}color-{{ block_settings.color_scheme }}{% endif %}
+    {% if block_settings.background_color != blank %}color-custom-{{ block.id }}{% endif %}
   "
   data-block-id="{{ block.id }}"
   data-testid="featured-blog-posts-card"
@@ -273,17 +277,10 @@
       "content": "t:content.appearance"
     },
     {
-      "type": "checkbox",
-      "id": "inherit_color_scheme",
-      "label": "t:settings.inherit_color_scheme",
-      "default": true
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:settings.color_scheme",
-      "default": "scheme-1",
-      "visible_if": "{{ block.settings.inherit_color_scheme == false }}"
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
     },
     {
       "type": "select",
@@ -321,6 +318,13 @@
       "unit": "%",
       "label": "t:settings.opacity",
       "default": 100,
+      "visible_if": "{{ block.settings.border != 'none' }}"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "t:settings.color",
+      "placeholder": "t:settings.default",
       "visible_if": "{{ block.settings.border != 'none' }}"
     },
     {

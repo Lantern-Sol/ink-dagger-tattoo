@@ -6,9 +6,10 @@
   endif
 -%}
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+{% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
+<div class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"></div>
 <div
-  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style breadcrumbs"
+  class="section section--{{ section.settings.section_width }} spacing-style breadcrumbs{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
   style="
     {%- render 'spacing-style', settings: section.settings -%}
     --breadcrumbs-separator: '{{ separator }}';
@@ -209,10 +210,10 @@
       "default": "/"
     },
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:settings.color_scheme",
-      "default": "scheme-1"
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
     },
     {
       "type": "select",

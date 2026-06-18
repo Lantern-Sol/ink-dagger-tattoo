@@ -60,8 +60,8 @@
       "settings": {
         "speed": 3,
         "section_width": "page-width",
-        "color_scheme": "scheme-2",
         "divider_width": 0,
+        "divider_color": "{{ settings.color_palette.color3 }}",
         "padding-block-start": 15,
         "padding-block-end": 15,
         "use_mobile_padding": true,
@@ -78,9 +78,7 @@
           "settings": {
             "hide_logo_on_home_page": false,
             "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "padding-block-end": 0
           },
           "blocks": {}
         },
@@ -103,7 +101,6 @@
             "feature_color_scheme": "scheme-5",
             "image_border_radius": 0,
             "navigation_bar": false,
-            "color_scheme_navigation_bar": "",
             "drawer_dividers": true
           },
           "blocks": {}
@@ -134,15 +131,10 @@
         "actions_font_size": "0.875rem",
         "actions_font": "body",
         "actions_text_case": "none",
-        "color_scheme_top": "scheme-4",
-        "color_scheme_bottom": "",
-        "color_scheme_transparent": "scheme-6",
         "enable_transparent_header_home": true,
-        "home_color_scheme": "inverse",
+        "home_inverse_logo": true,
         "enable_transparent_header_product": false,
-        "product_color_scheme": "default",
-        "enable_transparent_header_collection": false,
-        "collection_color_scheme": "default"
+        "enable_transparent_header_collection": false
       }
     }
   },

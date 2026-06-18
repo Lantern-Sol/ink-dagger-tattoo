@@ -1,9 +1,14 @@
 {% assign block_settings = block.settings %}
 
+{% render 'contrast-override',
+  background_color: block_settings.background_color,
+  section_id: block.id
+%}
+
 <product-tabs
   class="
     product-tabs spacing-style border-style
-    {% if block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}
+    {% if block_settings.background_color != blank %} color-custom-{{ block.id }}{% endif %}
   "
   style="
     --tab-font-family: var(--font-{{ block_settings.tab_type_preset }}--family);
@@ -231,17 +236,14 @@
       "default": ""
     },
     {
-      "type": "checkbox",
-      "id": "inherit_color_scheme",
-      "label": "t:settings.inherit_color_scheme",
-      "default": true
+      "type": "header",
+      "content": "t:content.appearance"
     },
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:settings.color_scheme",
-      "default": "scheme-1",
-      "visible_if": "{{ block.settings.inherit_color_scheme == false }}"
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
     },
     {
       "type": "header",

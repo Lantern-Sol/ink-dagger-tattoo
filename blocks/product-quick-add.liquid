@@ -1,10 +1,6 @@
 {%- liquid
   assign product = closest.product
   assign block_settings = block.settings
-  assign should_inherit = true
-  if block_settings.inherit_color_scheme == false and block_settings.color_scheme != blank
-    assign should_inherit = false
-  endif
 
   # `mode` controls whether this Quick-add opens the standard cart popup or
   # the Build-a-box bundle popup. Three values:
@@ -21,8 +17,13 @@
   assign flavor_notes = product.metafields.custom.card_flavor_notes.value | strip_html | strip
 -%}
 
+{% render 'contrast-override',
+  background_color: block_settings.background_color,
+  section_id: block.id
+%}
+
 <div
-  class="product-quick-add-block spacing-style{% unless should_inherit %} color-{{ block_settings.color_scheme }}{% endunless %}"
+  class="product-quick-add-block spacing-style{% if block_settings.background_color != blank %} color-custom-{{ block.id }}{% endif %}"
   style="{% render 'spacing-style', settings: block_settings %}"
   data-bundle-trigger="{{ mode_value }}"
   data-product-flavor-notes="{{ flavor_notes | escape }}"
@@ -142,17 +143,14 @@
       "default": false
     },
     {
-      "type": "checkbox",
-      "id": "inherit_color_scheme",
-      "label": "t:settings.inherit_color_scheme",
-      "default": true
+      "type": "header",
+      "content": "t:content.appearance"
     },
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:settings.color_scheme",
-      "default": "scheme-1",
-      "visible_if": "{{ block.settings.inherit_color_scheme == false }}"
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
     },
     {
       "type": "header",

@@ -2,11 +2,24 @@
   {% content_for 'blocks' %}
 {% endcapture %}
 
+{% render 'contrast-override',
+  background_color: block.settings.background_color,
+  section_id: block.id
+%}
+
+{% liquid
+  assign group_slider_class = ''
+  if block.settings.background_color != blank
+    assign group_slider_class = 'color-custom-' | append: block.id
+  endif
+%}
+
 {% render 'group-slider',
   children: children,
   slide_count: block.blocks.size,
   settings: block.settings,
-  shopify_attributes: block.shopify_attributes
+  shopify_attributes: block.shopify_attributes,
+  class: group_slider_class
 %}
 
 {% schema %}
@@ -309,17 +322,10 @@
       "content": "t:content.appearance"
     },
     {
-      "type": "checkbox",
-      "id": "inherit_color_scheme",
-      "label": "t:settings.inherit_color_scheme",
-      "default": true
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:settings.color_scheme",
-      "default": "scheme-1",
-      "visible_if": "{{ block.settings.inherit_color_scheme == false }}"
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
     },
     {
       "type": "header",

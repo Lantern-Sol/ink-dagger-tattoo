@@ -35,6 +35,10 @@
   if section.index == blank
     assign eager_loading = true
   endif
+
+  if block_settings.background_color != blank or block_settings.text_color != blank
+    render 'contrast-override', background_color: block_settings.background_color, text_color: block_settings.text_color, section_id: block.id
+  endif
 %}
 
 <script
@@ -70,11 +74,14 @@
       ref="menuDrawer"
       class="
         menu-drawer
-        color-{{ section.settings.color_scheme_drawer | default: block_settings.color_scheme }}
+        color-{{ section.settings.color_scheme_drawer }}
+        {% if block_settings.background_color != blank or block_settings.text_color != blank %}
+          color-custom-{{ block.id }}
+        {% endif %}
       "
     >
       <button
-        class="button close-button menu-drawer__close-button"
+        class="button close-button menu-drawer__close-button focus-inset"
         type="button"
         aria-label="{{ 'actions.close' | t }}"
         on:click="/close"
@@ -133,9 +140,8 @@
                         <div class="menu-drawer__nav-buttons">
                           <button
                             class="button menu-drawer__back-button focus-inset"
-                            aria-expanded="true"
                             on:click="header-drawer/back"
-                            aria-label="{{ 'actions.back' | t }}"
+                            aria-label="{{ 'actions.back_to' | t: title: link.title }}"
                           >
                             <span class="svg-wrapper icon-caret icon-caret--backward">
                               {{- 'icon-caret.svg' | inline_asset_content -}}
@@ -143,7 +149,7 @@
                             <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
                           </button>
                           <button
-                            class="button button-unstyled close-button menu-drawer__close-button"
+                            class="button button-unstyled close-button menu-drawer__close-button focus-inset"
                             type="button"
                             aria-label="{{ 'actions.close' | t }}"
                             on:click="header-drawer/close"
@@ -236,17 +242,17 @@
                                 </a>
                               {%- else -%}
                                 {% liquid
-                                  assign accordion_state = ''
+                                  assign should_open_first_nested = false
                                   if first_accordion_open == false and block_settings.drawer_accordion and block_settings.drawer_accordion_expand_first
                                     assign first_accordion_open = true
-                                    assign accordion_state = 'open-by-default-on-mobile'
+                                    assign should_open_first_nested = true
                                   endif
                                 %}
                                 {% if block_settings.drawer_accordion %}
                                   {%- comment -%}
                                     Accordion for links with children, in menus with 3 levels of links
                                   {%- endcomment -%}
-                                  <accordion-custom {{ accordion_state }}>
+                                  {% capture accordion_children_nested %}
                                     <details
                                       id="Details-menu-drawer-{{ link.handle }}-{{ childlink.handle }}"
                                     >
@@ -305,7 +311,11 @@
                                         {%- endfor -%}
                                       </ul>
                                     </details>
-                                  </accordion-custom>
+                                  {% endcapture %}
+                                  {% render 'accordion-custom-component',
+                                    children: accordion_children_nested,
+                                    open_by_default_on_mobile: should_open_first_nested
+                                  %}
                                 {% else %}
                                   {%- comment -%}
                                     Flat menus for links with children, in menus with 3 levels of links
@@ -401,7 +411,8 @@
                                         image_aspect_ratio: '9 / 4',
                                         image_sizes: 'auto, 400px',
                                         button_label: block_settings.feature_button_label,
-                                        button_style_class: block_settings.feature_button_style_class
+                                        button_style_class: block_settings.feature_button_style_class,
+                                        product_view_context: 'dialog'
                                       %}
                                     </li>
                                   {%- endfor -%}
@@ -449,7 +460,7 @@
         %}
         {% if data_header_drawer_type == 'mobile-drawer' and show_country or show_language %}
           {% liquid
-            assign background_brightness = block.settings.color_scheme.settings.background | color_brightness
+            assign background_brightness = block_settings.background_color | color_brightness
             if background_brightness < 64
               assign flag_shadow_size = 4
             else
@@ -461,7 +472,7 @@
             assign form_style = localization_font | append: color_shadow
           %}
           {% if show_language and show_country == false %}
-            <div class="menu-drawer__localization color-{{ settings.popover_color_scheme }}">
+            <div class="menu-drawer__localization color-custom-popover">
               {% render 'localization-form',
                 show_country: show_country,
                 show_language: show_language,
@@ -479,14 +490,14 @@
               >
                 <summary
                   id="HeaderDrawer-localization"
-                  class="drawer-localization__button h3 link focus-inset"
+                  class="drawer-localization__button h3 focus-inset"
                   aria-expanded="false"
                   on:click="header-drawer/open/submenu"
                   style="{{ form_style }}"
                 >
                   <div class="drawer-localization__button--label h6">
                     {%- if show_country -%}
-                      <div class="mobile-localization mobile-localization--country link">
+                      <div class="mobile-localization mobile-localization--country">
                         {%- if section.settings.country_selector_style == true -%}
                           <span
                             class="icon-flag"
@@ -508,7 +519,7 @@
                     {%- endif -%}
 
                     {%- if show_language -%}
-                      <div class="mobile-localization mobile-localization--country link">
+                      <div class="mobile-localization mobile-localization--country">
                         <span>
                           {{ localization.language.iso_code | upcase }}
                         </span>
@@ -521,16 +532,14 @@
                 </summary>
 
                 <div
-                  class="menu-drawer__submenu has-submenu color-{{ settings.drawer_color_scheme }}"
-                  style=""
+                  class="menu-drawer__submenu has-submenu color-custom-drawer"
                 >
                   <div
                     class="menu-drawer__nav-buttons"
                     ref="navButtons"
                   >
                     <button
-                      class="button menu-drawer__back-button link focus-inset"
-                      aria-expanded="true"
+                      class="button menu-drawer__back-button focus-inset"
                       on:click="header-drawer/back"
                     >
                       <span class="svg-wrapper icon-caret icon-caret--backward">
@@ -539,7 +548,7 @@
                       {{ 'content.localization_region_and_language' | t }}
                     </button>
                     <button
-                      class="button close-button menu-drawer__close-button"
+                      class="button close-button menu-drawer__close-button focus-inset"
                       type="button"
                       aria-label="{{ 'actions.close' | t }}"
                       on:click="header-drawer/close"
@@ -650,7 +659,8 @@
                       image_aspect_ratio: '9 / 4',
                       image_sizes: 'auto, 400px',
                       button_label: block_settings.feature_button_label,
-                      button_style_class: block_settings.feature_button_style_class
+                      button_style_class: block_settings.feature_button_style_class,
+                      product_view_context: 'dialog'
                     %}
                   </li>
                 {%- endfor -%}
@@ -770,7 +780,6 @@
     overflow: auto;
     display: flex;
     border-right: var(--style-border-drawer);
-    box-shadow: var(--shadow-drawer);
     flex-direction: column;
 
     @media screen and (max-width: 749px) {
@@ -799,7 +808,7 @@
     width: 100vw;
     height: 100dvh;
     backdrop-filter: brightness(0.75);
-    z-index: var(--layer-heightened);
+    z-index: var(--layer-overlay);
     opacity: 0;
     transition: opacity var(--drawer-animation-speed) ease;
 
@@ -1114,6 +1123,11 @@
     outline: none;
   }
 
+  .menu-drawer__close-button.menu-drawer__close-button,
+  .menu-drawer__back-button.menu-drawer__back-button {
+    outline-color: var(--color-foreground-subdued);
+  }
+
   .menu-drawer__menu-item-text {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1174,7 +1188,6 @@
     padding: 0;
     margin-block: auto var(--padding-sm);
     margin-inline-start: var(--padding-xl);
-    background-color: rgb(var(--color-foreground) 0.03);
   }
 
   .menu-drawer__account {
@@ -1375,6 +1388,7 @@
 
   .drawer-localization .language-selector .svg-wrapper.icon-caret {
     transform: translateY(-50%) rotate(0deg);
+    right: 20px;
   }
 
   .drawer-localization .language-selector .svg-wrapper.icon-caret svg {

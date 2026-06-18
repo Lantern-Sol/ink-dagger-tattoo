@@ -20,7 +20,12 @@
       justify-{{ alignment }}
       {% if block_settings.type_preset != '' %}{{ block_settings.type_preset }}{% endif%}
     "
-    style="{% render 'spacing-style', settings: block_settings %}"
+    style="
+      {% render 'spacing-style', settings: block_settings %}
+      {% if block_settings.text_color != blank %}
+        --color-details: {{ block_settings.text_color }};
+      {% endif %}
+    "
   >
     {%- if block_settings.show_author -%}
       <span>{{ display_author }}</span>
@@ -43,7 +48,7 @@
     gap: 12px;
     font-size: 0.875rem;
     line-height: 1rem;
-    color: rgb(var(--color-foreground-rgb));
+    color: var(--color-details, rgb(var(--color-foreground-rgb)));
     white-space: nowrap;
     flex-wrap: wrap;
   }
@@ -130,6 +135,16 @@
       "visible_if": "{{ block.settings.show_alignment != false }}"
     },
     {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:settings.text_color",
+      "placeholder": "t:settings.default"
+    },
+    {
       "type": "checkbox",
       "id": "show_alignment",
       "label": "t:settings.show_alignment",
@@ -154,6 +169,26 @@
       "type": "range",
       "id": "padding-block-end",
       "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
       "min": 0,
       "max": 100,
       "step": 1,
@@ -191,7 +226,17 @@
   ],
   "presets": [
     {
-      "name": "t:names.details"
+      "name": "t:names.details",
+      "category": "t:categories.blog_post",
+      "settings": {
+        "show_date": true,
+        "show_author": false,
+        "type_preset": "",
+        "alignment": "center",
+        "show_alignment": true,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   ]
 }

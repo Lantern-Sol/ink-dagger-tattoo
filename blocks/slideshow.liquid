@@ -34,9 +34,9 @@
   endif
 %}
 
-<div class="color-{{ block.settings.color_scheme }}"></div>
+{% render 'contrast-override', background_color: block.settings.background_color, section_id: block.id %}
 <div
-  class="spacing-style section section--{{ block.settings.section_width }} color-{{ block.settings.color_scheme }} disable-section-top-offset"
+  class="spacing-style section section--{{ block.settings.section_width }} disable-section-top-offset{% if block.settings.background_color != blank %} color-custom-{{ block.id }}{% endif %}"
   style="{% render 'spacing-padding', settings: block.settings %}"
 >
   {% render 'slideshow',
@@ -238,10 +238,10 @@
       "default": "dots"
     },
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:settings.color_scheme",
-      "default": "primary"
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
     },
     {
       "type": "checkbox",
@@ -347,8 +347,6 @@
                 "width": "custom",
                 "custom_width": 50,
                 "width_mobile": "custom",
-                "inherit_color_scheme": false,
-                "color_scheme": "scheme-6",
                 "custom_width_mobile": 85,
                 "padding-inline-start": 48,
                 "padding-inline-end": 48,
@@ -395,8 +393,6 @@
                 "width": "custom",
                 "custom_width": 50,
                 "width_mobile": "custom",
-                "inherit_color_scheme": false,
-                "color_scheme": "scheme-6",
                 "custom_width_mobile": 85,
                 "padding-inline-start": 48,
                 "padding-inline-end": 48,

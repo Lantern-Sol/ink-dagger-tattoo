@@ -46,7 +46,7 @@
         <div
           class="
             product-badges__badge product-badges__badge--rectangle
-            {% if product.available == false %} color-{{ settings.badge_sold_out_color_scheme }}{% elsif product.compare_at_price > product.price %} color-{{ settings.badge_sale_color_scheme }}{% endif %}
+            {% if product.available == false %} color-custom-badge-sold-out{% elsif product.compare_at_price > product.price %} color-custom-badge-sale{% endif %}
           "
         >
           {%- if product.available == false -%}
@@ -74,50 +74,9 @@
   {% endif %}
 </div>
 
+{% render 'product-badges-styles' %}
+
 {% stylesheet %}
-  .product-badges {
-    --badge-inset: max(var(--padding-xs), calc((var(--border-radius) + var(--padding-xs)) * (1 - cos(45deg))));
-
-    position: absolute;
-    z-index: var(--layer-flat);
-  }
-
-  .product-badges--bottom-left {
-    bottom: calc(var(--badge-inset) + var(--padding-block-start));
-    left: calc(var(--badge-inset) + var(--padding-inline-start));
-  }
-
-  .product-badges--top-left {
-    top: calc(var(--badge-inset) + var(--padding-block-start));
-    left: calc(var(--badge-inset) + var(--padding-inline-start));
-  }
-
-  .product-badges--top-right {
-    top: calc(var(--badge-inset) + var(--padding-block-start));
-    right: calc(var(--badge-inset) + var(--padding-inline-start));
-  }
-
-  .product-badges__badge {
-    --badge-font-size: var(--font-size--xs);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: var(--color-foreground);
-    background: var(--color-background);
-    font-size: var(--badge-font-size);
-    font-family: var(--badge-font-family);
-    font-weight: var(--badge-font-weight);
-    text-transform: var(--badge-text-transform);
-    border-radius: var(--badge-border-radius);
-  }
-
-  .product-badges__badge--rectangle {
-    padding-block: var(--badge-rectangle-padding-block);
-    padding-inline: var(--badge-rectangle-padding-inline);
-  }
-
   .card-hover-panel {
     position: absolute;
     inset: 0;
@@ -244,7 +203,7 @@
       "type": "range",
       "id": "border_width",
       "min": 0,
-      "max": 100,
+      "max": 4,
       "step": 1,
       "unit": "px",
       "label": "t:settings.thickness",
@@ -263,11 +222,18 @@
       "visible_if": "{{ block.settings.border != 'none' }}"
     },
     {
+      "type": "color",
+      "id": "border_color",
+      "label": "t:settings.color",
+      "placeholder": "t:settings.default",
+      "visible_if": "{{ block.settings.border != 'none' }}"
+    },
+    {
       "type": "range",
       "id": "border_radius",
       "label": "t:settings.border_radius",
       "min": 0,
-      "max": 32,
+      "max": 100,
       "step": 1,
       "unit": "px",
       "default": 0

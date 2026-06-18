@@ -17,6 +17,7 @@
     "
     style="
       {% render 'typography-style', settings: block_settings, preset: 'custom' %}
+      {% if block_settings.text_color != blank %}--color: {{ block_settings.text_color }}; --color-rgb: {{ block_settings.text_color.rgb }};{% endif %}
       --width: 100%;
       --text-align: center;
       --line-height: 1;
@@ -447,6 +448,16 @@
       "step": 0.1,
       "default": 1.5,
       "visible_if": "{{ block.settings.type_preset_mobile == 'custom' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:settings.text_color",
+      "placeholder": "t:settings.default"
     }
   ],
   "presets": [

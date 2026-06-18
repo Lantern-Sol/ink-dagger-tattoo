@@ -250,9 +250,10 @@
   }
 {% endstyle %}
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+{% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
+<div class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"></div>
 <div
-  class="section color-{{ section.settings.color_scheme }}"
+  class="section{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
   data-testid="ui-test-section"
 
   {% if request.visual_preview_mode %}
@@ -589,10 +590,10 @@
       "content": "t:content.appearance"
     },
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:settings.color_scheme",
-      "default": "scheme-1"
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
     },
     {
       "type": "range",
@@ -719,8 +720,6 @@
               "static": true,
               "name": "Center Content Group",
               "settings": {
-                "inherit_color_scheme": false,
-                "color_scheme": "scheme-2",
                 "padding-block-start": 20,
                 "padding-block-end": 20,
                 "padding-inline-start": 20,
@@ -765,8 +764,6 @@
               "static": true,
               "name": "Center Content Group",
               "settings": {
-                "inherit_color_scheme": false,
-                "color_scheme": "scheme-2",
                 "padding-block-start": 20,
                 "padding-block-end": 20,
                 "padding-inline-start": 20,
@@ -811,8 +808,6 @@
               "static": true,
               "name": "Center Content Group",
               "settings": {
-                "inherit_color_scheme": false,
-                "color_scheme": "scheme-2",
                 "padding-block-start": 20,
                 "padding-block-end": 20,
                 "padding-inline-start": 20,

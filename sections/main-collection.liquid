@@ -21,94 +21,100 @@
 {% endjavascript %}
 
 {% comment %} We always render this full-width, as the child blocks have width: page/full settings {% endcomment %}
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
-<results-list
-  class="section product-grid-container color-{{ section.settings.color_scheme }}"
-  style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
-  section-id="{{ section.id }}"
-  infinite-scroll="{{ section.settings.enable_infinite_scroll }}"
->
-  {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
+{% liquid
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+  endif
+%}
 
-  <div
-    class="collection-wrapper grid gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
+<div
+  class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+></div>
+{% # theme-check-disable-next-line UnknownFilter %}
+<collection-component view-event-payload="{{ collection | standard_event_data: 'view' | escape }}">
+  <results-list
+    class="section product-grid-container{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+    style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
+    section-id="{{ section.id }}"
+    infinite-scroll="{{ section.settings.enable_infinite_scroll }}"
   >
-    {% content_for 'block',
-      type: 'filters',
-      id: 'filters',
-      results: collection,
-      results_size: collection.products_count
-    %}
+    {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
 
-    {% assign products_per_page = 24 %}
-
-    {% if section.settings.enable_infinite_scroll == false %}
-      {% assign products_per_page = section.settings.products_per_page %}
-    {% endif %}
-
-    {% paginate collection.products by products_per_page %}
-      {% capture children %}
-        {%- liquid
-          assign featured_card_blocks = section.blocks | where: 'type', '_collection-featured-card'
-          assign card_positions = '|'
-          for card_block in featured_card_blocks
-            assign card_positions = card_positions | append: card_block.settings.position | append: '|'
-          endfor
-
-          assign slot = 0
-        -%}
-
-        {% for product in collection.products %}
-          {%- assign slot = slot | plus: 1 -%}
-          {%- if paginate.current_page == 1 -%}
-            {%- for skip in (1..20) -%}
-              {%- assign token = '|' | append: slot | append: '|' -%}
-              {%- if card_positions contains token -%}
-                {%- assign slot = slot | plus: 1 -%}
-              {%- else -%}
-                {%- break -%}
-              {%- endif -%}
-            {%- endfor -%}
-          {%- endif -%}
-          <li
-            id="{{ section.id }}-{{ product.id }}"
-            class="product-grid__item product-grid__item--{{ forloop.index0 }}"
-            style="order: {{ slot }};"
-            data-page="{{ paginate.current_page }}"
-            data-product-id="{{ product.id }}"
-            ref="cards[]"
-          >
-            {% # theme-check-disable %}
-            {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
-            {% # theme-check-enable %}
-          </li>
-        {% endfor %}
-
-        {%- if paginate.current_page == 1 -%}
-          {% content_for 'blocks' %}
-        {%- endif -%}
-      {% endcapture %}
-
-      {% render 'product-grid',
-        section: section,
-        children: children,
-        products: collection.products,
-        paginate: paginate,
-        enable_infinite_scroll: section.settings.enable_infinite_scroll
+    <div
+      class="collection-wrapper grid gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
+    >
+      {% content_for 'block',
+        type: 'filters',
+        id: 'filters',
+        results: collection,
+        results_size: collection.products_count
       %}
-    {% endpaginate %}
-  </div>
-</results-list>
+
+      {% assign products_per_page = 24 %}
+
+      {% if section.settings.enable_infinite_scroll == false %}
+        {% assign products_per_page = section.settings.products_per_page %}
+      {% endif %}
+
+      {% paginate collection.products by products_per_page %}
+        {% capture children %}
+          {%- liquid
+            assign featured_card_blocks = section.blocks | where: 'type', '_collection-featured-card'
+            assign card_positions = '|'
+            for card_block in featured_card_blocks
+              assign card_positions = card_positions | append: card_block.settings.position | append: '|'
+            endfor
+
+            assign slot = 0
+          -%}
+
+          {% for product in collection.products %}
+            {%- assign slot = slot | plus: 1 -%}
+            {%- if paginate.current_page == 1 -%}
+              {%- for skip in (1..20) -%}
+                {%- assign token = '|' | append: slot | append: '|' -%}
+                {%- if card_positions contains token -%}
+                  {%- assign slot = slot | plus: 1 -%}
+                {%- else -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+            <li
+              id="{{ section.id }}-{{ product.id }}"
+              class="product-grid__item product-grid__item--{{ forloop.index0 }}"
+              style="order: {{ slot }};"
+              data-page="{{ paginate.current_page }}"
+              data-product-id="{{ product.id }}"
+              ref="cards[]"
+            >
+              {% content_for 'block',
+                type: '_product-card',
+                id: 'product-card',
+                closest.product: product,
+                product_view_context: 'collection'
+              %}
+            </li>
+          {% endfor %}
+
+          {%- if paginate.current_page == 1 -%}
+            {% content_for 'blocks' %}
+          {%- endif -%}
+        {% endcapture %}
+
+        {% render 'product-grid',
+          section: section,
+          children: children,
+          products: collection.products,
+          paginate: paginate,
+          enable_infinite_scroll: section.settings.enable_infinite_scroll
+        %}
+      {% endpaginate %}
+    </div>
+  </results-list>
+</collection-component>
 
 {% stylesheet %}
-  .main-collection-grid {
-    grid-column: var(--grid-column--mobile);
-
-    @media screen and (min-width: 750px) {
-      grid-column: var(--grid-column--desktop);
-    }
-  }
-
   .product-grid__item--featured-card {
     display: flex;
   }
@@ -304,10 +310,10 @@
       "content": "t:content.section_layout"
     },
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:settings.color_scheme",
-      "default": "scheme-1"
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
     },
     {
       "type": "range",

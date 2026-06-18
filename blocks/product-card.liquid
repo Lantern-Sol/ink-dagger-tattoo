@@ -84,19 +84,6 @@
       "visible_if": "{{ block.settings.use_mobile_gap }}"
     },
     {
-      "type": "checkbox",
-      "id": "inherit_color_scheme",
-      "label": "t:settings.inherit_color_scheme",
-      "default": true
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:settings.color_scheme",
-      "default": "scheme-1",
-      "visible_if": "{{ block.settings.inherit_color_scheme == false }}"
-    },
-    {
       "type": "header",
       "content": "t:content.size"
     },
@@ -164,7 +151,13 @@
     },
     {
       "type": "header",
-      "content": "t:content.borders"
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
     },
     {
       "type": "select",
@@ -205,12 +198,20 @@
       "visible_if": "{{ block.settings.border != 'none' }}"
     },
     {
+      "type": "color",
+      "id": "border_color",
+      "label": "t:settings.color",
+      "placeholder": "t:settings.default",
+      "visible_if": "{{ block.settings.border != 'none' }}"
+    },
+    {
       "type": "range",
       "id": "border_radius",
       "label": "t:settings.border_radius",
       "min": 0,
       "max": 32,
       "step": 1,
+      "unit": "px",
       "default": 0
     },
     {
@@ -341,14 +342,13 @@
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
-            "type_preset": "rte",
+            "type_preset": "paragraph",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "color": "var(--color-foreground)",
             "type_preset_mobile": "rte",
             "background": false,
             "background_color": "#00000026",
@@ -374,7 +374,6 @@
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
-            "color": "var(--color-foreground)",
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
