@@ -1,6 +1,0 @@
-# Heavy scraped/derived artifacts — regenerable via scrape.py / optimize_images.py,
-# and the optimized images are already uploaded to Shopify Files.
-pages/
-images_src/
-images_webp/
-__pycache__/
