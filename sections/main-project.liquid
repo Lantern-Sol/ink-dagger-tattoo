@@ -1,0 +1,85 @@
+{%- comment -%}
+  Renders a "project" metaobject as a full project page.
+  Fields: name, description, collector, artist (-> artist metaobject), images (list of images)
+{%- endcomment -%}
+
+{%- liquid
+  assign project = metaobject
+  assign artist = project.artist.value
+  assign images = project.images.value
+-%}
+
+<div class="project-page section" style="--project-gap: {{ section.settings.gap }}px;">
+  <div class="project-page__inner page-width-content">
+
+    <header class="project-header">
+      <h1 class="project-header__name">{{ project.name.value | escape }}</h1>
+      <p class="project-header__meta">
+        {%- if artist != blank -%}
+          <span class="project-header__artist">
+            {{ section.settings.artist_label | default: 'Artist:' }}
+            <a href="{{ artist.system.url }}">{{ artist.name.value | escape }}</a>
+          </span>
+        {%- endif -%}
+        {%- if project.collector.value != blank -%}
+          <span class="project-header__collector">
+            {{ section.settings.collector_label | default: 'Collector:' }} {{ project.collector.value | escape }}
+          </span>
+        {%- endif -%}
+      </p>
+      {%- if project.description.value != blank -%}
+        <div class="project-header__description">{{ project.description.value | newline_to_br }}</div>
+      {%- endif -%}
+    </header>
+
+    {%- if images != blank and images.size > 0 -%}
+      <div class="project-gallery">
+        {%- for image in images -%}
+          <figure class="project-gallery__item">
+            {{ image | image_url: width: 1400 | image_tag:
+              loading: 'lazy',
+              widths: '320, 540, 760, 1100, 1400',
+              sizes: '(min-width: 750px) 45vw, 100vw',
+              alt: project.name.value | escape }}
+          </figure>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{%- style -%}
+  .project-page { padding-block: 48px; color: var(--color-foreground); }
+  .project-page__inner { display: flex; flex-direction: column; gap: var(--project-gap, 48px); }
+  .project-header { display: flex; flex-direction: column; gap: 12px; max-width: var(--narrow-page-width, 70ch); }
+  .project-header__name { margin: 0; }
+  .project-header__meta { margin: 0; display: flex; flex-wrap: wrap; gap: 8px 24px; color: var(--color-foreground-subdued); text-transform: uppercase; letter-spacing: .05em; font-size: .85rem; }
+  .project-header__meta a { color: inherit; }
+  .project-header__description { line-height: 1.7; }
+  .project-gallery { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  @media (min-width: 750px) { .project-gallery { grid-template-columns: repeat(2, 1fr); } }
+  .project-gallery__item { margin: 0; }
+  .project-gallery__item img { width: 100%; height: auto; display: block; border-radius: 8px; }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Project",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "artist_label", "label": "Artist label", "default": "Artist:" },
+    { "type": "text", "id": "collector_label", "label": "Collector label", "default": "Collector:" },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Section spacing",
+      "min": 16,
+      "max": 96,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ]
+}
+{% endschema %}

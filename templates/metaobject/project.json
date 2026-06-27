@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-project",
+      "settings": {
+        "artist_label": "Artist:",
+        "collector_label": "Collector:",
+        "gap": 48
+      }
+    }
+  },
+  "order": ["main"]
+}

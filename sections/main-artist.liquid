@@ -9,6 +9,7 @@
   assign profile = artist.profile_image.value
   assign working = artist.working_portrait.value
   assign collections = artist.collections.value
+  assign projects = artist.projects.value
 -%}
 
 <div class="artist-page section" style="--artist-gap: {{ section.settings.gap }}px;">
@@ -62,6 +63,29 @@
       </div>
     {%- endif -%}
 
+    {%- if projects != blank and projects.size > 0 -%}
+      <section class="artist-projects">
+        <h2 class="artist-projects__title">{{ section.settings.projects_title | default: 'Projects' }}</h2>
+        <ul class="artist-projects__grid" role="list">
+          {%- for project in projects -%}
+            {%- assign cover = project.images.value.first -%}
+            <li class="artist-projects__item">
+              <a href="{{ project.system.url }}" class="artist-projects__link">
+                {%- if cover != blank -%}
+                  {{ cover | image_url: width: 600 | image_tag:
+                    loading: 'lazy',
+                    widths: '300, 600',
+                    sizes: '(min-width: 750px) 30vw, 50vw',
+                    alt: project.name.value | escape }}
+                {%- endif -%}
+                <span class="artist-projects__label">{{ project.name.value | escape }}</span>
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </section>
+    {%- endif -%}
+
     {%- if collections != blank and collections.size > 0 -%}
       <section class="artist-collections">
         <h2 class="artist-collections__title">{{ section.settings.collections_title | default: 'Portfolio' }}</h2>
@@ -103,7 +127,12 @@
   .artist-bio { display: grid; gap: 32px; max-width: var(--narrow-page-width, 60ch); }
   @media (min-width: 750px) { .artist-bio { grid-template-columns: 1fr 1fr; max-width: none; } }
   .artist-bio__col { line-height: 1.7; }
-  .artist-collections__title { margin-bottom: 24px; }
+  .artist-projects__title, .artist-collections__title { margin-bottom: 24px; }
+  .artist-projects__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; list-style: none; margin: 0; padding: 0; }
+  @media (min-width: 750px) { .artist-projects__grid { grid-template-columns: repeat(3, 1fr); } }
+  .artist-projects__link { display: block; text-decoration: none; color: inherit; }
+  .artist-projects__link img { width: 100%; height: auto; border-radius: 8px; display: block; aspect-ratio: 1; object-fit: cover; }
+  .artist-projects__label { display: block; margin-top: 8px; font-weight: 600; }
   .artist-collections__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; list-style: none; margin: 0; padding: 0; }
   @media (min-width: 750px) { .artist-collections__grid { grid-template-columns: repeat(3, 1fr); } }
   .artist-collections__link { display: block; text-decoration: none; color: inherit; }
@@ -134,6 +163,12 @@
     {
       "type": "header",
       "content": "Portfolio"
+    },
+    {
+      "type": "text",
+      "id": "projects_title",
+      "label": "Projects heading",
+      "default": "Projects"
     },
     {
       "type": "text",
