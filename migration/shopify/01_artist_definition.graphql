@@ -1,0 +1,41 @@
+# Creates the "artist" metaobject definition.
+# Run via Admin API once the store is connected.
+# - displayNameKey -> "name"
+# - onlineStore capability enabled with urlHandle "artists" so each entry renders
+#   at /artists/<handle> using templates/metaobject.artist.json (this theme).
+mutation CreateArtistDefinition {
+  metaobjectDefinitionCreate(
+    definition: {
+      type: "artist"
+      name: "Artist"
+      displayNameKey: "name"
+      access: { storefront: PUBLIC_READ }
+      capabilities: {
+        publishable: { enabled: true }
+        onlineStore: { enabled: true, data: { urlHandle: "artists", createRedirects: true } }
+      }
+      fieldDefinitions: [
+        { key: "name", name: "Name", type: "single_line_text_field", required: true }
+        { key: "specialty", name: "Specialty", type: "single_line_text_field" }
+        { key: "bio", name: "Bio", type: "multi_line_text_field" }
+        { key: "focus", name: "Focus", type: "multi_line_text_field" }
+        {
+          key: "profile_image"
+          name: "Profile image"
+          type: "file_reference"
+          validations: [{ name: "file_type_options", value: "[\"Image\"]" }]
+        }
+        {
+          key: "working_portrait"
+          name: "Working portrait"
+          type: "file_reference"
+          validations: [{ name: "file_type_options", value: "[\"Image\"]" }]
+        }
+        { key: "collections", name: "Collections", type: "list.collection_reference" }
+      ]
+    }
+  ) {
+    metaobjectDefinition { id type }
+    userErrors { field code message }
+  }
+}

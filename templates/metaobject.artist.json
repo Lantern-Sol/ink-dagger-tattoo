@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-artist",
+      "settings": {
+        "booking_label": "Request a booking",
+        "collections_title": "Portfolio",
+        "gap": 48
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,156 @@
+{%- comment -%}
+  Renders an "artist" metaobject as a full artist page.
+  Expects a metaobject of type `artist` with fields:
+    name, specialty, description, history, profile_image, working_portrait, collections
+{%- endcomment -%}
+
+{%- liquid
+  assign artist = metaobject
+  assign profile = artist.profile_image.value
+  assign working = artist.working_portrait.value
+  assign collections = artist.collections.value
+-%}
+
+<div class="artist-page section" style="--artist-gap: {{ section.settings.gap }}px;">
+  <div class="artist-page__inner page-width-content">
+
+    <header class="artist-hero">
+      {%- if working != blank -%}
+        <div class="artist-hero__media">
+          {{ working | image_url: width: 1600 | image_tag:
+            loading: 'eager',
+            sizes: '(min-width: 750px) 60vw, 100vw',
+            widths: '480, 760, 1100, 1600',
+            alt: artist.name.value | escape }}
+        </div>
+      {%- endif -%}
+
+      <div class="artist-hero__intro">
+        {%- if profile != blank -%}
+          <div class="artist-hero__avatar">
+            {{ profile | image_url: width: 320 | image_tag:
+              loading: 'eager',
+              widths: '160, 320',
+              sizes: '160px',
+              alt: artist.name.value | escape }}
+          </div>
+        {%- endif -%}
+        <h1 class="artist-hero__name">{{ artist.name.value | escape }}</h1>
+        {%- if artist.specialty.value != blank -%}
+          <p class="artist-hero__specialty">{{ artist.specialty.value | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.booking_url != blank -%}
+          <a class="artist-hero__cta button" href="{{ section.settings.booking_url }}">
+            {{ section.settings.booking_label | default: 'Request a booking' }}
+          </a>
+        {%- endif -%}
+      </div>
+    </header>
+
+    {%- if artist.bio.value != blank or artist.focus.value != blank -%}
+      <div class="artist-bio">
+        {%- if artist.bio.value != blank -%}
+          <div class="artist-bio__col">
+            {{ artist.bio.value | newline_to_br }}
+          </div>
+        {%- endif -%}
+        {%- if artist.focus.value != blank -%}
+          <div class="artist-bio__col">
+            {{ artist.focus.value | newline_to_br }}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if collections != blank and collections.size > 0 -%}
+      <section class="artist-collections">
+        <h2 class="artist-collections__title">{{ section.settings.collections_title | default: 'Portfolio' }}</h2>
+        <ul class="artist-collections__grid" role="list">
+          {%- for collection in collections -%}
+            <li class="artist-collections__item">
+              <a href="{{ collection.url }}" class="artist-collections__link">
+                {%- if collection.featured_image -%}
+                  {{ collection.featured_image | image_url: width: 600 | image_tag:
+                    loading: 'lazy',
+                    widths: '300, 600',
+                    sizes: '(min-width: 750px) 30vw, 50vw',
+                    alt: collection.title | escape }}
+                {%- endif -%}
+                <span class="artist-collections__label">{{ collection.title | escape }}</span>
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </section>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{%- style -%}
+  .artist-page { padding-block: 48px; color: var(--color-foreground); }
+  .artist-page__inner { display: flex; flex-direction: column; gap: var(--artist-gap, 48px); }
+  .artist-hero { display: grid; gap: 32px; align-items: center; }
+  @media (min-width: 750px) {
+    .artist-hero { grid-template-columns: 1.4fr 1fr; }
+  }
+  .artist-hero__media img { width: 100%; height: auto; border-radius: 8px; display: block; }
+  .artist-hero__intro { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+  .artist-hero__avatar img { width: 96px; height: 96px; object-fit: cover; border-radius: 50%; display: block; }
+  .artist-hero__name { margin: 0; }
+  .artist-hero__specialty { margin: 0; color: var(--color-foreground-subdued); text-transform: uppercase; letter-spacing: .06em; font-size: .9rem; }
+  .artist-hero__cta { margin-top: 8px; }
+  .artist-bio { display: grid; gap: 32px; max-width: var(--narrow-page-width, 60ch); }
+  @media (min-width: 750px) { .artist-bio { grid-template-columns: 1fr 1fr; max-width: none; } }
+  .artist-bio__col { line-height: 1.7; }
+  .artist-collections__title { margin-bottom: 24px; }
+  .artist-collections__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; list-style: none; margin: 0; padding: 0; }
+  @media (min-width: 750px) { .artist-collections__grid { grid-template-columns: repeat(3, 1fr); } }
+  .artist-collections__link { display: block; text-decoration: none; color: inherit; }
+  .artist-collections__link img { width: 100%; height: auto; border-radius: 8px; display: block; aspect-ratio: 1; object-fit: cover; }
+  .artist-collections__label { display: block; margin-top: 8px; font-weight: 600; }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Artist",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Booking"
+    },
+    {
+      "type": "url",
+      "id": "booking_url",
+      "label": "Booking link"
+    },
+    {
+      "type": "text",
+      "id": "booking_label",
+      "label": "Booking button label",
+      "default": "Request a booking"
+    },
+    {
+      "type": "header",
+      "content": "Portfolio"
+    },
+    {
+      "type": "text",
+      "id": "collections_title",
+      "label": "Collections heading",
+      "default": "Portfolio"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Section spacing",
+      "min": 16,
+      "max": 96,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ]
+}
+{% endschema %}
