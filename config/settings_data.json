@@ -43,6 +43,7 @@
     "type_size_h6": "12",
     "type_line_height_h6": "display-normal",
     "type_letter_spacing_h6": "heading-loose",
+    "type_case_h6": "uppercase",
     "page_width": "narrow",
     "page_transition_enabled": false,
     "transition_to_main_product": false,
