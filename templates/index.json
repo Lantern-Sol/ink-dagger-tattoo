@@ -2374,7 +2374,7 @@
                     "display_type": "text",
                     "label": "Get the scoop",
                     "integrated_button": false,
-                    "button_type_preset": "paragraph",
+                    "button_type_preset": "",
                     "padding-block-start": 0,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
