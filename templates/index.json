@@ -2349,7 +2349,7 @@
                     "text_zXHeDw"
                   ]
                 },
-                "email_signup_zQmB3X": {
+                "email_signup_Wy4fFR": {
                   "type": "email-signup",
                   "name": "t:names.email_signup",
                   "settings": {
@@ -2385,7 +2385,7 @@
               },
               "block_order": [
                 "group_WAg6rw",
-                "email_signup_zQmB3X"
+                "email_signup_Wy4fFR"
               ]
             }
           },
