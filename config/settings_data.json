@@ -79,11 +79,12 @@
     "popover_border": "none",
     "content_for_index": [],
     "color_palette": {
-      "background": "#ffffff",
-      "foreground": "#000000",
-      "color1": "#333333",
-      "color2": "#EEF1EA",
-      "color3": "#DFDFDF"
+      "background": "#1D1616",
+      "foreground": "#CE5454",
+      "color1": "#F8F5ED",
+      "color2": "#B0ABA0",
+      "color3": "#dfdfdf",
+      "color4": "#680437"
     }
   },
   "presets": {
