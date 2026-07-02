@@ -143,7 +143,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>755 Holcomb Bridge Road Ste. B</p><p>Roswell, GA 30076</p><p>Open Monday thru Sunday 11am to 7pm.</p><p><a href=\"/policies/privacy-policy\" title=\"Privacy Policy\">Privacy Policy</a></p>",
+                    "text": "<p>755 Holcomb Bridge Road Ste. B</p><p>Roswell, GA 30076</p><p>770-692-4245</p><p>Open Monday thru Sunday 11am to 7pm.</p><p><a href=\"/policies/privacy-policy\" title=\"Privacy Policy\">Privacy Policy</a></p>",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
