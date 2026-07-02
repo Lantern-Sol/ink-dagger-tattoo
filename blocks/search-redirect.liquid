@@ -1,0 +1,342 @@
+<div
+  class="search-redirect size-style spacing-style"
+  style="
+    {% render 'size-style', settings: block.settings %}
+    {% render 'spacing-style', settings: block.settings %}
+    {% if block.settings.input_style == 'custom' %}
+      {% render 'input-custom-styles', block_settings: block.settings %}
+      --search-border-width: {{ block.settings.border_width }}px;
+      --search-border-radius: {{ block.settings.border_radius }}px;
+    {% else %}
+      --search-border-width: var(--style-border-width-inputs);
+      --search-border-radius: var(--style-border-radius-inputs);
+    {% endif %}
+    --search-padding-y: {{ block.settings.input_padding_y }}px;
+    --search-padding-x: {{ block.settings.input_padding_x }}px;
+    --search-font-size: {{ block.settings.font_size }}px;
+    --search-padding-y-mobile: {{ block.settings.input_padding_y_mobile }}px;
+    --search-padding-x-mobile: {{ block.settings.input_padding_x_mobile }}px;
+    --search-font-size-mobile: {{ block.settings.font_size_mobile }}px;
+  "
+  {{ block.shopify_attributes }}
+>
+  <form
+    action="{{ routes.search_url }}"
+    method="get"
+    role="search"
+    class="search-redirect__form"
+  >
+    <label for="SearchRedirect--{{ block.id }}" class="visually-hidden">
+      {{ block.settings.placeholder | default: 'Search' }}
+    </label>
+
+    <input
+      id="SearchRedirect--{{ block.id }}"
+      class="search-redirect__input"
+      type="search"
+      name="q"
+      placeholder="{{ block.settings.placeholder | default: 'Search' }}"
+      autocomplete="off"
+    >
+
+    <button
+      type="submit"
+      class="search-redirect__submit"
+      aria-label="{{ 'content.search_input_label' | t }}"
+    >
+      <span class="svg-wrapper">
+        {{ 'icon-search.svg' | inline_asset_content }}
+      </span>
+    </button>
+  </form>
+</div>
+
+{% stylesheet %}
+  /* Make the Shopify block wrapper fill the section's flex container */
+  .layout-panel-flex--column > .shopify-block:has(> .search-redirect) {
+    width: 100%;
+  }
+
+  .search-redirect__form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: var(--search-padding-x);
+    background-color: var(--color-input-background);
+    border: var(--search-border-width) solid var(--color-input-border);
+    border-radius: var(--search-border-radius);
+    padding-block: var(--search-padding-y);
+    padding-inline: var(--search-padding-x);
+  }
+
+  .search-redirect__input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    color: var(--color-input-text);
+    font-family: var(--font-body--family);
+    font-size: var(--search-font-size);
+    line-height: normal;
+    padding: 0;
+  }
+
+  .search-redirect__input::placeholder {
+    color: var(--color-input-text);
+    opacity: 1;
+  }
+
+  .search-redirect__input::-webkit-search-cancel-button,
+  .search-redirect__input::-webkit-search-decoration {
+    display: none;
+  }
+
+  .search-redirect__submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--color-input-text);
+  }
+
+  .search-redirect__submit svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .search-redirect__form {
+      gap: var(--search-padding-x-mobile, var(--search-padding-x));
+      padding-block: var(--search-padding-y-mobile, var(--search-padding-y));
+      padding-inline: var(--search-padding-x-mobile, var(--search-padding-x));
+    }
+
+    .search-redirect__input {
+      font-size: var(--search-font-size-mobile, var(--search-font-size));
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Search",
+  "settings": [
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder text",
+      "default": "Search"
+    },
+    {
+      "type": "header",
+      "content": "t:content.size"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "t:settings.width",
+      "options": [
+        { "value": "fill", "label": "t:options.fill" },
+        { "value": "fit-content", "label": "t:options.fit_content" },
+        { "value": "custom", "label": "t:options.custom" }
+      ],
+      "default": "fill"
+    },
+    {
+      "type": "range",
+      "id": "custom_width",
+      "label": "t:settings.custom_width",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ block.settings.width == 'custom' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.input"
+    },
+    {
+      "type": "select",
+      "id": "input_style",
+      "label": "t:settings.style",
+      "options": [
+        { "value": "default", "label": "t:options.default" },
+        { "value": "custom", "label": "t:options.custom" }
+      ],
+      "default": "custom",
+      "info": "t:info.edit_input_field_in_theme_settings"
+    },
+    {
+      "type": "color",
+      "id": "input_background_color",
+      "label": "t:settings.background",
+      "default": "#f8f5ed",
+      "visible_if": "{{ block.settings.input_style == 'custom' }}"
+    },
+    {
+      "type": "color",
+      "id": "input_text_color",
+      "label": "t:settings.text",
+      "default": "#1d1616",
+      "visible_if": "{{ block.settings.input_style == 'custom' }}"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Border color",
+      "default": "#1d1616",
+      "visible_if": "{{ block.settings.input_style == 'custom' }}"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "label": "t:settings.border_width",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 3,
+      "visible_if": "{{ block.settings.input_style == 'custom' }}"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "t:settings.border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 8,
+      "visible_if": "{{ block.settings.input_style == 'custom' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.typography"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "label": "Mobile font size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Input padding"
+    },
+    {
+      "type": "range",
+      "id": "input_padding_y",
+      "label": "Vertical",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "input_padding_x",
+      "label": "Horizontal",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "input_padding_y_mobile",
+      "label": "Vertical (mobile)",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "input_padding_x_mobile",
+      "label": "Horizontal (mobile)",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Search",
+      "category": "t:categories.basic"
+    }
+  ]
+}
+{% endschema %}
