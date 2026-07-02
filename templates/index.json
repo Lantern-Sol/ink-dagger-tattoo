@@ -932,7 +932,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p><strong>Blackwork</strong></p>",
+                    "text": "<p><strong>ORNAMENTAL</strong></p>",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
@@ -973,7 +973,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h2>Bold Graphic</h2>",
+                    "text": "<p>Fine Detail</p>",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
