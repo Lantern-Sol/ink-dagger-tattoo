@@ -14,27 +14,6 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "social_links_FYfTHd": {
-          "type": "social-links",
-          "name": "t:names.social_media_links",
-          "settings": {
-            "icon_color": "{{ settings.color_palette.color1 }}",
-            "facebook_url": "",
-            "instagram_url": "https://placeholder.com",
-            "youtube_url": "",
-            "tiktok_url": "",
-            "twitter_url": "",
-            "threads_url": "",
-            "linkedin_url": "",
-            "bluesky_url": "",
-            "snapchat_url": "",
-            "pinterest_url": "",
-            "tumblr_url": "",
-            "vimeo_url": "",
-            "custom_url": ""
-          },
-          "blocks": {}
-        },
         "group_6Qwyz7": {
           "type": "group",
           "name": "t:names.group",
@@ -355,16 +334,37 @@
                 "menu_cGFjbD",
                 "menu_mLFbb3"
               ]
+            },
+            "social_links_yjkKTG": {
+              "type": "social-links",
+              "name": "t:names.social_media_links",
+              "settings": {
+                "icon_color": "{{ settings.color_palette.color1 }}",
+                "facebook_url": "",
+                "instagram_url": "https://placeholder.com",
+                "youtube_url": "",
+                "tiktok_url": "",
+                "twitter_url": "",
+                "threads_url": "",
+                "linkedin_url": "",
+                "bluesky_url": "",
+                "snapchat_url": "",
+                "pinterest_url": "",
+                "tumblr_url": "",
+                "vimeo_url": "",
+                "custom_url": ""
+              },
+              "blocks": {}
             }
           },
           "block_order": [
             "group_cz9YhH",
-            "group_Bd3DUt"
+            "group_Bd3DUt",
+            "social_links_yjkKTG"
           ]
         }
       },
       "block_order": [
-        "social_links_FYfTHd",
         "group_6Qwyz7"
       ],
       "name": "t:names.footer",
