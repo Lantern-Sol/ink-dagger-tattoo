@@ -2035,7 +2035,7 @@
             "link_text_color": "",
             "width": "fit-content",
             "custom_width": 100,
-            "width_mobile": "fit-content",
+            "width_mobile": "custom",
             "custom_width_mobile": 100
           },
           "blocks": {}
@@ -2058,8 +2058,8 @@
         "use_mobile_gap": true,
         "mobile_gap": 8,
         "section_width": "page-width",
-        "section_height": "small",
-        "section_height_custom": 50,
+        "section_height": "custom",
+        "section_height_custom": 0,
         "background_media": "none",
         "background_color": "{{ settings.color_palette.color1 }}",
         "video_position": "cover",
@@ -2095,11 +2095,11 @@
         "padding-block-end": 32,
         "padding-inline-start": 0,
         "padding-inline-end": 0,
-        "use_mobile_padding": false,
-        "padding-block-start-mobile": 0,
+        "use_mobile_padding": true,
+        "padding-block-start-mobile": 32,
         "padding-block-end-mobile": 0,
-        "padding-inline-start-mobile": 0,
-        "padding-inline-end-mobile": 0
+        "padding-inline-start-mobile": 32,
+        "padding-inline-end-mobile": 32
       }
     },
     "section_TyRz7i": {
