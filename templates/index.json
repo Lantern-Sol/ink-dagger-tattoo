@@ -1212,7 +1212,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p><strong>Blackwork</strong></p>",
+                    "text": "<p><strong>LARGE SCALE</strong></p>",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
@@ -1253,7 +1253,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h2>Bold Graphic</h2>",
+                    "text": "<p>Full Pieces</p>",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
