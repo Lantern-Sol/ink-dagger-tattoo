@@ -448,7 +448,7 @@
             "align_items": "stretch",
             "width": "fit-content",
             "custom_width": 100,
-            "width_mobile": "fit-content",
+            "width_mobile": "fill",
             "custom_width_mobile": 100,
             "mobile_display": "grid",
             "columns_mobile": 1,
@@ -467,14 +467,14 @@
                 "align_baseline": false,
                 "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
-                "use_mobile_alignment": false,
+                "use_mobile_alignment": true,
                 "mobile_horizontal_alignment": "flex-start",
                 "mobile_vertical_alignment": "center",
-                "mobile_horizontal_alignment_flex_direction_column": "flex-start",
+                "mobile_horizontal_alignment_flex_direction_column": "center",
                 "mobile_vertical_alignment_flex_direction_column": "center",
                 "gap": 10,
-                "use_mobile_gap": false,
-                "mobile_gap": 12,
+                "use_mobile_gap": true,
+                "mobile_gap": 0,
                 "width": "fill",
                 "custom_width": 100,
                 "width_mobile": "fill",
@@ -501,11 +501,11 @@
                 "padding-block-end": 32,
                 "padding-inline-start": 64,
                 "padding-inline-end": 64,
-                "use_mobile_padding": false,
-                "padding-block-start-mobile": 0,
-                "padding-block-end-mobile": 0,
-                "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0
+                "use_mobile_padding": true,
+                "padding-block-start-mobile": 16,
+                "padding-block-end-mobile": 16,
+                "padding-inline-start-mobile": 16,
+                "padding-inline-end-mobile": 16
               },
               "blocks": {
                 "text_ymzWWr": {
@@ -530,8 +530,8 @@
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
-                    "type_preset_mobile": "rte",
-                    "mobile_font_size": "1rem",
+                    "type_preset_mobile": "custom",
+                    "mobile_font_size": "0.625rem",
                     "mobile_custom_line_height": 1.5,
                     "text_color": "{{ settings.color_palette.foreground }}",
                     "background": false,
@@ -571,8 +571,8 @@
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
-                    "type_preset_mobile": "rte",
-                    "mobile_font_size": "1rem",
+                    "type_preset_mobile": "custom",
+                    "mobile_font_size": "1.125rem",
                     "mobile_custom_line_height": 1.5,
                     "text_color": "",
                     "background": false,
@@ -596,7 +596,7 @@
                 "text_KTTNqB"
               ]
             },
-            "group_9cUPzi": {
+            "group_e7rTGJ": {
               "type": "group",
               "name": "t:names.group",
               "settings": {
@@ -607,14 +607,14 @@
                 "align_baseline": false,
                 "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
-                "use_mobile_alignment": false,
+                "use_mobile_alignment": true,
                 "mobile_horizontal_alignment": "flex-start",
                 "mobile_vertical_alignment": "center",
-                "mobile_horizontal_alignment_flex_direction_column": "flex-start",
+                "mobile_horizontal_alignment_flex_direction_column": "center",
                 "mobile_vertical_alignment_flex_direction_column": "center",
                 "gap": 10,
-                "use_mobile_gap": false,
-                "mobile_gap": 12,
+                "use_mobile_gap": true,
+                "mobile_gap": 0,
                 "width": "fill",
                 "custom_width": 100,
                 "width_mobile": "fill",
@@ -641,14 +641,14 @@
                 "padding-block-end": 32,
                 "padding-inline-start": 64,
                 "padding-inline-end": 64,
-                "use_mobile_padding": false,
-                "padding-block-start-mobile": 0,
-                "padding-block-end-mobile": 0,
-                "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0
+                "use_mobile_padding": true,
+                "padding-block-start-mobile": 16,
+                "padding-block-end-mobile": 16,
+                "padding-inline-start-mobile": 16,
+                "padding-inline-end-mobile": 16
               },
               "blocks": {
-                "text_D8RJ6f": {
+                "text_zEyLLp": {
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
@@ -670,8 +670,8 @@
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
-                    "type_preset_mobile": "rte",
-                    "mobile_font_size": "1rem",
+                    "type_preset_mobile": "custom",
+                    "mobile_font_size": "0.625rem",
                     "mobile_custom_line_height": 1.5,
                     "text_color": "{{ settings.color_palette.foreground }}",
                     "background": false,
@@ -689,7 +689,7 @@
                   },
                   "blocks": {}
                 },
-                "text_DfQGYC": {
+                "text_99zEE3": {
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
@@ -711,8 +711,8 @@
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
-                    "type_preset_mobile": "rte",
-                    "mobile_font_size": "1rem",
+                    "type_preset_mobile": "custom",
+                    "mobile_font_size": "1.125rem",
                     "mobile_custom_line_height": 1.5,
                     "text_color": "",
                     "background": false,
@@ -732,14 +732,14 @@
                 }
               },
               "block_order": [
-                "text_D8RJ6f",
-                "text_DfQGYC"
+                "text_zEyLLp",
+                "text_99zEE3"
               ]
             }
           },
           "block_order": [
             "group_VXhp4e",
-            "group_9cUPzi"
+            "group_e7rTGJ"
           ]
         }
       },
