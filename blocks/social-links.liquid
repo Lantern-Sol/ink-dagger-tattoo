@@ -2,13 +2,38 @@
   class="social-icons__wrapper social-icons__wrapper--{{ block.id }}"
   {{ block.shopify_attributes }}
 >
-  {% if block.settings.icon_color != blank %}
-    {% style %}
-      .social-icons__wrapper--{{ block.id }} {
-        --color-utilities: {{ block.settings.icon_color }};
+  {% style %}
+    {% assign icon_padding = block.settings.icon_padding | default: 0 %}
+    {% if block.settings.icon_color != blank %}
+      .social-icons__wrapper--{{ block.id }} .social-icons__icon {
+        color: {{ block.settings.icon_color }};
       }
-    {% endstyle %}
-  {% endif %}
+    {% endif %}
+    {% if block.settings.icon_size > 0 or block.settings.icon_background_color != blank %}
+      .social-icons__wrapper--{{ block.id }} .social-icons__icon-wrapper,
+      .social-icons__wrapper--{{ block.id }} .social-icons__icon-wrapper:has(.social-icons__icon path) {
+        {% if block.settings.icon_size > 0 %}
+          height: {{ block.settings.icon_size }}px;
+          width: {{ block.settings.icon_size }}px;
+        {% endif %}
+        {% if icon_padding > 0 %}
+          padding: {{ icon_padding }}px;
+          box-sizing: border-box;
+        {% endif %}
+        {% if block.settings.icon_background_color != blank %}
+          background-color: rgba({{ block.settings.icon_background_color.red }}, {{ block.settings.icon_background_color.green }}, {{ block.settings.icon_background_color.blue }}, {{ block.settings.icon_background_opacity | default: 100 | divided_by: 100.0 }});
+          border-radius: {{ block.settings.icon_background_radius }}px;
+        {% endif %}
+      }
+    {% endif %}
+    {% if block.settings.icon_size > 0 %}
+      {% assign inner_size = block.settings.icon_size | minus: icon_padding | minus: icon_padding %}
+      .social-icons__wrapper--{{ block.id }} .social-icons__icon {
+        width: {{ inner_size }}px;
+        height: {{ inner_size }}px;
+      }
+    {% endif %}
+  {% endstyle %}
   {% liquid
     assign social_links = 'facebook_url,instagram_url,youtube_url,tiktok_url,twitter_url,threads_url,linkedin_url,bluesky_url,snapchat_url,pinterest_url,tumblr_url,vimeo_url,custom_url' | split: ','
   %}
@@ -180,6 +205,52 @@
       "id": "icon_color",
       "label": "t:settings.color",
       "placeholder": "t:settings.default"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "min": 16,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "icon_padding",
+      "label": "Icon background padding",
+      "min": 0,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "icon_background_color",
+      "label": "Icon background color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "range",
+      "id": "icon_background_opacity",
+      "label": "Icon background opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "icon_background_radius",
+      "label": "Icon background corner radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0
     },
     {
       "type": "header",
