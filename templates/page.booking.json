@@ -1371,7 +1371,7 @@
                         "text": "<p>Browse artist pages and pick a fit — or select “Help me choose” in the form and we'll make a recommendation based on your idea.</p>",
                         "mobile_text": "",
                         "width": "fit-content",
-                        "max_width": "normal",
+                        "max_width": "none",
                         "alignment": "left",
                         "height_mode": "auto",
                         "desktop_height": "",
@@ -1409,11 +1409,25 @@
                   "block_order": [
                     "text_aXWi3N"
                   ]
+                },
+                "divider_7HcawK": {
+                  "type": "_divider",
+                  "name": "t:names.divider",
+                  "settings": {
+                    "thickness": 1,
+                    "corner_radius": "square",
+                    "divider_color": "",
+                    "width_percent": 100,
+                    "padding-block-start": 25,
+                    "padding-block-end": 0
+                  },
+                  "blocks": {}
                 }
               },
               "block_order": [
                 "group_QgJrYM",
-                "group_CnH8Yc"
+                "group_CnH8Yc",
+                "divider_7HcawK"
               ]
             },
             "item-2": {
