@@ -91,7 +91,6 @@
                 "custom_width_mobile": 100,
                 "height": "fit",
                 "custom_height": 100,
-                "hide_on_desktop": true,
                 "background_media": "none",
                 "background_color": "",
                 "video_position": "cover",
@@ -478,7 +477,6 @@
               "settings": {
                 "content_direction": "row",
                 "vertical_on_mobile": false,
-                "hide_on_mobile": true,
                 "horizontal_alignment": "flex-end",
                 "vertical_alignment": "center",
                 "align_baseline": false,
