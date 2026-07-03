@@ -2414,8 +2414,9 @@
               },
               "blocks": {}
             },
-            "heading": {
+            "text_mnWqDM": {
               "type": "text",
+              "name": "t:names.heading",
               "settings": {
                 "text": "<h2>Before you fill out the form</h2>",
                 "mobile_text": "",
@@ -2425,20 +2426,20 @@
                 "height_mode": "auto",
                 "desktop_height": "",
                 "mobile_height": "",
-                "type_preset": "h2",
-                "font": "var(--font-primary--family)",
+                "type_preset": "custom",
+                "font": "var(--font-heading--family)",
                 "enable_custom_font_weight": false,
                 "weight": "400",
-                "font_size": "",
+                "font_size": "2.5rem",
                 "line_height": "normal",
                 "custom_line_height": 1.5,
-                "letter_spacing": "tight",
+                "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
                 "type_preset_mobile": "rte",
                 "mobile_font_size": "1rem",
                 "mobile_custom_line_height": 1.5,
-                "text_color": "#f8f5ed",
+                "text_color": "",
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
@@ -2460,7 +2461,7 @@
                 "text": "<p>Three things people usually want to know first. Deeper questions live below the form.</p>",
                 "mobile_text": "",
                 "width": "fit-content",
-                "max_width": "normal",
+                "max_width": "none",
                 "alignment": "left",
                 "height_mode": "auto",
                 "desktop_height": "",
@@ -2478,7 +2479,7 @@
                 "type_preset_mobile": "rte",
                 "mobile_font_size": "1rem",
                 "mobile_custom_line_height": 1.5,
-                "text_color": "#f8f5ed",
+                "text_color": "{{ settings.color_palette.color2 }}",
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
@@ -2497,7 +2498,7 @@
           },
           "block_order": [
             "eyebrow",
-            "heading",
+            "text_mnWqDM",
             "subtext"
           ]
         },
