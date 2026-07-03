@@ -437,6 +437,32 @@
             "group_PQ43mU"
           ]
         },
+        "search_redirect_RqxQQE": {
+          "type": "search-redirect",
+          "name": "Search",
+          "settings": {
+            "placeholder": "Search",
+            "width": "fill",
+            "custom_width": 100,
+            "input_style": "custom",
+            "input_background_color": "#f8f5ed",
+            "input_text_color": "#1d1616",
+            "input_border_color": "#1d1616",
+            "border_width": 3,
+            "border_radius": 8,
+            "font_size": 24,
+            "font_size_mobile": 16,
+            "input_padding_y": 16,
+            "input_padding_x": 32,
+            "input_padding_y_mobile": 16,
+            "input_padding_x_mobile": 15,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
         "ai_gen_block_9b1a4f7_XMJ6wP": {
           "type": "ai_gen_block_9b1a4f7",
           "name": "Multicolumn group",
@@ -1309,6 +1335,7 @@
       },
       "block_order": [
         "group_WPL7yc",
+        "search_redirect_RqxQQE",
         "ai_gen_block_9b1a4f7_XMJ6wP"
       ],
       "name": "t:names.custom_section",
