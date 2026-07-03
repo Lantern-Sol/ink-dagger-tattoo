@@ -1115,7 +1115,7 @@
                       "type": "icon",
                       "name": "t:names.icon",
                       "settings": {
-                        "icon": "price_tag",
+                        "icon": "check_box",
                         "width": 24,
                         "width-mobile": 24,
                         "link": "",
