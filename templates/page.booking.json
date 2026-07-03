@@ -2318,24 +2318,6 @@
         "padding-block-end-mobile": 16
       }
     },
-    "divider_AfrKik": {
-      "type": "divider",
-      "name": "t:names.divider_section",
-      "settings": {
-        "background_color": "",
-        "divider_color": "",
-        "section_width": "full-width",
-        "thickness": 4,
-        "corner_radius": "square",
-        "width_percent": 100,
-        "alignment_horizontal": "center",
-        "padding-block-start": 0,
-        "padding-block-end": 0,
-        "use_mobile_padding": false,
-        "padding-block-start-mobile": 16,
-        "padding-block-end-mobile": 16
-      }
-    },
     "micro-faq": {
       "type": "section",
       "blocks": {
@@ -2395,7 +2377,7 @@
             "eyebrow": {
               "type": "text",
               "settings": {
-                "text": "<p>A few quick answers</p>",
+                "text": "<p><strong>A few quick answers</strong></p>",
                 "mobile_text": "",
                 "width": "fit-content",
                 "max_width": "normal",
@@ -2403,14 +2385,14 @@
                 "height_mode": "auto",
                 "desktop_height": "",
                 "mobile_height": "",
-                "type_preset": "h7",
-                "font": "var(--font-body--family)",
+                "type_preset": "h6",
+                "font": "var(--font-subheading--family)",
                 "enable_custom_font_weight": false,
                 "weight": "400",
-                "font_size": "",
+                "font_size": "0.75rem",
                 "line_height": "normal",
                 "custom_line_height": 1.5,
-                "letter_spacing": "wide",
+                "letter_spacing": "loose",
                 "case": "uppercase",
                 "wrap": "nowrap",
                 "type_preset_mobile": "rte",
@@ -3598,6 +3580,24 @@
         "padding-block-end-mobile": 0,
         "padding-inline-start-mobile": 0,
         "padding-inline-end-mobile": 0
+      }
+    },
+    "divider_AfrKik": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "background_color": "",
+        "divider_color": "",
+        "section_width": "full-width",
+        "thickness": 4,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 0,
+        "padding-block-end": 0,
+        "use_mobile_padding": false,
+        "padding-block-start-mobile": 16,
+        "padding-block-end-mobile": 16
       }
     },
     "form-intro": {
