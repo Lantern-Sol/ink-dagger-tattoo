@@ -1,35 +1,22 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "main": {
-      "type": "main-page",
+    "hero": {
+      "type": "hero",
       "blocks": {
-        "heading": {
+        "eyebrow": {
           "type": "text",
-          "name": "Title",
           "settings": {
-            "text": "<h1>{{ closest.page.title }}</h1>",
-            "width": "100%",
+            "text": "<p>Step into the chair</p>",
+            "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-primary--family)",
-            "font_size": "",
+            "type_preset": "h7",
+            "font": "var(--font-body--family)",
+            "font_size": "0.75rem",
             "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
+            "letter_spacing": "wide",
+            "case": "uppercase",
+            "wrap": "nowrap",
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
@@ -37,25 +24,1204 @@
           },
           "blocks": {}
         },
-        "page-content": {
-          "type": "page-content",
-          "settings": {},
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h1>Start Your Tattoo</h1>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "h1",
+            "font": "var(--font-primary--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "tight",
+            "case": "none",
+            "wrap": "pretty",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "body": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Tell us about your idea and we'll guide you to the right artist — or confirm your selection. The better the brief, the faster we move.</p>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
           "blocks": {}
         }
       },
-      "block_order": [
-        "heading",
-        "page-content"
-      ],
+      "block_order": ["eyebrow", "heading", "body"],
+      "settings": {
+        "media_type_1": "image",
+        "image_1": "",
+        "hide_media_on_mobile": false,
+        "toggle_overlay": true,
+        "overlay_color": "#111009e6",
+        "overlay_style": "solid",
+        "section_height": "large",
+        "section_width": "full-width",
+        "section_width-mobile": "full-width",
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "flex-end",
+        "gap": 16,
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
+    },
+    "support-nav": {
+      "type": "section",
+      "blocks": {
+        "label": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Not sure where to start?</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h5",
+            "font": "var(--font-primary--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "nowrap",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "btn-artists": {
+          "type": "button",
+          "settings": {
+            "label": "Browse Artists",
+            "link": "/pages/artists",
+            "open_in_new_tab": false,
+            "style_class": "button-secondary",
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fit-content",
+            "custom_width_mobile": 100
+          },
+          "blocks": {}
+        },
+        "btn-flash": {
+          "type": "button",
+          "settings": {
+            "label": "View Available Flash",
+            "link": "/collections/flash",
+            "open_in_new_tab": false,
+            "style_class": "button-secondary",
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fit-content",
+            "custom_width_mobile": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": ["label", "btn-artists", "btn-flash"],
+      "settings": {
+        "content_direction": "row",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "space-between",
+        "vertical_alignment": "center",
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "flex-start",
+        "gap": 16,
+        "section_width": "full-width",
+        "section_height": "",
+        "background_color": "#b0aba0",
+        "background_media": "none",
+        "border": "none",
+        "border_radius": 0,
+        "padding-block-start": 8,
+        "padding-block-end": 8,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
+    "before-started": {
+      "type": "section",
+      "blocks": {
+        "left-col": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-start",
+            "gap": 16,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "background_media": "none",
+            "border": "none",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "eyebrow": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Preparation Layer</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h7",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "wide",
+                "case": "uppercase",
+                "wrap": "nowrap",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>Before You Get Started</h2>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h2",
+                "font": "var(--font-primary--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "tight",
+                "case": "none",
+                "wrap": "pretty",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "body": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Take a moment to prepare a few things before you begin. The more we know up front, the faster we respond — and the more accurately we can guide you.</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "tip": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>Tip from the studio</strong><br>Many clients prefer to complete this form on their mobile device so they can easily upload reference photos.</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "background": true,
+                "background_color": "#f8f5ed",
+                "corner_radius": 8,
+                "padding-block-start": 12,
+                "padding-block-end": 12,
+                "padding-inline-start": 16,
+                "padding-inline-end": 16
+              },
+              "blocks": {}
+            },
+            "cta": {
+              "type": "button",
+              "settings": {
+                "label": "I'm ready — take me to the form",
+                "link": "#booking-form",
+                "open_in_new_tab": false,
+                "style_class": "button",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": ["eyebrow", "heading", "body", "tip", "cta"]
+        },
+        "right-col": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-start",
+            "gap": 0,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "background_media": "none",
+            "border": "none",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "item-1": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>Chosen your preferred artist</strong>  <em>Required</em><br>Browse artist pages and pick a fit — or select “Help me choose” in the form and we'll make a recommendation based on your idea.</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "padding-block-start": 24,
+                "padding-block-end": 24,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "item-2": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>A photo of the area you want tattooed</strong>  <em>Optional</em><br>Helps us plan placement and scale more accurately. Natural light, plain background — no need to be precious.</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "padding-block-start": 24,
+                "padding-block-end": 24,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "item-3": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>Reference images or inspiration</strong>  <em>Recommended</em><br>Tattoos, artwork, photos, anything you're drawn to. In some cases we may need this to move forward, so having it ready will speed up response time.</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "padding-block-start": 24,
+                "padding-block-end": 24,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": ["item-1", "item-2", "item-3"]
+        }
+      },
+      "block_order": ["left-col", "right-col"],
+      "settings": {
+        "content_direction": "row",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "space-between",
+        "vertical_alignment": "flex-start",
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "flex-start",
+        "gap": 32,
+        "section_width": "page-width",
+        "section_height": "",
+        "background_color": "#f8f5ed",
+        "background_media": "none",
+        "border": "none",
+        "border_radius": 0,
+        "padding-block-start": 64,
+        "padding-block-end": 64,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
+    "micro-faq": {
+      "type": "section",
+      "blocks": {
+        "eyebrow": {
+          "type": "text",
+          "settings": {
+            "text": "<p>A few quick answers</p>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h7",
+            "font": "var(--font-body--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "wide",
+            "case": "uppercase",
+            "wrap": "nowrap",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>Before you fill out the form</h2>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h2",
+            "font": "var(--font-primary--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "tight",
+            "case": "none",
+            "wrap": "pretty",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "subtext": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Three things people usually want to know first. Deeper questions live below the form.</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "padding-block-start": 0,
+            "padding-block-end": 16,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "cards-row": {
+          "type": "group",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "space-between",
+            "vertical_alignment": "flex-start",
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-start",
+            "gap": 16,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "background_media": "none",
+            "border": "none",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "card-1": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "flex-start",
+                "gap": 8,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fill",
+                "background_media": "none",
+                "border": "solid",
+                "border_width": 1,
+                "border_opacity": 22,
+                "border_radius": 8,
+                "padding-block-start": 30,
+                "padding-block-end": 30,
+                "padding-inline-start": 30,
+                "padding-inline-end": 30
+              },
+              "blocks": {
+                "q-num": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Question 01</p>",
+                    "type_preset": "h7",
+                    "font": "var(--font-primary--family)",
+                    "font_size": "",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "q-title": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h3>How does booking work?</h3>",
+                    "type_preset": "h3",
+                    "font": "var(--font-primary--family)",
+                    "font_size": "",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "q-body": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Fill out the form with your idea, references, and placement. Choose an artist or select “Help me choose.” We review your request and guide you to the next step — consultation or booking.</p>",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": ["q-num", "q-title", "q-body"]
+            },
+            "card-2": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "flex-start",
+                "gap": 8,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fill",
+                "background_media": "none",
+                "border": "solid",
+                "border_width": 1,
+                "border_opacity": 22,
+                "border_radius": 8,
+                "padding-block-start": 30,
+                "padding-block-end": 30,
+                "padding-inline-start": 30,
+                "padding-inline-end": 30
+              },
+              "blocks": {
+                "q-num": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Question 02</p>",
+                    "type_preset": "h7",
+                    "font": "var(--font-primary--family)",
+                    "font_size": "",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "q-title": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h3>How much does it cost?</h3>",
+                    "type_preset": "h3",
+                    "font": "var(--font-primary--family)",
+                    "font_size": "",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "q-body": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Pricing depends on size, detail, placement, and the artist you choose. You’ll see typical ranges during artist selection, and we’ll confirm a price or range after review.</p>",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": ["q-num", "q-title", "q-body"]
+            },
+            "card-3": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "flex-start",
+                "gap": 8,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fill",
+                "background_media": "none",
+                "border": "solid",
+                "border_width": 1,
+                "border_opacity": 22,
+                "border_radius": 8,
+                "padding-block-start": 30,
+                "padding-block-end": 30,
+                "padding-inline-start": 30,
+                "padding-inline-end": 30
+              },
+              "blocks": {
+                "q-num": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Question 03</p>",
+                    "type_preset": "h7",
+                    "font": "var(--font-primary--family)",
+                    "font_size": "",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "q-title": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h3>What type of tattoo should I select?</h3>",
+                    "type_preset": "h3",
+                    "font": "var(--font-primary--family)",
+                    "font_size": "",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "q-body": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<ul><li><strong>Custom Design</strong> — You have an idea and want something designed for you.</li><li><strong>Studio Flash</strong> — Choose from ready-made designs by our artists.</li><li><strong>Reference-Based</strong> — We adapt your reference into a tattoo that works on the body.</li></ul>",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": ["q-num", "q-title", "q-body"]
+            }
+          },
+          "block_order": ["card-1", "card-2", "card-3"]
+        },
+        "disclaimer": {
+          "type": "text",
+          "settings": {
+            "text": "<p><em>We do not copy other artists’ custom work. All designs are adapted for originality and longevity.</em></p>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "center",
+            "type_preset": "rte",
+            "font": "var(--font-primary--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "padding-block-start": 8,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": ["eyebrow", "heading", "subtext", "cards-row", "disclaimer"],
       "settings": {
         "content_direction": "column",
-        "gap": 32,
-        "padding-block-start": 40,
-        "padding-block-end": 80
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "flex-start",
+        "gap": 16,
+        "section_width": "full-width",
+        "section_height": "",
+        "background_color": "#1d1616",
+        "background_media": "none",
+        "border": "solid",
+        "border_width": 4,
+        "border_opacity": 100,
+        "border_color": "#ce5454",
+        "border_radius": 0,
+        "padding-block-start": 64,
+        "padding-block-end": 64,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
+    "form-intro": {
+      "type": "section",
+      "blocks": {
+        "eyebrow": {
+          "type": "text",
+          "settings": {
+            "text": "<p>The form</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h7",
+            "font": "var(--font-body--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "wide",
+            "case": "uppercase",
+            "wrap": "nowrap",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>Tell us about your idea</h2>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h2",
+            "font": "var(--font-primary--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "tight",
+            "case": "none",
+            "wrap": "pretty",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "subtext": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Eleven short steps. You can save and come back — but most folks finish in under five minutes once references are ready.</p>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "bullets": {
+          "type": "text",
+          "settings": {
+            "text": "<p>• <strong>~5 min</strong> to complete   • <strong>Within 2 business days</strong> response time   • <strong>Non-refundable retainer</strong> required to book</p>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": ["eyebrow", "heading", "subtext", "bullets"],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "flex-start",
+        "gap": 10,
+        "section_width": "page-width",
+        "section_height": "",
+        "background_color": "",
+        "background_media": "none",
+        "border": "none",
+        "border_radius": 0,
+        "padding-block-start": 64,
+        "padding-block-end": 32,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
+    "booking-form": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<!-- Third-party booking form embed: paste embed code here -->",
+        "section_width": "page-width",
+        "padding-block-start": 0,
+        "padding-block-end": 64
+      }
+    },
+    "full-faq": {
+      "type": "section",
+      "blocks": {
+        "aside": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-start",
+            "gap": 16,
+            "width": "custom",
+            "custom_width": 35,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "background_media": "none",
+            "border": "none",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "faq-eyebrow": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Going deeper</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h7",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "wide",
+                "case": "uppercase",
+                "wrap": "nowrap",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "faq-heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>Frequently Asked Questions</h2>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h2",
+                "font": "var(--font-primary--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "tight",
+                "case": "none",
+                "wrap": "pretty",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "faq-subtext": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Everything else worth knowing before — or after — you submit. Tap any question to expand.</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "contact-callout": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>Still have questions?</strong><br>Our front desk responds Monday–Sunday, 11am–7pm.<br><a href=\"mailto:hello@inkanddagger.com\">hello@inkanddagger.com →</a></p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "background": true,
+                "background_color": "#fff8ee",
+                "corner_radius": 8,
+                "padding-block-start": 18,
+                "padding-block-end": 18,
+                "padding-inline-start": 22,
+                "padding-inline-end": 22
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": ["faq-eyebrow", "faq-heading", "faq-subtext", "contact-callout"]
+        },
+        "accordion": {
+          "type": "accordion",
+          "settings": {
+            "icon": "caret",
+            "dividers": true,
+            "type_preset": "h4",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "faq-1": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "How does booking work?"
+              },
+              "blocks": {
+                "text": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Start by filling out the form with as much detail as possible. We review your submission, consult with the artist if needed, and guide you to consultation or booking. <strong>A non-refundable retainer is required to secure an appointment.</strong></p>",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": ["text"]
+            },
+            "faq-2": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "How much does it cost?"
+              },
+              "blocks": {},
+              "block_order": []
+            },
+            "faq-3": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "How do I get the best tattoo possible?"
+              },
+              "blocks": {},
+              "block_order": []
+            },
+            "faq-4": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "Do you copy tattoos done by other artists?"
+              },
+              "blocks": {},
+              "block_order": []
+            },
+            "faq-5": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "What happens after I submit?"
+              },
+              "blocks": {},
+              "block_order": []
+            }
+          },
+          "block_order": ["faq-1", "faq-2", "faq-3", "faq-4", "faq-5"]
+        }
+      },
+      "block_order": ["aside", "accordion"],
+      "settings": {
+        "content_direction": "row",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "flex-start",
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "flex-start",
+        "gap": 49,
+        "section_width": "page-width",
+        "section_height": "",
+        "background_color": "#b0aba04d",
+        "background_media": "none",
+        "border": "none",
+        "border_radius": 0,
+        "padding-block-start": 64,
+        "padding-block-end": 64,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
+    "email-signup": {
+      "type": "section",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>Get the scoop without following us on social media.</h2>",
+            "width": "100%",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "h3",
+            "font": "var(--font-primary--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "tight",
+            "case": "none",
+            "wrap": "pretty",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "subtext": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Stay in the loop! As a subscriber, you’ll be the first to hear about fresh talent joining our team and exclusive community events. Get the scoop straight to your inbox.</p>",
+            "width": "100%",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "signup-form": {
+          "type": "email-signup",
+          "settings": {
+            "width": "custom",
+            "custom_width": 75,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "style_class": "button",
+            "display_type": "arrow",
+            "label": "Get the scoop",
+            "integrated_button": true
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": ["heading", "subtext", "signup-form"],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 24,
+        "section_width": "page-width",
+        "section_height": "",
+        "background_color": "#1d1616",
+        "background_media": "none",
+        "border": "solid",
+        "border_width": 3,
+        "border_opacity": 100,
+        "border_color": "#ce5454",
+        "border_radius": 8,
+        "padding-block-start": 64,
+        "padding-block-end": 64,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
       }
     }
   },
   "order": [
-    "main"
+    "hero",
+    "support-nav",
+    "before-started",
+    "micro-faq",
+    "form-intro",
+    "booking-form",
+    "full-faq",
+    "email-signup"
   ]
 }
