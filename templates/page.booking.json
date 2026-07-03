@@ -3882,7 +3882,7 @@
       "type": "custom-liquid",
       "settings": {
         "custom_liquid": "<!-- Third-party booking form embed: paste embed code here -->",
-        "background_color": "",
+        "background_color": "{{ settings.color_palette.color1 }}",
         "section_width": "page-width",
         "padding-block-start": 0,
         "padding-block-end": 64
