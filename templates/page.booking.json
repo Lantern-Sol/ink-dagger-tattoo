@@ -685,8 +685,8 @@
                 "gap": 12,
                 "use_mobile_gap": false,
                 "mobile_gap": 12,
-                "width": "custom",
-                "custom_width": 75,
+                "width": "fit-content",
+                "custom_width": 100,
                 "width_mobile": "fit-content",
                 "custom_width_mobile": 100,
                 "height": "fit",
@@ -707,10 +707,10 @@
                 "link": "",
                 "open_in_new_tab": false,
                 "placeholder": "",
-                "padding-block-start": 36,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0,
+                "padding-block-start": 32,
+                "padding-block-end": 32,
+                "padding-inline-start": 32,
+                "padding-inline-end": 32,
                 "use_mobile_padding": false,
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
@@ -752,7 +752,7 @@
                     "mobile_gap": 12,
                     "width": "fit-content",
                     "custom_width": 100,
-                    "width_mobile": "fill",
+                    "width_mobile": "fit-content",
                     "custom_width_mobile": 100,
                     "height": "fit",
                     "custom_height": 100,
@@ -902,6 +902,20 @@
             "cta"
           ]
         },
+        "spacer_f63YE4": {
+          "type": "spacer",
+          "name": "t:names.spacer",
+          "settings": {
+            "size": "percent",
+            "percent_size": 16,
+            "pixel_size": 120,
+            "custom_mobile_size": false,
+            "size_mobile": "percent",
+            "percent_size_mobile": 100,
+            "pixel_size_mobile": 120
+          },
+          "blocks": {}
+        },
         "right-col": {
           "type": "group",
           "settings": {
@@ -956,7 +970,7 @@
             "item-1": {
               "type": "text",
               "settings": {
-                "text": "<p><strong>Chosen your preferred artist</strong>  <em>Required</em><br>Browse artist pages and pick a fit — or select “Help me choose” in the form and we'll make a recommendation based on your idea.</p>",
+                "text": "<p><strong>Chosen your preferred artist</strong>  <em>Required</em><br/>Browse artist pages and pick a fit — or select “Help me choose” in the form and we'll make a recommendation based on your idea.</p>",
                 "mobile_text": "",
                 "width": "100%",
                 "max_width": "normal",
@@ -1083,6 +1097,7 @@
       },
       "block_order": [
         "left-col",
+        "spacer_f63YE4",
         "right-col"
       ],
       "settings": {
