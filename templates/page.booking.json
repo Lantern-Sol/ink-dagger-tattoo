@@ -2181,7 +2181,7 @@
                     "divider_color": "",
                     "width_percent": 100,
                     "padding-block-start": 25,
-                    "padding-block-end": 25
+                    "padding-block-end": 0
                   },
                   "blocks": {}
                 }
@@ -2191,54 +2191,12 @@
                 "group_tq68UN",
                 "divider_xwJjmR"
               ]
-            },
-            "item-3": {
-              "type": "text",
-              "disabled": true,
-              "settings": {
-                "text": "<p><strong>Reference images or inspiration</strong>  <em>Recommended</em><br/>Tattoos, artwork, photos, anything you're drawn to. In some cases we may need this to move forward, so having it ready will speed up response time.</p>",
-                "mobile_text": "",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "height_mode": "auto",
-                "desktop_height": "",
-                "mobile_height": "",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "enable_custom_font_weight": false,
-                "weight": "400",
-                "font_size": "",
-                "line_height": "normal",
-                "custom_line_height": 1.5,
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "type_preset_mobile": "rte",
-                "mobile_font_size": "1rem",
-                "mobile_custom_line_height": 1.5,
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 24,
-                "padding-block-end": 24,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0,
-                "use_mobile_padding": false,
-                "padding-block-start-mobile": 0,
-                "padding-block-end-mobile": 0,
-                "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0
-              },
-              "blocks": {}
             }
           },
           "block_order": [
             "group_Fc8hLQ",
             "group_Fxcezi",
-            "group_B89raD",
-            "item-3"
+            "group_B89raD"
           ]
         }
       },
