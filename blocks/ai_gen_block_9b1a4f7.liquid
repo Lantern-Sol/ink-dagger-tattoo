@@ -10,6 +10,7 @@
   .ai-multicolumn-grid-{{ block.id }} {
     display: grid;
     column-gap: {{ block.settings.column_gap | divided_by: 16.0 }}rem;
+    row-gap: {{ block.settings.row_gap | divided_by: 16.0 }}rem;
     grid-template-columns: repeat({{ block.settings.columns_desktop }}, 1fr);
     justify-content: {{ block.settings.justify_content }};
     align-items: {{ block.settings.align_items }};
@@ -29,6 +30,7 @@
         grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr);
         column-gap: {{ block.settings.column_gap_mobile | divided_by: 16.0 }}rem;
       {% endif %}
+      row-gap: {{ block.settings.row_gap_mobile | divided_by: 16.0 }}rem;
     }
   }
 
@@ -111,6 +113,16 @@
       "step": 5,
       "unit": "px",
       "label": "Column gap",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "row_gap",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Row gap",
       "default": 20
     },
     {
@@ -282,6 +294,16 @@
       "step": 5,
       "unit": "px",
       "label": "Column gap",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "row_gap_mobile",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Row gap",
       "default": 15
     }
   ],
