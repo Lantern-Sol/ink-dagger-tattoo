@@ -4254,8 +4254,8 @@
               "type": "_accordion-row",
               "settings": {
                 "heading": "How does booking work?",
-                "open_by_default": false,
-                "icon": "none",
+                "open_by_default": true,
+                "icon": "heart",
                 "width": 20
               },
               "blocks": {
