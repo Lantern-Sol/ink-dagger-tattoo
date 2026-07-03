@@ -4309,7 +4309,7 @@
               "settings": {
                 "heading": "How much does it cost?",
                 "open_by_default": false,
-                "icon": "none",
+                "icon": "bottle",
                 "width": 20
               },
               "blocks": {}
