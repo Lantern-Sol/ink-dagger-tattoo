@@ -498,24 +498,6 @@
         "padding-inline-end-mobile": 32
       }
     },
-    "divider_6bVJKr": {
-      "type": "divider",
-      "name": "t:names.divider_section",
-      "settings": {
-        "background_color": "",
-        "divider_color": "",
-        "section_width": "full-width",
-        "thickness": 4,
-        "corner_radius": "square",
-        "width_percent": 100,
-        "alignment_horizontal": "center",
-        "padding-block-start": 0,
-        "padding-block-end": 0,
-        "use_mobile_padding": false,
-        "padding-block-start-mobile": 16,
-        "padding-block-end-mobile": 16
-      }
-    },
     "before-started": {
       "type": "section",
       "blocks": {
@@ -2316,6 +2298,42 @@
         "padding-block-end-mobile": 0,
         "padding-inline-start-mobile": 0,
         "padding-inline-end-mobile": 0
+      }
+    },
+    "divider_6bVJKr": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "background_color": "",
+        "divider_color": "",
+        "section_width": "full-width",
+        "thickness": 4,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 0,
+        "padding-block-end": 0,
+        "use_mobile_padding": false,
+        "padding-block-start-mobile": 16,
+        "padding-block-end-mobile": 16
+      }
+    },
+    "divider_AfrKik": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "background_color": "",
+        "divider_color": "",
+        "section_width": "full-width",
+        "thickness": 4,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 0,
+        "padding-block-end": 0,
+        "use_mobile_padding": false,
+        "padding-block-start-mobile": 16,
+        "padding-block-end-mobile": 16
       }
     },
     "micro-faq": {
@@ -5079,8 +5097,9 @@
     "hero",
     "support-nav",
     "before-started",
-    "micro-faq",
     "divider_6bVJKr",
+    "micro-faq",
+    "divider_AfrKik",
     "form-intro",
     "booking-form",
     "full-faq",
