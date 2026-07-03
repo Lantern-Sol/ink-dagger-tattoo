@@ -2130,7 +2130,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>Browse artist pages and pick a fit — or select “Help me choose” in the form and we'll make a recommendation based on your idea.</p>",
+                        "text": "<p>Tattoos, artwork, photos, anything you're drawn to. In some cases we may need this to move forward, so having it ready will speed up response time.</p>",
                         "mobile_text": "",
                         "width": "fit-content",
                         "max_width": "none",
