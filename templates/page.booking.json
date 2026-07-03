@@ -685,8 +685,8 @@
                 "gap": 12,
                 "use_mobile_gap": false,
                 "mobile_gap": 12,
-                "width": "fit-content",
-                "custom_width": 100,
+                "width": "custom",
+                "custom_width": 65,
                 "width_mobile": "fit-content",
                 "custom_width_mobile": 100,
                 "height": "fit",
@@ -902,20 +902,6 @@
             "cta"
           ]
         },
-        "spacer_f63YE4": {
-          "type": "spacer",
-          "name": "t:names.spacer",
-          "settings": {
-            "size": "percent",
-            "percent_size": 16,
-            "pixel_size": 120,
-            "custom_mobile_size": false,
-            "size_mobile": "percent",
-            "percent_size_mobile": 100,
-            "pixel_size_mobile": 120
-          },
-          "blocks": {}
-        },
         "right-col": {
           "type": "group",
           "settings": {
@@ -1097,7 +1083,6 @@
       },
       "block_order": [
         "left-col",
-        "spacer_f63YE4",
         "right-col"
       ],
       "settings": {
