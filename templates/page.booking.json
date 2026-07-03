@@ -382,7 +382,7 @@
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 51,
-            "use_mobile_padding": false,
+            "use_mobile_padding": true,
             "padding-block-start-mobile": 0,
             "padding-block-end-mobile": 0,
             "padding-inline-start-mobile": 0,
