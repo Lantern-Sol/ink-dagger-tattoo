@@ -342,7 +342,7 @@
           "name": "t:names.group",
           "settings": {
             "content_direction": "row",
-            "vertical_on_mobile": true,
+            "vertical_on_mobile": false,
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
             "align_baseline": false,
@@ -485,11 +485,11 @@
         "padding-block-end": 8,
         "padding-inline-start": 100,
         "padding-inline-end": 100,
-        "use_mobile_padding": false,
-        "padding-block-start-mobile": 0,
-        "padding-block-end-mobile": 0,
-        "padding-inline-start-mobile": 0,
-        "padding-inline-end-mobile": 0
+        "use_mobile_padding": true,
+        "padding-block-start-mobile": 16,
+        "padding-block-end-mobile": 16,
+        "padding-inline-start-mobile": 32,
+        "padding-inline-end-mobile": 32
       }
     },
     "before-started": {
