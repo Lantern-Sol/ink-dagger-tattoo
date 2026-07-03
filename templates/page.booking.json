@@ -3519,7 +3519,7 @@
             "stat-1": {
               "type": "group",
               "settings": {
-                "content_direction": "column",
+                "content_direction": "row",
                 "vertical_on_mobile": true,
                 "horizontal_alignment": "flex-start",
                 "vertical_alignment": "center",
@@ -3572,7 +3572,7 @@
                 "stat-1-val": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>~5 min</p>",
+                    "text": "<ul><li><strong>~5 min </strong>to complete</li></ul>",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
@@ -3608,57 +3608,16 @@
                     "padding-inline-end-mobile": 0
                   },
                   "blocks": {}
-                },
-                "stat-1-label": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>to complete</p>",
-                    "mobile_text": "",
-                    "width": "fit-content",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "height_mode": "auto",
-                    "desktop_height": "",
-                    "mobile_height": "",
-                    "type_preset": "paragraph",
-                    "font": "var(--font-body--family)",
-                    "enable_custom_font_weight": false,
-                    "weight": "400",
-                    "font_size": "",
-                    "line_height": "normal",
-                    "custom_line_height": 1.5,
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "nowrap",
-                    "type_preset_mobile": "rte",
-                    "mobile_font_size": "1rem",
-                    "mobile_custom_line_height": 1.5,
-                    "text_color": "#1d1616",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0,
-                    "use_mobile_padding": false,
-                    "padding-block-start-mobile": 0,
-                    "padding-block-end-mobile": 0,
-                    "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0
-                  },
-                  "blocks": {}
                 }
               },
               "block_order": [
-                "stat-1-val",
-                "stat-1-label"
+                "stat-1-val"
               ]
             },
             "stat-2": {
               "type": "group",
               "settings": {
-                "content_direction": "column",
+                "content_direction": "row",
                 "vertical_on_mobile": true,
                 "horizontal_alignment": "flex-start",
                 "vertical_alignment": "center",
@@ -3711,7 +3670,7 @@
                 "stat-2-val": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Within 2 business days</p>",
+                    "text": "<ul><li><strong>Within 2 business days </strong>response time</li></ul>",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
@@ -3747,57 +3706,16 @@
                     "padding-inline-end-mobile": 0
                   },
                   "blocks": {}
-                },
-                "stat-2-label": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>response time</p>",
-                    "mobile_text": "",
-                    "width": "fit-content",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "height_mode": "auto",
-                    "desktop_height": "",
-                    "mobile_height": "",
-                    "type_preset": "paragraph",
-                    "font": "var(--font-body--family)",
-                    "enable_custom_font_weight": false,
-                    "weight": "400",
-                    "font_size": "",
-                    "line_height": "normal",
-                    "custom_line_height": 1.5,
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "nowrap",
-                    "type_preset_mobile": "rte",
-                    "mobile_font_size": "1rem",
-                    "mobile_custom_line_height": 1.5,
-                    "text_color": "#1d1616",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0,
-                    "use_mobile_padding": false,
-                    "padding-block-start-mobile": 0,
-                    "padding-block-end-mobile": 0,
-                    "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0
-                  },
-                  "blocks": {}
                 }
               },
               "block_order": [
-                "stat-2-val",
-                "stat-2-label"
+                "stat-2-val"
               ]
             },
             "stat-3": {
               "type": "group",
               "settings": {
-                "content_direction": "column",
+                "content_direction": "row",
                 "vertical_on_mobile": true,
                 "horizontal_alignment": "flex-start",
                 "vertical_alignment": "center",
@@ -3850,7 +3768,7 @@
                 "stat-3-val": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Retainer required</p>",
+                    "text": "<ul><li><strong>Retainer required </strong>non-refundable, to book</li></ul>",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
