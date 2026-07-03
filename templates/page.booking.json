@@ -1242,7 +1242,7 @@
                             "type_preset_mobile": "rte",
                             "mobile_font_size": "1rem",
                             "mobile_custom_line_height": 1.5,
-                            "text_color": "#CE5454",
+                            "text_color": "#ce5454",
                             "background": false,
                             "background_color": "#00000026",
                             "corner_radius": 0,
@@ -1419,7 +1419,7 @@
                     "divider_color": "",
                     "width_percent": 100,
                     "padding-block-start": 25,
-                    "padding-block-end": 0
+                    "padding-block-end": 25
                   },
                   "blocks": {}
                 }
