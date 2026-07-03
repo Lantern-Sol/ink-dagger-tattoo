@@ -58,7 +58,7 @@
             "padding-inline-start": 100,
             "padding-inline-end": 0,
             "use_mobile_padding": true,
-            "padding-block-start-mobile": 0,
+            "padding-block-start-mobile": 100,
             "padding-block-end-mobile": 0,
             "padding-inline-start-mobile": 32,
             "padding-inline-end-mobile": 32
