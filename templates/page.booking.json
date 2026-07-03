@@ -3422,7 +3422,7 @@
                 "text": "<p>Eleven short steps. You can save and come back — but most folks finish in under five minutes once references are ready.</p>",
                 "mobile_text": "",
                 "width": "fit-content",
-                "max_width": "none",
+                "max_width": "normal",
                 "alignment": "left",
                 "height_mode": "auto",
                 "desktop_height": "",
