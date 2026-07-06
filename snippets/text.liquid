@@ -74,6 +74,9 @@
       --text-corner-radius: {{ block_settings.corner_radius }}px;
       --text-padding: max(var(--padding-2xs), calc((var(--text-corner-radius) + var(--padding-xs)) * (1 - cos(45deg))));
     {% endif %}
+    {% if block_settings.opacity != blank and block_settings.opacity != 100 %}
+      opacity: {{ block_settings.opacity | divided_by: 100.0 }};
+    {% endif %}
 
   "
 

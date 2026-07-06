@@ -1,10 +1,12 @@
 {% assign block_settings = block.settings %}
 {% assign icon_block_class = 'icon-block__media icon-block-' | append: block.id %}
 
-{% if block_settings.icon_color != blank %}
+{% if block_settings.icon_color != blank or block_settings.icon_bg_color != blank or block_settings.icon_secondary_color != blank %}
   {% style %}
     .icon-block-{{ block.id }} {
-      color: {{ block_settings.icon_color }};
+      {% if block_settings.icon_color != blank %}color: {{ block_settings.icon_color }};{% endif %}
+      {% if block_settings.icon_bg_color != blank %}--icon-bg: {{ block_settings.icon_bg_color }};{% endif %}
+      {% if block_settings.icon_secondary_color != blank %}--icon-fg: {{ block_settings.icon_secondary_color }};{% endif %}
     }
   {% endstyle %}
 {% endif %}
@@ -296,6 +298,58 @@
         {
           "value": "washing",
           "label": "t:options.washing"
+        },
+        {
+          "value": "info_circle",
+          "label": "Info circle"
+        },
+        {
+          "value": "checkbox_rounded",
+          "label": "Checkbox"
+        },
+        {
+          "value": "dot",
+          "label": "Dot"
+        },
+        {
+          "value": "minus_circle",
+          "label": "Minus circle"
+        },
+        {
+          "value": "plus_circle",
+          "label": "Plus circle"
+        },
+        {
+          "value": "arrow_ne",
+          "label": "Arrow (NE)"
+        },
+        {
+          "value": "arrow_down",
+          "label": "Arrow (down)"
+        },
+        {
+          "value": "number_01",
+          "label": "Number 01"
+        },
+        {
+          "value": "arrow_right",
+          "label": "Arrow right"
+        },
+        {
+          "value": "menu_bars",
+          "label": "Menu"
+        },
+        {
+          "value": "chevron_right_circle",
+          "label": "Chevron right (circle)"
+        },
+        {
+          "value": "quote_open",
+          "label": "Quote marks"
+        },
+        {
+          "value": "chevron_left_circle",
+          "label": "Chevron left (circle)"
         }
       ],
       "default": "apple"
@@ -340,6 +394,20 @@
       "type": "color",
       "id": "icon_color",
       "label": "t:settings.color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "icon_bg_color",
+      "label": "Icon inner background",
+      "info": "Applies to icons with an inner background (Checkbox, Plus circle)",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "icon_secondary_color",
+      "label": "Ring / symbol color",
+      "info": "Controls borders and inner symbols on two-tone icons (Info, Minus, Plus, Chevron circles, Checkbox)",
       "placeholder": "t:settings.default"
     }
   ],

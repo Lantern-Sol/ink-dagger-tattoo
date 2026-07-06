@@ -518,6 +518,10 @@
         {
           "value": "solid",
           "label": "t:options.solid"
+        },
+        {
+          "value": "dashed",
+          "label": "Dashed"
         }
       ],
       "default": "none"
@@ -560,6 +564,34 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "use_mobile_border_style",
+      "label": "Different style on mobile",
+      "default": false,
+      "visible_if": "{{ block.settings.border != 'none' }}"
+    },
+    {
+      "type": "select",
+      "id": "border_mobile_style",
+      "label": "Mobile border style",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:options.none"
+        },
+        {
+          "value": "solid",
+          "label": "t:options.solid"
+        },
+        {
+          "value": "dashed",
+          "label": "Dashed"
+        }
+      ],
+      "default": "solid",
+      "visible_if": "{{ block.settings.use_mobile_border_style and block.settings.border != 'none' }}"
     },
     {
       "type": "header",

@@ -9,6 +9,36 @@
   {% render 'button-custom-styles', block_settings: block_settings, block_id: block.id %}
 {% enddoc %}
 
+{% if block_settings.icon_color != blank or block_settings.icon_bg_color != blank %}
+  {% style %}
+    .{{ block_settings.style_class }}--{{ block_id }} .button-icon {
+      {% if block_settings.icon_color != blank %}color: rgb({{ block_settings.icon_color.rgba }});{% endif %}
+      {% if block_settings.icon_bg_color != blank %}--icon-bg: rgb({{ block_settings.icon_bg_color.rgba }});{% endif %}
+    }
+  {% endstyle %}
+{% endif %}
+
+{% if block_settings.font_size != blank or block_settings.mobile_font_size != blank or block_settings.letter_spacing != blank or block_settings.uppercase %}
+  {% style %}
+    .{{ block_settings.style_class }}--{{ block_id }} {
+      {% if block_settings.font_size != blank %}font-size: {{ block_settings.font_size }};{% endif %}
+      {% case block_settings.letter_spacing %}
+        {% when 'tight' %}letter-spacing: var(--letter-spacing--body-tight);
+        {% when 'normal' %}letter-spacing: var(--letter-spacing--body-normal);
+        {% when 'loose' %}letter-spacing: var(--letter-spacing--body-loose);
+      {% endcase %}
+      {% if block_settings.uppercase %}text-transform: uppercase;{% endif %}
+    }
+    {% if block_settings.mobile_font_size != blank %}
+      @media screen and (max-width: 749px) {
+        .{{ block_settings.style_class }}--{{ block_id }} {
+          font-size: {{ block_settings.mobile_font_size }};
+        }
+      }
+    {% endif %}
+  {% endstyle %}
+{% endif %}
+
 {% if block_settings.style_class == 'button-unstyled' and block_settings.link_text_color != blank %}
   {% style %}
     .button-unstyled--{{ block_id }},
@@ -19,6 +49,24 @@
     .button-unstyled--{{ block_id }}:hover,
     .email-signup__button.button-unstyled.button-unstyled--{{ block_id }}:hover {
       color: rgb({{ block_settings.link_text_color.rgb }} / var(--opacity-70));
+    }
+  {% endstyle %}
+{% endif %}
+
+{% if block_settings.style_class == 'button-unstyled' and block_settings.link_underline %}
+  {% style %}
+    .button-unstyled--{{ block_id }},
+    .email-signup__button.button-unstyled.button-unstyled--{{ block_id }} {
+      text-decoration: underline;
+    }
+  {% endstyle %}
+{% endif %}
+
+{% if block_settings.style_class == 'button-unstyled' and block_settings.link_bold %}
+  {% style %}
+    .button-unstyled--{{ block_id }},
+    .email-signup__button.button-unstyled.button-unstyled--{{ block_id }} {
+      font-weight: bold;
     }
   {% endstyle %}
 {% endif %}

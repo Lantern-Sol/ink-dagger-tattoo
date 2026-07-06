@@ -54,6 +54,22 @@
     ></a>
   {%- endif -%}
 
+  {%- if settings.border == 'dashed' -%}
+    {%- liquid
+      assign dashed_border_mobile = true
+      if settings.use_mobile_border_style and settings.border_mobile_style != blank and settings.border_mobile_style != 'dashed'
+        assign dashed_border_mobile = false
+      endif
+    -%}
+    <svg
+      class="group-block__dashed-border{% unless dashed_border_mobile %} group-block__dashed-border--desktop-only{% endunless %}"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <rect class="group-block__dashed-border-rect" rx="{{ settings.border_radius }}" ry="{{ settings.border_radius }}" fill="none"/>
+    </svg>
+  {%- endif -%}
+
   <div class="group-block__media-wrapper">
     {% render 'background-media',
       background_media: settings.background_media,
@@ -83,6 +99,30 @@
 </div>
 
 {% stylesheet %}
+  .group-block__dashed-border {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  .group-block__dashed-border-rect {
+    width: 100%;
+    height: 100%;
+    stroke: var(--border-color);
+    stroke-width: var(--border-width, 1px);
+    stroke-dasharray: 6 4;
+    fill: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .group-block__dashed-border--desktop-only {
+      display: none;
+    }
+  }
+
   .group-block__link {
     position: absolute;
     inset: 0;

@@ -12,7 +12,7 @@
   }
 
   .accordion--dividers accordion-custom:not(:first-child) .details {
-    border-block-start: var(--style-border-width) solid var(--color-border);
+    border-block-start: var(--accordion-divider-width, var(--style-border-width)) solid var(--color-border);
   }
 
   /* When accordion borders are not set, show fallback borders */
@@ -31,7 +31,7 @@
   }
 
   .accordion--dividers accordion-custom:last-child .details {
-    border-block-end: calc(var(--style-border-width) * var(--show-fallback-borders)) solid var(--color-border);
+    border-block-end: calc(var(--accordion-divider-width, var(--style-border-width)) * var(--show-fallback-borders)) solid var(--color-border);
   }
 
   .accordion--dividers .details-content {
@@ -50,6 +50,7 @@
     font-weight: var(--summary-font-weight);
     font-size: var(--summary-font-size);
     line-height: var(--summary-font-line-height);
+    letter-spacing: var(--summary-font-letter-spacing);
     text-transform: var(--summary-font-case);
     min-height: var(--minimum-touch-target);
   }
