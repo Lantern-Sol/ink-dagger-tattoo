@@ -323,7 +323,7 @@
             "eyebrow": {
               "type": "text",
               "settings": {
-                "text": "<p><strong>A few quick answers</strong></p>",
+                "text": "<p><strong>not sure where to start</strong></p>",
                 "mobile_text": "",
                 "width": "fit-content",
                 "max_width": "normal",
