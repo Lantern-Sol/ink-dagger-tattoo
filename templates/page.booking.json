@@ -1143,14 +1143,14 @@
                       "type": "icon",
                       "name": "t:names.icon",
                       "settings": {
-                        "icon": "check_box",
+                        "icon": "checkbox_rounded",
                         "width": 24,
                         "width-mobile": 24,
                         "link": "",
                         "open_in_new_tab": false,
-                        "icon_color": "",
-                        "icon_bg_color": "",
-                        "icon_secondary_color": ""
+                        "icon_color": "{{ settings.color_palette.foreground }}",
+                        "icon_bg_color": "{{ settings.color_palette.color1 }}",
+                        "icon_secondary_color": "{{ settings.color_palette.background }}"
                       },
                       "blocks": {}
                     },
@@ -1545,14 +1545,14 @@
                       "type": "icon",
                       "name": "t:names.icon",
                       "settings": {
-                        "icon": "check_box",
+                        "icon": "checkbox_rounded",
                         "width": 24,
                         "width-mobile": 24,
                         "link": "",
                         "open_in_new_tab": false,
-                        "icon_color": "",
-                        "icon_bg_color": "",
-                        "icon_secondary_color": ""
+                        "icon_color": "{{ settings.color_palette.foreground }}",
+                        "icon_bg_color": "{{ settings.color_palette.color1 }}",
+                        "icon_secondary_color": "#1D1616"
                       },
                       "blocks": {}
                     },
@@ -1947,14 +1947,14 @@
                       "type": "icon",
                       "name": "t:names.icon",
                       "settings": {
-                        "icon": "check_box",
+                        "icon": "checkbox_rounded",
                         "width": 24,
                         "width-mobile": 24,
                         "link": "",
                         "open_in_new_tab": false,
-                        "icon_color": "",
-                        "icon_bg_color": "",
-                        "icon_secondary_color": ""
+                        "icon_color": "{{ settings.color_palette.foreground }}",
+                        "icon_bg_color": "{{ settings.color_palette.color1 }}",
+                        "icon_secondary_color": "#1D1616"
                       },
                       "blocks": {}
                     },
