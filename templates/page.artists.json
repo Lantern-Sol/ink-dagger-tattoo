@@ -707,7 +707,7 @@
                 "q-num": {
                   "type": "text",
                   "settings": {
-                    "text": "<p><em>Question 02</em></p>",
+                    "text": "<p><em>02</em></p>",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -892,7 +892,7 @@
                 "q-num": {
                   "type": "text",
                   "settings": {
-                    "text": "<p><em>Question 03</em></p>",
+                    "text": "<p><em>03</em></p>",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
