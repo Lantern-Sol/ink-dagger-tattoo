@@ -1146,7 +1146,7 @@
                           "type": "text",
                           "name": "t:names.heading",
                           "settings": {
-                            "text": "<p><strong>Chosen your preferred artist  Chosen           </strong></p>",
+                            "text": "<p><strong>Chosen your preferred artist</strong></p>",
                             "mobile_text": "",
                             "width": "fit-content",
                             "max_width": "normal",
