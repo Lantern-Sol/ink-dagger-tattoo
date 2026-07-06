@@ -113,7 +113,7 @@
               "type": "text",
               "name": "t:names.heading",
               "settings": {
-                "text": "<h1>Start Your Tattoo</h1>",
+                "text": "<p>Find the Right Artist for Your Tattoo</p>",
                 "mobile_text": "",
                 "width": "fit-content",
                 "max_width": "normal",
