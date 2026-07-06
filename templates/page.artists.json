@@ -522,7 +522,7 @@
                 "q-num": {
                   "type": "text",
                   "settings": {
-                    "text": "<p><em>Question 01</em></p>",
+                    "text": "<p><em>01</em></p>",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
