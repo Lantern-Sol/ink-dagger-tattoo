@@ -748,7 +748,7 @@
                 "q-title": {
                   "type": "text",
                   "settings": {
-                    "text": "<h3>How much does it cost?</h3>",
+                    "text": "<p>We match you</p>",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -933,7 +933,7 @@
                 "q-title": {
                   "type": "text",
                   "settings": {
-                    "text": "<h3>What type of tattoo should I select?</h3>",
+                    "text": "<p>What type of tattoo<br/>should I select?</p>",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
