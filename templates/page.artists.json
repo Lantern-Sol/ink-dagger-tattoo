@@ -1029,7 +1029,7 @@
                     "option-1-label": {
                       "type": "text",
                       "settings": {
-                        "text": "<ul><li><strong>Custom Design </strong>You have an idea and want something designed for you.</li><li><strong>Studio Flash </strong>Choose from ready-made designs by our artists.</li><li><strong>Reference-Based </strong>We adapt your reference into a tattoo that works on the body.</li></ul>",
+                        "text": "<p>Meet your artist, discuss the design, and get a quote — with 0 pressure and 0 commitment.</p>",
                         "mobile_text": "",
                         "width": "fit-content",
                         "max_width": "normal",
