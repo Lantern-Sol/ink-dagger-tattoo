@@ -71,8 +71,8 @@
             "text_jTbDtk": {
               "type": "text",
               "settings": {
-                "text": "<p><strong>Step into the chair</strong></p>",
-                "mobile_text": "<p><strong>Discover the art</strong></p>",
+                "text": "<p><strong>Ink & Dagger — Artists</strong></p>",
+                "mobile_text": "",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
