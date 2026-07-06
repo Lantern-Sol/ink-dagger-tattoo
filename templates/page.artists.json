@@ -604,7 +604,7 @@
                 "q-body": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Fill out the form with your idea, references, and placement. Choose an artist or select “Help me choose.” We review your request and guide you to the next step — consultation or booking.</p>",
+                    "text": "<p>Share what you have in mind — style, placement, size, or reference images. Nothing is too vague.</p>",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -789,7 +789,7 @@
                 "q-body": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Pricing depends on size, detail, placement, and the artist you choose. You’ll see typical ranges during artist selection, and we’ll confirm a price or range after review.</p>",
+                    "text": "<p>Our team reviews your vision and pairs you with the artist whose portfolio best fits your concept.</p>",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
