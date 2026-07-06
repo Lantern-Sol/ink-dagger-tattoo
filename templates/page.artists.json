@@ -563,7 +563,7 @@
                 "q-title": {
                   "type": "text",
                   "settings": {
-                    "text": "<h3>How does booking work?</h3>",
+                    "text": "<p>Tell us your idea</p>",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
