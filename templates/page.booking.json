@@ -3908,7 +3908,7 @@
     "booking-form": {
       "type": "custom-liquid",
       "settings": {
-        "custom_liquid": "<!-- Third-party booking form embed: paste embed code here -->",
+        "custom_liquid": "<iframe src=\"https://api.leadconnectorhq.com/widget/survey/6ofWq1PIFM1J13lDEBId\" style=\"border:none;width:100%;\" scrolling=\"no\" id=\"6ofWq1PIFM1J13lDEBId\" title=\"survey\"></iframe>\n<script src=\"https://link.msgsndr.com/js/form_embed.js\"></script>",
         "background_color": "{{ settings.color_palette.color1 }}",
         "section_width": "page-width",
         "padding-block-start": 0,
