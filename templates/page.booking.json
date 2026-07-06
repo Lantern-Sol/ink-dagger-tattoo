@@ -773,14 +773,14 @@
                   "type": "icon",
                   "name": "t:names.icon",
                   "settings": {
-                    "icon": "price_tag",
+                    "icon": "info_circle",
                     "width": 24,
                     "width-mobile": 12,
                     "link": "",
                     "open_in_new_tab": false,
-                    "icon_color": "",
-                    "icon_bg_color": "",
-                    "icon_secondary_color": ""
+                    "icon_color": "{{ settings.color_palette.foreground }}",
+                    "icon_bg_color": "{{ settings.color_palette.foreground }}",
+                    "icon_secondary_color": "{{ settings.color_palette.background }}"
                   },
                   "blocks": {}
                 },
