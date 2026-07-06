@@ -1229,53 +1229,11 @@
                         "text_BgBW7w",
                         "text_4bCkRM"
                       ]
-                    },
-                    "text_Rtdz64": {
-                      "type": "text",
-                      "disabled": true,
-                      "settings": {
-                        "text": "<p><strong>Chosen your preferred artist</strong>  <em>Required</em><br/>Browse artist pages and pick a fit — or select “Help me choose” in the form and we'll make a recommendation based on your idea.</p>",
-                        "mobile_text": "",
-                        "width": "100%",
-                        "max_width": "normal",
-                        "alignment": "left",
-                        "height_mode": "auto",
-                        "desktop_height": "",
-                        "mobile_height": "",
-                        "type_preset": "rte",
-                        "font": "var(--font-body--family)",
-                        "enable_custom_font_weight": false,
-                        "weight": "400",
-                        "font_size": "",
-                        "line_height": "normal",
-                        "custom_line_height": 1.5,
-                        "letter_spacing": "normal",
-                        "case": "none",
-                        "wrap": "pretty",
-                        "type_preset_mobile": "rte",
-                        "mobile_font_size": "1rem",
-                        "mobile_custom_line_height": 1.5,
-                        "text_color": "",
-                        "background": false,
-                        "background_color": "#00000026",
-                        "corner_radius": 0,
-                        "padding-block-start": 24,
-                        "padding-block-end": 24,
-                        "padding-inline-start": 0,
-                        "padding-inline-end": 0,
-                        "use_mobile_padding": false,
-                        "padding-block-start-mobile": 0,
-                        "padding-block-end-mobile": 0,
-                        "padding-inline-start-mobile": 0,
-                        "padding-inline-end-mobile": 0
-                      },
-                      "blocks": {}
                     }
                   },
                   "block_order": [
                     "icon_n9iQ3Y",
-                    "group_nxAEQT",
-                    "text_Rtdz64"
+                    "group_nxAEQT"
                   ]
                 },
                 "group_CnH8Yc": {
