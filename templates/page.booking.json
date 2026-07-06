@@ -3557,7 +3557,7 @@
               "type": "group",
               "settings": {
                 "content_direction": "row",
-                "vertical_on_mobile": true,
+                "vertical_on_mobile": false,
                 "horizontal_alignment": "flex-start",
                 "vertical_alignment": "center",
                 "align_baseline": false,
@@ -3608,10 +3608,25 @@
                 "hide_on_desktop": false
               },
               "blocks": {
+                "icon_GzdJ9q": {
+                  "type": "icon",
+                  "name": "t:names.icon",
+                  "settings": {
+                    "icon": "dot",
+                    "width": 14,
+                    "width-mobile": 12,
+                    "link": "",
+                    "open_in_new_tab": false,
+                    "icon_color": "{{ settings.color_palette.foreground }}",
+                    "icon_bg_color": "",
+                    "icon_secondary_color": ""
+                  },
+                  "blocks": {}
+                },
                 "stat-1-val": {
                   "type": "text",
                   "settings": {
-                    "text": "<ul><li><strong>~5 min </strong>to complete</li></ul>",
+                    "text": "<p><strong>~5 min </strong>to complete</p>",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
@@ -3651,6 +3666,7 @@
                 }
               },
               "block_order": [
+                "icon_GzdJ9q",
                 "stat-1-val"
               ]
             },
