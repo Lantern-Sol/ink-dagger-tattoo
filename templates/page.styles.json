@@ -2600,8 +2600,8 @@
         "background_color": "{{ settings.color_palette.color1 }}",
         "icons_style": "arrow",
         "icons_shape": "none",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-start": 64,
+        "padding-block-end": 64
       }
     },
     "section_wi8tnR": {
