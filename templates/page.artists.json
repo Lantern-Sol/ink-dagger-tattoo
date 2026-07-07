@@ -244,6 +244,37 @@
         "padding-block-end-mobile": 0
       }
     },
+    "artist_cards_68b6pU": {
+      "type": "artist-cards",
+      "name": "Artist Cards",
+      "settings": {
+        "background_color": "{{ settings.color_palette.color1 }}",
+        "text_color": "",
+        "accent_color": "#ce5454",
+        "card_border_color": "{{ settings.color_palette.color2 }}",
+        "show_border": false,
+        "show_heading": false,
+        "eyebrow": "The Team",
+        "eyebrow_color": "#ce5454",
+        "eyebrow_opacity": 100,
+        "eyebrow_font_style": "inherit",
+        "eyebrow_font_custom": "",
+        "heading": "A hive of creativity.",
+        "heading_color": "",
+        "heading_opacity": 100,
+        "heading_font_style": "inherit",
+        "heading_font_custom": "",
+        "description": "",
+        "description_color": "",
+        "description_opacity": 85,
+        "description_font_style": "inherit",
+        "description_font_custom": "",
+        "show_filter_bar": true,
+        "filter_label": "Style",
+        "padding-block-start": 64,
+        "padding-block-end": 64
+      }
+    },
     "divider_6bVJKr": {
       "type": "divider",
       "name": "t:names.divider_section",
@@ -1356,6 +1387,7 @@
   },
   "order": [
     "hero",
+    "artist_cards_68b6pU",
     "divider_6bVJKr",
     "micro-faq",
     "divider_AfrKik",
