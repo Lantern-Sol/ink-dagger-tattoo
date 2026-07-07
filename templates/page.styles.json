@@ -132,7 +132,7 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
-                "type_preset_mobile": "rte",
+                "type_preset_mobile": "h2",
                 "mobile_font_size": "1rem",
                 "mobile_custom_line_height": 1.5,
                 "text_color": "{{ settings.color_palette.background }}",
@@ -343,11 +343,11 @@
         "padding-block-end": 0,
         "padding-inline-start": 0,
         "padding-inline-end": 0,
-        "use_mobile_padding": false,
-        "padding-block-start-mobile": 0,
-        "padding-block-end-mobile": 0,
-        "padding-inline-start-mobile": 0,
-        "padding-inline-end-mobile": 0
+        "use_mobile_padding": true,
+        "padding-block-start-mobile": 32,
+        "padding-block-end-mobile": 32,
+        "padding-inline-start-mobile": 32,
+        "padding-inline-end-mobile": 32
       }
     },
     "section_RhheTe": {
