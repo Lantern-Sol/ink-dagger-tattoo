@@ -1,0 +1,744 @@
+{%- liquid
+  assign has_color_override = false
+  if section.settings.background_color != blank or section.settings.text_color != blank
+    assign has_color_override = true
+  endif
+  assign artists = shop.metaobjects.artist.values
+  assign show_filter = section.settings.show_filter_bar
+  assign show_heading = section.settings.show_heading
+  assign top_pad = section.settings['padding-block-start'] | default: 64
+  assign bot_pad = section.settings['padding-block-end'] | default: 64
+  assign apply_top_to_section = true
+  assign apply_top_to_grid = false
+  if show_filter and show_heading == false
+    assign apply_top_to_section = false
+    assign apply_top_to_grid = true
+  endif
+
+  assign eyebrow_font = section.settings.eyebrow_font_style
+  if eyebrow_font == 'custom'
+    assign eyebrow_font = section.settings.eyebrow_font_custom
+  endif
+  if eyebrow_font == 'inherit'
+    assign eyebrow_font = ''
+  endif
+
+  assign heading_font = section.settings.heading_font_style
+  if heading_font == 'custom'
+    assign heading_font = section.settings.heading_font_custom
+  endif
+  if heading_font == 'inherit'
+    assign heading_font = ''
+  endif
+
+  assign description_font = section.settings.description_font_style
+  if description_font == 'custom'
+    assign description_font = section.settings.description_font_custom
+  endif
+  if description_font == 'inherit'
+    assign description_font = ''
+  endif
+-%}
+
+{%- if has_color_override -%}
+  {%- render 'contrast-override',
+    background_color: section.settings.background_color,
+    text_color: section.settings.text_color,
+    section_id: section.id -%}
+{%- endif -%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --artist-cards-accent: {{ section.settings.accent_color | default: '#ce5454' }};
+    --artist-cards-eyebrow-color: {{ section.settings.eyebrow_color | default: '#ce5454' }};
+    --artist-cards-eyebrow-opacity: {{ section.settings.eyebrow_opacity | default: 100 | divided_by: 100.0 }};
+    --artist-cards-heading-opacity: {{ section.settings.heading_opacity | default: 100 | divided_by: 100.0 }};
+    --artist-cards-description-opacity: {{ section.settings.description_opacity | default: 85 | divided_by: 100.0 }};
+    {%- if section.settings.heading_color != blank -%}
+      --artist-cards-heading-color: {{ section.settings.heading_color }};
+    {%- endif -%}
+    {%- if section.settings.description_color != blank -%}
+      --artist-cards-description-color: {{ section.settings.description_color }};
+    {%- endif -%}
+    {%- if section.settings.card_border_color != blank -%}
+      --artist-cards-card-border: {{ section.settings.card_border_color }};
+    {%- endif -%}
+    {%- if eyebrow_font != blank -%}
+      --artist-cards-eyebrow-font: {{ eyebrow_font }};
+    {%- endif -%}
+    {%- if heading_font != blank -%}
+      --artist-cards-heading-font: {{ heading_font }};
+    {%- endif -%}
+    {%- if description_font != blank -%}
+      --artist-cards-description-font: {{ description_font }};
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<div
+  class="artist-cards{% if has_color_override %} color-custom-{{ section.id }}{% endif %}{% if section.settings.show_border %} artist-cards--bordered{% endif %}"
+  style="padding-bottom: {{ bot_pad }}px;{% if apply_top_to_section %} padding-top: {{ top_pad }}px;{% endif %}"
+>
+
+  {%- if show_heading -%}
+    <div class="artist-cards__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="artist-cards__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="artist-cards__heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.description != blank -%}
+        <p class="artist-cards__description">{{ section.settings.description | escape }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if show_filter -%}
+    <div class="artist-cards__filter-bar" id="artist-filter-bar-{{ section.id }}" style="display: none;">
+      <div class="artist-cards__filter-inner">
+        {%- if section.settings.filter_label != blank -%}
+          <span class="artist-cards__filter-label">{{ section.settings.filter_label | escape }}</span>
+        {%- endif -%}
+        <div class="artist-cards__filter-pills" id="artist-filter-pills-{{ section.id }}"></div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div
+    class="artist-cards__grid-wrap"
+    style="{% if apply_top_to_grid %}padding-top: {{ top_pad }}px;{% elsif show_filter %}padding-top: 32px;{% endif %}"
+  >
+    <div class="artist-cards__grid" id="artist-cards-grid-{{ section.id }}">
+      {%- for artist_entry in artists -%}
+        {%- assign profile = artist_entry.profile_image.value -%}
+        <a
+          class="artist-card"
+          href="{{ artist_entry.url }}"
+          data-specialties="{{ artist_entry.specialty.value | escape }}"
+        >
+          <div class="artist-card__image">
+            {%- if profile != blank -%}
+              {{ profile | image_url: width: 600 | image_tag:
+                loading: 'lazy',
+                widths: '160, 275, 400, 600',
+                sizes: '(min-width: 750px) calc(25vw - 40px), calc(50vw - 24px)',
+                alt: artist_entry.name.value | escape }}
+            {%- endif -%}
+          </div>
+          <div class="artist-card__info">
+            <h3 class="artist-card__name">{{ artist_entry.name.value | escape }}</h3>
+            {%- if artist_entry.specialty.value != blank -%}
+              <p class="artist-card__specialty">{{ artist_entry.specialty.value | escape }}</p>
+            {%- endif -%}
+            <span class="artist-card__link">Quick view &rarr;</span>
+          </div>
+        </a>
+      {%- else -%}
+        <p class="artist-cards__empty">No artists found.</p>
+      {%- endfor -%}
+    </div>
+  </div>
+
+</div>
+
+{%- if show_filter -%}
+<script>
+  (function () {
+    var sectionId = {{ section.id | json }};
+    var grid = document.getElementById('artist-cards-grid-' + sectionId);
+    var filterBar = document.getElementById('artist-filter-bar-' + sectionId);
+    var pillsContainer = document.getElementById('artist-filter-pills-' + sectionId);
+
+    if (!grid || !filterBar || !pillsContainer) return;
+
+    var cards = Array.from(grid.querySelectorAll('.artist-card'));
+    var specialtySet = new Set();
+
+    cards.forEach(function (card) {
+      var raw = card.dataset.specialties || '';
+      raw.split(',').map(function (s) { return s.trim(); }).filter(Boolean).forEach(function (s) {
+        specialtySet.add(s);
+      });
+    });
+
+    var specialties = Array.from(specialtySet).sort();
+    if (!specialties.length) return;
+
+    filterBar.style.display = '';
+
+    var active = null;
+
+    function showAll() {
+      cards.forEach(function (c) { c.style.display = ''; });
+    }
+
+    function filterBy(spec) {
+      cards.forEach(function (c) {
+        var specs = (c.dataset.specialties || '').split(',').map(function (s) { return s.trim(); });
+        c.style.display = specs.indexOf(spec) === -1 ? 'none' : '';
+      });
+    }
+
+    specialties.forEach(function (spec) {
+      var btn = document.createElement('button');
+      btn.className = 'artist-cards__filter-pill';
+      btn.textContent = spec;
+      btn.setAttribute('type', 'button');
+      btn.addEventListener('click', function () {
+        if (active === spec) {
+          active = null;
+          pillsContainer.querySelectorAll('.artist-cards__filter-pill').forEach(function (p) {
+            p.classList.remove('artist-cards__filter-pill--active');
+          });
+          showAll();
+        } else {
+          active = spec;
+          pillsContainer.querySelectorAll('.artist-cards__filter-pill').forEach(function (p) {
+            p.classList.remove('artist-cards__filter-pill--active');
+          });
+          btn.classList.add('artist-cards__filter-pill--active');
+          filterBy(spec);
+        }
+      });
+      pillsContainer.appendChild(btn);
+    });
+  })();
+</script>
+{%- endif -%}
+
+{% stylesheet %}
+  .artist-cards {
+    position: relative;
+  }
+
+  .artist-cards--bordered {
+    border-top: 4px solid var(--artist-cards-accent);
+    border-bottom: 4px solid var(--artist-cards-accent);
+  }
+
+  /* Inner page-width containers */
+  .artist-cards__header,
+  .artist-cards__grid-wrap {
+    box-sizing: border-box;
+    max-width: var(--page-content-width, 1280px);
+    margin-inline: auto;
+    padding-inline: 32px;
+    width: 100%;
+  }
+
+  @media (min-width: 750px) {
+    .artist-cards__header,
+    .artist-cards__grid-wrap {
+      padding-inline: 50px;
+    }
+  }
+
+  /* Heading block */
+  .artist-cards__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  @media (min-width: 750px) {
+    .artist-cards__header {
+      margin-bottom: 48px;
+    }
+  }
+
+  .artist-cards__eyebrow {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-family: var(--artist-cards-eyebrow-font, inherit);
+    color: var(--artist-cards-eyebrow-color, var(--artist-cards-accent));
+    opacity: var(--artist-cards-eyebrow-opacity, 1);
+  }
+
+  .artist-cards__heading {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    font-family: var(--artist-cards-heading-font, inherit);
+    color: var(--artist-cards-heading-color, var(--color-foreground));
+    opacity: var(--artist-cards-heading-opacity, 1);
+  }
+
+  @media (min-width: 750px) {
+    .artist-cards__heading {
+      font-size: 56px;
+    }
+  }
+
+  .artist-cards__description {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    font-family: var(--artist-cards-description-font, inherit);
+    color: var(--artist-cards-description-color, var(--color-foreground-subdued));
+    opacity: var(--artist-cards-description-opacity, 0.85);
+    max-width: 52rem;
+  }
+
+  @media (min-width: 750px) {
+    .artist-cards__description {
+      font-size: 17px;
+    }
+  }
+
+  /* Filter bar — full-width strip */
+  .artist-cards__filter-bar {
+    width: 100%;
+    background: #b0aba0;
+    border-top: 1px solid rgba(29, 22, 22, 0.12);
+    border-bottom: 1px solid rgba(29, 22, 22, 0.12);
+  }
+
+  .artist-cards__filter-inner {
+    padding-inline-start: 32px;
+    padding-block: 8px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  @media (min-width: 750px) {
+    .artist-cards__filter-inner {
+      padding-inline-start: 50px;
+    }
+  }
+
+  .artist-cards__filter-label {
+    font-style: italic;
+    font-size: 18px;
+    color: #1d1616;
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding-block: 8px;
+  }
+
+  .artist-cards__filter-pills {
+    display: flex;
+    gap: 8px;
+    padding-block: 8px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    flex: 1;
+    min-width: 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .artist-cards__filter-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .artist-cards__filter-pills::after {
+    content: '';
+    display: block;
+    flex-shrink: 0;
+    min-width: 32px;
+  }
+
+  @media (min-width: 750px) {
+    .artist-cards__filter-pills::after {
+      min-width: 50px;
+    }
+  }
+
+  @media (min-width: 750px) {
+    .artist-cards__filter-pills {
+      gap: 16px;
+    }
+  }
+
+  .artist-cards__filter-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    background: #f8f5ed;
+    border: 2px solid #1d1616;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #1d1616;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 750px) {
+    .artist-cards__filter-pill {
+      padding: 11px 20px;
+    }
+  }
+
+  .artist-cards__filter-pill--active,
+  .artist-cards__filter-pill:hover {
+    background: #f1ebdb;
+  }
+
+  /* Grid */
+  .artist-cards__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  @media (min-width: 750px) {
+    .artist-cards__grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 17px;
+    }
+  }
+
+  .artist-cards__empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--color-foreground-subdued);
+  }
+
+  /* Card */
+  .artist-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--artist-cards-card-border, rgba(var(--color-foreground-rgb), 0.22));
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow var(--hover-transition-duration, 0.25s) var(--hover-transition-timing, ease-out);
+  }
+
+  .artist-card[style*="display: none"],
+  .artist-card[style*="display:none"] {
+    display: none !important;
+  }
+
+  .artist-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .artist-card__image {
+    aspect-ratio: 177 / 160;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 750px) {
+    .artist-card__image {
+      aspect-ratio: 304 / 275;
+    }
+  }
+
+  .artist-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--hover-transition-duration, 0.25s) var(--hover-transition-timing, ease-out);
+  }
+
+  .artist-card:hover .artist-card__image img {
+    transform: scale(var(--hover-subtle-zoom-amount, 1.015));
+  }
+
+  .artist-card__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 12px 12px;
+    flex: 1;
+  }
+
+  @media (min-width: 750px) {
+    .artist-card__info {
+      padding: 10px 13px 25px;
+      gap: 8px;
+    }
+  }
+
+  .artist-card__name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--color-foreground);
+  }
+
+  @media (min-width: 750px) {
+    .artist-card__name {
+      font-size: 24px;
+    }
+  }
+
+  .artist-card__specialty {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.3;
+    color: var(--color-foreground-subdued);
+  }
+
+  @media (min-width: 750px) {
+    .artist-card__specialty {
+      font-size: 14px;
+    }
+  }
+
+  .artist-card__link {
+    display: inline-block;
+    margin-top: auto;
+    padding-top: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--artist-cards-accent);
+    border-bottom: 2px solid var(--artist-cards-accent);
+    text-align: right;
+    align-self: flex-end;
+  }
+
+  @media (min-width: 750px) {
+    .artist-card__link {
+      font-size: 14px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Artist Cards",
+  "tag": "section",
+  "class": "artist-cards-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Link & accent color",
+      "default": "#ce5454"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color"
+    },
+    {
+      "type": "header",
+      "content": "Section border"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border",
+      "label": "Show top & bottom border",
+      "info": "Uses the link & accent color",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Heading block"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_heading",
+      "label": "Show heading block",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "The Team"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#ce5454"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_opacity",
+      "label": "Eyebrow opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "select",
+      "id": "eyebrow_font_style",
+      "label": "Eyebrow font",
+      "options": [
+        { "value": "inherit", "label": "Theme default" },
+        { "value": "serif", "label": "Serif" },
+        { "value": "sans-serif", "label": "Sans-serif" },
+        { "value": "monospace", "label": "Monospace" },
+        { "value": "custom", "label": "Custom" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_font_custom",
+      "label": "Eyebrow custom font",
+      "info": "CSS font-family value (e.g. 'Josefin Sans, sans-serif'). Only used when 'Custom' is selected above."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "A hive of creativity."
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "range",
+      "id": "heading_opacity",
+      "label": "Heading opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "select",
+      "id": "heading_font_style",
+      "label": "Heading font",
+      "options": [
+        { "value": "inherit", "label": "Theme default" },
+        { "value": "serif", "label": "Serif" },
+        { "value": "sans-serif", "label": "Sans-serif" },
+        { "value": "monospace", "label": "Monospace" },
+        { "value": "custom", "label": "Custom" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "text",
+      "id": "heading_font_custom",
+      "label": "Heading custom font",
+      "info": "CSS font-family value (e.g. 'Libre Baskerville, serif'). Only used when 'Custom' is selected above."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description color"
+    },
+    {
+      "type": "range",
+      "id": "description_opacity",
+      "label": "Description opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 85
+    },
+    {
+      "type": "select",
+      "id": "description_font_style",
+      "label": "Description font",
+      "options": [
+        { "value": "inherit", "label": "Theme default" },
+        { "value": "serif", "label": "Serif" },
+        { "value": "sans-serif", "label": "Sans-serif" },
+        { "value": "monospace", "label": "Monospace" },
+        { "value": "custom", "label": "Custom" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "text",
+      "id": "description_font_custom",
+      "label": "Description custom font",
+      "info": "CSS font-family value (e.g. 'Source Sans 3, sans-serif'). Only used when 'Custom' is selected above."
+    },
+    {
+      "type": "header",
+      "content": "Style filter bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filter_bar",
+      "label": "Show style filter bar",
+      "info": "Pills are generated automatically from the specialty field on each artist metaobject.",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "filter_label",
+      "label": "Filter label",
+      "default": "Style"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "Artist Cards",
+      "settings": {
+        "accent_color": "#ce5454"
+      }
+    }
+  ]
+}
+{% endschema %}
