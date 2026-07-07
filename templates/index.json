@@ -1694,7 +1694,7 @@
                     "accordion_row_WCGmWY": {
                       "type": "_accordion-row",
                       "settings": {
-                        "heading": "Return policy",
+                        "heading": "Duration",
                         "open_by_default": true,
                         "type_preset": "",
                         "font": "var(--font-body--family)",
@@ -1712,7 +1712,7 @@
                         "text_nNfYac": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Our goal is for every customer to be totally satisfied with their purchase. If this isn't the case, let us know and we'll do our best to work with you to make it right.</p>",
+                            "text": "<p>Got a simple design in mind? We've got you covered. Call us at 770-692-4245 and we’ll chat about availability as soon as today. Some small tattoos are over in a few minutes and others take up to 2 hours.</p>",
                             "mobile_text": "",
                             "width": "100%",
                             "max_width": "normal",
