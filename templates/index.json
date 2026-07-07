@@ -2309,7 +2309,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p><strong>+$150</strong></p>",
+                        "text": "<p><strong>+$1500</strong></p>",
                         "mobile_text": "",
                         "width": "fit-content",
                         "max_width": "normal",
