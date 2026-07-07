@@ -1977,7 +1977,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p><strong>+$150</strong></p>",
+                        "text": "<p><strong>$300 - $3000</strong></p>",
                         "mobile_text": "",
                         "width": "fit-content",
                         "max_width": "normal",
@@ -2019,7 +2019,7 @@
                       "type": "text",
                       "name": "t:names.heading",
                       "settings": {
-                        "text": "<h2>Small Tattoos</h2>",
+                        "text": "<p>Single Sessions</p>",
                         "mobile_text": "",
                         "width": "fit-content",
                         "max_width": "normal",
@@ -2100,7 +2100,7 @@
                             "text_EXKbAb": {
                               "type": "text",
                               "settings": {
-                                "text": "<p>Got a simple design in mind? We've got you covered. Call us at 770-692-4245 and we’ll chat about availability as soon as today. Some small tattoos are over in a few minutes and others take up to 2 hours.</p>",
+                                "text": "<p>Whether it's your first tattoo or another addition to your collection, a single session might be just what you need.</p><p>Most single session tattoos take between 1 and 6 hours to complete.<br/><br/>Once you have narrowed down your choice of tattoo artist, tattoo style, and design, fill out our <a href=\"/pages/booking\" target=\"_blank\" title=\"Booking\">booking form</a>. From there, we will move to schedule a FREE consultation.</p>",
                                 "mobile_text": "",
                                 "width": "100%",
                                 "max_width": "normal",
