@@ -1955,7 +1955,7 @@
                             "width": "custom",
                             "custom_width": 14,
                             "width_mobile": "custom",
-                            "custom_width_mobile": 1,
+                            "custom_width_mobile": 0,
                             "height": "fit",
                             "border": "solid",
                             "border_width": 2,
