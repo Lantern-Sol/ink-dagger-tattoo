@@ -2351,7 +2351,7 @@
                       "type": "text",
                       "name": "t:names.heading",
                       "settings": {
-                        "text": "<h2>Small Tattoos</h2>",
+                        "text": "<p>Multi Sessions</p>",
                         "mobile_text": "",
                         "width": "fit-content",
                         "max_width": "normal",
@@ -2432,7 +2432,7 @@
                             "text_QcUgPg": {
                               "type": "text",
                               "settings": {
-                                "text": "<p>Got a simple design in mind? We've got you covered. Call us at 770-692-4245 and we’ll chat about availability as soon as today. Some small tattoos are over in a few minutes and others take up to 2 hours.</p>",
+                                "text": "<p>For those seeking a masterpiece that spans more than just a sitting, our multi-session tattoos are a work of collaborative art.</p><p>We have several artists who excel at designing large-scale tattoos in a range of styles. Please take some time to carefully review our resident artist portfolios and styles before you <a href=\"/pages/booking\" title=\"Booking\">request a FREE consultation.</a></p>",
                                 "mobile_text": "",
                                 "width": "100%",
                                 "max_width": "normal",
