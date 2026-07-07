@@ -1810,75 +1810,10 @@
                           "block_order": [
                             "text_nNfYac"
                           ]
-                        },
-                        "accordion_row_rGHtQn": {
-                          "type": "_accordion-row",
-                          "settings": {
-                            "heading": "Pricing",
-                            "open_by_default": false,
-                            "type_preset": "custom",
-                            "font": "var(--font-body--family)",
-                            "font_size": "1rem",
-                            "line_height": "normal",
-                            "letter_spacing": "normal",
-                            "case": "none",
-                            "type_preset_mobile": "",
-                            "mobile_font_size": "",
-                            "mobile_custom_line_height": 1.5,
-                            "icon": "none",
-                            "width": 20
-                          },
-                          "blocks": {
-                            "text_WzRWck": {
-                              "type": "text",
-                              "settings": {
-                                "text": "<p>$150 and UP. If you want to be tattooed today, then give us a call at 770-692-4245. </p><p>We are open between 11am and 7pm. </p><p>Or fill out our <a href=\"/pages/booking\" target=\"_blank\" title=\"Booking\">booking form </a>and we'll get back to you about the design, scheduling, and pricing. </p>",
-                                "mobile_text": "",
-                                "width": "100%",
-                                "max_width": "normal",
-                                "alignment": "left",
-                                "height_mode": "auto",
-                                "desktop_height": "",
-                                "mobile_height": "",
-                                "type_preset": "rte",
-                                "font": "var(--font-body--family)",
-                                "enable_custom_font_weight": false,
-                                "weight": "400",
-                                "font_size": "1rem",
-                                "line_height": "normal",
-                                "custom_line_height": 1.5,
-                                "letter_spacing": "normal",
-                                "case": "none",
-                                "wrap": "pretty",
-                                "type_preset_mobile": "rte",
-                                "mobile_font_size": "1rem",
-                                "mobile_custom_line_height": 1.5,
-                                "text_color": "",
-                                "background": false,
-                                "background_color": "#00000026",
-                                "corner_radius": 0,
-                                "opacity": 80,
-                                "padding-block-start": 0,
-                                "padding-block-end": 0,
-                                "padding-inline-start": 0,
-                                "padding-inline-end": 0,
-                                "use_mobile_padding": false,
-                                "padding-block-start-mobile": 0,
-                                "padding-block-end-mobile": 0,
-                                "padding-inline-start-mobile": 0,
-                                "padding-inline-end-mobile": 0
-                              },
-                              "blocks": {}
-                            }
-                          },
-                          "block_order": [
-                            "text_WzRWck"
-                          ]
                         }
                       },
                       "block_order": [
-                        "accordion_row_WCGmWY",
-                        "accordion_row_rGHtQn"
+                        "accordion_row_WCGmWY"
                       ]
                     }
                   },
