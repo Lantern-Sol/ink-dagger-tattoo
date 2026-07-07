@@ -30,19 +30,40 @@
             "type_preset_mobile": "custom",
             "mobile_font_size": "0.75rem",
             "mobile_custom_line_height": 1,
-            "text_color": "#1D1616"
+            "text_color": "#1d1616"
+          },
+          "blocks": {}
+        },
+        "announcement_DHxPiW": {
+          "type": "_announcement",
+          "name": "t:names.announcement",
+          "settings": {
+            "text": "<strong>Discover Cortney Norton's Art Deco style! Click HERE!</strong>",
+            "link": "",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "custom_line_height": 1.5,
+            "weight": "",
+            "letter_spacing": "tight",
+            "case": "none",
+            "type_preset_mobile": "custom",
+            "mobile_font_size": "0.75rem",
+            "mobile_custom_line_height": 1,
+            "text_color": "#1d1616"
           },
           "blocks": {}
         }
       },
       "block_order": [
-        "announcement_qAbYWq"
+        "announcement_qAbYWq",
+        "announcement_DHxPiW"
       ],
       "name": "t:names.announcement_bar",
       "settings": {
-        "speed": 3,
+        "speed": 5,
         "section_width": "page-width",
-        "background_color": "#CE5454",
+        "background_color": "#ce5454",
         "divider_width": 0,
         "divider_color": "{{ settings.color_palette.color3 }}",
         "padding-block-start": 15,
@@ -118,8 +139,8 @@
         "actions_font_size": "0.875rem",
         "actions_font": "body",
         "actions_text_case": "none",
-        "background_color_top": "#1D1616",
-        "text_color_top": "#F8F5ED",
+        "background_color_top": "#1d1616",
+        "text_color_top": "#f8f5ed",
         "background_color_bottom": "",
         "text_color_bottom": "",
         "bubble_style": "default",
