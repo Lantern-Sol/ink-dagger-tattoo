@@ -203,6 +203,7 @@
       "block_order": [
         "group_xBfHEb"
       ],
+      "disabled": true,
       "settings": {
         "media_type_1": "image",
         "image_1": "shopify://shop_images/booking-hero-source-1.png",
@@ -474,6 +475,7 @@
         "group_PJdq4L",
         "group_rCAdJX"
       ],
+      "disabled": true,
       "settings": {
         "content_direction": "row",
         "vertical_on_mobile": true,
@@ -2245,6 +2247,7 @@
         "left-col",
         "right-col"
       ],
+      "disabled": true,
       "settings": {
         "content_direction": "row",
         "vertical_on_mobile": true,
@@ -2305,6 +2308,7 @@
     },
     "divider_6bVJKr": {
       "type": "divider",
+      "disabled": true,
       "name": "t:names.divider_section",
       "settings": {
         "background_color": "",
@@ -3234,6 +3238,7 @@
         "cards-row",
         "disclaimer"
       ],
+      "disabled": true,
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -3294,6 +3299,7 @@
     },
     "divider_AfrKik": {
       "type": "divider",
+      "disabled": true,
       "name": "t:names.divider_section",
       "settings": {
         "background_color": "",
@@ -3916,6 +3922,7 @@
         "form-header",
         "stats-row"
       ],
+      "disabled": true,
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -4054,6 +4061,7 @@
         "text_iRw8rP",
         "button_T8YKqC"
       ],
+      "disabled": true,
       "name": "t:names.rich_text_section",
       "settings": {
         "content_direction": "row",
@@ -4115,6 +4123,7 @@
     },
     "booking-form": {
       "type": "custom-liquid",
+      "disabled": true,
       "settings": {
         "custom_liquid": "<iframe src=\"https://api.leadconnectorhq.com/widget/survey/6ofWq1PIFM1J13lDEBId\" style=\"border:none;width:100%;\" scrolling=\"no\" id=\"6ofWq1PIFM1J13lDEBId\" title=\"survey\"></iframe>\n<script src=\"https://link.msgsndr.com/js/form_embed.js\"></script>",
         "background_color": "{{ settings.color_palette.color1 }}",
@@ -4660,6 +4669,7 @@
         "aside",
         "accordion"
       ],
+      "disabled": true,
       "settings": {
         "content_direction": "row",
         "vertical_on_mobile": true,
@@ -5027,6 +5037,7 @@
       "block_order": [
         "group_HYcErx"
       ],
+      "disabled": true,
       "name": "t:names.custom_section",
       "settings": {
         "content_direction": "column",
