@@ -61,6 +61,16 @@
   {%- endif -%}
 {% endcapture %}
 
+{% if block_settings.width_mobile == 'custom' %}
+  {% style %}
+    @media screen and (max-width: 749px) {
+      .image-block--{{ block.id }} {
+        max-width: {{ block_settings.custom_width_mobile }}%;
+      }
+    }
+  {% endstyle %}
+{% endif %}
+
 {% if block_settings.link == blank %}
   <div
     class="{{ class }}"

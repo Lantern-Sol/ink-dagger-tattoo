@@ -49,6 +49,14 @@
   {% endstyle %}
 {% endif %}
 
+{% if block_settings.heading_opacity != 100 %}
+  {% style %}
+    .details--{{ block.id }} .details__header {
+      opacity: {{ block_settings.heading_opacity | default: 100 | divided_by: 100.0 }};
+    }
+  {% endstyle %}
+{% endif %}
+
 {% capture accordion_row_children %}
   <details
     class="details details--{{ block.id }}"
@@ -251,6 +259,20 @@
       "step": 0.1,
       "default": 1.5,
       "visible_if": "{{ block.settings.type_preset_mobile == 'custom' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "range",
+      "id": "heading_opacity",
+      "label": "Heading opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
     },
     {
       "type": "header",

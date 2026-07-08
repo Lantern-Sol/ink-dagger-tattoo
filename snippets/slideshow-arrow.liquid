@@ -16,8 +16,16 @@
   assign icon_name = 'arrow'
   assign style = icon_style | default: 'arrow'
   assign shape = icon_shape | default: 'none'
+  assign is_directional_chevron = false
 
-  if icon_style contains 'chevron'
+  if icon_style == 'chevron_directional'
+    assign is_directional_chevron = true
+    if action == 'previous'
+      assign icon_name = 'chevron-left'
+    else
+      assign icon_name = 'chevron-right'
+    endif
+  elsif icon_style contains 'chevron'
     assign icon_name = 'caret'
   endif
 
@@ -33,7 +41,7 @@
     {% if shape != 'none' %} slideshow-control--shape-{{ shape }}{% endif %}
     slideshow-control--style-{{ style }}
     button button-unstyled button-unstyled--transparent
-    {% if action == 'previous' %} flip-x{% endif %}
+    {% if action == 'previous' and is_directional_chevron == false %} flip-x{% endif %}
   "
   {% if action == 'previous' %}
     aria-label="{{ 'accessibility.slideshow_previous' | t }}"
@@ -44,7 +52,11 @@
   ref="{{ action }}"
 >
   <span class="svg-wrapper icon-{{ icon_name }}">
-    {%- if icon_name == 'caret' -%}
+    {%- if is_directional_chevron and action == 'previous' -%}
+      {{- 'icon-chevron-left.svg' | inline_asset_content -}}
+    {%- elsif is_directional_chevron -%}
+      {{- 'icon-chevron-right.svg' | inline_asset_content -}}
+    {%- elsif icon_name == 'caret' -%}
       {{- 'icon-caret.svg' | inline_asset_content -}}
     {%- elsif icon_style == 'custom' and custom_icon != blank -%}
       {{

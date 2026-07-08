@@ -1,6 +1,13 @@
 {% liquid
   assign slide_count = block.blocks.size
   assign icons_style = section.settings.icons_style
+  assign mobile_columns_int = section.settings.mobile_columns | plus: 0
+  assign scroll_desktop = 1
+  assign scroll_mobile = 1
+  if section.settings.scroll_mode == 'page'
+    assign scroll_desktop = section.settings.columns
+    assign scroll_mobile = mobile_columns_int
+  endif
 
   assign slideshow_class = 'carousel-content spacing-style '
   if block.settings.background_color != blank
@@ -22,6 +29,7 @@
   endif
 
   assign slide_position = block.settings.position
+  assign slideshow_extra_attrs = 'slides-to-scroll="' | append: scroll_desktop | append: '" mobile-slides-to-scroll="' | append: scroll_mobile | append: '"'
   if block.settings.height == 'fill'
     assign slide_position = 'stretch'
   endif
@@ -39,6 +47,50 @@
   {% render 'border-override', settings: block.settings %}
 {% endcapture %}
 
+{%- liquid
+  assign has_arrow_styles = false
+  if section.settings.arrows_always_visible or section.settings.arrow_icon_color != blank or section.settings.arrow_background_color != blank or section.settings.arrow_border_color != blank
+    assign has_arrow_styles = true
+  endif
+-%}
+
+{% if has_arrow_styles %}
+  {% style %}
+    #shopify-section-{{ section.id }} slideshow-arrows {
+      mix-blend-mode: normal;
+    }
+    #shopify-section-{{ section.id }} slideshow-arrows .slideshow-control {
+      {% if section.settings.arrows_always_visible %}opacity: 1; animation: none !important;{% endif %}
+      {% if section.settings.arrow_icon_color != blank %}color: {{ section.settings.arrow_icon_color }};{% endif %}
+      {% if section.settings.arrow_background_color != blank %}background-color: {{ section.settings.arrow_background_color }};{% endif %}
+      {% if section.settings.arrow_border_color != blank %}border: 2px solid {{ section.settings.arrow_border_color }};{% endif %}
+    }
+  {% endstyle %}
+{% endif %}
+
+{% style %}
+  #shopify-section-{{ section.id }} .carousel-content slideshow-slides {
+    clip-path: inset(0 var(--gutter-slide-width, 0px) 0 var(--gutter-slide-width, 0px));
+  }
+
+  #shopify-section-{{ section.id }} .carousel-content slideshow-slides .card {
+    flex: 0 0 auto;
+    width: calc(
+      (100% - (var(--carousel-gap, 8px) * {{ section.settings.mobile_columns | minus: 1 }}) - var(--peek-next-slide-size, 0px)) /
+        {{ section.settings.mobile_columns }}
+    );
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} .carousel-content slideshow-slides .card {
+      width: calc(
+        (100% - (var(--carousel-gap, 8px) * {{ section.settings.columns | minus: 1 }}) - var(--peek-next-slide-size, 0px)) /
+          {{ section.settings.columns }}
+      );
+    }
+  }
+{% endstyle %}
+
 <div
   class="force-full-width"
   style="{{ gutter_style }}"
@@ -51,12 +103,14 @@
     icon_style: icons_style,
     icon_shape: section.settings.icons_shape,
     auto_hide_controls: false,
-    infinite: false,
+    infinite: section.settings.infinite,
+    slides_to_show: section.settings.columns,
+    mobile_slides_to_show: mobile_columns_int,
     initial_slide: 0,
     slide_count: slide_count,
     slide_position: slide_position,
     slideshow_gutters: slideshow_gutters,
-    attributes: block.shopify_attributes
+    attributes: slideshow_extra_attrs | append: ' ' | append: block.shopify_attributes
   %}
 </div>
 
@@ -65,7 +119,7 @@
     --slideshow-gap: var(--carousel-gap);
   }
 
-  .carousel-content slideshow-slides > .card {
+  .carousel-content slideshow-slides .card {
     flex: 0 0 auto;
     width: calc(
       (100% - (var(--carousel-gap, 8px) * (var(--carousel-mobile-columns, 2) - 1)) - var(--peek-next-slide-size, 0px)) /
@@ -74,7 +128,7 @@
   }
 
   @media screen and (min-width: 750px) {
-    .carousel-content slideshow-slides > .card {
+    .carousel-content slideshow-slides .card {
       width: calc(
         (100% - (var(--carousel-gap, 8px) * (var(--carousel-columns, 4) - 1)) - var(--peek-next-slide-size, 0px)) /
           var(--carousel-columns, 4)
@@ -87,11 +141,15 @@
   }
 
   .carousel-content slideshow-arrows {
-    padding-inline: var(--util-page-margin-offset);
+    padding-inline: 0;
   }
 
   .carousel-content .slideshow-control--next {
     margin-inline-start: auto;
+  }
+
+  .shopify-block:has(> .force-full-width) {
+    grid-column: 1 / -1;
   }
 {% endstylesheet %}
 

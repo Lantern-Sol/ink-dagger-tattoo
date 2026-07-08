@@ -12,7 +12,7 @@
   }
 
   .accordion--dividers accordion-custom:not(:first-child) .details {
-    border-block-start: var(--accordion-divider-width, var(--style-border-width)) solid var(--color-border);
+    border-block-start: var(--accordion-divider-width, var(--style-border-width)) solid color-mix(in srgb, var(--color-border) var(--accordion-divider-opacity, 100%), transparent);
   }
 
   /* When accordion borders are not set, show fallback borders */
@@ -31,7 +31,7 @@
   }
 
   .accordion--dividers accordion-custom:last-child .details {
-    border-block-end: calc(var(--accordion-divider-width, var(--style-border-width)) * var(--show-fallback-borders)) solid var(--color-border);
+    border-block-end: calc(var(--accordion-divider-width, var(--style-border-width)) * var(--show-fallback-borders)) solid color-mix(in srgb, var(--color-border) var(--accordion-divider-opacity, 100%), transparent);
   }
 
   .accordion--dividers .details-content {
