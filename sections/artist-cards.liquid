@@ -4,6 +4,7 @@
     assign has_color_override = true
   endif
   assign artists = shop.metaobjects.artist.values
+  assign style_categories = shop.metaobjects.style_category.values
   assign show_filter = section.settings.show_filter_bar
   assign show_heading = section.settings.show_heading
   assign top_pad = section.settings['padding-block-start'] | default: 64
@@ -94,13 +95,35 @@
     </div>
   {%- endif -%}
 
-  {%- if show_filter -%}
-    <div class="artist-cards__filter-bar" id="artist-filter-bar-{{ section.id }}" style="display: none;">
+  {%- if show_filter and style_categories != blank -%}
+    <div class="artist-cards__filter-bar" id="artist-filter-bar-{{ section.id }}">
       <div class="artist-cards__filter-inner">
         {%- if section.settings.filter_label != blank -%}
           <span class="artist-cards__filter-label">{{ section.settings.filter_label | escape }}</span>
         {%- endif -%}
-        <div class="artist-cards__filter-pills" id="artist-filter-pills-{{ section.id }}"></div>
+        <div class="artist-cards__filter-categories" id="artist-filter-categories-{{ section.id }}">
+          {%- assign ordered_handles = 'black-gray,traditional-color,illustrative-subject,technique-scale' | split: ',' -%}
+          {%- for handle in ordered_handles -%}
+            {%- assign cat = shop.metaobjects.style_category[handle] -%}
+            {%- if cat == blank -%}{%- continue -%}{%- endif -%}
+            {%- assign subcategory_list = '' -%}
+            {%- for style_entry in cat.styles.value -%}
+              {%- unless forloop.first -%}{%- assign subcategory_list = subcategory_list | append: ',' -%}{%- endunless -%}
+              {%- assign subcategory_list = subcategory_list | append: style_entry.name.value -%}
+            {%- endfor -%}
+            <button
+              type="button"
+              class="artist-cards__filter-cat"
+              data-category="{{ cat.name.value | escape }}"
+              data-subcategories="{{ subcategory_list | escape }}"
+            >{{ cat.name.value | escape }}</button>
+          {%- endfor -%}
+        </div>
+      </div>
+      <div class="artist-cards__filter-subcategory-row" id="artist-filter-subcategory-row-{{ section.id }}" style="display: none;">
+        <div class="artist-cards__filter-inner artist-cards__filter-inner--sub">
+          <div class="artist-cards__filter-pills" id="artist-filter-pills-{{ section.id }}"></div>
+        </div>
       </div>
     </div>
   {%- endif -%}
@@ -142,66 +165,119 @@
 
 </div>
 
-{%- if show_filter -%}
+{%- if show_filter and style_categories != blank -%}
 <script>
   (function () {
     var sectionId = {{ section.id | json }};
     var grid = document.getElementById('artist-cards-grid-' + sectionId);
     var filterBar = document.getElementById('artist-filter-bar-' + sectionId);
+    var subcatRow = document.getElementById('artist-filter-subcategory-row-' + sectionId);
     var pillsContainer = document.getElementById('artist-filter-pills-' + sectionId);
 
-    if (!grid || !filterBar || !pillsContainer) return;
+    if (!grid || !filterBar || !subcatRow || !pillsContainer) return;
 
     var cards = Array.from(grid.querySelectorAll('.artist-card'));
-    var specialtySet = new Set();
+    var catBtns = Array.from(filterBar.querySelectorAll('.artist-cards__filter-cat'));
 
+    if (!catBtns.length) return;
+
+    var presentSpecs = new Set();
     cards.forEach(function (card) {
       var raw = card.dataset.specialties || '';
       raw.split(',').map(function (s) { return s.trim(); }).filter(Boolean).forEach(function (s) {
-        specialtySet.add(s);
+        presentSpecs.add(s);
       });
     });
 
-    var specialties = Array.from(specialtySet).sort();
-    if (!specialties.length) return;
+    catBtns.forEach(function (btn) {
+      var subcats = parseSubcats(btn);
+      if (!subcats.some(function (s) { return presentSpecs.has(s); })) {
+        btn.style.display = 'none';
+      }
+    });
 
-    filterBar.style.display = '';
+    var activeCategory = null;
+    var activeSubcat = null;
 
-    var active = null;
+    function parseSubcats(btn) {
+      return (btn.dataset.subcategories || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+    }
 
     function showAll() {
       cards.forEach(function (c) { c.style.display = ''; });
     }
 
-    function filterBy(spec) {
+    function filterByCategory(subcatArray) {
+      var set = new Set(subcatArray);
       cards.forEach(function (c) {
         var specs = (c.dataset.specialties || '').split(',').map(function (s) { return s.trim(); });
-        c.style.display = specs.indexOf(spec) === -1 ? 'none' : '';
+        c.style.display = specs.some(function (s) { return set.has(s); }) ? '' : 'none';
       });
     }
 
-    specialties.forEach(function (spec) {
-      var btn = document.createElement('button');
-      btn.className = 'artist-cards__filter-pill';
-      btn.textContent = spec;
-      btn.setAttribute('type', 'button');
-      btn.addEventListener('click', function () {
-        if (active === spec) {
-          active = null;
-          pillsContainer.querySelectorAll('.artist-cards__filter-pill').forEach(function (p) {
-            p.classList.remove('artist-cards__filter-pill--active');
-          });
+    function filterBySubcategory(spec) {
+      cards.forEach(function (c) {
+        var specs = (c.dataset.specialties || '').split(',').map(function (s) { return s.trim(); });
+        c.style.display = specs.indexOf(spec) !== -1 ? '' : 'none';
+      });
+    }
+
+    function buildSubcatPills(subcatArray) {
+      pillsContainer.innerHTML = '';
+      subcatArray.forEach(function (spec) {
+        var hasArtist = cards.some(function (c) {
+          var specs = (c.dataset.specialties || '').split(',').map(function (s) { return s.trim(); });
+          return specs.indexOf(spec) !== -1;
+        });
+        if (!hasArtist) return;
+
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'artist-cards__filter-pill';
+        btn.textContent = spec;
+        btn.addEventListener('click', function () {
+          if (activeSubcat === spec) {
+            activeSubcat = null;
+            pillsContainer.querySelectorAll('.artist-cards__filter-pill').forEach(function (p) {
+              p.classList.remove('artist-cards__filter-pill--active');
+            });
+            var activeCatBtn = filterBar.querySelector('.artist-cards__filter-cat--active');
+            filterByCategory(activeCatBtn ? parseSubcats(activeCatBtn) : []);
+          } else {
+            activeSubcat = spec;
+            pillsContainer.querySelectorAll('.artist-cards__filter-pill').forEach(function (p) {
+              p.classList.remove('artist-cards__filter-pill--active');
+            });
+            btn.classList.add('artist-cards__filter-pill--active');
+            filterBySubcategory(spec);
+          }
+        });
+        pillsContainer.appendChild(btn);
+      });
+    }
+
+    catBtns.forEach(function (catBtn) {
+      catBtn.addEventListener('click', function () {
+        var cat = catBtn.dataset.category;
+        var subcats = parseSubcats(catBtn);
+
+        if (activeCategory === cat) {
+          activeCategory = null;
+          activeSubcat = null;
+          catBtns.forEach(function (b) { b.classList.remove('artist-cards__filter-cat--active'); });
+          pillsContainer.innerHTML = '';
+          subcatRow.style.display = 'none';
           showAll();
         } else {
-          active = spec;
-          pillsContainer.querySelectorAll('.artist-cards__filter-pill').forEach(function (p) {
-            p.classList.remove('artist-cards__filter-pill--active');
-          });
-          btn.classList.add('artist-cards__filter-pill--active');
-          filterBy(spec);
+          activeCategory = cat;
+          activeSubcat = null;
+          catBtns.forEach(function (b) { b.classList.remove('artist-cards__filter-cat--active'); });
+          catBtn.classList.add('artist-cards__filter-cat--active');
+          buildSubcatPills(subcats);
+          subcatRow.style.display = '';
+          filterByCategory(subcats);
         }
       });
-      pillsContainer.appendChild(btn);
     });
   })();
 </script>
@@ -303,60 +379,45 @@
   }
 
   .artist-cards__filter-inner {
-    padding-inline-start: 32px;
-    padding-block: 8px;
+    padding-inline: 24px;
+    padding-top: 16px;
+    padding-bottom: 8px;
     display: flex;
-    align-items: center;
-    gap: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
 
   @media (min-width: 750px) {
     .artist-cards__filter-inner {
-      padding-inline-start: 50px;
+      padding-inline: 50px;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
     }
   }
 
   .artist-cards__filter-label {
+    font-family: var(--font-h1--family);
     font-style: italic;
     font-size: 18px;
     color: #1d1616;
     white-space: nowrap;
     flex-shrink: 0;
-    padding-block: 8px;
   }
 
   .artist-cards__filter-pills {
     display: flex;
     gap: 8px;
+    flex-wrap: wrap;
     padding-block: 8px;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    flex: 1;
-    min-width: 0;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-
-  .artist-cards__filter-pills::-webkit-scrollbar {
-    display: none;
-  }
-
-  .artist-cards__filter-pills::after {
-    content: '';
-    display: block;
-    flex-shrink: 0;
-    min-width: 32px;
-  }
-
-  @media (min-width: 750px) {
-    .artist-cards__filter-pills::after {
-      min-width: 50px;
-    }
   }
 
   @media (min-width: 750px) {
     .artist-cards__filter-pills {
       gap: 16px;
+      padding-block: 0;
     }
   }
 
@@ -387,6 +448,77 @@
   .artist-cards__filter-pill--active,
   .artist-cards__filter-pill:hover {
     background: #f1ebdb;
+  }
+
+  /* Category pills (row 1) */
+  .artist-cards__filter-categories {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  @media (min-width: 750px) {
+    .artist-cards__filter-categories {
+      gap: 16px;
+      width: auto;
+    }
+  }
+
+  .artist-cards__filter-cat {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    background: #f8f5ed;
+    border: 2px solid #1d1616;
+    border-radius: 8px;
+    font-family: var(--font-h1--family);
+    font-size: 14px;
+    font-weight: 400;
+    font-style: italic;
+    color: #1d1616;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: background 0.2s, color 0.2s, border-color 0.2s, opacity 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 750px) {
+    .artist-cards__filter-cat {
+      font-size: 18px;
+      padding: 11px 20px;
+    }
+  }
+
+  .artist-cards__filter-cat--active,
+  .artist-cards__filter-cat:hover {
+    background: #1d1616;
+    color: #f8f5ed;
+    opacity: 1;
+  }
+
+  /* Subcategory row (row 2) */
+.artist-cards__filter-inner--sub {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    padding-inline: 24px;
+    padding-top: 0;
+    padding-bottom: 16px;
+    gap: 8px;
+    position: static;
+  }
+
+  @media (min-width: 750px) {
+    .artist-cards__filter-inner--sub {
+      padding-inline: 50px;
+      justify-content: center;
+      gap: 16px;
+      position: static;
+    }
   }
 
   /* Grid */
@@ -698,7 +830,7 @@
       "type": "checkbox",
       "id": "show_filter_bar",
       "label": "Show style filter bar",
-      "info": "Pills are generated automatically from the specialty field on each artist metaobject.",
+      "info": "Categories and styles are pulled from the Style Category metaobjects. Manage them in Content > Metaobjects.",
       "default": false
     },
     {
