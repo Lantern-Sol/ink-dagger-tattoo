@@ -370,7 +370,7 @@
             "mobile_vertical_alignment": "center",
             "mobile_horizontal_alignment_flex_direction_column": "flex-start",
             "mobile_vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
+            "gap": 32,
             "use_mobile_gap": false,
             "mobile_gap": 12,
             "width": "fill",
@@ -1116,7 +1116,7 @@
         "padding-block-start-mobile": 32,
         "padding-block-end-mobile": 32,
         "padding-inline-start-mobile": 32,
-        "padding-inline-end-mobile": 0
+        "padding-inline-end-mobile": 32
       }
     },
     "section_RhheTe": {
