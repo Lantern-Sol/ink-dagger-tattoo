@@ -494,10 +494,15 @@
             "input_padding_x": 32,
             "input_padding_y_mobile": 16,
             "input_padding_x_mobile": 15,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
+            "padding-block-start": 32,
+            "padding-block-end": 32,
             "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "padding-inline-end": 0,
+            "use_mobile_padding": true,
+            "padding-block-start-mobile": 0,
+            "padding-block-end-mobile": 0,
+            "padding-inline-start-mobile": 0,
+            "padding-inline-end-mobile": 0
           },
           "blocks": {}
         },
@@ -1733,6 +1738,7 @@
                         "dividers": true,
                         "divider_color": "",
                         "divider_width": 1,
+                        "divider_opacity": 100,
                         "type_preset": "h6",
                         "background_color": "",
                         "text_color": "",
@@ -1761,6 +1767,7 @@
                             "type_preset_mobile": "",
                             "mobile_font_size": "",
                             "mobile_custom_line_height": 1.5,
+                            "heading_opacity": 100,
                             "icon": "none",
                             "width": 20
                           },
@@ -2065,6 +2072,7 @@
                         "dividers": true,
                         "divider_color": "",
                         "divider_width": 1,
+                        "divider_opacity": 100,
                         "type_preset": "h6",
                         "background_color": "",
                         "text_color": "",
@@ -2093,6 +2101,7 @@
                             "type_preset_mobile": "",
                             "mobile_font_size": "",
                             "mobile_custom_line_height": 1.5,
+                            "heading_opacity": 100,
                             "icon": "none",
                             "width": 20
                           },
@@ -2397,6 +2406,7 @@
                         "dividers": true,
                         "divider_color": "",
                         "divider_width": 1,
+                        "divider_opacity": 100,
                         "type_preset": "h6",
                         "background_color": "",
                         "text_color": "",
@@ -2425,6 +2435,7 @@
                             "type_preset_mobile": "",
                             "mobile_font_size": "",
                             "mobile_custom_line_height": 1.5,
+                            "heading_opacity": 100,
                             "icon": "none",
                             "width": 20
                           },
