@@ -3653,7 +3653,7 @@
         "overlay_style": "solid",
         "gradient_direction": "to top",
         "scroll_mode": "page",
-        "infinite": false,
+        "infinite": true,
         "icons_style": "chevron_directional",
         "icons_shape": "circle",
         "arrows_always_visible": true,
