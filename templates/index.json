@@ -500,7 +500,7 @@
             "padding-inline-end": 0,
             "use_mobile_padding": true,
             "padding-block-start-mobile": 0,
-            "padding-block-end-mobile": 0,
+            "padding-block-end-mobile": 32,
             "padding-inline-start-mobile": 0,
             "padding-inline-end-mobile": 0
           },
@@ -1736,7 +1736,7 @@
                       "settings": {
                         "icon": "caret",
                         "dividers": true,
-                        "divider_color": "",
+                        "divider_color": "{{ settings.color_palette.color2 }}",
                         "divider_width": 1,
                         "divider_opacity": 100,
                         "type_preset": "h6",
@@ -1767,7 +1767,7 @@
                             "type_preset_mobile": "",
                             "mobile_font_size": "",
                             "mobile_custom_line_height": 1.5,
-                            "heading_opacity": 100,
+                            "heading_opacity": 80,
                             "icon": "none",
                             "width": 20
                           },
