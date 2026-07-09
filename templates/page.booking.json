@@ -409,7 +409,7 @@
               "type": "button",
               "settings": {
                 "label": "Browse Artists",
-                "link": "/pages/artists",
+                "link": "shopify://pages/artists",
                 "open_in_new_tab": false,
                 "style_class": "button-custom",
                 "custom_button_background": "{{ settings.color_palette.color1 }}",
