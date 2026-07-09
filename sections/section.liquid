@@ -9,6 +9,85 @@
   background_color: section.settings.background_color
 %}
 
+{% if section.settings.multicolumn_border_animation %}
+  <style>
+    #shopify-section-{{ section.id }} .mc-border-group {
+      position: relative;
+    }
+    #shopify-section-{{ section.id }} .mc-border-group::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 3px solid transparent;
+      pointer-events: none;
+      transition: border-color 0.3s ease-out;
+      z-index: 1;
+    }
+    #shopify-section-{{ section.id }} .mc-border-group--active::after {
+      border-color: #CE5454;
+    }
+  </style>
+  <script>
+    (function () {
+      var sectionEl = document.getElementById('shopify-section-{{ section.id }}');
+      if (!sectionEl) return;
+
+      function attachGroup(group) {
+        group.classList.add('mc-border-group');
+
+        if (group.querySelector('details[open]')) {
+          group.classList.add('mc-border-group--active');
+        }
+
+        group.addEventListener('mouseenter', function () {
+          group.classList.add('mc-border-group--active');
+        });
+
+        group.addEventListener('mouseleave', function () {
+          if (!group.querySelector('details[open]')) {
+            group.classList.remove('mc-border-group--active');
+          }
+        });
+
+        group.addEventListener('click', function (e) {
+          if (!e.target.closest('summary')) return;
+          requestAnimationFrame(function () {
+            if (group.querySelector('details[open]')) {
+              group.classList.add('mc-border-group--active');
+            } else if (!group.matches(':hover')) {
+              group.classList.remove('mc-border-group--active');
+            }
+          });
+        });
+      }
+
+      function setup() {
+        var grids = sectionEl.querySelectorAll('[class*="ai-multicolumn-grid-"]');
+        grids.forEach(function (grid) {
+          // querySelectorAll without :scope> works in both live storefront (direct children)
+          // and the theme editor (where Shopify inserts wrapper divs around each block).
+          // Filter out groups that are nested inside another group-block within this grid.
+          var groups = Array.from(grid.querySelectorAll('[data-testid="group-block"]')).filter(function (g) {
+            var el = g.parentElement;
+            while (el && el !== grid) {
+              if (el.getAttribute && el.getAttribute('data-testid') === 'group-block') return false;
+              el = el.parentElement;
+            }
+            return true;
+          });
+          groups.forEach(attachGroup);
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setup);
+      } else {
+        setup();
+      }
+    })();
+  </script>
+{% endif %}
+
 {% schema %}
 {
   "name": "t:names.section",
@@ -657,6 +736,17 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Multi-column border animation"
+    },
+    {
+      "type": "checkbox",
+      "id": "multicolumn_border_animation",
+      "label": "Activate multi-column border animation",
+      "info": "Add a border animation in group blocks. Has no effect unless this section contains a Multicolumn Group block.",
+      "default": false
     },
     {
       "type": "header",

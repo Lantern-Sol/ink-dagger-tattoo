@@ -2,25 +2,35 @@
   assign slide_count = block.blocks.size
   assign icons_style = section.settings.icons_style
   assign mobile_columns_int = section.settings.mobile_columns | plus: 0
-  assign scroll_desktop = 1
-  assign scroll_mobile = 1
-  if section.settings.scroll_mode == 'page'
+
+  if section.settings.figma_layout
     assign scroll_desktop = section.settings.columns
-    assign scroll_mobile = mobile_columns_int
+    assign scroll_mobile = 1
+    assign use_infinite = true
+    assign use_force_full_width = false
+    assign slideshow_gutters = null
+    assign gutter_style = '--gutter-slide-width: 0px;'
+  else
+    assign scroll_desktop = 1
+    assign scroll_mobile = 1
+    assign use_infinite = false
+    assign use_force_full_width = true
+    if section.settings.section_width == 'page-width'
+      assign slideshow_gutters = 'start end'
+      assign gutter_style = '--gutter-slide-width: var(--util-page-margin-offset);'
+    else
+      assign slideshow_gutters = null
+      assign gutter_style = '--gutter-slide-width: 0px;'
+    endif
   endif
 
   assign slideshow_class = 'carousel-content spacing-style '
+  if section.settings.figma_layout
+    assign slideshow_class = slideshow_class | append: 'carousel-content--figma '
+  endif
   if block.settings.background_color != blank
     render 'contrast-override', background_color: block.settings.background_color, section_id: block.id
     assign slideshow_class = slideshow_class | append: ' color-custom-' | append: block.id
-  endif
-
-  if section.settings.section_width == 'page-width'
-    assign slideshow_gutters = 'start end'
-    assign gutter_style = '--gutter-slide-width: var(--util-page-margin-offset);'
-  else
-    assign slideshow_gutters = null
-    assign gutter_style = '--gutter-slide-width: 0px;'
   endif
 
   assign show_arrows = false
@@ -68,33 +78,77 @@
   {% endstyle %}
 {% endif %}
 
-{% style %}
-  #shopify-section-{{ section.id }} .carousel-content slideshow-slides {
-    clip-path: inset(0 var(--gutter-slide-width, 0px) 0 var(--gutter-slide-width, 0px));
-  }
+{% if section.settings.figma_layout %}
+  {% style %}
+    #shopify-section-{{ section.id }} .carousel-content--figma slideshow-container {
+      padding-inline: 68px;
+    }
 
-  #shopify-section-{{ section.id }} .carousel-content slideshow-slides .card {
-    flex: 0 0 auto;
-    width: calc(
-      (100% - (var(--carousel-gap, 8px) * {{ section.settings.mobile_columns | minus: 1 }}) - var(--peek-next-slide-size, 0px)) /
-        {{ section.settings.mobile_columns }}
-    );
-  }
+    #shopify-section-{{ section.id }} .carousel-content--figma slideshow-slides {
+      clip-path: inset(0);
+    }
 
-  @media screen and (min-width: 750px) {
-    #shopify-section-{{ section.id }} .carousel-content slideshow-slides .card {
+    #shopify-section-{{ section.id }} .carousel-content--figma slideshow-arrows .slideshow-control {
+      opacity: 1;
+    }
+
+    #shopify-section-{{ section.id }} .carousel-content--figma slideshow-slides .card {
+      flex: 0 0 auto;
       width: calc(
-        (100% - (var(--carousel-gap, 8px) * {{ section.settings.columns | minus: 1 }}) - var(--peek-next-slide-size, 0px)) /
+        (100% - (var(--carousel-gap, 8px) * {{ section.settings.columns | minus: 1 }})) /
           {{ section.settings.columns }}
       );
     }
-  }
-{% endstyle %}
 
-<div
-  class="force-full-width"
-  style="{{ gutter_style }}"
->
+    #shopify-section-{{ section.id }} .carousel-content--figma slideshow-slides slideshow-slide {
+      flex: 0 0 auto;
+      scroll-snap-align: none;
+      width: calc(
+        (100% - (var(--carousel-gap, 8px) * {{ section.settings.columns | minus: 1 }})) /
+          {{ section.settings.columns }}
+      );
+    }
+
+    @media screen and (max-width: 749px) {
+      #shopify-section-{{ section.id }} .carousel-content--figma slideshow-container {
+        padding-inline: 52px;
+      }
+
+      #shopify-section-{{ section.id }} .carousel-content--figma slideshow-slides .card {
+        width: 100%;
+      }
+
+      #shopify-section-{{ section.id }} .carousel-content--figma slideshow-slides slideshow-slide {
+        width: 100%;
+      }
+    }
+  {% endstyle %}
+{% else %}
+  {% style %}
+    #shopify-section-{{ section.id }} .carousel-content slideshow-slides {
+      clip-path: inset(0 var(--gutter-slide-width, 0px) 0 var(--gutter-slide-width, 0px));
+    }
+
+    #shopify-section-{{ section.id }} .carousel-content slideshow-slides .card {
+      flex: 0 0 auto;
+      width: calc(
+        (100% - (var(--carousel-gap, 8px) * {{ section.settings.mobile_columns | minus: 1 }}) - var(--peek-next-slide-size, 0px)) /
+          {{ section.settings.mobile_columns }}
+      );
+    }
+
+    @media screen and (min-width: 750px) {
+      #shopify-section-{{ section.id }} .carousel-content slideshow-slides .card {
+        width: calc(
+          (100% - (var(--carousel-gap, 8px) * {{ section.settings.columns | minus: 1 }}) - var(--peek-next-slide-size, 0px)) /
+            {{ section.settings.columns }}
+        );
+      }
+    }
+  {% endstyle %}
+{% endif %}
+
+{% if use_force_full_width %}<div class="force-full-width" style="{{ gutter_style }}">{% endif %}
   {% render 'slideshow',
     class: slideshow_class,
     style: slideshow_style,
@@ -103,7 +157,7 @@
     icon_style: icons_style,
     icon_shape: section.settings.icons_shape,
     auto_hide_controls: false,
-    infinite: section.settings.infinite,
+    infinite: use_infinite,
     slides_to_show: section.settings.columns,
     mobile_slides_to_show: mobile_columns_int,
     initial_slide: 0,
@@ -112,7 +166,7 @@
     slideshow_gutters: slideshow_gutters,
     attributes: slideshow_extra_attrs | append: ' ' | append: block.shopify_attributes
   %}
-</div>
+{% if use_force_full_width %}</div>{% endif %}
 
 {% stylesheet %}
   .carousel-content slideshow-slides {
