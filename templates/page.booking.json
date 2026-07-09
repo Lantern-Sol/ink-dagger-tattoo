@@ -4612,7 +4612,7 @@
                 "mobile_font_size": "",
                 "mobile_custom_line_height": 1.5,
                 "heading_opacity": 100,
-                "icon": "none",
+                "icon": "number_03",
                 "width": 20
               },
               "blocks": {}
@@ -4632,7 +4632,7 @@
                 "mobile_font_size": "",
                 "mobile_custom_line_height": 1.5,
                 "heading_opacity": 100,
-                "icon": "none",
+                "icon": "number_04",
                 "width": 20
               },
               "blocks": {}
@@ -4652,7 +4652,7 @@
                 "mobile_font_size": "",
                 "mobile_custom_line_height": 1.5,
                 "heading_opacity": 100,
-                "icon": "none",
+                "icon": "number_05",
                 "width": 20
               },
               "blocks": {}
