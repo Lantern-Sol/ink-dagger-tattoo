@@ -746,11 +746,11 @@
                   },
                   "blocks": {}
                 },
-                "text_NEXqmW": {
+                "text_gY4GEx": {
                   "type": "text",
-                  "name": "t:names.text",
+                  "name": "t:names.heading",
                   "settings": {
-                    "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.</p>",
+                    "text": "<p>Two guests this season. Limited books, deposits required,<br/>no walk-ins. When they're gone, they're gone.</p>",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "narrow",
@@ -791,7 +791,7 @@
               },
               "block_order": [
                 "text_ijb6bQ",
-                "text_NEXqmW"
+                "text_gY4GEx"
               ]
             }
           },
