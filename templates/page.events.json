@@ -753,7 +753,7 @@
                     "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.</p>",
                     "mobile_text": "",
                     "width": "fit-content",
-                    "max_width": "normal",
+                    "max_width": "narrow",
                     "alignment": "left",
                     "height_mode": "auto",
                     "desktop_height": "",
