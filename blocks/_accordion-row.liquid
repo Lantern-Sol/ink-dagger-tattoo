@@ -57,6 +57,14 @@
   {% endstyle %}
 {% endif %}
 
+{% if block_settings.icon_color != blank %}
+  {% style %}
+    .details--{{ block.id }} .details__icon {
+      color: {{ block_settings.icon_color }};
+    }
+  {% endstyle %}
+{% endif %}
+
 {% capture accordion_row_children %}
   <details
     class="details details--{{ block.id }}"
@@ -604,6 +612,12 @@
       "step": 2,
       "unit": "px",
       "default": 20
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "t:settings.color",
+      "placeholder": "t:settings.default"
     }
   ],
   "presets": [
