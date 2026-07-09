@@ -4597,7 +4597,52 @@
                 "width": 20,
                 "icon_color": "{{ settings.color_palette.foreground }}"
               },
-              "blocks": {}
+              "blocks": {
+                "text_mwiGDA": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Smaller tattoos are priced based on size, detail, and placement. Larger work is priced by the session. Each artist has a typical range shown during booking. Sessions are paid as you go, typically spaced around 4 weeks apart.</p>",
+                    "mobile_text": "",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "height_mode": "auto",
+                    "desktop_height": "",
+                    "mobile_height": "",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "enable_custom_font_weight": false,
+                    "weight": "400",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "custom_line_height": 1.5,
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "type_preset_mobile": "rte",
+                    "mobile_font_size": "1rem",
+                    "mobile_custom_line_height": 1.5,
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "opacity": 100,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0,
+                    "use_mobile_padding": false,
+                    "padding-block-start-mobile": 0,
+                    "padding-block-end-mobile": 0,
+                    "padding-inline-start-mobile": 0,
+                    "padding-inline-end-mobile": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_mwiGDA"
+              ]
             },
             "faq-3": {
               "type": "_accordion-row",
@@ -4618,7 +4663,52 @@
                 "width": 20,
                 "icon_color": "{{ settings.color_palette.foreground }}"
               },
-              "blocks": {}
+              "blocks": {
+                "text_Kc4dz4": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Start by filling out the form with as much detail as possible. We review your submission, consult with the artist if needed, and guide you to consultation or booking. <strong>A non-refundable retainer is required to secure an appointment.</strong></p>",
+                    "mobile_text": "",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "height_mode": "auto",
+                    "desktop_height": "",
+                    "mobile_height": "",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "enable_custom_font_weight": false,
+                    "weight": "400",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "custom_line_height": 1.5,
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "type_preset_mobile": "rte",
+                    "mobile_font_size": "1rem",
+                    "mobile_custom_line_height": 1.5,
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "opacity": 100,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0,
+                    "use_mobile_padding": false,
+                    "padding-block-start-mobile": 0,
+                    "padding-block-end-mobile": 0,
+                    "padding-inline-start-mobile": 0,
+                    "padding-inline-end-mobile": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_Kc4dz4"
+              ]
             },
             "faq-4": {
               "type": "_accordion-row",
@@ -4639,7 +4729,52 @@
                 "width": 20,
                 "icon_color": "{{ settings.color_palette.foreground }}"
               },
-              "blocks": {}
+              "blocks": {
+                "text_mGCzbT": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Start by filling out the form with as much detail as possible. We review your submission, consult with the artist if needed, and guide you to consultation or booking. <strong>A non-refundable retainer is required to secure an appointment.</strong></p>",
+                    "mobile_text": "",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "height_mode": "auto",
+                    "desktop_height": "",
+                    "mobile_height": "",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "enable_custom_font_weight": false,
+                    "weight": "400",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "custom_line_height": 1.5,
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "type_preset_mobile": "rte",
+                    "mobile_font_size": "1rem",
+                    "mobile_custom_line_height": 1.5,
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "opacity": 100,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0,
+                    "use_mobile_padding": false,
+                    "padding-block-start-mobile": 0,
+                    "padding-block-end-mobile": 0,
+                    "padding-inline-start-mobile": 0,
+                    "padding-inline-end-mobile": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_mGCzbT"
+              ]
             },
             "faq-5": {
               "type": "_accordion-row",
@@ -4660,7 +4795,52 @@
                 "width": 20,
                 "icon_color": "{{ settings.color_palette.foreground }}"
               },
-              "blocks": {}
+              "blocks": {
+                "text_tg7t4p": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Start by filling out the form with as much detail as possible. We review your submission, consult with the artist if needed, and guide you to consultation or booking. <strong>A non-refundable retainer is required to secure an appointment.</strong></p>",
+                    "mobile_text": "",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "height_mode": "auto",
+                    "desktop_height": "",
+                    "mobile_height": "",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "enable_custom_font_weight": false,
+                    "weight": "400",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "custom_line_height": 1.5,
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "type_preset_mobile": "rte",
+                    "mobile_font_size": "1rem",
+                    "mobile_custom_line_height": 1.5,
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "opacity": 100,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0,
+                    "use_mobile_padding": false,
+                    "padding-block-start-mobile": 0,
+                    "padding-block-end-mobile": 0,
+                    "padding-inline-start-mobile": 0,
+                    "padding-inline-end-mobile": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_tg7t4p"
+              ]
             }
           },
           "block_order": [
