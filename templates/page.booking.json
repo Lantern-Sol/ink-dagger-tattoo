@@ -939,7 +939,7 @@
               "type": "button",
               "settings": {
                 "label": "I'm ready — take me to the form",
-                "link": "",
+                "link": "#shopify-section-template--22301127508153__booking-form",
                 "open_in_new_tab": false,
                 "style_class": "button-secondary",
                 "custom_button_background": "{{ settings.color_palette.foreground }}",
