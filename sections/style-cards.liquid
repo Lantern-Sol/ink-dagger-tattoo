@@ -1,0 +1,245 @@
+{%- liquid
+  assign has_color_override = false
+  if section.settings.background_color != blank or section.settings.text_color != blank
+    assign has_color_override = true
+  endif
+  assign categories = shop.metaobjects.style_category.values
+  assign top_pad = section.settings['padding-block-start'] | default: 64
+  assign bot_pad = section.settings['padding-block-end'] | default: 64
+-%}
+
+{%- if has_color_override -%}
+  {%- render 'contrast-override',
+    background_color: section.settings.background_color,
+    text_color: section.settings.text_color,
+    section_id: section.id -%}
+{%- endif -%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --style-cards-accent: {{ section.settings.accent_color | default: '#ce5454' }};
+    {%- if section.settings.card_border_color != blank -%}
+      --style-cards-card-border: {{ section.settings.card_border_color }};
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<div
+  class="style-cards{% if has_color_override %} color-custom-{{ section.id }}{% endif %}"
+  style="padding-top: {{ top_pad }}px; padding-bottom: {{ bot_pad }}px;"
+>
+
+  <div class="style-cards__grid">
+    {%- for category in categories -%}
+      {%- liquid
+        assign card_image = blank
+        assign first_style = category.styles.value.first
+        if first_style != blank
+          for project_entry in shop.metaobjects.project.values
+            if project_entry.style.value.id == first_style.id
+              assign card_image = project_entry.images.value.first
+              break
+            endif
+          endfor
+        endif
+        if card_image == blank
+          assign card_image = section.settings.placeholder_image
+        endif
+      -%}
+      <a class="style-card" href="{{ category.system.url }}">
+        <div class="style-card__image">
+          {%- if card_image != blank -%}
+            {{ card_image | image_url: width: 700 | image_tag:
+              loading: 'lazy',
+              widths: '345, 500, 700',
+              sizes: '(min-width: 750px) calc(33vw - 40px), calc(100vw - 64px)',
+              alt: category.name.value | escape }}
+          {%- endif -%}
+        </div>
+        <div class="style-card__info">
+          <h3 class="style-card__name">{{ category.name.value | escape }}</h3>
+          <svg class="style-card__arrow" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 20 20">
+            {%- render 'icon', icon: 'arrow_ne' -%}
+          </svg>
+        </div>
+      </a>
+    {%- else -%}
+      <p class="style-cards__empty">No styles found.</p>
+    {%- endfor -%}
+  </div>
+
+</div>
+
+{% stylesheet %}
+  .style-cards {
+    position: relative;
+  }
+
+  .style-cards__grid {
+    box-sizing: border-box;
+    max-width: var(--page-content-width, 1280px);
+    margin-inline: auto;
+    padding-inline: 32px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  @media (min-width: 750px) {
+    .style-cards__grid {
+      padding-inline: 50px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px 32px;
+    }
+  }
+
+  .style-cards__empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--color-foreground-subdued);
+  }
+
+  .style-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 25px;
+    background: #1d1616;
+    border: 1px solid var(--style-cards-card-border, rgba(248, 245, 237, 0.22));
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+    color: #f8f5ed;
+    transition: box-shadow var(--hover-transition-duration, 0.25s) var(--hover-transition-timing, ease-out);
+  }
+
+  .style-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .style-card__image {
+    aspect-ratio: 345 / 250;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 750px) {
+    .style-card__image {
+      aspect-ratio: 345 / 304;
+    }
+  }
+
+  .style-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--hover-transition-duration, 0.25s) var(--hover-transition-timing, ease-out);
+  }
+
+  .style-card:hover .style-card__image img {
+    transform: scale(var(--hover-subtle-zoom-amount, 1.015));
+  }
+
+  .style-card__info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 15px;
+  }
+
+  .style-card__name {
+    margin: 0;
+    font-family: var(--font-h1--family, serif);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.18;
+    color: inherit;
+  }
+
+  .style-card__arrow {
+    flex-shrink: 0;
+    color: #f8f5ed;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Style Cards",
+  "tag": "section",
+  "class": "style-cards-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Link & accent color",
+      "default": "#ce5454"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color"
+    },
+    {
+      "type": "header",
+      "content": "Cards"
+    },
+    {
+      "type": "image_picker",
+      "id": "placeholder_image",
+      "label": "Fallback card image",
+      "info": "Used when a style category has no matching project image yet."
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "Style Cards",
+      "settings": {
+        "accent_color": "#ce5454"
+      }
+    }
+  ]
+}
+{% endschema %}
