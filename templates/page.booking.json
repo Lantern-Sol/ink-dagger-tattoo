@@ -4125,7 +4125,7 @@
         "background_color": "{{ settings.color_palette.color1 }}",
         "section_width": "full-width",
         "padding-block-start": 0,
-        "padding-block-end": 64
+        "padding-block-end": 0
       }
     },
     "full-faq": {
