@@ -356,10 +356,11 @@
       "type": "style-cards",
       "name": "Style Cards",
       "settings": {
-        "background_color": "",
-        "text_color": "",
+        "background_color": "{{ settings.color_palette.background }}",
+        "text_color": "{{ settings.color_palette.color1 }}",
         "accent_color": "#ce5454",
-        "card_border_color": "",
+        "card_border_color": "{{ settings.color_palette.color1 }}",
+        "card_border_opacity": 20,
         "padding-block-start": 64,
         "padding-block-end": 64
       }
