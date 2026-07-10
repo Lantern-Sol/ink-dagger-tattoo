@@ -366,8 +366,8 @@
             "mobile_horizontal_alignment_flex_direction_column": "flex-start",
             "mobile_vertical_alignment_flex_direction_column": "center",
             "gap": 12,
-            "use_mobile_gap": false,
-            "mobile_gap": 12,
+            "use_mobile_gap": true,
+            "mobile_gap": 6,
             "width": "fit-content",
             "custom_width": 100,
             "width_mobile": "fill",
@@ -409,7 +409,7 @@
               "type": "button",
               "settings": {
                 "label": "Browse Artists",
-                "link": "shopify://pages/artists",
+                "link": "/pages/artists",
                 "open_in_new_tab": false,
                 "style_class": "button-custom",
                 "custom_button_background": "{{ settings.color_palette.color1 }}",
@@ -529,8 +529,8 @@
         "use_mobile_padding": true,
         "padding-block-start-mobile": 16,
         "padding-block-end-mobile": 16,
-        "padding-inline-start-mobile": 32,
-        "padding-inline-end-mobile": 32
+        "padding-inline-start-mobile": 14,
+        "padding-inline-end-mobile": 14
       }
     },
     "before-started": {
