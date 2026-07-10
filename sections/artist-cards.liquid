@@ -137,7 +137,7 @@
         {%- assign profile = artist_entry.profile_image.value -%}
         <a
           class="artist-card"
-          href="{{ artist_entry.url }}"
+          href="{{ artist_entry.system.url }}"
           data-specialties="{{ artist_entry.specialty.value | escape }}"
         >
           <div class="artist-card__image">
