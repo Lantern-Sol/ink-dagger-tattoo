@@ -82,9 +82,6 @@
   .collection-card {
     --fixed-card-height: var(--height-small);
 
-    width: 100%;
-    position: relative;
-    height: 100%;
     flex: 1 1 var(--card-width-small);
   }
 
@@ -98,22 +95,7 @@
     height: 100%;
   }
 
-  .collection-card__link {
-    position: absolute;
-    inset: 0;
-
-    /* allows focus outline to have radius in supported browsers */
-    border-radius: var(--border-radius);
-  }
-
   .collection-card__inner {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    z-index: var(--layer-flat);
-    pointer-events: none;
     gap: var(--gap);
 
     a,
@@ -128,14 +110,8 @@
   }
 
   .collection-card__content {
-    --flex-wrap: wrap;
-
-    display: flex;
-    position: relative;
-    height: 100%;
-    width: 100%;
     max-width: 100%;
-    gap: var(--gap);
+    --flex-wrap: wrap;
   }
 
   /* Nested image block rules */
@@ -187,27 +163,7 @@
     width: 100%;
   }
 
-  /* Editorial layout */
   .resource-list:not(.hidden--desktop) .collection-card--flexible-aspect-ratio {
-    .collection-card__image {
-      aspect-ratio: 99;
-      height: 100%;
-    }
-
-    .collection-card__inner {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-
-    .collection-card__content {
-      flex-shrink: 0;
-    }
-
-    &:not(.collection-card--image-bg) .collection-card__content {
-      height: auto;
-    }
-
     &.collection-card.collection-card--image-bg,
     &.collection-card .placeholder-svg {
       aspect-ratio: 99;
