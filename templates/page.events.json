@@ -796,7 +796,7 @@
                     "text": "<p>Two guests this season. Limited books, deposits required,<br/>no walk-ins. When they're gone, they're gone.</p>",
                     "mobile_text": "",
                     "width": "fit-content",
-                    "max_width": "narrow",
+                    "max_width": "none",
                     "alignment": "left",
                     "height_mode": "auto",
                     "desktop_height": "",
