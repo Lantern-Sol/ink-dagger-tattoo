@@ -3670,7 +3670,7 @@
         "overlay_color": "#f8f5ed38",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "figma_layout": false,
+        "figma_layout": true,
         "icons_style": "chevron_directional",
         "icons_shape": "circle",
         "arrows_always_visible": true,
