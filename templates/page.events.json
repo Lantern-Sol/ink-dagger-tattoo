@@ -242,6 +242,31 @@
         "padding-block-end-mobile": 0
       }
     },
+    "latest_event_post_K9aWeP": {
+      "type": "latest-event-post",
+      "name": "Latest Event Post",
+      "settings": {
+        "blog": "events",
+        "eyebrow": "FLAGSHIP · NEXT UP",
+        "tag_limit": 2,
+        "show_countdown": true,
+        "rsvp_label": "RSVP — IT'S FREE →",
+        "calendar_label": "+ ADD TO CALENDAR",
+        "background_color": "#f8f5ed",
+        "accent_color": "#ce5454",
+        "panel_color": "#1d1616",
+        "poster_fallback_color": "#efe8d8",
+        "padding-block-start": 64,
+        "padding-block-end": 64,
+        "padding-inline-start": 32,
+        "padding-inline-end": 32,
+        "use_mobile_padding": true,
+        "padding-block-start-mobile": 32,
+        "padding-block-end-mobile": 32,
+        "padding-inline-start-mobile": 16,
+        "padding-inline-end-mobile": 16
+      }
+    },
     "divider_8iPBHH": {
       "type": "divider",
       "name": "t:names.divider_section",
@@ -838,7 +863,7 @@
         "section_height": "",
         "section_height_custom": 50,
         "background_media": "none",
-        "background_color": "#E3DFD6",
+        "background_color": "#e3dfd6",
         "video_position": "cover",
         "background_image_position": "cover",
         "toggle_overlay": false,
@@ -1394,6 +1419,7 @@
   },
   "order": [
     "hero",
+    "latest_event_post_K9aWeP",
     "divider_8iPBHH",
     "section_fFtYH6",
     "divider_ApyzEg",
