@@ -2141,6 +2141,19 @@
             "group_4KQJUV"
           ]
         },
+        "divider_HAXwaY": {
+          "type": "_divider",
+          "name": "t:names.divider",
+          "settings": {
+            "thickness": 0.5,
+            "corner_radius": "square",
+            "divider_color": "{{ settings.color_palette.color2 }}",
+            "width_percent": 100,
+            "padding-block-start": 0,
+            "padding-block-end": 0
+          },
+          "blocks": {}
+        },
         "group_yEfJrk": {
           "type": "group",
           "name": "t:names.group",
@@ -2414,6 +2427,7 @@
         "group_N3WWg4",
         "group_mWDmtY",
         "group_aB8AtC",
+        "divider_HAXwaY",
         "group_yEfJrk"
       ],
       "settings": {
