@@ -2838,7 +2838,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<p>A community, no just a <em>studio</em>.</p>",
+                    "text": "<p>A community, not just a <em>studio</em>.</p>",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
