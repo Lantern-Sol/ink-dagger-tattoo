@@ -345,7 +345,7 @@
                 "desktop_height": "",
                 "mobile_height": "",
                 "type_preset": "custom",
-                "font": "var(--font-body--family)",
+                "font": "var(--font-subheading--family)",
                 "enable_custom_font_weight": false,
                 "weight": "400",
                 "font_size": "0.75rem",
@@ -378,7 +378,7 @@
               "type": "text",
               "name": "t:names.heading",
               "settings": {
-                "text": "<p>Eighteen years<br/>of ink, art & instinct</p>",
+                "text": "<p>Eighteen years<br/>of <em>ink, art & instinct</em></p>",
                 "mobile_text": "",
                 "width": "100%",
                 "max_width": "narrow",
