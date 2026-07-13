@@ -397,17 +397,49 @@
         "show_category_tabs": true,
         "all_tab_label": "All",
         "tabs_alignment": "center",
-        "background_color": "",
+        "background_color": "#FFF8EE",
         "padding-block-start": 0,
         "padding-block-end": 48,
         "use_mobile_padding": false,
         "padding-block-start-mobile": 0,
         "padding-block-end-mobile": 48
       }
+    },
+    "artist_cards_gVa788": {
+      "type": "artist-cards",
+      "name": "Artist Cards",
+      "settings": {
+        "background_color": "",
+        "text_color": "",
+        "accent_color": "#ce5454",
+        "card_border_color": "",
+        "show_border": false,
+        "show_heading": false,
+        "eyebrow": "The Team",
+        "eyebrow_color": "#ce5454",
+        "eyebrow_opacity": 100,
+        "eyebrow_font_style": "inherit",
+        "eyebrow_font_custom": "",
+        "heading": "A hive of creativity.",
+        "heading_color": "",
+        "heading_opacity": 100,
+        "heading_font_style": "inherit",
+        "heading_font_custom": "",
+        "description": "",
+        "description_color": "",
+        "description_opacity": 85,
+        "description_font_style": "inherit",
+        "description_font_custom": "",
+        "show_filter_bar": false,
+        "filter_label": "Style",
+        "padding-block-start": 64,
+        "padding-block-end": 64
+      }
     }
   },
   "order": [
     "hero_mryz4d",
-    "main"
+    "main",
+    "artist_cards_gVa788"
   ]
 }
