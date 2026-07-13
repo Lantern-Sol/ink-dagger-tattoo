@@ -208,6 +208,7 @@
         "title": {
           "type": "text",
           "name": "Title",
+          "disabled": true,
           "settings": {
             "text": "<h1>{{ closest.blog.title }}</h1>",
             "mobile_text": "",
