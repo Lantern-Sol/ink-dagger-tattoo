@@ -426,7 +426,7 @@
           "type": "_divider",
           "name": "t:names.divider",
           "settings": {
-            "thickness": 1,
+            "thickness": 3,
             "corner_radius": "square",
             "divider_color": "#CE5454",
             "width_percent": 100,
