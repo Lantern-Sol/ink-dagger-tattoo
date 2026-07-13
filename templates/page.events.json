@@ -789,9 +789,52 @@
                   },
                   "blocks": {}
                 },
+                "text_NEVaAP": {
+                  "type": "text",
+                  "name": "t:names.text",
+                  "settings": {
+                    "text": "<p>Two guests this season. Limited books, deposits required,<br/>no walk-ins. When they're gone, they're gone.</p>",
+                    "mobile_text": "",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "height_mode": "auto",
+                    "desktop_height": "",
+                    "mobile_height": "",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "enable_custom_font_weight": false,
+                    "weight": "400",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "custom_line_height": 1.5,
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "type_preset_mobile": "rte",
+                    "mobile_font_size": "1rem",
+                    "mobile_custom_line_height": 1.5,
+                    "text_color": "#4C4546",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "opacity": 100,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0,
+                    "use_mobile_padding": false,
+                    "padding-block-start-mobile": 0,
+                    "padding-block-end-mobile": 0,
+                    "padding-inline-start-mobile": 0,
+                    "padding-inline-end-mobile": 0
+                  },
+                  "blocks": {}
+                },
                 "text_gY4GEx": {
                   "type": "text",
                   "name": "t:names.heading",
+                  "disabled": true,
                   "settings": {
                     "text": "<p>Two guests this season. Limited books, deposits required,<br/>no walk-ins. When they're gone, they're gone.</p>",
                     "mobile_text": "",
@@ -834,6 +877,7 @@
               },
               "block_order": [
                 "text_ijb6bQ",
+                "text_NEVaAP",
                 "text_gY4GEx"
               ]
             },
