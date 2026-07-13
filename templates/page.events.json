@@ -258,12 +258,12 @@
         "poster_fallback_color": "#efe8d8",
         "padding-block-start": 64,
         "padding-block-end": 64,
-        "padding-inline-start": 32,
-        "padding-inline-end": 32,
+        "padding-inline-start": 112,
+        "padding-inline-end": 112,
         "use_mobile_padding": true,
         "padding-block-start-mobile": 32,
         "padding-block-end-mobile": 32,
-        "padding-inline-start-mobile": 16,
+        "padding-inline-start-mobile": 32,
         "padding-inline-end-mobile": 16
       }
     },
