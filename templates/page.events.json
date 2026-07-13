@@ -117,7 +117,7 @@
                 "mobile_text": "",
                 "width": "fit-content",
                 "max_width": "normal",
-                "alignment": "left",
+                "alignment": "center",
                 "height_mode": "auto",
                 "desktop_height": "",
                 "mobile_height": "",
