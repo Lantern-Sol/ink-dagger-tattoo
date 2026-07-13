@@ -2855,7 +2855,7 @@
                     "custom_line_height": 1.5,
                     "letter_spacing": "normal",
                     "case": "none",
-                    "wrap": "balance",
+                    "wrap": "pretty",
                     "type_preset_mobile": "rte",
                     "mobile_font_size": "1rem",
                     "mobile_custom_line_height": 1.5,
