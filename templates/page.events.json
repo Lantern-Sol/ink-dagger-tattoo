@@ -264,7 +264,7 @@
         "padding-block-start-mobile": 32,
         "padding-block-end-mobile": 32,
         "padding-inline-start-mobile": 32,
-        "padding-inline-end-mobile": 16
+        "padding-inline-end-mobile": 32
       }
     },
     "divider_8iPBHH": {
@@ -492,10 +492,28 @@
           "block_order": [
             "group_qq88Eg"
           ]
+        },
+        "upcoming_events_yfkBLe": {
+          "type": "upcoming-events",
+          "name": "Upcoming Events",
+          "settings": {
+            "blog": "events",
+            "tag_limit": 2,
+            "guest_line_limit": 12,
+            "rsvp_label": "RSVP →",
+            "rsvp_label_mobile": "RSVP — IT'S FREE →",
+            "accent_color": "#ce5454",
+            "text_color": "#f8f5ed",
+            "subdued_color": "#cfc8b9",
+            "padding-block-start": 16,
+            "padding-block-end": 0
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "group_rKQmF8"
+        "group_rKQmF8",
+        "upcoming_events_yfkBLe"
       ],
       "settings": {
         "content_direction": "column",
@@ -547,8 +565,8 @@
         "hide_on_desktop": false,
         "padding-block-start": 64,
         "padding-block-end": 64,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0,
+        "padding-inline-start": 64,
+        "padding-inline-end": 64,
         "use_mobile_padding": true,
         "padding-block-start-mobile": 64,
         "padding-block-end-mobile": 64,
