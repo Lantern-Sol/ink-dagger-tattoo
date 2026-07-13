@@ -1668,7 +1668,7 @@
         "background_color": "",
         "text_color": "#FFFFFF",
         "accent_color": "#ce5454",
-        "card_border_color": "",
+        "card_border_color": "#383838",
         "show_border": false,
         "show_heading": true,
         "eyebrow": "The Team",
