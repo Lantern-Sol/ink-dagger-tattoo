@@ -814,7 +814,7 @@
                     "type_preset_mobile": "custom",
                     "mobile_font_size": "1.0625rem",
                     "mobile_custom_line_height": 1.5,
-                    "text_color": "",
+                    "text_color": "#4C4546",
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
