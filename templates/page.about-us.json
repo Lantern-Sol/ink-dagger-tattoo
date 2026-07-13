@@ -2853,7 +2853,7 @@
                     "font_size": "3.5rem",
                     "line_height": "tight",
                     "custom_line_height": 1.5,
-                    "letter_spacing": "normal",
+                    "letter_spacing": "tight",
                     "case": "none",
                     "wrap": "pretty",
                     "type_preset_mobile": "rte",
