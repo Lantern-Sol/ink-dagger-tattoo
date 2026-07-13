@@ -26,11 +26,9 @@
   endif
 
   capture text_block_classes
-    if text_width == '100%'
-      echo 'text-block--align-' | append: block_settings.alignment
-      if block_settings.max_width == 'none'
-        echo ' text-block--full-width '
-      endif
+    echo 'text-block--align-' | append: block_settings.alignment
+    if text_width == '100%' and block_settings.max_width == 'none'
+      echo ' text-block--full-width '
     endif
     if block_settings.type_preset == 'custom'
       echo ' custom-typography '
@@ -66,9 +64,7 @@
 
     --width: {{ text_width }};
     --max-width: var(--max-width--{{ type }}-{{ block_settings.max_width }});
-    {% if text_width == "100%" %}
-      --text-align: {{ block_settings.alignment }};
-    {% endif %}
+    --text-align: {{ block_settings.alignment }};
     {% if block_settings.background %}
       --text-background-color: {{ block_settings.background_color | default: 'rgb(255 255 255 / 1.0)' }};
       --text-corner-radius: {{ block_settings.corner_radius }}px;
