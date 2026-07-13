@@ -1563,7 +1563,7 @@
                   "type": "image",
                   "name": "t:names.image",
                   "settings": {
-                    "image": "shopify://shop_images/6a8e4457913c0741d57e1e44da5899070ae7e733.jpg",
+                    "image": "shopify://shop_images/Small-tattoos.webp",
                     "link": "",
                     "hide_on_mobile": false,
                     "hide_on_desktop": false,
@@ -1771,7 +1771,8 @@
                             "mobile_custom_line_height": 1.5,
                             "heading_opacity": 80,
                             "icon": "none",
-                            "width": 20
+                            "width": 20,
+                            "icon_color": ""
                           },
                           "blocks": {
                             "text_nNfYac": {
@@ -1898,7 +1899,7 @@
                   "type": "image",
                   "name": "t:names.image",
                   "settings": {
-                    "image": "shopify://shop_images/0ec143ce1b7d2abafb944da9002c2da7892be850.jpg",
+                    "image": "shopify://shop_images/single-sessions.webp",
                     "link": "",
                     "hide_on_mobile": false,
                     "hide_on_desktop": false,
@@ -2106,7 +2107,8 @@
                             "mobile_custom_line_height": 1.5,
                             "heading_opacity": 80,
                             "icon": "none",
-                            "width": 20
+                            "width": 20,
+                            "icon_color": ""
                           },
                           "blocks": {
                             "text_EXKbAb": {
@@ -2233,7 +2235,7 @@
                   "type": "image",
                   "name": "t:names.image",
                   "settings": {
-                    "image": "shopify://shop_images/20743356ed91c7decb77fad0d208f9683eb8699c.jpg",
+                    "image": "shopify://shop_images/multi-sessions.webp",
                     "link": "",
                     "hide_on_mobile": false,
                     "hide_on_desktop": false,
@@ -2441,7 +2443,8 @@
                             "mobile_custom_line_height": 1.5,
                             "heading_opacity": 80,
                             "icon": "none",
-                            "width": 20
+                            "width": 20,
+                            "icon_color": ""
                           },
                           "blocks": {
                             "text_QcUgPg": {
