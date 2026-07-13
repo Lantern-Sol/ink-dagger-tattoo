@@ -793,11 +793,30 @@
                 "text_ijb6bQ",
                 "text_gY4GEx"
               ]
+            },
+            "guest_artist_cards_9pQr2K": {
+              "type": "guest-artist-cards",
+              "settings": {
+                "blog": "guest-artists",
+                "guest_count": 2,
+                "eyebrow_label": "Guest Artist",
+                "slots_label": "Slots",
+                "booking_url": "shopify://pages/booking",
+                "cta_label": "Book Tattoo Artist →",
+                "accent_color": "#ce5454",
+                "panel_color": "#1d1616",
+                "heading_color": "#0e0a09",
+                "body_color": "#4c4546",
+                "padding-block-start": 32,
+                "padding-block-end": 0
+              },
+              "blocks": {}
             }
           },
           "block_order": [
             "text_Ywqy9E",
-            "group_7Cgqfb"
+            "group_7Cgqfb",
+            "guest_artist_cards_9pQr2K"
           ]
         }
       },

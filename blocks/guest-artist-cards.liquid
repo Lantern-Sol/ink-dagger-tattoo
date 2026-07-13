@@ -1,0 +1,397 @@
+{%- liquid
+  assign blog = block.settings.blog
+  assign guest_count = block.settings.guest_count | default: 2
+  assign eyebrow_label = block.settings.eyebrow_label | default: 'Guest Artist'
+  assign slots_label = block.settings.slots_label | default: 'Slots'
+  assign cta_label = block.settings.cta_label | default: 'Book Tattoo Artist →'
+  assign booking_url = block.settings.booking_url
+-%}
+
+<div
+  {{ block.shopify_attributes }}
+  class="guest-artist-cards spacing-style"
+  style="
+    --guest-artist-cards-accent: {{ block.settings.accent_color | default: '#ce5454' }};
+    --guest-artist-cards-panel: {{ block.settings.panel_color | default: '#1d1616' }};
+    --guest-artist-cards-heading: {{ block.settings.heading_color | default: '#0e0a09' }};
+    --guest-artist-cards-body: {{ block.settings.body_color | default: '#4c4546' }};
+    {%- render 'spacing-style', settings: block.settings -%}
+  "
+>
+  {%- if blog == blank -%}
+    {%- if request.design_mode -%}
+      <p class="guest-artist-cards__placeholder">Select a blog to show guest artist cards.</p>
+    {%- endif -%}
+  {%- else -%}
+    <div class="guest-artist-cards__grid">
+      {%- for article in blog.articles limit: guest_count -%}
+        {%- liquid
+          assign slots_field = article.metafields.custom.guest_artist_slots
+          assign dates_field = article.metafields.custom.guest_artist_dates
+          assign name_words = article.title | split: ' '
+          assign name_line_1 = name_words | first
+          assign name_line_2 = name_words | slice: 1, name_words.size | join: ' '
+          assign bio = article.excerpt | default: article.content
+        -%}
+
+        <div class="guest-artist-card">
+          <a href="{{ article.url }}" class="guest-artist-card__photo" aria-label="{{ article.title | escape }}">
+            {%- if article.image != blank -%}
+              {{
+                article.image
+                | image_url: width: 1200
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '400, 600, 900, 1200',
+                  sizes: '(min-width: 990px) 25vw, 90vw',
+                  class: 'guest-artist-card__photo-img',
+                  alt: article.title | escape
+              }}
+            {%- endif -%}
+            <div class="guest-artist-card__photo-scrim"></div>
+            <div class="guest-artist-card__photo-content">
+              <div class="guest-artist-card__photo-top">
+                <span class="guest-artist-card__eyebrow">{{ eyebrow_label | escape }}</span>
+                {%- if slots_field != blank -%}
+                  <span class="guest-artist-card__slots">{{ slots_field.value }} {{ slots_label | escape }}</span>
+                {%- endif -%}
+              </div>
+              <h3 class="guest-artist-card__name">
+                <span>{{ name_line_1 }}</span>
+                {%- if name_line_2 != blank -%}
+                  <span>{{ name_line_2 }}</span>
+                {%- endif -%}
+              </h3>
+            </div>
+          </a>
+
+          <div class="guest-artist-card__details">
+            {%- if dates_field != blank -%}
+              <div class="guest-artist-card__dates">{{ dates_field | metafield_tag }}</div>
+            {%- endif -%}
+
+            {%- if bio != blank -%}
+              <div class="guest-artist-card__bio">{{ bio }}</div>
+            {%- endif -%}
+
+            {%- if booking_url != blank -%}
+              <a href="{{ booking_url }}" class="guest-artist-card__cta">{{ cta_label | escape }}</a>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- else -%}
+        {%- if request.design_mode -%}
+          <p class="guest-artist-cards__placeholder">This blog has no published guest artist posts yet.</p>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .guest-artist-cards {
+    width: 100%;
+  }
+
+  .shopify-block:has(> .guest-artist-cards) {
+    width: 100%;
+    align-self: stretch;
+  }
+
+  .guest-artist-cards__placeholder {
+    padding: 32px;
+    text-align: center;
+    color: var(--guest-artist-cards-body);
+  }
+
+  .guest-artist-cards__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    justify-content: center;
+  }
+
+  @media (min-width: 990px) {
+    .guest-artist-cards__grid {
+      grid-template-columns: repeat(2, minmax(0, 517px));
+      column-gap: 104px;
+      row-gap: 48px;
+    }
+  }
+
+  .guest-artist-card {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .guest-artist-card__photo {
+    display: block;
+    position: relative;
+    height: 300px;
+    border: 3px solid var(--guest-artist-cards-panel);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 12px 12px 0 0 var(--guest-artist-cards-accent);
+  }
+
+  @media (min-width: 990px) {
+    .guest-artist-card__photo {
+      height: 380px;
+    }
+  }
+
+  .guest-artist-card__photo-img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: bottom;
+  }
+
+  .guest-artist-card__photo-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.1) 55%, rgba(255, 255, 255, 0.13));
+  }
+
+  .guest-artist-card__photo-content {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+  }
+
+  @media (min-width: 990px) {
+    .guest-artist-card__photo-content {
+      padding: 32px;
+    }
+  }
+
+  .guest-artist-card__photo-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .guest-artist-card__eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  .guest-artist-card__slots {
+    display: none;
+    padding: 5px 11px;
+    border: 1px solid var(--guest-artist-cards-accent);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #fff;
+    white-space: nowrap;
+  }
+
+  @media (min-width: 990px) {
+    .guest-artist-card__slots {
+      display: inline-block;
+    }
+  }
+
+  .guest-artist-card__name {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-h1--family);
+    font-style: italic;
+    font-weight: 400;
+    text-transform: lowercase;
+    line-height: 0.9;
+    font-size: 40px;
+    color: #fff;
+  }
+
+  @media (min-width: 990px) {
+    .guest-artist-card__name {
+      font-size: 56px;
+    }
+  }
+
+  .guest-artist-card__details {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .guest-artist-card__dates {
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(14, 10, 9, 0.14);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--guest-artist-cards-heading);
+  }
+
+  .guest-artist-card__dates p {
+    margin: 0;
+  }
+
+  .guest-artist-card__bio {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--guest-artist-cards-body);
+  }
+
+  .guest-artist-card__bio p {
+    margin: 0;
+  }
+
+  .guest-artist-card__bio a {
+    color: inherit;
+  }
+
+  .guest-artist-card__cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
+    border: 3px solid var(--guest-artist-cards-panel);
+    border-radius: 8px;
+    background: var(--guest-artist-cards-accent);
+    color: var(--guest-artist-cards-panel);
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Guest Artist Cards",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows a card for each guest artist post from the selected blog."
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog",
+      "info": "Pick the blog guest artist posts are from."
+    },
+    {
+      "type": "range",
+      "id": "guest_count",
+      "label": "Guests shown",
+      "info": "Add more published posts to the blog to show more guests.",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_label",
+      "label": "Eyebrow label",
+      "default": "Guest Artist"
+    },
+    {
+      "type": "text",
+      "id": "slots_label",
+      "label": "Slots label",
+      "info": "Shown next to the number from the Guest artist slots metafield. Hidden on mobile.",
+      "default": "Slots"
+    },
+    {
+      "type": "header",
+      "content": "Booking"
+    },
+    {
+      "type": "url",
+      "id": "booking_url",
+      "label": "Booking link",
+      "info": "Where the button on each card sends visitors. The photo always links to the guest's blog post."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Booking button label",
+      "default": "Book Tattoo Artist →"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#ce5454"
+    },
+    {
+      "type": "color",
+      "id": "panel_color",
+      "label": "Card border color",
+      "default": "#1d1616"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Date text color",
+      "default": "#0e0a09"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Bio text color",
+      "default": "#4c4546"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Guest Artist Cards",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

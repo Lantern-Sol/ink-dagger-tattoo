@@ -19,6 +19,7 @@
       position: absolute;
       inset: 0;
       border: 3px solid transparent;
+      border-radius: var(--border-radius, 0);
       pointer-events: none;
       transition: border-color 0.3s ease-out;
       z-index: 1;
@@ -32,30 +33,40 @@
       var sectionEl = document.getElementById('shopify-section-{{ section.id }}');
       if (!sectionEl) return;
 
-      function attachGroup(group) {
-        group.classList.add('mc-border-group');
-
-        if (group.querySelector('details[open]')) {
-          group.classList.add('mc-border-group--active');
-        }
-
-        group.addEventListener('mouseenter', function () {
-          group.classList.add('mc-border-group--active');
+      // borderEls get the animated border; interactionEl is what's hovered/clicked to trigger it.
+      // They're the same element for a plain group, but split apart for an image+content pair.
+      function attachCardBorders(borderEls, interactionEl) {
+        borderEls.forEach(function (el) {
+          el.classList.add('mc-border-group');
         });
 
-        group.addEventListener('mouseleave', function () {
-          if (!group.querySelector('details[open]')) {
-            group.classList.remove('mc-border-group--active');
+        function setActive(active) {
+          borderEls.forEach(function (el) {
+            el.classList.toggle('mc-border-group--active', active);
+          });
+        }
+
+        if (interactionEl.querySelector('details[open]')) {
+          setActive(true);
+        }
+
+        interactionEl.addEventListener('mouseenter', function () {
+          setActive(true);
+        });
+
+        interactionEl.addEventListener('mouseleave', function () {
+          if (!interactionEl.querySelector('details[open]')) {
+            setActive(false);
           }
         });
 
-        group.addEventListener('click', function (e) {
+        interactionEl.addEventListener('click', function (e) {
           if (!e.target.closest('summary')) return;
           requestAnimationFrame(function () {
-            if (group.querySelector('details[open]')) {
-              group.classList.add('mc-border-group--active');
-            } else if (!group.matches(':hover')) {
-              group.classList.remove('mc-border-group--active');
+            if (interactionEl.querySelector('details[open]')) {
+              setActive(true);
+            } else if (!interactionEl.matches(':hover')) {
+              setActive(false);
             }
           });
         });
@@ -75,7 +86,24 @@
             }
             return true;
           });
-          groups.forEach(attachGroup);
+
+          groups.forEach(function (group) {
+            // A group containing both an image block and a nested group is treated as an
+            // image+content pair: each half gets its own border instead of one border around both.
+            var imageBox = group.querySelector('.image-block');
+            var contentBox = group.querySelector('[data-testid="group-block"]');
+
+            if (imageBox && contentBox) {
+              var img = imageBox.querySelector('img, .placeholder-image');
+              var radius = img && img.style.getPropertyValue('--border-radius');
+              if (radius) {
+                imageBox.style.setProperty('--border-radius', radius);
+              }
+              attachCardBorders([imageBox, contentBox], group);
+            } else {
+              attachCardBorders([group], group);
+            }
+          });
         });
       }
 
