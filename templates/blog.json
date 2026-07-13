@@ -68,47 +68,6 @@
             "hide_on_desktop": false
           },
           "blocks": {
-            "text_eDzg94": {
-              "type": "text",
-              "settings": {
-                "text": "<p><strong>Ink & Dagger — Artists</strong></p>",
-                "mobile_text": "",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "height_mode": "auto",
-                "desktop_height": "",
-                "mobile_height": "",
-                "type_preset": "h6",
-                "font": "var(--font-body--family)",
-                "enable_custom_font_weight": false,
-                "weight": "400",
-                "font_size": "0.75rem",
-                "line_height": "normal",
-                "custom_line_height": 1.5,
-                "letter_spacing": "wide",
-                "case": "uppercase",
-                "wrap": "nowrap",
-                "type_preset_mobile": "rte",
-                "mobile_font_size": "1rem",
-                "mobile_custom_line_height": 1.5,
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "opacity": 100,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0,
-                "use_mobile_padding": false,
-                "padding-block-start-mobile": 0,
-                "padding-block-end-mobile": 0,
-                "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0
-              },
-              "blocks": {}
-            },
             "text_bDXqke": {
               "type": "text",
               "name": "t:names.heading",
@@ -154,7 +113,7 @@
             "text_fXi9WE": {
               "type": "text",
               "settings": {
-                "text": "<p>Every piece begins with the right match. Browse our collective of artists — each a master of their craft — and let us guide you toward the one who speaks your vision.</p>",
+                "text": "<p>An editorial archive from the floor of Ink & Dagger — tattoo education, artist features, client stories, and creative inspiration. Read by collectors and first-timers alike.</p>",
                 "mobile_text": "",
                 "width": "fit-content",
                 "max_width": "none",
@@ -194,7 +153,6 @@
             }
           },
           "block_order": [
-            "text_eDzg94",
             "text_bDXqke",
             "text_fXi9WE"
           ]
