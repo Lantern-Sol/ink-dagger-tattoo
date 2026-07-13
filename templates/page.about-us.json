@@ -344,7 +344,7 @@
                 "height_mode": "auto",
                 "desktop_height": "",
                 "mobile_height": "",
-                "type_preset": "custom",
+                "type_preset": "h6",
                 "font": "var(--font-subheading--family)",
                 "enable_custom_font_weight": false,
                 "weight": "400",
@@ -665,7 +665,7 @@
             "text_KGxdFq": {
               "type": "text",
               "settings": {
-                "text": "<p><strong>not sure where to start</strong></p>",
+                "text": "<p>OUR ETHOS</p>",
                 "mobile_text": "",
                 "width": "fit-content",
                 "max_width": "normal",
@@ -707,7 +707,7 @@
               "type": "text",
               "name": "t:names.heading",
               "settings": {
-                "text": "<p>We’ll guide you to the right artist</p>",
+                "text": "<p>More than just a tattoo studio.</p>",
                 "mobile_text": "",
                 "width": "fit-content",
                 "max_width": "normal",
