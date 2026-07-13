@@ -744,11 +744,53 @@
                 "padding-inline-end-mobile": 0
               },
               "blocks": {}
+            },
+            "text_pntpVU": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Six commitments that shape every consult, every line, every aftercare check-in.</p>",
+                "mobile_text": "",
+                "width": "fit-content",
+                "max_width": "none",
+                "alignment": "left",
+                "height_mode": "auto",
+                "desktop_height": "",
+                "mobile_height": "",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "enable_custom_font_weight": false,
+                "weight": "400",
+                "font_size": "1.125rem",
+                "line_height": "normal",
+                "custom_line_height": 1.5,
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "type_preset_mobile": "custom",
+                "mobile_font_size": "1.125rem",
+                "mobile_custom_line_height": 1.5,
+                "text_color": "{{ settings.color_palette.color1 }}",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "opacity": 86,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0,
+                "use_mobile_padding": false,
+                "padding-block-start-mobile": 0,
+                "padding-block-end-mobile": 0,
+                "padding-inline-start-mobile": 0,
+                "padding-inline-end-mobile": 0
+              },
+              "blocks": {}
             }
           },
           "block_order": [
             "text_KGxdFq",
-            "text_gdMhP3"
+            "text_gdMhP3",
+            "text_pntpVU"
           ]
         },
         "group_mWDmtY": {
