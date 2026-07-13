@@ -2492,7 +2492,7 @@
         "floating_media_anchor_mobile": "",
         "floating_media_offset_x_mobile": 0,
         "floating_media_offset_y_mobile": 0,
-        "border": "none",
+        "border": "solid",
         "border_width": 4,
         "border_opacity": 100,
         "border_color": "#ce5454",
