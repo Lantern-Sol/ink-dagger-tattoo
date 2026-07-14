@@ -1353,7 +1353,8 @@ results-list[initialized] {
 }
 
 .text-block>*:last-child,
-.text-block>*:has(+ *:last-child:empty) {
+.text-block>*:has(+ *:last-child:empty),
+.text-block>*:has(+ .hidden--desktop) {
   margin-block-end: 0;
 }
 

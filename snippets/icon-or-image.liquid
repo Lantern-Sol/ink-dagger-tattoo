@@ -31,9 +31,14 @@
     assign widths = '240, 352, 832, 1200'
   %}
 
-  {% assign width = width |  divided_by: 16.0 %}
-  {% assign mobile_width = mobile_width | divided_by: 16.0 %}
-  {% assign image_style = '--width: ' | append: width | append: 'rem;--mobile-width: ' | append: mobile_width | append: 'rem;' %}
+  {% liquid
+    assign width = width | divided_by: 16.0
+    assign image_style = '--width: ' | append: width | append: 'rem;'
+    if mobile_width != blank
+      assign mobile_width = mobile_width | divided_by: 16.0
+      assign image_style = image_style | append: '--mobile-width: ' | append: mobile_width | append: 'rem;'
+    endif
+  %}
   {{
     image_upload
     | image_url: width: 1200
