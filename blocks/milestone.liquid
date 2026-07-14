@@ -1,5 +1,5 @@
 {%- liquid
-  assign s = block.settings
+  assign block_settings = block.settings
 -%}
 
 <div
@@ -7,7 +7,7 @@
   style="--milestone-accent: {{ settings.color_palette.foreground }}; --milestone-ink: {{ settings.color_palette.background }};"
   {{ block.shopify_attributes }}
 >
-  <p class="milestone__eyebrow">{{ s.eyebrow }}</p>
+  <p class="milestone__eyebrow">{{ block_settings.eyebrow }}</p>
 
   <div class="milestone__marker" aria-hidden="true">
     <span class="milestone__dot"></span>
@@ -15,28 +15,28 @@
   </div>
 
   <div class="milestone__value">
-    {%- if s.display_type == 'icon' -%}
-      {%- if s.icon != blank -%}
-        {{ s.icon | image_url: width: 200 | image_tag: class: 'milestone__icon-image', widths: '100, 200', sizes: '48px' }}
+    {%- if block_settings.display_type == 'icon' -%}
+      {%- if block_settings.icon != blank -%}
+        {{ block_settings.icon | image_url: width: 200 | image_tag: class: 'milestone__icon-image', widths: '100, 200', sizes: '48px' }}
       {%- else -%}
         <svg class="milestone__icon" viewBox="0 0 45 15" fill="none" aria-hidden="true" focusable="false">
           <path d="M33.6 14.976C34.24 13.6107 34.8587 12.416 35.456 11.392C36.096 10.368 36.7147 9.51467 37.312 8.832H0V6.144H37.312C36.7147 5.41867 36.096 4.544 35.456 3.52C34.8587 2.496 34.24 1.32267 33.6 0H35.84C38.528 3.11467 41.344 5.41867 44.288 6.912V8.064C41.344 9.51467 38.528 11.8187 35.84 14.976H33.6Z" fill="currentColor"/>
         </svg>
       {%- endif -%}
     {%- else -%}
-      <p class="milestone__number">{{ s.number }}</p>
+      <p class="milestone__number">{{ block_settings.number }}</p>
     {%- endif -%}
   </div>
 
   <div class="milestone__category">
-    <p class="milestone__category-label">{{ s.category_label }}</p>
-    <p class="milestone__category-subheading">{{ s.category_subheading }}</p>
+    <p class="milestone__category-label">{{ block_settings.category_label }}</p>
+    <p class="milestone__category-subheading">{{ block_settings.category_subheading }}</p>
   </div>
 
-  <p class="milestone__heading">{{ s.heading }}</p>
+  <p class="milestone__heading">{{ block_settings.heading }}</p>
 
-  {%- if s.body_text != blank -%}
-    <div class="milestone__body">{{ s.body_text }}</div>
+  {%- if block_settings.body_text != blank -%}
+    <div class="milestone__body">{{ block_settings.body_text }}</div>
   {%- endif -%}
 </div>
 
@@ -106,17 +106,18 @@
   }
 
   /* Bridges the row's gap so the line reads as one continuous rule across all milestones,
-     instead of breaking at each column's edge. Matches the parent group's gap (60px desktop). */
+     instead of breaking at each column's edge. Reads the parent group block's own --gap
+     custom property (set by snippets/layout-panel-style.liquid via its "Gap" setting) so
+     the bridge stays correct if a merchant changes that gap value in the theme editor. */
   .milestone:not(:last-child) .milestone__line {
-    margin-inline-end: -3.75rem;
+    margin-inline-end: calc(var(--gap, 3.75rem) * -1);
   }
 
   @media screen and (max-width: 749px) {
-    /* Mobile row gap is 24px (1.5rem) instead of 60px, and each card is a fixed 82% width
-       rather than flex-filling — bridge with the mobile gap value so the line still reads
-       as continuous while swiping through the snap carousel. */
+    /* Mobile uses the group's --mobile-gap when set (falling back to --gap), matching the
+       gap value .layout-panel-flex itself applies below 750px — see assets/base.css. */
     .milestone:not(:last-child) .milestone__line {
-      margin-inline-end: -1.5rem;
+      margin-inline-end: calc(var(--mobile-gap, var(--gap, 1.5rem)) * -1);
     }
   }
 
