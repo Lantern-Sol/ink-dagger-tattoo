@@ -1597,6 +1597,14 @@ button.shopify-payment-button__button--unbranded:hover:not([disabled]) {
 .button--has-icon .button-icon {
   flex-shrink: 0;
   display: block;
+  width: var(--width);
+  height: auto;
+}
+
+@media screen and (max-width: 749px) {
+  .button--has-icon .button-icon {
+    width: var(--mobile-width, var(--width));
+  }
 }
 
 /* Needed to override the default Shopify styles */

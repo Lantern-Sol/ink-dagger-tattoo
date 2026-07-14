@@ -214,8 +214,9 @@
                 "mobile_font_size": "",
                 "letter_spacing": "",
                 "uppercase": false,
-                "icon": "arrow",
-                "icon_size": 12,
+                "icon": "none",
+                "icon_image": "shopify://shop_images/icon-right.svg",
+                "icon_size": 14,
                 "icon_position": "after",
                 "icon_color": "",
                 "icon_bg_color": ""
@@ -2847,11 +2848,19 @@
                   },
                   "blocks": {}
                 },
-                "custom_liquid_Qc5wYp": {
-                  "type": "custom-liquid",
-                  "name": "t:names.custom_liquid",
+                "icon_Qc5wYp": {
+                  "type": "icon",
+                  "name": "t:names.icon",
                   "settings": {
-                    "custom_liquid": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"47\" height=\"38\" viewBox=\"0 0 47 38\" fill=\"none\" style=\"display:block\" aria-hidden=\"true\"><path d=\"M43.54 0L46.76 3.78C42.4667 6.95333 39.3867 10.0333 37.52 13.02C35.7467 16.0067 34.86 19.2733 34.86 22.82C35.42 22.4467 36.0733 22.1667 36.82 21.98C37.5667 21.7933 38.3133 21.7 39.06 21.7C41.2067 21.7 42.9333 22.4467 44.24 23.94C45.64 25.34 46.34 27.16 46.34 29.4C46.34 31.92 45.4533 33.9733 43.68 35.56C42 37.1467 39.7133 37.94 36.82 37.94C33.6467 37.94 31.1733 36.82 29.4 34.58C27.72 32.34 26.88 29.0733 26.88 24.78C26.88 21.6067 27.3933 18.76 28.42 16.24C29.4467 13.6267 31.1733 11.06 33.6 8.54C36.0267 5.92667 39.34 3.08 43.54 0ZM16.66 0L19.88 3.78C15.5867 6.95333 12.5067 10.0333 10.64 13.02C8.86667 16.0067 7.98 19.2733 7.98 22.82C8.54 22.4467 9.19333 22.1667 9.94 21.98C10.6867 21.7933 11.4333 21.7 12.18 21.7C14.3267 21.7 16.0533 22.4467 17.36 23.94C18.76 25.34 19.46 27.16 19.46 29.4C19.46 31.92 18.5733 33.9733 16.8 35.56C15.12 37.1467 12.8333 37.94 9.94 37.94C6.76667 37.94 4.29333 36.82 2.52 34.58C0.84 32.34 0 29.0733 0 24.78C0 21.6067 0.513333 18.76 1.54 16.24C2.56667 13.6267 4.29333 11.06 6.72 8.54C9.14667 5.92667 12.46 3.08 16.66 0Z\" fill=\"#CE5454\"/></svg>"
+                    "icon": "quote_open",
+                    "image_upload": "",
+                    "width": 46,
+                    "width-mobile": 46,
+                    "link": "",
+                    "open_in_new_tab": false,
+                    "icon_color": "{{ settings.color_palette.foreground }}",
+                    "icon_bg_color": "",
+                    "icon_secondary_color": ""
                   },
                   "blocks": {}
                 },
@@ -2944,7 +2953,7 @@
               },
               "block_order": [
                 "text_Iv2kRn",
-                "custom_liquid_Qc5wYp",
+                "icon_Qc5wYp",
                 "text_Wb4hDs",
                 "text_Ft8nEc"
               ]
