@@ -1,0 +1,270 @@
+{%- doc -%}
+  Renders a "More by [Artist]" cross-sell row: other `project` metaobject
+  entries by the given artist (excluding `current`), as image-top /
+  info-bar-bottom cards in a CSS scroll-snap carousel (3-up desktop, 1-up
+  mobile) with prev/next arrows and dot indicators. Uses the same
+  scroll-snap technique as the About Us milestone carousel — a plain
+  slideshow-slide/slideshow-component pairing was tried first but assumes a
+  single-active-slide model that fights a static multi-up display.
+
+  @param {object} artist - an `artist` metaobject
+  @param {object} [current] - a `project` metaobject to exclude from the list
+  @param {string} [heading] - defaults to "More by [artist name]"
+
+  @example
+  {% render 'related-projects', artist: artist, current: project %}
+{%- enddoc -%}
+
+<script src="{{ 'related-projects-carousel.js' | asset_url }}" defer></script>
+
+{%- liquid
+  if heading == blank
+    assign heading = 'More by ' | append: artist.name.value
+  endif
+  assign related = artist.projects.value
+  assign count = 0
+-%}
+
+{% capture cards %}
+  {%- for related_project in related -%}
+    {%- if current != blank and related_project.system.id == current.system.id -%}
+      {%- continue -%}
+    {%- endif -%}
+    {%- liquid
+      assign cover = related_project.images.value | first
+      assign count = count | plus: 1
+    -%}
+    <a href="{{ related_project.system.url }}" class="related-projects__card">
+      <div class="related-projects__image">
+        {%- if cover != blank -%}
+          {{
+            cover
+            | image_url: width: 700
+            | image_tag:
+              loading: 'lazy',
+              widths: '350, 500, 700',
+              sizes: '(min-width: 750px) 30vw, 90vw',
+              alt: related_project.name.value | escape
+          }}
+        {%- endif -%}
+      </div>
+      <div class="related-projects__info">
+        <span class="related-projects__title-group">
+          <span class="related-projects__title">{{ related_project.name.value | escape }}</span>
+          <span class="related-projects__kind">{{ related_project.kind.value | default: 'Tattoo Style' | escape }}</span>
+        </span>
+        <svg class="related-projects__arrow" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 20 20">
+          {%- render 'icon', icon: 'arrow_ne' -%}
+        </svg>
+      </div>
+    </a>
+  {%- endfor -%}
+{% endcapture %}
+
+{% if count > 0 %}
+  <div class="related-projects">
+    <div class="related-projects__inner">
+      {%- if heading != blank -%}
+        <h2 class="related-projects__heading">{{ heading }}</h2>
+      {%- endif -%}
+
+      <related-projects-carousel>
+        <div class="related-projects__carousel">
+          {%- if count > 1 -%}
+            <button type="button" class="related-projects__arrow-btn related-projects__arrow-btn--prev" aria-label="Previous" data-prev>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false">
+                <path d="M11.1226 7.13234L2.87722 6.86839M6.28094 3.67583L2.87722 6.86839L6.06978 10.2721" stroke="#1D1616" stroke-width="1.45833"/>
+              </svg>
+            </button>
+          {%- endif -%}
+
+          <div class="related-projects__track" data-track>
+            {{ cards }}
+          </div>
+
+          {%- if count > 1 -%}
+            <button type="button" class="related-projects__arrow-btn related-projects__arrow-btn--next" aria-label="Next" data-next>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false">
+                <path d="M2.87743 7.13234L11.1228 6.86839M7.71906 3.67583L11.1228 6.86839L7.93022 10.2721" stroke="#1D1616" stroke-width="1.45833"/>
+              </svg>
+            </button>
+          {%- endif -%}
+        </div>
+
+        {%- if count > 1 -%}
+          <div class="related-projects__dots" data-dots></div>
+        {%- endif -%}
+      </related-projects-carousel>
+    </div>
+  </div>
+{% endif %}
+
+{% style %}
+  .related-projects {
+    background: #e3dfd6;
+    border-top: 4px solid #cfc8b9;
+    padding-block: 2rem 4rem;
+  }
+
+  .related-projects__inner {
+    box-sizing: border-box;
+    max-width: 90rem;
+    margin-inline: auto;
+    padding-inline: 32px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  @media (min-width: 750px) {
+    .related-projects__inner {
+      padding-inline: 50px;
+    }
+  }
+
+  .related-projects__heading {
+    margin: 0;
+    font-family: var(--font-heading--family, serif);
+    font-size: 2rem;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    color: #ce5454;
+  }
+
+  related-projects-carousel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .related-projects__carousel {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .related-projects__arrow-btn {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    color: #1d1616;
+    border: 2px solid #1d1616;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+
+  .related-projects__arrow-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .related-projects__track {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: auto;
+    scrollbar-width: none;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .related-projects__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .related-projects__card {
+    flex: 0 0 calc((100% - (2 * 2rem)) / 3);
+    scroll-snap-align: start;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-bottom: 1.5rem;
+    border: 1px solid rgba(29, 22, 22, 0.22);
+    border-radius: 8px;
+    text-decoration: none;
+    color: #1d1616;
+  }
+
+  @media screen and (max-width: 749px) {
+    .related-projects__card {
+      flex: 0 0 100%;
+    }
+  }
+
+  .related-projects__image {
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 6px 6px 0 0;
+  }
+
+  .related-projects__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .related-projects__info {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding-inline: 1.5rem;
+  }
+
+  .related-projects__title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .related-projects__title {
+    font-family: var(--font-heading--family, serif);
+    font-size: 1.5rem;
+    line-height: 1.18;
+  }
+
+  .related-projects__kind {
+    font-family: var(--font-body--family, sans-serif);
+    font-style: italic;
+    font-size: 1.125rem;
+    opacity: 0.85;
+  }
+
+  .related-projects__arrow {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    color: #ce5454;
+  }
+
+  .related-projects__dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .related-projects__dots .related-projects__dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: #4c4546;
+    cursor: pointer;
+  }
+
+  .related-projects__dots .related-projects__dot[aria-selected='true'] {
+    background-color: #ce5454;
+  }
+{% endstyle %}

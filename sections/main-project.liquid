@@ -1,35 +1,137 @@
 {%- comment -%}
   Renders a "project" metaobject as a full project page.
-  Fields: name, description, collector, artist (-> artist metaobject), images (list of images)
+  Fields: name, description, collector, artist (-> artist metaobject), images (list of images), kind, style (-> style metaobject)
 {%- endcomment -%}
 
 {%- liquid
   assign project = metaobject
   assign artist = project.artist.value
   assign images = project.images.value
+  assign banner = images | first
+  assign style = project.style.value
+
+  # Reverse-lookup the style's parent category (same technique as style-cards.liquid / artist-cards.liquid)
+  assign style_category = blank
+  if style != blank
+    for cat in shop.metaobjects.style_category.values
+      for cat_style in cat.styles.value
+        if cat_style.system.id == style.system.id
+          assign style_category = cat
+          break
+        endif
+      endfor
+      if style_category != blank
+        break
+      endif
+    endfor
+  endif
+
+  assign description = project.description.value
+
+  assign caption_text = ''
+  if artist != blank
+    assign caption_text = artist.name.value
+  endif
+  assign kind_text = project.kind.value | default: 'Featured'
+  if caption_text != blank
+    assign caption_text = caption_text | append: ' / ' | append: kind_text
+  else
+    assign caption_text = kind_text
+  endif
+  if project.name.value != blank
+    assign caption_text = caption_text | append: ' / ' | append: project.name.value
+  endif
+
+  # Split the description across the two columns (left: opening portion under
+  # the heading; right: remainder + CTA), matching the Figma layout.
+  assign description_left = ''
+  assign description_right = ''
+
+  if description == blank
+    # Verbatim Figma placeholder copy (exact text + paragraph breaks), shown
+    # only when the real project description hasn't been migrated yet.
+    assign description_left = "This hauntingly vivid sleeve by Stani pushes the boundaries of realism, capturing the Reaper not as a symbol of fear but of power, inevitability, and transformation. Every detail is meticulously rendered: from the glow of hollow eyes to the worn steel of the scythe, cloaked in swirling smoke and ember-lit shadows."
+    assign description_right = "The composition flows seamlessly down the leg, each element layered with cinematic depth and movement. Stani's signature technique brings this spectral figure to life with rich saturation, smooth blends, and bold contrasts that grip the eye.<br><br>This isn't just a tattoo, it's a reckoning. A full-sleeve confrontation with life's impermanence, worn like armor."
+  else
+    # Real descriptions are a single continuous paragraph (no line breaks),
+    # so split by sentence count rather than assuming paragraph breaks exist.
+    assign sentences = description | split: '. '
+    assign sentence_count = sentences.size
+    assign split_at = sentence_count | divided_by: 2
+
+    assign description_right = description
+    if sentence_count > 1 and split_at > 0
+      assign left_sentences = sentences | slice: 0, split_at
+      assign right_sentences = sentences | slice: split_at, sentence_count
+      assign description_left = left_sentences | join: '. '
+      assign description_right = right_sentences | join: '. '
+      assign description_left_last_char = description_left | slice: -1, 1
+      if description_left != blank and description_left_last_char != '.'
+        assign description_left = description_left | append: '.'
+      endif
+    endif
+  endif
 -%}
 
-<div class="project-page section" style="--project-gap: {{ section.settings.gap }}px;">
-  <div class="project-page__inner page-width-content">
+{%- if banner != blank -%}
+  <div class="project-banner">
+    {{
+      banner
+      | image_url: width: 1600
+      | image_tag:
+        loading: 'eager',
+        widths: '480, 760, 1100, 1600',
+        sizes: '100vw',
+        alt: project.name.value | escape
+    }}
+    {%- if caption_text != blank -%}
+      <p class="project-banner__caption">{{ caption_text | escape }}</p>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+<div class="project-page" style="--project-gap: {{ section.settings.gap }}px;">
+  <div class="project-page__inner">
 
     <header class="project-header">
-      <h1 class="project-header__name">{{ project.name.value | escape }}</h1>
-      <p class="project-header__meta">
+      <div class="project-header__col">
+        <h1 class="project-header__name">{{ project.name.value | escape }}</h1>
+
+        <div class="project-header__tags">
+          <span class="project-header__tag">{{ style.name.value | default: 'Realism' | escape }}</span>
+          {%- if style_category != blank and style_category.name.value != style.name.value -%}
+            <span class="project-header__tag">{{ style_category.name.value | escape }}</span>
+          {%- elsif style == blank -%}
+            <span class="project-header__tag">Black &amp; Gray</span>
+          {%- endif -%}
+        </div>
+
         {%- if artist != blank -%}
-          <span class="project-header__artist">
+          <p class="project-header__artist">
             {{ section.settings.artist_label | default: 'Artist:' }}
             <a href="{{ artist.system.url }}">{{ artist.name.value | escape }}</a>
-          </span>
+          </p>
         {%- endif -%}
-        {%- if project.collector.value != blank -%}
-          <span class="project-header__collector">
-            {{ section.settings.collector_label | default: 'Collector:' }} {{ project.collector.value | escape }}
-          </span>
+
+        {%- if description_left != blank -%}
+          <p class="project-header__description">{{ description_left }}</p>
         {%- endif -%}
-      </p>
-      {%- if project.description.value != blank -%}
-        <div class="project-header__description">{{ project.description.value | newline_to_br }}</div>
-      {%- endif -%}
+      </div>
+
+      <div class="project-header__col project-header__col--end">
+        <div class="project-header__description">{{ description_right }}</div>
+
+        <a
+          class="project-header__cta button-custom"
+          href="{{ section.settings.booking_url | default: '#' }}"
+          style="--button-background-color: #ce5454; --button-color: #1d1616; --button-border-color: #1d1616; --button-border-width: 3px; border-radius: 8px;"
+        >
+          {{ section.settings.booking_label | default: 'Book Consultation' }}
+          <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 20">
+            {%- render 'icon', icon: 'arrow_ne' -%}
+          </svg>
+        </a>
+      </div>
     </header>
 
     {%- if images != blank and images.size > 0 -%}
@@ -49,18 +151,97 @@
   </div>
 </div>
 
+{%- if artist != blank -%}
+  {% render 'related-projects', artist: artist, current: project %}
+{%- endif -%}
+
+{% render 'micro-faq' %}
+
 {%- style -%}
-  .project-page { padding-block: 48px; color: var(--color-foreground); }
-  .project-page__inner { display: flex; flex-direction: column; gap: var(--project-gap, 48px); }
-  .project-header { display: flex; flex-direction: column; gap: 12px; max-width: var(--narrow-page-width, 70ch); }
-  .project-header__name { margin: 0; }
-  .project-header__meta { margin: 0; display: flex; flex-wrap: wrap; gap: 8px 24px; color: var(--color-foreground-subdued); text-transform: uppercase; letter-spacing: .05em; font-size: .85rem; }
-  .project-header__meta a { color: inherit; }
-  .project-header__description { line-height: 1.7; }
-  .project-gallery { display: grid; grid-template-columns: 1fr; gap: 16px; }
-  @media (min-width: 750px) { .project-gallery { grid-template-columns: repeat(2, 1fr); } }
+  .project-banner { position: relative; }
+  .project-banner img { width: 100%; height: 14.6875rem; object-fit: cover; display: block; }
+  @media (min-width: 750px) { .project-banner img { height: 27rem; } }
+  .project-banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      rgba(17, 16, 9, 0.8) 7.3%,
+      rgba(17, 16, 9, 0) 44.8%,
+      rgba(17, 16, 9, 0.8) 82.9%
+    );
+  }
+  .project-banner__caption {
+    position: absolute;
+    z-index: 2;
+    left: max(32px, calc((100% - 90rem) / 2 + 32px));
+    right: max(32px, calc((100% - 90rem) / 2 + 32px));
+    bottom: 1.25rem;
+    margin: 0;
+    color: #ce5454;
+    font-weight: 700;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7), 0 1px 2px rgba(0, 0, 0, 0.9);
+  }
+  @media (min-width: 750px) {
+    .project-banner__caption {
+      left: max(50px, calc((100% - 90rem) / 2 + 50px));
+      right: max(50px, calc((100% - 90rem) / 2 + 50px));
+      bottom: 3.25rem;
+    }
+  }
+  .project-page { padding-block: 48px; background: {{ settings.color_palette.color1 }}; color: {{ settings.color_palette.background }}; }
+  .project-page__inner {
+    box-sizing: border-box;
+    max-width: 90rem;
+    margin-inline: auto;
+    padding-inline: 32px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--project-gap, 48px);
+  }
+  @media (min-width: 750px) { .project-page__inner { padding-inline: 50px; } }
+  .project-header { display: flex; flex-direction: column; gap: 24px; max-width: 64.75rem; margin-inline: auto; width: 100%; }
+  @media (min-width: 750px) { .project-header { flex-direction: row; align-items: flex-end; gap: 24px; } }
+  .project-header__col { display: flex; flex-direction: column; gap: 16px; flex: 1 1 0; }
+  .project-header__col--end { justify-content: flex-end; }
+  .project-header__name { margin: 0; font-family: var(--font-heading--family); font-size: 2rem; font-weight: 400; letter-spacing: -0.015em; }
+  .project-header__tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .project-header__tag { border: 2px solid {{ settings.color_palette.background }}; border-radius: 99px; padding: 2px 24px; font-style: italic; font-size: 1.125rem; }
+  .project-header__artist { margin: 0; color: {{ settings.color_palette.foreground }}; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.18em; font-weight: 700; font-size: 0.8125rem; }
+  .project-header__artist a { color: inherit; }
+  .project-header__description { margin: 0; opacity: 0.85; line-height: 1.6; font-size: 1.125rem; }
+  .project-header__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 24px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+  .project-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (min-width: 750px) { .project-gallery { gap: 64px; } }
   .project-gallery__item { margin: 0; }
-  .project-gallery__item img { width: 100%; height: auto; display: block; border-radius: 8px; }
+  .project-gallery__item img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 592 / 804;
+    object-fit: cover;
+    display: block;
+    border: 3px solid #ce5454;
+    border-radius: 12px;
+    box-sizing: border-box;
+  }
 {%- endstyle -%}
 
 {% schema %}
@@ -69,7 +250,12 @@
   "tag": "section",
   "settings": [
     { "type": "text", "id": "artist_label", "label": "Artist label", "default": "Artist:" },
-    { "type": "text", "id": "collector_label", "label": "Collector label", "default": "Collector:" },
+    {
+      "type": "header",
+      "content": "Booking"
+    },
+    { "type": "url", "id": "booking_url", "label": "Booking link" },
+    { "type": "text", "id": "booking_label", "label": "Booking button label", "default": "Book Consultation" },
     {
       "type": "range",
       "id": "gap",
