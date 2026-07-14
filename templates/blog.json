@@ -459,7 +459,7 @@
         "posts_per_page": 16,
         "pagination_type": "load_more",
         "load_more_label": "Load more stories",
-        "load_more_style": "button",
+        "load_more_style": "button-secondary",
         "show_category_tabs": true,
         "all_tab_label": "All Stories",
         "tabs_alignment": "center",
