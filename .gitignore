@@ -1,2 +1,7 @@
 # Migration tooling/data — not part of the Shopify theme
 migration/
+
+# Shopify CLI dev server logs
+shopify_dev.log
+shopify_errors.log
+*.log
