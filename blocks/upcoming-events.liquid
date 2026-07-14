@@ -49,12 +49,15 @@
           assign guest_line = article.excerpt | strip_html | strip_newlines | strip | truncatewords: guest_line_limit
 
           assign extra_info_field = article.metafields.custom.event_extra_info
+          assign event_info_field = article.metafields.custom.event_info
         -%}
 
         {%- capture tag_text -%}
-          {%- for tag in article.tags limit: tag_limit -%}
-            {%- unless forloop.first %} · {% endunless -%}{{ tag | upcase }}
-          {%- endfor -%}
+          {%- if event_info_field != blank -%}
+            {%- for info in event_info_field.value limit: tag_limit -%}
+              {%- unless forloop.first %} · {% endunless -%}{{ info | upcase }}
+            {%- endfor -%}
+          {%- endif -%}
         {%- endcapture -%}
         {%- assign tag_text = tag_text | strip -%}
 
@@ -357,7 +360,7 @@
       "type": "range",
       "id": "tag_limit",
       "label": "Category tags shown",
-      "info": "Pulled from each article's tags.",
+      "info": "Pulled from each article's Event Info metafield.",
       "min": 0,
       "max": 4,
       "step": 1,

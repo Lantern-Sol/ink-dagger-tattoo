@@ -29,6 +29,7 @@
     assign event_end_date_field = article.metafields.custom.event_end_date
     assign alt_heading_field = article.metafields.custom.main_event_alternate_heading
     assign subtitle_field = article.metafields.custom.main_event_subtitle
+    assign event_info_field = article.metafields.custom.event_info
 
     if event_date_field != blank
       assign event_date_iso = event_date_field.value
@@ -56,9 +57,11 @@
   {%- assign subtitle_text = subtitle_text | strip -%}
 
   {%- capture tag_text -%}
-    {%- for tag in article.tags limit: tag_limit -%}
-      {%- unless forloop.first %} · {% endunless -%}{{ tag | upcase }}
-    {%- endfor -%}
+    {%- if event_info_field != blank -%}
+      {%- for info in event_info_field.value limit: tag_limit -%}
+        {%- unless forloop.first %} · {% endunless -%}{{ info | upcase }}
+      {%- endfor -%}
+    {%- endif -%}
   {%- endcapture -%}
   {%- assign tag_text = tag_text | strip -%}
 
@@ -627,7 +630,7 @@
       "type": "range",
       "id": "tag_limit",
       "label": "Category tags shown",
-      "info": "Pulled from the article's tags.",
+      "info": "Pulled from the article's Event Info metafield.",
       "min": 0,
       "max": 4,
       "step": 1,
