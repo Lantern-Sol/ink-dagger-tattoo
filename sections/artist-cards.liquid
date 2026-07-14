@@ -6,38 +6,17 @@
   assign artists = shop.metaobjects.artist.values
   assign style_categories = shop.metaobjects.style_category.values
   assign show_filter = section.settings.show_filter_bar
-  assign show_heading = section.settings.show_heading
+  assign has_heading_blocks = false
+  if section.blocks.size > 0
+    assign has_heading_blocks = true
+  endif
   assign top_pad = section.settings['padding-block-start'] | default: 64
   assign bot_pad = section.settings['padding-block-end'] | default: 64
   assign apply_top_to_section = true
   assign apply_top_to_grid = false
-  if show_filter and show_heading == false
+  if show_filter and has_heading_blocks == false
     assign apply_top_to_section = false
     assign apply_top_to_grid = true
-  endif
-
-  assign eyebrow_font = section.settings.eyebrow_font_style
-  if eyebrow_font == 'custom'
-    assign eyebrow_font = section.settings.eyebrow_font_custom
-  endif
-  if eyebrow_font == 'inherit'
-    assign eyebrow_font = ''
-  endif
-
-  assign heading_font = section.settings.heading_font_style
-  if heading_font == 'custom'
-    assign heading_font = section.settings.heading_font_custom
-  endif
-  if heading_font == 'inherit'
-    assign heading_font = ''
-  endif
-
-  assign description_font = section.settings.description_font_style
-  if description_font == 'custom'
-    assign description_font = section.settings.description_font_custom
-  endif
-  if description_font == 'inherit'
-    assign description_font = ''
   endif
 -%}
 
@@ -51,27 +30,8 @@
 {%- style -%}
   #shopify-section-{{ section.id }} {
     --artist-cards-accent: {{ section.settings.accent_color | default: '#ce5454' }};
-    --artist-cards-eyebrow-color: {{ section.settings.eyebrow_color | default: '#ce5454' }};
-    --artist-cards-eyebrow-opacity: {{ section.settings.eyebrow_opacity | default: 100 | divided_by: 100.0 }};
-    --artist-cards-heading-opacity: {{ section.settings.heading_opacity | default: 100 | divided_by: 100.0 }};
-    --artist-cards-description-opacity: {{ section.settings.description_opacity | default: 85 | divided_by: 100.0 }};
-    {%- if section.settings.heading_color != blank -%}
-      --artist-cards-heading-color: {{ section.settings.heading_color }};
-    {%- endif -%}
-    {%- if section.settings.description_color != blank -%}
-      --artist-cards-description-color: {{ section.settings.description_color }};
-    {%- endif -%}
     {%- if section.settings.card_border_color != blank -%}
       --artist-cards-card-border: {{ section.settings.card_border_color }};
-    {%- endif -%}
-    {%- if eyebrow_font != blank -%}
-      --artist-cards-eyebrow-font: {{ eyebrow_font }};
-    {%- endif -%}
-    {%- if heading_font != blank -%}
-      --artist-cards-heading-font: {{ heading_font }};
-    {%- endif -%}
-    {%- if description_font != blank -%}
-      --artist-cards-description-font: {{ description_font }};
     {%- endif -%}
   }
 {%- endstyle -%}
@@ -81,17 +41,9 @@
   style="padding-bottom: {{ bot_pad }}px;{% if apply_top_to_section %} padding-top: {{ top_pad }}px;{% endif %}"
 >
 
-  {%- if show_heading -%}
+  {%- if has_heading_blocks -%}
     <div class="artist-cards__header">
-      {%- if section.settings.eyebrow != blank -%}
-        <p class="artist-cards__eyebrow">{{ section.settings.eyebrow | escape }}</p>
-      {%- endif -%}
-      {%- if section.settings.heading != blank -%}
-        <h2 class="artist-cards__heading">{{ section.settings.heading | escape }}</h2>
-      {%- endif -%}
-      {%- if section.settings.description != blank -%}
-        <p class="artist-cards__description">{{ section.settings.description | escape }}</p>
-      {%- endif -%}
+      {% content_for 'blocks' %}
     </div>
   {%- endif -%}
 
@@ -323,50 +275,6 @@
   @media (min-width: 750px) {
     .artist-cards__header {
       margin-bottom: 48px;
-    }
-  }
-
-  .artist-cards__eyebrow {
-    margin: 0;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    font-family: var(--artist-cards-eyebrow-font, inherit);
-    color: var(--artist-cards-eyebrow-color, var(--artist-cards-accent));
-    opacity: var(--artist-cards-eyebrow-opacity, 1);
-  }
-
-  .artist-cards__heading {
-    margin: 0;
-    font-size: 32px;
-    font-weight: 400;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    font-family: var(--artist-cards-heading-font, inherit);
-    color: var(--artist-cards-heading-color, var(--color-foreground));
-    opacity: var(--artist-cards-heading-opacity, 1);
-  }
-
-  @media (min-width: 750px) {
-    .artist-cards__heading {
-      font-size: 56px;
-    }
-  }
-
-  .artist-cards__description {
-    margin: 0;
-    font-size: 14px;
-    line-height: 1.6;
-    font-family: var(--artist-cards-description-font, inherit);
-    color: var(--artist-cards-description-color, var(--color-foreground-subdued));
-    opacity: var(--artist-cards-description-opacity, 0.85);
-    max-width: 52rem;
-  }
-
-  @media (min-width: 750px) {
-    .artist-cards__description {
-      font-size: 17px;
     }
   }
 
@@ -659,6 +567,14 @@
   "disabled_on": {
     "groups": ["header", "footer"]
   },
+  "blocks": [
+    {
+      "type": "text"
+    },
+    {
+      "type": "@theme"
+    }
+  ],
   "settings": [
     {
       "type": "header",
@@ -695,136 +611,6 @@
       "label": "Show top & bottom border",
       "info": "Uses the link & accent color",
       "default": false
-    },
-    {
-      "type": "header",
-      "content": "Heading block"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_heading",
-      "label": "Show heading block",
-      "default": false
-    },
-    {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow text",
-      "default": "The Team"
-    },
-    {
-      "type": "color",
-      "id": "eyebrow_color",
-      "label": "Eyebrow color",
-      "default": "#ce5454"
-    },
-    {
-      "type": "range",
-      "id": "eyebrow_opacity",
-      "label": "Eyebrow opacity",
-      "min": 0,
-      "max": 100,
-      "step": 5,
-      "unit": "%",
-      "default": 100
-    },
-    {
-      "type": "select",
-      "id": "eyebrow_font_style",
-      "label": "Eyebrow font",
-      "options": [
-        { "value": "inherit", "label": "Theme default" },
-        { "value": "serif", "label": "Serif" },
-        { "value": "sans-serif", "label": "Sans-serif" },
-        { "value": "monospace", "label": "Monospace" },
-        { "value": "custom", "label": "Custom" }
-      ],
-      "default": "inherit"
-    },
-    {
-      "type": "text",
-      "id": "eyebrow_font_custom",
-      "label": "Eyebrow custom font",
-      "info": "CSS font-family value (e.g. 'Josefin Sans, sans-serif'). Only used when 'Custom' is selected above."
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "A hive of creativity."
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading color"
-    },
-    {
-      "type": "range",
-      "id": "heading_opacity",
-      "label": "Heading opacity",
-      "min": 0,
-      "max": 100,
-      "step": 5,
-      "unit": "%",
-      "default": 100
-    },
-    {
-      "type": "select",
-      "id": "heading_font_style",
-      "label": "Heading font",
-      "options": [
-        { "value": "inherit", "label": "Theme default" },
-        { "value": "serif", "label": "Serif" },
-        { "value": "sans-serif", "label": "Sans-serif" },
-        { "value": "monospace", "label": "Monospace" },
-        { "value": "custom", "label": "Custom" }
-      ],
-      "default": "inherit"
-    },
-    {
-      "type": "text",
-      "id": "heading_font_custom",
-      "label": "Heading custom font",
-      "info": "CSS font-family value (e.g. 'Libre Baskerville, serif'). Only used when 'Custom' is selected above."
-    },
-    {
-      "type": "textarea",
-      "id": "description",
-      "label": "Description"
-    },
-    {
-      "type": "color",
-      "id": "description_color",
-      "label": "Description color"
-    },
-    {
-      "type": "range",
-      "id": "description_opacity",
-      "label": "Description opacity",
-      "min": 0,
-      "max": 100,
-      "step": 5,
-      "unit": "%",
-      "default": 85
-    },
-    {
-      "type": "select",
-      "id": "description_font_style",
-      "label": "Description font",
-      "options": [
-        { "value": "inherit", "label": "Theme default" },
-        { "value": "serif", "label": "Serif" },
-        { "value": "sans-serif", "label": "Sans-serif" },
-        { "value": "monospace", "label": "Monospace" },
-        { "value": "custom", "label": "Custom" }
-      ],
-      "default": "inherit"
-    },
-    {
-      "type": "text",
-      "id": "description_font_custom",
-      "label": "Description custom font",
-      "info": "CSS font-family value (e.g. 'Source Sans 3, sans-serif'). Only used when 'Custom' is selected above."
     },
     {
       "type": "header",
@@ -873,7 +659,33 @@
       "name": "Artist Cards",
       "settings": {
         "accent_color": "#ce5454"
-      }
+      },
+      "blocks": {
+        "eyebrow": {
+          "type": "text",
+          "settings": {
+            "text": "<p>The Team</p>",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "enable_custom_font_weight": true,
+            "weight": "700",
+            "font_size": "0.75rem",
+            "case": "uppercase",
+            "letter_spacing": "loose",
+            "text_color": "#ce5454",
+            "alignment": "center"
+          }
+        },
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<p>A hive of creativity.</p>",
+            "type_preset": "h1",
+            "alignment": "center"
+          }
+        }
+      },
+      "block_order": ["eyebrow", "heading"]
     }
   ]
 }
