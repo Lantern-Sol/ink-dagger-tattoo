@@ -551,7 +551,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>Established in 2007, Ink & Dagger was the realization of founder<br/>Russ Abbott's dream. With nearly a decade's experience, Russ<br/>aimed to create a unique yet professional space where tattoos and<br/>art intertwine seamlessly. Over the years, we've grown in both<br/>location—relocating to the core of Roswell—and in scope,<br/>accommodating up to 15 resident artists.</p>",
+                    "text": "<p>Established in 2007, Ink & Dagger was the realization of founder Russ Abbott's dream. With nearly a decade's experience, Russ aimed to create a unique yet professional space where tattoos and art intertwine seamlessly. Over the years, we've grown in both location—relocating to the core of Roswell—and in scope, accommodating up to 15 resident artists.</p>",
                     "mobile_text": "<p>Established in 2007, Ink & Dagger was the realization of founder Russ Abbott's dream. With nearly a decade's experience, Russ aimed to create a unique yet professional space where tattoos and art intertwine seamlessly. Over the years, we've grown in both location—relocating to the core of Roswell—and in scope, accommodating up to 15 resident artists.</p>",
                     "width": "fit-content",
                     "max_width": "none",
@@ -568,7 +568,7 @@
                     "custom_line_height": 1.5,
                     "letter_spacing": "normal",
                     "case": "none",
-                    "wrap": "pretty",
+                    "wrap": "balance",
                     "type_preset_mobile": "rte",
                     "mobile_font_size": "1rem",
                     "mobile_custom_line_height": 1.5,
