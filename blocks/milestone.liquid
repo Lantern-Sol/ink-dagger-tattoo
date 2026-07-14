@@ -1,0 +1,309 @@
+{%- liquid
+  assign s = block.settings
+-%}
+
+<div
+  class="milestone"
+  style="--milestone-accent: {{ settings.color_palette.foreground }}; --milestone-ink: {{ settings.color_palette.background }};"
+  {{ block.shopify_attributes }}
+>
+  <p class="milestone__eyebrow">{{ s.eyebrow }}</p>
+
+  <div class="milestone__marker" aria-hidden="true">
+    <span class="milestone__dot"></span>
+    <span class="milestone__line"></span>
+  </div>
+
+  <div class="milestone__value">
+    {%- if s.display_type == 'icon' -%}
+      {%- if s.icon != blank -%}
+        {{ s.icon | image_url: width: 200 | image_tag: class: 'milestone__icon-image', widths: '100, 200', sizes: '48px' }}
+      {%- else -%}
+        <svg class="milestone__icon" viewBox="0 0 45 15" fill="none" aria-hidden="true" focusable="false">
+          <path d="M33.6 14.976C34.24 13.6107 34.8587 12.416 35.456 11.392C36.096 10.368 36.7147 9.51467 37.312 8.832H0V6.144H37.312C36.7147 5.41867 36.096 4.544 35.456 3.52C34.8587 2.496 34.24 1.32267 33.6 0H35.84C38.528 3.11467 41.344 5.41867 44.288 6.912V8.064C41.344 9.51467 38.528 11.8187 35.84 14.976H33.6Z" fill="currentColor"/>
+        </svg>
+      {%- endif -%}
+    {%- else -%}
+      <p class="milestone__number">{{ s.number }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="milestone__category">
+    <p class="milestone__category-label">{{ s.category_label }}</p>
+    <p class="milestone__category-subheading">{{ s.category_subheading }}</p>
+  </div>
+
+  <p class="milestone__heading">{{ s.heading }}</p>
+
+  {%- if s.body_text != blank -%}
+    <div class="milestone__body">{{ s.body_text }}</div>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .milestone {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 1 1 0%;
+    min-width: 0;
+  }
+
+  .milestone__eyebrow {
+    font-family: var(--font-heading--family);
+    font-style: italic;
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
+    color: #4c4546;
+    margin: 0;
+  }
+
+  .milestone__marker {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+
+  /* Small end-cap dots marking the absolute start and end of the full timeline rule,
+     matching the two plain ink-colored dots in the Figma frame (distinct from the larger accent dots). */
+  .milestone:first-child .milestone__marker::before,
+  .milestone:last-child .milestone__marker::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 50%;
+    background: var(--milestone-ink);
+    transform: translateY(-50%);
+  }
+
+  .milestone:first-child .milestone__marker::before {
+    left: -0.3125rem;
+  }
+
+  .milestone:last-child .milestone__marker::after {
+    right: -0.3125rem;
+  }
+
+  .milestone__dot {
+    flex: 0 0 auto;
+    width: 1.375rem;
+    height: 1.375rem;
+    border-radius: 50%;
+    background: var(--milestone-accent);
+    border: 3px solid var(--milestone-ink);
+    box-sizing: border-box;
+    margin-inline-end: -0.1875rem;
+    z-index: 1;
+  }
+
+  .milestone__line {
+    flex: 1 1 auto;
+    height: 2px;
+    background: var(--milestone-ink);
+  }
+
+  /* Bridges the row's gap so the line reads as one continuous rule across all milestones,
+     instead of breaking at each column's edge. Matches the parent group's gap (60px desktop). */
+  .milestone:not(:last-child) .milestone__line {
+    margin-inline-end: -3.75rem;
+  }
+
+  @media screen and (max-width: 749px) {
+    /* Mobile row gap is 24px (1.5rem) instead of 60px, and each card is a fixed 82% width
+       rather than flex-filling — bridge with the mobile gap value so the line still reads
+       as continuous while swiping through the snap carousel. */
+    .milestone:not(:last-child) .milestone__line {
+      margin-inline-end: -1.5rem;
+    }
+  }
+
+  .milestone__value {
+    display: flex;
+    align-items: center;
+    min-height: 5rem;
+  }
+
+  .milestone__number {
+    font-family: var(--font-heading--family);
+    font-size: clamp(3rem, 2.3rem + 2.2vw, 4rem);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    color: var(--milestone-ink);
+    margin: 0;
+  }
+
+  .milestone__icon,
+  .milestone__icon-image {
+    width: 3rem;
+    height: auto;
+    color: var(--milestone-ink);
+    display: block;
+  }
+
+  .milestone__category {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .milestone__category-label {
+    font-family: var(--font-subheading--family);
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--milestone-accent);
+    margin: 0;
+  }
+
+  .milestone__category-subheading {
+    font-family: var(--font-body--family);
+    font-size: 1.25rem;
+    color: #4c4546;
+    margin: 0;
+  }
+
+  .milestone__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1.25;
+    color: var(--milestone-ink);
+    margin: 0;
+  }
+
+  .milestone__body {
+    font-family: var(--font-body--family);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #4c4546;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .milestone__number {
+      font-size: 3rem;
+    }
+
+    .milestone__value {
+      min-height: 3.75rem;
+    }
+
+    .milestone__heading {
+      font-size: 1.25rem;
+    }
+
+    /* Turns the row of milestones into a draggable, snap-to-card carousel on mobile instead of
+       wrapping or stacking — the row itself scrolls horizontally, one milestone per swipe.
+       Inline padding leaves room for the end-cap dots (below) to render without being clipped
+       by overflow-x, and scroll-padding keeps snap alignment matched to the card edges. */
+    .layout-panel-flex--row:has(.milestone) {
+      display: flex;
+      flex-wrap: nowrap !important;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-inline: 0.5rem;
+      scroll-padding-inline: 0.5rem;
+    }
+
+    .layout-panel-flex--row:has(.milestone)::-webkit-scrollbar {
+      display: none;
+    }
+
+    .milestone {
+      flex: 0 0 100%;
+      width: 100%;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Milestone",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Day One"
+    },
+    {
+      "type": "header",
+      "content": "Value"
+    },
+    {
+      "type": "select",
+      "id": "display_type",
+      "label": "Display type",
+      "options": [
+        {
+          "value": "number",
+          "label": "Number"
+        },
+        {
+          "value": "icon",
+          "label": "Icon"
+        }
+      ],
+      "default": "number"
+    },
+    {
+      "type": "text",
+      "id": "number",
+      "label": "Number",
+      "default": "2007",
+      "visible_if": "{{ block.settings.display_type == 'number' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon",
+      "label": "Icon",
+      "info": "Defaults to the arrow icon from the design when no image is uploaded.",
+      "visible_if": "{{ block.settings.display_type == 'icon' }}"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "category_label",
+      "label": "Category label",
+      "default": "The Founding"
+    },
+    {
+      "type": "text",
+      "id": "category_subheading",
+      "label": "Category subheading",
+      "default": "Russ Abbott's Dream"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "A studio where art and tattoo intertwine."
+    },
+    {
+      "type": "richtext",
+      "id": "body_text",
+      "label": "Body text",
+      "default": "<p>With nearly a decade's experience, Russ aimed to create a unique yet professional space where tattoos and art intertwine seamlessly.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Milestone",
+      "category": "t:categories.text"
+    }
+  ]
+}
+{% endschema %}
