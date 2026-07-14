@@ -195,7 +195,12 @@
       "type": "select",
       "id": "letter_spacing",
       "label": "t:settings.letter_spacing",
+      "info": "Works on any typography preset, not just Custom.",
       "options": [
+        {
+          "value": "",
+          "label": "t:options.default"
+        },
         {
           "value": "tight",
           "label": "t:options.tight"
@@ -207,10 +212,24 @@
         {
           "value": "loose",
           "label": "t:options.loose"
+        },
+        {
+          "value": "custom",
+          "label": "t:options.custom"
         }
       ],
-      "default": "normal",
-      "visible_if": "{{ block.settings.type_preset == 'custom' }}"
+      "default": ""
+    },
+    {
+      "type": "range",
+      "id": "custom_letter_spacing",
+      "label": "Letter spacing value",
+      "min": -2,
+      "max": 8,
+      "step": 0.1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.letter_spacing == 'custom' }}"
     },
     {
       "type": "select",

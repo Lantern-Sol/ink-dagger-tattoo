@@ -63,6 +63,9 @@
       --color: {{ block_settings.text_color }};
       --color-rgb: {{ block_settings.text_color.rgb }};
     {% endif %}
+    {% if block_settings.emphasis_color != blank %}
+      --emphasis-color: {{ block_settings.emphasis_color }};
+    {% endif %}
 
     --width: {{ text_width }};
     --max-width: var(--max-width--{{ type }}-{{ block_settings.max_width }});
@@ -173,6 +176,11 @@
     [style*='--horizontal-alignment-mobile: flex-end'] > .text-block {
       --text-align-default: right;
     }
+  }
+
+  .text-block em,
+  .text-block i {
+    color: var(--emphasis-color, inherit);
   }
 
   .text-block {

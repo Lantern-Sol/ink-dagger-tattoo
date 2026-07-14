@@ -30,6 +30,7 @@
     border-style
     spacing-style
     size-style
+    shadow-style
     {% if settings.hide_on_mobile %} hidden--mobile{% endif %}
     {% if settings.hide_on_desktop %} hidden--desktop{% endif %}
     {{ class }}
@@ -39,6 +40,7 @@
     {% render 'border-override', settings: settings %}
     {% render 'spacing-style', settings: settings %}
     {% render 'size-style', settings: settings %}
+    --shadow: {% if settings.enable_shadow %}{{ settings.shadow_horizontal_offset }}px {{ settings.shadow_vertical_offset }}px {{ settings.shadow_blur }}px {{ settings.shadow_color }}{% else %}none{% endif %};
     {{ style }}
   "
   {{ shopify_attributes }}

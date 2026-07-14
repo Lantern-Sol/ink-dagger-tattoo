@@ -2848,6 +2848,11 @@ form.payment-terms {
   }
 }
 
+/* Shadow override style */
+.shadow-style {
+  box-shadow: var(--shadow, none);
+}
+
 /* Gap scaling style */
 .gap-style,
 .layout-panel-flex {
