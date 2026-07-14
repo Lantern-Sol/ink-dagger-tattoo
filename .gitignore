@@ -5,3 +5,8 @@ migration/
 shopify_dev.log
 shopify_errors.log
 *.log
+
+# Local Claude Code tooling / scratch — not part of the theme
+.claude/
+.shopify-theme-context
+.shopifyignore
