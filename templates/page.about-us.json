@@ -3407,6 +3407,24 @@
         "padding-inline-end-mobile": 20
       }
     },
+    "divider_EXXYea": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "background_color": "#1D1616",
+        "divider_color": "#1D1616",
+        "section_width": "full-width",
+        "thickness": 3,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 0,
+        "padding-block-end": 0,
+        "use_mobile_padding": false,
+        "padding-block-start-mobile": 16,
+        "padding-block-end-mobile": 16
+      }
+    },
     "section_Kx9vLp": {
       "type": "section",
       "blocks": {
@@ -3596,7 +3614,7 @@
                   "name": "t:names.heading",
                   "settings": {
                     "text": "<p>We believe in<br/><em>collaboration,</em><br/><em>transparency,</em> and<br/>ensuring our clients are<br/>part of the journey,<br/>every step of the way.</p>",
-                    "mobile_text": "<p>We believe in<br/><em>collaboration,</em><br/><em>transparency,</em> and ensuring our clients are part of the journey, every step of the way.</p>",
+                    "mobile_text": "<p>We believe in <em>collaboration, transparency,</em> and ensuring our clients are part of the journey, every step of the way.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -4732,6 +4750,24 @@
         "padding-block-end-mobile": 64,
         "padding-inline-start-mobile": 20,
         "padding-inline-end-mobile": 20
+      }
+    },
+    "divider_gCTEUg": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "background_color": "#1D1616",
+        "divider_color": "#1D1616",
+        "section_width": "full-width",
+        "thickness": 3,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 0,
+        "padding-block-end": 0,
+        "use_mobile_padding": false,
+        "padding-block-start-mobile": 16,
+        "padding-block-end-mobile": 16
       }
     },
     "section_ACfEg4": {
@@ -5905,7 +5941,9 @@
     "section_BHzKnw",
     "divider_RYrcxr",
     "section_yiTqah",
+    "divider_EXXYea",
     "section_Kx9vLp",
+    "divider_gCTEUg",
     "section_ACfEg4",
     "divider_Zx4mQp",
     "main",
