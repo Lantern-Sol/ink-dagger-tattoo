@@ -215,7 +215,8 @@
                 "letter_spacing": "",
                 "uppercase": false,
                 "icon": "none",
-                "icon_size": 16,
+                "icon_image": "shopify://shop_images/icon-right.svg",
+                "icon_size": 12,
                 "icon_position": "after",
                 "icon_color": "",
                 "icon_bg_color": ""
