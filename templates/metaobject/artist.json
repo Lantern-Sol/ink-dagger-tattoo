@@ -12,8 +12,7 @@
     "main": {
       "type": "main-artist",
       "settings": {
-        "booking_label": "Request a booking",
-        "collections_title": "Portfolio",
+        "booking_label": "Book Consultation",
         "gap": 48
       }
     }
