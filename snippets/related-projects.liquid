@@ -18,9 +18,6 @@
 <script src="{{ 'related-projects-carousel.js' | asset_url }}" defer></script>
 
 {%- liquid
-  if heading == blank
-    assign heading = 'More by ' | append: artist.name.value
-  endif
   assign related = artist.projects.value
   assign count = 0
 -%}
@@ -61,20 +58,35 @@
   {%- endfor -%}
 {% endcapture %}
 
+{% capture prev_icon %}
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false">
+    <path d="M11.1226 7.13234L2.87722 6.86839M6.28094 3.67583L2.87722 6.86839L6.06978 10.2721" stroke="#1D1616" stroke-width="1.45833"/>
+  </svg>
+{% endcapture %}
+{% capture next_icon %}
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false">
+    <path d="M2.87743 7.13234L11.1228 6.86839M7.71906 3.67583L11.1228 6.86839L7.93022 10.2721" stroke="#1D1616" stroke-width="1.45833"/>
+  </svg>
+{% endcapture %}
+
 {% if count > 0 %}
   <div class="related-projects">
     <div class="related-projects__inner">
-      {%- if heading != blank -%}
-        <h2 class="related-projects__heading">{{ heading }}</h2>
-      {%- endif -%}
+      <h2 class="related-projects__heading">
+        {%- if heading != blank -%}
+          {{ heading }}
+        {%- else -%}
+          {%- comment -%} Two spans so mobile can force "More by" onto its own line. {%- endcomment -%}
+          <span class="related-projects__heading-prefix">More by</span>
+          <span class="related-projects__heading-name">{{ artist.name.value }}</span>
+        {%- endif -%}
+      </h2>
 
       <related-projects-carousel>
         <div class="related-projects__carousel">
           {%- if count > 1 -%}
-            <button type="button" class="related-projects__arrow-btn related-projects__arrow-btn--prev" aria-label="Previous" data-prev>
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false">
-                <path d="M11.1226 7.13234L2.87722 6.86839M6.28094 3.67583L2.87722 6.86839L6.06978 10.2721" stroke="#1D1616" stroke-width="1.45833"/>
-              </svg>
+            <button type="button" class="related-projects__arrow-btn related-projects__arrow-btn--side" aria-label="Previous" data-prev>
+              {{ prev_icon }}
             </button>
           {%- endif -%}
 
@@ -83,16 +95,27 @@
           </div>
 
           {%- if count > 1 -%}
-            <button type="button" class="related-projects__arrow-btn related-projects__arrow-btn--next" aria-label="Next" data-next>
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false">
-                <path d="M2.87743 7.13234L11.1228 6.86839M7.71906 3.67583L11.1228 6.86839L7.93022 10.2721" stroke="#1D1616" stroke-width="1.45833"/>
-              </svg>
+            <button type="button" class="related-projects__arrow-btn related-projects__arrow-btn--side" aria-label="Next" data-next>
+              {{ next_icon }}
             </button>
           {%- endif -%}
         </div>
 
         {%- if count > 1 -%}
-          <div class="related-projects__dots" data-dots></div>
+          {%- comment -%}
+            Bottom control row — on mobile the arrows render here (flanking the
+            dots, per Figma 535-2676) and the side arrows above are hidden;
+            on desktop only the dots show here.
+          {%- endcomment -%}
+          <div class="related-projects__controls">
+            <button type="button" class="related-projects__arrow-btn related-projects__arrow-btn--bottom" aria-label="Previous" data-prev>
+              {{ prev_icon }}
+            </button>
+            <div class="related-projects__dots" data-dots></div>
+            <button type="button" class="related-projects__arrow-btn related-projects__arrow-btn--bottom" aria-label="Next" data-next>
+              {{ next_icon }}
+            </button>
+          </div>
         {%- endif -%}
       </related-projects-carousel>
     </div>
@@ -102,8 +125,16 @@
 {% style %}
   .related-projects {
     background: #e3dfd6;
-    border-top: 4px solid #cfc8b9;
-    padding-block: 2rem 4rem;
+    border-top: 4px solid #b0aba0;
+    padding-block: 2rem;
+  }
+
+  @media (min-width: 750px) {
+    .related-projects {
+      /* Figma 535-2758 (desktop) uses a lighter rule than mobile (535-2676). */
+      border-top-color: #cfc8b9;
+      padding-block: 2rem 4rem;
+    }
   }
 
   .related-projects__inner {
@@ -119,29 +150,46 @@
 
   @media (min-width: 750px) {
     .related-projects__inner {
-      padding-inline: 50px;
+      padding-inline: 96px;
     }
   }
 
   .related-projects__heading {
     margin: 0;
     font-family: var(--font-heading--family, serif);
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 400;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.021em;
     color: #ce5454;
+    line-height: 1.3;
+  }
+
+  /* Keeps "More by" alone on the first line on mobile (Figma 535-2676). */
+  .related-projects__heading-name {
+    display: block;
+  }
+
+  @media (min-width: 750px) {
+    .related-projects__heading {
+      font-size: 2rem;
+      letter-spacing: -0.016em;
+    }
+
+    .related-projects__heading-name {
+      display: inline;
+    }
   }
 
   related-projects-carousel {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 2rem;
   }
 
   .related-projects__carousel {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 2rem;
   }
 
   .related-projects__arrow-btn {
@@ -164,9 +212,38 @@
     cursor: not-allowed;
   }
 
+  /* Side arrows are a desktop-only pattern; on mobile the arrows live in the
+     bottom control row flanking the dots (Figma 535-2676). */
+  .related-projects__arrow-btn--side {
+    display: none;
+  }
+
+  .related-projects__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  @media (min-width: 750px) {
+    .related-projects__arrow-btn--side {
+      display: flex;
+    }
+
+    .related-projects__arrow-btn--bottom {
+      display: none;
+    }
+
+    .related-projects__controls {
+      gap: 0;
+    }
+  }
+
   .related-projects__track {
     display: flex;
-    align-items: flex-start;
+    /* Cards stretch to the tallest sibling so every card in view has the
+       same height and the info bars line up. */
+    align-items: stretch;
     gap: 2rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
@@ -197,6 +274,8 @@
   @media screen and (max-width: 749px) {
     .related-projects__card {
       flex: 0 0 100%;
+      gap: 1rem;
+      padding-bottom: 1rem;
     }
   }
 
@@ -204,6 +283,18 @@
     aspect-ratio: 1;
     overflow: hidden;
     border-radius: 6px 6px 0 0;
+  }
+
+  @media (min-width: 750px) {
+    .related-projects__image {
+      /* Fixed image height per Figma 535-2758; cards are 3-up so the
+         aspect ratio varies with viewport width. flex-grow lets the image
+         absorb any leftover space from the equal-height stretch, keeping
+         the info bar pinned to the bottom of every card. */
+      aspect-ratio: auto;
+      height: 392px;
+      flex: 1 0 auto;
+    }
   }
 
   .related-projects__image img {
@@ -218,13 +309,30 @@
     align-items: flex-end;
     justify-content: space-between;
     gap: 0.5rem;
-    padding-inline: 1.5rem;
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 750px) {
+    .related-projects__info {
+      padding-inline: 1.5rem;
+    }
   }
 
   .related-projects__title-group {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  /* Single line + ellipsis: a long title must never wrap, so the info bar
+     keeps one constant height and title/kind/icon align across all cards. */
+  .related-projects__title,
+  .related-projects__kind {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .related-projects__title {

@@ -8,5 +8,6 @@ shopify_errors.log
 
 # Local Claude Code tooling / scratch — not part of the theme
 .claude/
+.playwright-mcp/
 .shopify-theme-context
 .shopifyignore

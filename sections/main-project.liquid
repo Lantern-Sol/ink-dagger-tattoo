@@ -43,16 +43,13 @@
   endif
 
   # Split the description across the two columns (left: opening portion under
-  # the heading; right: remainder + CTA), matching the Figma layout.
+  # the heading; right: remainder above the CTA), matching the Figma layout.
+  # A project without a description renders no paragraphs at all — the layout
+  # (and the Book Consultation CTA) must not depend on this field being set.
   assign description_left = ''
   assign description_right = ''
 
-  if description == blank
-    # Verbatim Figma placeholder copy (exact text + paragraph breaks), shown
-    # only when the real project description hasn't been migrated yet.
-    assign description_left = "This hauntingly vivid sleeve by Stani pushes the boundaries of realism, capturing the Reaper not as a symbol of fear but of power, inevitability, and transformation. Every detail is meticulously rendered: from the glow of hollow eyes to the worn steel of the scythe, cloaked in swirling smoke and ember-lit shadows."
-    assign description_right = "The composition flows seamlessly down the leg, each element layered with cinematic depth and movement. Stani's signature technique brings this spectral figure to life with rich saturation, smooth blends, and bold contrasts that grip the eye.<br><br>This isn't just a tattoo, it's a reckoning. A full-sleeve confrontation with life's impermanence, worn like armor."
-  else
+  if description != blank
     # Real descriptions are a single continuous paragraph (no line breaks),
     # so split by sentence count rather than assuming paragraph breaks exist.
     assign sentences = description | split: '. '
@@ -119,7 +116,9 @@
       </div>
 
       <div class="project-header__col project-header__col--end">
-        <div class="project-header__description">{{ description_right }}</div>
+        {%- if description_right != blank -%}
+          <div class="project-header__description">{{ description_right }}</div>
+        {%- endif -%}
 
         <a
           class="project-header__cta button-custom"
@@ -155,7 +154,11 @@
   {% render 'related-projects', artist: artist, current: project %}
 {%- endif -%}
 
-{% render 'micro-faq' %}
+{%- comment -%}
+  The "not sure where to start" micro-FAQ band is composed from theme blocks
+  in templates/metaobject/project.json (same pattern as page.artists.json /
+  page.booking.json) so merchants can edit it in the customizer.
+{%- endcomment -%}
 
 {%- style -%}
   .project-banner { position: relative; }
@@ -169,33 +172,44 @@
     pointer-events: none;
     background: linear-gradient(
       to bottom,
-      rgba(17, 16, 9, 0.8) 7.3%,
-      rgba(17, 16, 9, 0) 44.8%,
-      rgba(17, 16, 9, 0.8) 82.9%
+      rgba(17, 16, 9, 0.9) 7.3%,
+      rgba(17, 16, 9, 0) 40.2%,
+      rgba(17, 16, 9, 0.9) 82.9%
     );
+  }
+  @media (min-width: 750px) {
+    .project-banner::after {
+      background: linear-gradient(
+        to bottom,
+        rgba(17, 16, 9, 0.8) 7.3%,
+        rgba(17, 16, 9, 0) 44.8%,
+        rgba(17, 16, 9, 0.8) 82.9%
+      );
+    }
   }
   .project-banner__caption {
     position: absolute;
     z-index: 2;
     left: max(32px, calc((100% - 90rem) / 2 + 32px));
     right: max(32px, calc((100% - 90rem) / 2 + 32px));
-    bottom: 1.25rem;
+    bottom: 2rem;
     margin: 0;
     color: #ce5454;
     font-weight: 700;
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.18em;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7), 0 1px 2px rgba(0, 0, 0, 0.9);
+    letter-spacing: 0.15em;
   }
   @media (min-width: 750px) {
     .project-banner__caption {
-      left: max(50px, calc((100% - 90rem) / 2 + 50px));
-      right: max(50px, calc((100% - 90rem) / 2 + 50px));
+      left: max(96px, calc((100% - 90rem) / 2 + 96px));
+      right: max(96px, calc((100% - 90rem) / 2 + 96px));
       bottom: 3.25rem;
+      letter-spacing: 0.18em;
     }
   }
-  .project-page { padding-block: 48px; background: {{ settings.color_palette.color1 }}; color: {{ settings.color_palette.background }}; }
+  .project-page { padding-block: 32px; background: {{ settings.color_palette.color1 }}; color: {{ settings.color_palette.background }}; }
+  @media (min-width: 750px) { .project-page { padding-block: 64px; } }
   .project-page__inner {
     box-sizing: border-box;
     max-width: 90rem;
@@ -204,19 +218,27 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: var(--project-gap, 48px);
+    gap: 32px;
   }
-  @media (min-width: 750px) { .project-page__inner { padding-inline: 50px; } }
+  @media (min-width: 750px) {
+    .project-page__inner {
+      padding-inline: 96px;
+      gap: var(--project-gap, 64px);
+    }
+  }
   .project-header { display: flex; flex-direction: column; gap: 24px; max-width: 64.75rem; margin-inline: auto; width: 100%; }
   @media (min-width: 750px) { .project-header { flex-direction: row; align-items: flex-end; gap: 24px; } }
-  .project-header__col { display: flex; flex-direction: column; gap: 16px; flex: 1 1 0; }
+  .project-header__col { display: flex; flex-direction: column; gap: 24px; flex: 1 1 0; }
+  @media (min-width: 750px) { .project-header__col { gap: 16px; } }
   .project-header__col--end { justify-content: flex-end; }
-  .project-header__name { margin: 0; font-family: var(--font-heading--family); font-size: 2rem; font-weight: 400; letter-spacing: -0.015em; }
+  .project-header__name { margin: 0; font-family: var(--font-heading--family); font-size: 1.5rem; font-weight: 400; letter-spacing: -0.021em; }
+  @media (min-width: 750px) { .project-header__name { font-size: 2rem; letter-spacing: -0.015em; } }
   .project-header__tags { display: flex; flex-wrap: wrap; gap: 8px; }
   .project-header__tag { border: 2px solid {{ settings.color_palette.background }}; border-radius: 99px; padding: 2px 24px; font-style: italic; font-size: 1.125rem; }
   .project-header__artist { margin: 0; color: {{ settings.color_palette.foreground }}; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.18em; font-weight: 700; font-size: 0.8125rem; }
   .project-header__artist a { color: inherit; }
-  .project-header__description { margin: 0; opacity: 0.85; line-height: 1.6; font-size: 1.125rem; }
+  .project-header__description { margin: 0; opacity: 0.85; line-height: 1.19; font-size: 1rem; }
+  @media (min-width: 750px) { .project-header__description { line-height: 1.45; font-size: 1.125rem; } }
   .project-header__cta {
     display: inline-flex;
     align-items: center;
@@ -229,7 +251,7 @@
     letter-spacing: 0.02em;
     text-decoration: none;
   }
-  .project-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .project-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; }
   @media (min-width: 750px) { .project-gallery { gap: 64px; } }
   .project-gallery__item { margin: 0; }
   .project-gallery__item img {
@@ -239,9 +261,10 @@
     object-fit: cover;
     display: block;
     border: 3px solid #ce5454;
-    border-radius: 12px;
+    border-radius: 10px;
     box-sizing: border-box;
   }
+  @media (min-width: 750px) { .project-gallery__item img { border-radius: 12px; } }
 {%- endstyle -%}
 
 {% schema %}

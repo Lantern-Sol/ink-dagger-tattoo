@@ -4,8 +4,11 @@ if (!customElements.get('related-projects-carousel')) {
     class RelatedProjectsCarousel extends HTMLElement {
       connectedCallback() {
         this.track = this.querySelector('[data-track]');
-        this.prevButton = this.querySelector('[data-prev]');
-        this.nextButton = this.querySelector('[data-next]');
+        // Two pairs of arrows exist: side buttons (desktop) and bottom-row
+        // buttons next to the dots (mobile). CSS shows one pair per viewport;
+        // the JS simply drives them all.
+        this.prevButtons = Array.from(this.querySelectorAll('[data-prev]'));
+        this.nextButtons = Array.from(this.querySelectorAll('[data-next]'));
         this.dotsContainer = this.querySelector('[data-dots]');
         this.currentPage = 0;
         this.scrollEndTimer = null;
@@ -17,8 +20,8 @@ if (!customElements.get('related-projects-carousel')) {
         this.onScroll = () => this.onScrollSettle();
         this.onResize = () => this.refresh();
 
-        this.prevButton?.addEventListener('click', this.onPrevClick);
-        this.nextButton?.addEventListener('click', this.onNextClick);
+        this.prevButtons.forEach((button) => button.addEventListener('click', this.onPrevClick));
+        this.nextButtons.forEach((button) => button.addEventListener('click', this.onNextClick));
         this.track.addEventListener('scroll', this.onScroll, { passive: true });
         window.addEventListener('resize', this.onResize);
 
@@ -26,8 +29,8 @@ if (!customElements.get('related-projects-carousel')) {
       }
 
       disconnectedCallback() {
-        this.prevButton?.removeEventListener('click', this.onPrevClick);
-        this.nextButton?.removeEventListener('click', this.onNextClick);
+        this.prevButtons?.forEach((button) => button.removeEventListener('click', this.onPrevClick));
+        this.nextButtons?.forEach((button) => button.removeEventListener('click', this.onNextClick));
         this.track?.removeEventListener('scroll', this.onScroll);
         window.removeEventListener('resize', this.onResize);
         clearTimeout(this.scrollEndTimer);
@@ -123,8 +126,8 @@ if (!customElements.get('related-projects-carousel')) {
       // entirely when there's only one page (not enough items to scroll —
       // e.g. exactly `slidesPerView` cards, no overflow to page through).
       updateArrowState() {
-        if (this.prevButton) this.prevButton.disabled = this.currentPage <= 0;
-        if (this.nextButton) this.nextButton.disabled = this.currentPage >= this.pageCount - 1;
+        this.prevButtons.forEach((button) => (button.disabled = this.currentPage <= 0));
+        this.nextButtons.forEach((button) => (button.disabled = this.currentPage >= this.pageCount - 1));
       }
     }
   );
