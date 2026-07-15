@@ -8,11 +8,18 @@
   single-active-slide model that fights a static multi-up display.
 
   @param {object} artist - an `artist` metaobject
-  @param {object} [current] - a `project` metaobject to exclude from the list
+  @param {object} [current] - a `project` (or, in styles mode, `style`) metaobject to exclude from the list
   @param {string} [heading] - defaults to "More by [artist name]"
+  @param {string} [mode] - 'styles' renders style cards (Figma 509:1109, used on
+    style pages) instead of project cards: one card per other `style` the
+    artist has tagged work in, image = first image of the artist's first
+    project in that style, linking to the style's page.
+  @param {string} [kind_label] - styles mode only: the italic line under the
+    card title (e.g. "Tattoo Style"). Omitted when blank.
 
   @example
   {% render 'related-projects', artist: artist, current: project %}
+  {% render 'related-projects', artist: artist, current: style_entry, mode: 'styles', kind_label: 'Tattoo Style' %}
 {%- enddoc -%}
 
 <script src="{{ 'related-projects-carousel.js' | asset_url }}" defer></script>
@@ -23,13 +30,88 @@
 -%}
 
 {% capture cards %}
+  {%- if mode == 'styles' -%}
+    {%- comment -%}
+      One card per style (excluding the current one) in which the artist has
+      at least one tagged project with imagery — when no artist is given, any
+      project in the style qualifies. paginate lifts the 50-entry cap on
+      shop.metaobjects.project.values (same as style-cards.liquid).
+    {%- endcomment -%}
+    {%- paginate shop.metaobjects.project.values by 250 -%}
+      {%- for style_item in shop.metaobjects.style.values -%}
+        {%- if current != blank and style_item.system.id == current.system.id -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- liquid
+          assign card_image = blank
+          for style_source in shop.metaobjects.project.values
+            if style_source.style.value.system.id != style_item.system.id
+              continue
+            endif
+            if artist != blank and style_source.artist.value.system.id != artist.system.id
+              continue
+            endif
+            assign card_image = style_source.images.value | first
+            if card_image != blank
+              if card_image.media_type == 'video'
+                assign card_image = card_image.preview_image
+              endif
+              break
+            endif
+          endfor
+          if card_image == blank
+            continue
+          endif
+          assign count = count | plus: 1
+        -%}
+        <a href="{{ style_item.system.url }}" class="related-projects__card">
+          <div class="related-projects__image">
+            {{
+              card_image
+              | image_url: width: 700
+              | image_tag:
+                loading: 'lazy',
+                widths: '350, 500, 700',
+                sizes: '(min-width: 750px) 30vw, 90vw',
+                alt: style_item.name.value | escape
+            }}
+          </div>
+          <div class="related-projects__info">
+            <span class="related-projects__title-group">
+              <span class="related-projects__title">{{ style_item.name.value | escape }}</span>
+              {%- if kind_label != blank -%}
+                <span class="related-projects__kind">{{ kind_label | escape }}</span>
+              {%- endif -%}
+            </span>
+            <svg class="related-projects__arrow" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 20 20">
+              {%- render 'icon', icon: 'arrow_ne' -%}
+            </svg>
+          </div>
+        </a>
+      {%- endfor -%}
+    {%- endpaginate -%}
+  {%- endif -%}
+  {%- comment -%}
+    Project cards render in BOTH modes — on style pages they follow the style
+    cards (Figma 509:1109 mixes both, e.g. "Buffalo" after the style cards).
+    In styles mode `current` is a style entry so no project is excluded.
+  {%- endcomment -%}
   {%- for related_project in related -%}
     {%- if current != blank and related_project.system.id == current.system.id -%}
       {%- continue -%}
     {%- endif -%}
     {%- liquid
       assign cover = related_project.images.value | first
+      if cover.media_type == 'video'
+        assign cover = cover.preview_image
+      endif
       assign count = count | plus: 1
+      # Card subtitle: the project's style name (falls back to its kind);
+      # never static filler text.
+      assign card_kind = related_project.style.value.name.value
+      if card_kind == blank
+        assign card_kind = related_project.kind.value
+      endif
     -%}
     <a href="{{ related_project.system.url }}" class="related-projects__card">
       <div class="related-projects__image">
@@ -48,7 +130,9 @@
       <div class="related-projects__info">
         <span class="related-projects__title-group">
           <span class="related-projects__title">{{ related_project.name.value | escape }}</span>
-          <span class="related-projects__kind">{{ related_project.kind.value | default: 'Tattoo Style' | escape }}</span>
+          {%- if card_kind != blank -%}
+            <span class="related-projects__kind">{{ card_kind | escape }}</span>
+          {%- endif -%}
         </span>
         <svg class="related-projects__arrow" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 20 20">
           {%- render 'icon', icon: 'arrow_ne' -%}
@@ -72,15 +156,17 @@
 {% if count > 0 %}
   <div class="related-projects">
     <div class="related-projects__inner">
-      <h2 class="related-projects__heading">
-        {%- if heading != blank -%}
-          {{ heading }}
-        {%- else -%}
-          {%- comment -%} Two spans so mobile can force "More by" onto its own line. {%- endcomment -%}
-          <span class="related-projects__heading-prefix">More by</span>
-          <span class="related-projects__heading-name">{{ artist.name.value }}</span>
-        {%- endif -%}
-      </h2>
+      {%- if heading != blank or artist.name.value != blank -%}
+        <h2 class="related-projects__heading">
+          {%- if heading != blank -%}
+            {{ heading }}
+          {%- else -%}
+            {%- comment -%} Two spans so mobile can force "More by" onto its own line. {%- endcomment -%}
+            <span class="related-projects__heading-prefix">More by</span>
+            <span class="related-projects__heading-name">{{ artist.name.value }}</span>
+          {%- endif -%}
+        </h2>
+      {%- endif -%}
 
       <related-projects-carousel>
         <div class="related-projects__carousel">
