@@ -12,7 +12,7 @@
     "main": {
       "type": "main-artist",
       "settings": {
-        "booking_url": "",
+        "booking_url": "shopify://pages/booking",
         "booking_label": "Book Consultation",
         "background_color": "#f8f5ed",
         "details_heading": "Details",
