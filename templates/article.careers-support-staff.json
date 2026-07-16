@@ -226,7 +226,7 @@
                 "open_in_new_tab": false,
                 "placeholder": "",
                 "padding-block-start": 0,
-                "padding-block-end": 0,
+                "padding-block-end": 32,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0,
                 "use_mobile_padding": false,
@@ -355,7 +355,7 @@
                 "accordion_row_VDPTtJ": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "How does booking work?",
+                    "heading": "How does the application process work?",
                     "open_by_default": true,
                     "type_preset": "h4",
                     "font": "var(--font-body--family)",
@@ -375,7 +375,7 @@
                     "text_rgtXxy": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Start by filling out the form with as much detail as possible. We review your submission, consult with the artist if needed, and guide you to consultation or booking. <strong>A non-refundable retainer is required to secure an appointment.</strong></p>",
+                        "text": "<p>Fill out the form with your experience and portfolio, if applicable. We review every submission and reach out directly if it's a fit.</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
@@ -423,7 +423,7 @@
                 "accordion_row_tN8hyr": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "How much does it cost?",
+                    "heading": "What happens after I apply?",
                     "open_by_default": false,
                     "type_preset": "h4",
                     "font": "var(--font-body--family)",
@@ -491,7 +491,7 @@
                 "accordion_row_xwGaFh": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "How do I get the best tattoo possible?",
+                    "heading": "Do I need to be local?",
                     "open_by_default": false,
                     "type_preset": "h4",
                     "font": "var(--font-body--family)",
@@ -559,7 +559,7 @@
                 "accordion_row_r9Hcre": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Do you copy tattoos done by other artists?",
+                    "heading": "How long until I hear back?",
                     "open_by_default": false,
                     "type_preset": "h4",
                     "font": "var(--font-body--family)",
@@ -623,82 +623,13 @@
                   "block_order": [
                     "text_7mjVE8"
                   ]
-                },
-                "accordion_row_8rNHjU": {
-                  "type": "_accordion-row",
-                  "settings": {
-                    "heading": "What happens after I submit?",
-                    "open_by_default": false,
-                    "type_preset": "h4",
-                    "font": "var(--font-body--family)",
-                    "font_size": "",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "type_preset_mobile": "h5",
-                    "mobile_font_size": "",
-                    "mobile_custom_line_height": 1.5,
-                    "heading_opacity": 100,
-                    "icon": "number_05",
-                    "width": 20,
-                    "icon_color": "{{ settings.color_palette.foreground }}"
-                  },
-                  "blocks": {
-                    "text_VcXVz6": {
-                      "type": "text",
-                      "settings": {
-                        "text": "<p>We review your request, confirm or adjust artist fit, and guide you to the next step. You'll hear from us within our standard response window.</p>",
-                        "accent_text": "",
-                        "accent_color": "",
-                        "mobile_text": "",
-                        "width": "100%",
-                        "max_width": "none",
-                        "alignment": "left",
-                        "height_mode": "auto",
-                        "desktop_height": "",
-                        "mobile_height": "",
-                        "type_preset": "custom",
-                        "font": "var(--font-body--family)",
-                        "enable_custom_font_weight": false,
-                        "weight": "400",
-                        "font_size": "1rem",
-                        "line_height": "normal",
-                        "custom_line_height": 1.5,
-                        "letter_spacing": "normal",
-                        "case": "none",
-                        "wrap": "pretty",
-                        "type_preset_mobile": "rte",
-                        "mobile_font_size": "1rem",
-                        "mobile_custom_line_height": 1.5,
-                        "text_color": "",
-                        "background": false,
-                        "background_color": "#00000026",
-                        "corner_radius": 0,
-                        "opacity": 100,
-                        "padding-block-start": 0,
-                        "padding-block-end": 0,
-                        "padding-inline-start": 0,
-                        "padding-inline-end": 0,
-                        "use_mobile_padding": false,
-                        "padding-block-start-mobile": 0,
-                        "padding-block-end-mobile": 0,
-                        "padding-inline-start-mobile": 0,
-                        "padding-inline-end-mobile": 0
-                      },
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": [
-                    "text_VcXVz6"
-                  ]
                 }
               },
               "block_order": [
                 "accordion_row_VDPTtJ",
                 "accordion_row_tN8hyr",
                 "accordion_row_xwGaFh",
-                "accordion_row_r9Hcre",
-                "accordion_row_8rNHjU"
+                "accordion_row_r9Hcre"
               ]
             }
           },
