@@ -14,6 +14,13 @@
   assign visible_text = plain_text
   assign text_width = width | default: block_settings.width
 
+  assign heading_text = block_settings.text
+  assign accent_phrase = block_settings.accent_text | strip_newlines | strip_html | strip
+  if accent_phrase != blank and heading_text contains accent_phrase
+    assign accent_replacement = '<span class="text-accent">' | append: accent_phrase | append: '</span>'
+    assign heading_text = heading_text | replace: accent_phrase, accent_replacement
+  endif
+
   if block_settings.font_size contains 'heading-lg' or block_settings.font_size contains 'heading-xl'
     assign type = 'display'
   elsif block_settings.font_size contains 'heading'
@@ -61,6 +68,9 @@
       --color: {{ block_settings.text_color }};
       --color-rgb: {{ block_settings.text_color.rgb }};
     {% endif %}
+    {% if block_settings.accent_color != blank %}
+      --accent-color: {{ block_settings.accent_color }};
+    {% endif %}
 
     --width: {{ text_width }};
     --max-width: var(--max-width--{{ type }}-{{ block_settings.max_width }});
@@ -97,10 +107,10 @@
 {% elsif plain_text != blank %}
   <{{ element }} {{ attributes | strip_newlines | strip }}>
     {% if plain_text_mobile != blank %}
-      {{ block.settings.text | replace_first: '>',' class="hidden--mobile">' | replace: '®', '<sup>®</sup>' }}
+      {{ heading_text | replace_first: '>',' class="hidden--mobile">' | replace: '®', '<sup>®</sup>' }}
       {{ block.settings.mobile_text | replace_first: '>',' class="hidden--desktop">' | replace: '®', '<sup>®</sup>' }}
     {% else %}
-      {{ block.settings.text | replace: '®', '<sup>®</sup>' }}
+      {{ heading_text | replace: '®', '<sup>®</sup>' }}
     {% endif %}
   </{{ element }}>
 {% endif %}
@@ -295,6 +305,10 @@
   .custom-color,
   .custom-color > :is(h1, h2, h3, h4, h5, h6, p, *) {
     color: var(--color);
+  }
+
+  .text-accent {
+    color: var(--accent-color, currentColor);
   }
 
   /*
