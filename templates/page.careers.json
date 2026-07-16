@@ -563,7 +563,7 @@
                 "text_LF9tEd": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Tell us your idea</p>",
+                    "text": "<p>Tell us about you</p>",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -604,7 +604,7 @@
                 "text_p8eRnm": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Share what you have in mind — style, placement, size, or reference images. Nothing is too vague.</p>",
+                    "text": "<p>Share your experience, portfolio or resume, and which role fits you best.</p>",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -748,7 +748,7 @@
                 "text_wDfMBT": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>We match you</p>",
+                    "text": "<p>We review your fit</p>",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -789,7 +789,7 @@
                 "text_amfJyc": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Our team reviews your vision and pairs you with the artist whose portfolio best fits your concept.</p>",
+                    "text": "<p>Our team reviews your application and matches you to the right opening.</p>",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -933,7 +933,7 @@
                 "text_AarmEc": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>What type of tattoo<br/>should I select?</p>",
+                    "text": "<p>Next steps</p>",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -1029,7 +1029,7 @@
                     "text_YjGt6B": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Meet your artist, discuss the design, and get a quote — with 0 pressure and 0 commitment.</p>",
+                        "text": "<p>We'll reach out to schedule an interview or trial shift — no pressure.</p>",
                         "mobile_text": "",
                         "width": "100%",
                         "max_width": "normal",
@@ -1146,10 +1146,10 @@
               "type": "button",
               "name": "t:names.button",
               "settings": {
-                "label": "Get Help Choosing an Artist",
-                "link": "shopify://pages/contact",
+                "label": "Start Your Application",
+                "link": "",
                 "open_in_new_tab": false,
-                "style_class": "button",
+                "style_class": "button-secondary",
                 "custom_button_background": "{{ settings.color_palette.foreground }}",
                 "custom_button_text": "{{ settings.color_palette.background }}",
                 "custom_button_border": "{{ settings.color_palette.background }}",
