@@ -32,11 +32,6 @@
       {{ 'icon-search.svg' | inline_asset_content }}
     </span>
     <input
-      name="type"
-      value="product"
-      type="hidden"
-    >
-    <input
       class="search-page-input"
       id="SearchPageInput--{{ block.id }}"
       type="search"
@@ -47,7 +42,7 @@
       placeholder="{{ 'content.search_input_placeholder' | t }}"
     >
     <a
-      href="{{ routes.search_url }}?type=product&q="
+      href="{{ routes.search_url }}?q="
       class="search__reset-button"
       aria-label="{{ 'accessibility.reset_search' | t }}"
     >
