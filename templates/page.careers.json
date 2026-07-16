@@ -365,7 +365,7 @@
               "type": "text",
               "name": "t:names.heading",
               "settings": {
-                "text": "<p>We’ll guide you to the right artist</p>",
+                "text": "<p>How hiring works </p>",
                 "mobile_text": "",
                 "width": "fit-content",
                 "max_width": "normal",
