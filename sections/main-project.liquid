@@ -8,7 +8,7 @@
   Style fields:   name, description, collection_description, artist
 
   Style pages share the project layout except: no style-tag pills (the artist
-  attribution sits directly under the heading, per Figma 509:682), the two
+  attribution sits directly under the heading), the two
   description columns come from two separate fields (no sentence splitting),
   the banner caption reads "Artist / Style / Style name", and the banner +
   gallery aggregate the first image of each `project` entry referencing this
@@ -57,8 +57,8 @@
       assign caption_text = caption_text | append: ' / ' | append: heading
     endif
 
-    # Figma 509:682 renders the artist's name inside the opening description
-    # as a link — inject it when the name appears verbatim in the text.
+    # The artist's name inside the opening description renders as a link —
+    # inject it when the name appears verbatim in the text.
     if artist != blank and description_left != blank
       assign artist_name = artist.name.value
       if description_left contains artist_name
@@ -77,8 +77,8 @@
     because project entries haven't been tagged.
   {%- endcomment -%}
   {%- liquid
-    # "Style gallery shows" setting: one artist's collection (default, per
-    # Figma) or every artist working in the style. Artist mode only kicks in
+    # "Style gallery shows" setting: one artist's collection (default) or
+    # every artist working in the style. Artist mode only kicks in
     # when that artist actually has tagged projects — otherwise fall back to
     # all artists so the gallery never renders blank.
     assign filter_artist = blank
@@ -228,7 +228,7 @@
     endif
 
     # Split the description across the two columns (left: opening portion under
-    # the heading; right: remainder above the CTA), matching the Figma layout.
+    # the heading; right: remainder above the CTA).
     # A project without a description renders no paragraphs at all — the layout
     # (and the Book Consultation CTA) must not depend on this field being set.
     assign description_left = ''
@@ -384,7 +384,7 @@
 {%- if is_style -%}
   {%- comment -%}
     On style pages the carousel shows the artist's other styles instead of
-    projects (Figma 509:1109) — same cards, sourced from `style` entries.
+    projects — same cards, sourced from `style` entries.
   {%- endcomment -%}
   {% render 'related-projects',
     artist: artist,

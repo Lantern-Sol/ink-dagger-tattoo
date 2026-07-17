@@ -10,7 +10,7 @@
   @param {object} artist - an `artist` metaobject
   @param {object} [current] - a `project` (or, in styles mode, `style`) metaobject to exclude from the list
   @param {string} [heading] - defaults to "More by [artist name]"
-  @param {string} [mode] - 'styles' renders style cards (Figma 509:1109, used on
+  @param {string} [mode] - 'styles' renders style cards (used on
     style pages) instead of project cards: one card per other `style` the
     artist has tagged work in, image = first image of the artist's first
     project in that style, linking to the style's page.
@@ -93,8 +93,7 @@
   {%- endif -%}
   {%- comment -%}
     Project cards render in BOTH modes — on style pages they follow the style
-    cards (Figma 509:1109 mixes both, e.g. "Buffalo" after the style cards).
-    In styles mode `current` is a style entry so no project is excluded.
+    cards. In styles mode `current` is a style entry so no project is excluded.
   {%- endcomment -%}
   {%- for related_project in related -%}
     {%- if current != blank and related_project.system.id == current.system.id -%}
@@ -190,8 +189,8 @@
         {%- if count > 1 -%}
           {%- comment -%}
             Bottom control row — on mobile the arrows render here (flanking the
-            dots, per Figma 535-2676) and the side arrows above are hidden;
-            on desktop only the dots show here.
+            dots) and the side arrows above are hidden; on desktop only the
+            dots show here.
           {%- endcomment -%}
           <div class="related-projects__controls">
             <button type="button" class="related-projects__arrow-btn related-projects__arrow-btn--bottom" aria-label="Previous" data-prev>
@@ -217,7 +216,7 @@
 
   @media (min-width: 750px) {
     .related-projects {
-      /* Figma 535-2758 (desktop) uses a lighter rule than mobile (535-2676). */
+      /* Desktop uses a lighter rule than mobile — don't unify the two. */
       border-top-color: #cfc8b9;
       padding-block: 2rem 4rem;
     }
@@ -250,7 +249,7 @@
     line-height: 1.3;
   }
 
-  /* Keeps "More by" alone on the first line on mobile (Figma 535-2676). */
+  /* Keeps "More by" alone on the first line on mobile. */
   .related-projects__heading-name {
     display: block;
   }
@@ -299,7 +298,7 @@
   }
 
   /* Side arrows are a desktop-only pattern; on mobile the arrows live in the
-     bottom control row flanking the dots (Figma 535-2676). */
+     bottom control row flanking the dots. */
   .related-projects__arrow-btn--side {
     display: none;
   }
@@ -373,7 +372,7 @@
 
   @media (min-width: 750px) {
     .related-projects__image {
-      /* Fixed image height per Figma 535-2758; cards are 3-up so the
+      /* Fixed image height; cards are 3-up so the
          aspect ratio varies with viewport width. flex-grow lets the image
          absorb any leftover space from the equal-height stretch, keeping
          the info bar pinned to the bottom of every card. */

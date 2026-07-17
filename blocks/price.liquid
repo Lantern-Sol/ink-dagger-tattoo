@@ -2,6 +2,11 @@
   assign block_settings = block.settings
   assign product_resource = closest.product
   assign selected_variant = product_resource.selected_or_first_available_variant
+
+  assign inquire_active = false
+  if block_settings.inquire_tag != blank and product_resource.tags contains block_settings.inquire_tag
+    assign inquire_active = true
+  endif
 -%}
 
 {% liquid
@@ -49,11 +54,18 @@
   "
   {{ block.shopify_attributes }}
 >
-  {% render 'price',
-    show_unit_price: true,
-    product_resource: product_resource,
-    show_sale_price_first: block_settings.show_sale_price_first
-  %}
+  {% if inquire_active %}
+    <span class="price price--inquire">{{ block_settings.inquire_label }}</span>
+  {% elsif block_settings.show_highest_price %}
+    <span class="price">{{ product_resource.price_max | money_without_trailing_zeros }}</span>
+  {% else %}
+    {% render 'price',
+      show_unit_price: true,
+      product_resource: product_resource,
+      show_sale_price_first: block_settings.show_sale_price_first,
+      hide_from_prefix: block_settings.hide_from_prefix
+    %}
+  {% endif %}
 
   {% if block_settings.show_tax_info %}
     <div class="tax-note">
@@ -86,6 +98,19 @@
   {%- endif -%}
 </product-price>
 
+{% stylesheet %}
+  .price--inquire {
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+
+  @media screen and (max-width: 749px) {
+    .price--inquire {
+      font-size: 0.625rem;
+    }
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "t:names.product_price",
@@ -104,6 +129,32 @@
       "id": "show_sale_price_first",
       "label": "t:settings.show_sale_price_first",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_from_prefix",
+      "label": "Hide \"from\" price prefix",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_highest_price",
+      "label": "Show highest variant price",
+      "info": "Shows the highest variant price instead of the default lowest/from price.",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "inquire_tag",
+      "label": "Inquire tag",
+      "info": "Products with this tag show the inquire label instead of a price. Leave blank to disable."
+    },
+    {
+      "type": "text",
+      "id": "inquire_label",
+      "label": "Inquire label",
+      "default": "Inquire for pricing",
+      "visible_if": "{{ block.settings.inquire_tag != blank }}"
     },
     {
       "type": "checkbox",
