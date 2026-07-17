@@ -36,10 +36,7 @@
           <span class="style-cards__filter-label">{{ section.settings.filter_label | escape }}</span>
         {%- endif -%}
         <div class="style-cards__filter-categories" id="style-filter-categories-{{ section.id }}">
-          {%- assign ordered_handles = 'black-gray,traditional-color,illustrative-subject,technique-scale' | split: ',' -%}
-          {%- for handle in ordered_handles -%}
-            {%- assign cat = shop.metaobjects.style_category[handle] -%}
-            {%- if cat == blank -%}{%- continue -%}{%- endif -%}
+          {%- for cat in style_categories -%}
             {%- assign subcategory_list = '' -%}
             {%- for style_entry in cat.styles.value -%}
               {%- unless forloop.first -%}{%- assign subcategory_list = subcategory_list | append: ',' -%}{%- endunless -%}

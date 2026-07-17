@@ -4,6 +4,10 @@
   assign show_tag = block_settings.show_tag
   assign show_button = block_settings.show_button
   assign button_label = block_settings.button_label | default: 'Read article'
+  assign show_icon_link = block_settings.show_icon_link
+  assign icon_link_icon = block_settings.icon_link_icon | default: 'arrow_ne'
+  assign icon_link_size = block_settings.icon_link_size | default: 12
+  assign icon_link_edge_padding = block_settings.icon_link_edge_padding | default: 0
 
   assign first_tag = ''
   if article.tags.size > 0
@@ -24,8 +28,8 @@
 {% endif %}
 
 <div
-  class="blog-post-card{% if block_settings.background_color != blank %} color-custom-{{ block.id }}{% endif %}"
-  style="--text-align: {{ block_settings.alignment }}"
+  class="blog-post-card border-style{% if block_settings.background_color != blank %} color-custom-{{ block.id }}{% endif %}"
+  style="--text-align: {{ block_settings.alignment }}; {% render 'border-override', settings: block_settings %}"
 >
   {% if article.image %}
     {% content_for 'block', id: 'image', type: '_blog-post-image', article: article %}
@@ -54,12 +58,25 @@
       article: article
     %}
 
-    {% content_for 'block',
-      id: 'content',
-      type: '_blog-post-description',
-      article: article,
-      show_read_more: false
-    %}
+    <div class="blog-post-card__excerpt-row" style="padding-inline-end: {{ icon_link_edge_padding }}px; padding-block-end: {{ icon_link_edge_padding }}px;">
+      {% content_for 'block',
+        id: 'content',
+        type: '_blog-post-description',
+        article: article,
+        show_read_more: false
+      %}
+
+      {%- if show_icon_link -%}
+        <a
+          class="blog-post-card__icon-link"
+          href="{{ article.url }}"
+          aria-label="{{ 'content.read_more' | t }}"
+          style="{% if block_settings.icon_link_color != blank %}--icon-link-color: {{ block_settings.icon_link_color }};{% endif %}"
+        >
+          {%- render 'icon-or-image', icon: icon_link_icon, width: icon_link_size, class_name: 'blog-post-card__icon' -%}
+        </a>
+      {%- endif -%}
+    </div>
 
     {%- if show_button -%}
       <a
@@ -131,14 +148,14 @@
     }
   }
 
-  .blog-post-card__content a {
+  .blog-post-card__content a:not(.blog-post-card__icon-link) {
     display: block;
     text-wrap: pretty;
     text-decoration: none;
     color: var(--color-foreground);
   }
 
-  .blog-post-card__content a:hover {
+  .blog-post-card__content a:not(.blog-post-card__icon-link):hover {
     color: var(--color-foreground-subdued);
   }
 
@@ -178,6 +195,28 @@
     @media screen and (max-width: 749px) {
       margin-block-start: 1rem;
     }
+  }
+
+  .blog-post-card__excerpt-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .blog-post-card__excerpt-row .blog-post-card__content-text {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .blog-post-card__icon-link {
+    flex-shrink: 0;
+    margin-inline-start: auto;
+    display: inline-flex;
+    color: var(--icon-link-color, currentColor);
+  }
+
+  .blog-post-card__icon-link .blog-post-card__icon {
+    display: block;
   }
 {% endstylesheet %}
 
@@ -224,6 +263,166 @@
       "label": "Button label",
       "default": "Read article",
       "visible_if": "{{ block.settings.show_button }}"
+    },
+    {
+      "type": "header",
+      "content": "Border"
+    },
+    {
+      "type": "select",
+      "id": "border",
+      "label": "t:settings.border",
+      "options": [
+        { "value": "none", "label": "t:options.none" },
+        { "value": "solid", "label": "t:options.solid" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "unit": "px",
+      "label": "t:settings.border_width",
+      "default": 1,
+      "visible_if": "{{ block.settings.border != 'none' }}"
+    },
+    {
+      "type": "range",
+      "id": "border_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "t:settings.border_opacity",
+      "default": 100,
+      "visible_if": "{{ block.settings.border != 'none' }}"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "t:settings.color",
+      "placeholder": "t:settings.default",
+      "visible_if": "{{ block.settings.border != 'none' }}"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "t:settings.border_radius",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Icon link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icon_link",
+      "label": "Show icon link to article",
+      "info": "Adds a small icon next to the excerpt that links to the article, like the \"Read article\" button.",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "icon_link_icon",
+      "label": "t:settings.icon",
+      "options": [
+        { "value": "none", "label": "t:options.none" },
+        { "value": "apple", "label": "t:options.apple" },
+        { "value": "arrow", "label": "t:options.arrow" },
+        { "value": "banana", "label": "t:options.banana" },
+        { "value": "bottle", "label": "t:options.bottle" },
+        { "value": "box", "label": "t:options.box" },
+        { "value": "carrot", "label": "t:options.carrot" },
+        { "value": "chat_bubble", "label": "t:options.chat_bubble" },
+        { "value": "check_box", "label": "t:options.check_box" },
+        { "value": "clipboard", "label": "t:options.clipboard" },
+        { "value": "dairy", "label": "t:options.dairy" },
+        { "value": "dairy_free", "label": "t:options.dairy_free" },
+        { "value": "dryer", "label": "t:options.dryer" },
+        { "value": "eye", "label": "t:options.eye" },
+        { "value": "fire", "label": "t:options.fire" },
+        { "value": "gluten_free", "label": "t:options.gluten_free" },
+        { "value": "heart", "label": "t:options.heart" },
+        { "value": "iron", "label": "t:options.iron" },
+        { "value": "leaf", "label": "t:options.leaf" },
+        { "value": "leather", "label": "t:options.leather" },
+        { "value": "lightning_bolt", "label": "t:options.lightning_bolt" },
+        { "value": "lipstick", "label": "t:options.lipstick" },
+        { "value": "lock", "label": "t:options.lock" },
+        { "value": "map_pin", "label": "t:options.map_pin" },
+        { "value": "nut_free", "label": "t:options.nut_free" },
+        { "value": "pants", "label": "t:options.pants" },
+        { "value": "paw_print", "label": "t:options.paw_print" },
+        { "value": "pepper", "label": "t:options.pepper" },
+        { "value": "perfume", "label": "t:options.perfume" },
+        { "value": "plane", "label": "t:options.plane" },
+        { "value": "plant", "label": "t:options.plant" },
+        { "value": "price_tag", "label": "t:options.price_tag" },
+        { "value": "question_mark", "label": "t:options.question_mark" },
+        { "value": "recycle", "label": "t:options.recycle" },
+        { "value": "return", "label": "t:options.return" },
+        { "value": "ruler", "label": "t:options.ruler" },
+        { "value": "serving_dish", "label": "t:options.serving_dish" },
+        { "value": "shirt", "label": "t:options.shirt" },
+        { "value": "shoe", "label": "t:options.shoe" },
+        { "value": "silhouette", "label": "t:options.silhouette" },
+        { "value": "snowflake", "label": "t:options.snowflake" },
+        { "value": "star", "label": "t:options.star" },
+        { "value": "stopwatch", "label": "t:options.stopwatch" },
+        { "value": "truck", "label": "t:options.truck" },
+        { "value": "washing", "label": "t:options.washing" },
+        { "value": "info_circle", "label": "Info circle" },
+        { "value": "checkbox_rounded", "label": "Checkbox" },
+        { "value": "dot", "label": "Dot" },
+        { "value": "minus_circle", "label": "Minus circle" },
+        { "value": "plus_circle", "label": "Plus circle" },
+        { "value": "arrow_ne", "label": "Arrow (NE)" },
+        { "value": "arrow_down", "label": "Arrow (down)" },
+        { "value": "arrow_right", "label": "Arrow right" },
+        { "value": "menu_bars", "label": "Menu" },
+        { "value": "chevron_right_circle", "label": "Chevron right (circle)" },
+        { "value": "quote_open", "label": "Quote marks" },
+        { "value": "chevron_left_circle", "label": "Chevron left (circle)" }
+      ],
+      "default": "arrow_ne",
+      "visible_if": "{{ block.settings.show_icon_link }}"
+    },
+    {
+      "type": "range",
+      "id": "icon_link_size",
+      "label": "Icon size",
+      "min": 8,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 12,
+      "visible_if": "{{ block.settings.show_icon_link }}"
+    },
+    {
+      "type": "color",
+      "id": "icon_link_color",
+      "label": "t:settings.color",
+      "placeholder": "t:settings.default",
+      "visible_if": "{{ block.settings.show_icon_link }}"
+    },
+    {
+      "type": "range",
+      "id": "icon_link_edge_padding",
+      "label": "Icon spacing from card edge",
+      "info": "Space between the icon and the card's right and bottom edges.",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.show_icon_link }}"
     }
   ]
 }

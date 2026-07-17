@@ -1,143 +1,377 @@
 {%- comment -%}
-  Renders an "artist" metaobject as a full artist page.
-  Expects a metaobject of type `artist` with fields:
-    name, specialty, description, history, profile_image, working_portrait, collections
+  Renders an "artist" metaobject as a full artist bio page.
+  Fields: name, specialty, summary, bio, focus, profile_image, working_portrait, projects (-> project metaobjects)
 {%- endcomment -%}
 
 {%- liquid
   assign artist = metaobject
-  assign profile = artist.profile_image.value
-  assign working = artist.working_portrait.value
-  assign collections = artist.collections.value
+  assign hero_image = artist.working_portrait.value | default: artist.profile_image.value
+  assign specialties = artist.specialty.value | split: ','
   assign projects = artist.projects.value
+  assign artists_url = pages['artists'].url | default: '/pages/artists'
 -%}
 
-<div class="artist-page section" style="--artist-gap: {{ section.settings.gap }}px;">
-  <div class="artist-page__inner page-width-content">
+<div
+  class="artist-page"
+  style="--artist-gap: {{ section.settings.gap }}px; background-color: {{ section.settings.background_color | default: '#f8f5ed' }};"
+>
 
+  {%- if hero_image != blank -%}
     <header class="artist-hero">
-      {%- if working != blank -%}
-        <div class="artist-hero__media">
-          {{ working | image_url: width: 1600 | image_tag:
+      <div class="artist-hero__media">
+        {{
+          hero_image
+          | image_url: width: 1600
+          | image_tag:
             loading: 'eager',
-            sizes: '(min-width: 750px) 60vw, 100vw',
             widths: '480, 760, 1100, 1600',
-            alt: artist.name.value | escape }}
-        </div>
-      {%- endif -%}
+            sizes: '100vw',
+            alt: artist.name.value | escape
+        }}
+      </div>
 
-      <div class="artist-hero__intro">
-        {%- if profile != blank -%}
-          <div class="artist-hero__avatar">
-            {{ profile | image_url: width: 320 | image_tag:
-              loading: 'eager',
-              widths: '160, 320',
-              sizes: '160px',
-              alt: artist.name.value | escape }}
-          </div>
-        {%- endif -%}
-        <h1 class="artist-hero__name">{{ artist.name.value | escape }}</h1>
-        {%- if artist.specialty.value != blank -%}
-          <p class="artist-hero__specialty">{{ artist.specialty.value | escape }}</p>
-        {%- endif -%}
-        {%- if section.settings.booking_url != blank -%}
-          <a class="artist-hero__cta button" href="{{ section.settings.booking_url }}">
-            {{ section.settings.booking_label | default: 'Request a booking' }}
-          </a>
-        {%- endif -%}
+      <div class="artist-hero__content">
+        <p class="artist-hero__breadcrumb">
+          <a href="{{ routes.root_url }}">Home</a> / <a href="{{ artists_url }}">Artists</a> / {{ artist.name.value | escape }}
+        </p>
+
+        <div class="artist-hero__group">
+          <h1 class="artist-hero__name">{{ artist.name.value | escape }}</h1>
+
+          {%- if specialties != blank -%}
+            <div class="artist-hero__tags">
+              {%- for tag in specialties -%}
+                {%- assign tag = tag | strip -%}
+                {%- if tag != blank -%}
+                  <span class="artist-hero__tag">{{ tag }}</span>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          {%- if artist.summary.value != blank -%}
+            <p class="artist-hero__summary">{{ artist.summary.value | escape }}</p>
+          {%- endif -%}
+        </div>
+
+        <a
+          class="artist-hero__cta button-custom"
+          href="{{ section.settings.booking_url | default: '#' }}"
+          style="--button-background-color: #ce5454; --button-color: #1d1616; --button-border-color: #1d1616; --button-border-width: 3px; border-radius: 8px;"
+        >
+          {{ section.settings.booking_label | default: 'Book Consultation' }}
+          <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 20">
+            {%- render 'icon', icon: 'arrow_ne' -%}
+          </svg>
+        </a>
       </div>
     </header>
+  {%- endif -%}
 
-    {%- if artist.bio.value != blank or artist.focus.value != blank -%}
-      <div class="artist-bio">
-        {%- if artist.bio.value != blank -%}
-          <div class="artist-bio__col">
-            {{ artist.bio.value | newline_to_br }}
-          </div>
-        {%- endif -%}
+  {%- if artist.bio.value != blank or artist.focus.value != blank -%}
+    <section class="artist-details">
+      <div class="artist-details__inner">
+        <div class="artist-details__col">
+          <h2 class="artist-details__heading">{{ section.settings.details_heading | default: 'Details' }}</h2>
+          {%- if artist.bio.value != blank -%}
+            <p class="artist-details__text">{{ artist.bio.value }}</p>
+          {%- endif -%}
+        </div>
         {%- if artist.focus.value != blank -%}
-          <div class="artist-bio__col">
-            {{ artist.focus.value | newline_to_br }}
+          <div class="artist-details__col">
+            <p class="artist-details__text">{{ artist.focus.value }}</p>
           </div>
         {%- endif -%}
       </div>
-    {%- endif -%}
+    </section>
+  {%- endif -%}
 
-    {%- if projects != blank and projects.size > 0 -%}
-      <section class="artist-projects">
-        <h2 class="artist-projects__title">{{ section.settings.projects_title | default: 'Projects' }}</h2>
-        <ul class="artist-projects__grid" role="list">
-          {%- for project in projects -%}
-            {%- assign cover = project.images.value.first -%}
-            <li class="artist-projects__item">
-              <a href="{{ project.system.url }}" class="artist-projects__link">
+  {%- if projects != blank and projects.size > 0 -%}
+    <section class="artist-portfolio" id="artist-portfolio-{{ section.id }}">
+      <div class="artist-portfolio__filter">
+        <span class="artist-portfolio__filter-label">{{ section.settings.filter_label | default: "Filter Artist's Work" }}</span>
+        <div class="artist-portfolio__tabs" id="artist-portfolio-tabs-{{ section.id }}">
+          <button type="button" class="artist-portfolio__tab artist-portfolio__tab--active" data-kind="all">All Work</button>
+          <button type="button" class="artist-portfolio__tab" data-kind="Project">Projects</button>
+          <button type="button" class="artist-portfolio__tab" data-kind="Gallery">Styles</button>
+        </div>
+      </div>
+
+      <ul class="artist-portfolio__grid" id="artist-portfolio-grid-{{ section.id }}" role="list">
+        {%- for project in projects -%}
+          {%- liquid
+            assign cover = project.images.value | first
+            assign kind = project.kind.value | default: 'Project'
+            assign kind_label = 'Project'
+            if kind == 'Gallery'
+              assign kind_label = 'Style Gallery'
+            endif
+          -%}
+          <li class="artist-portfolio__item" data-kind="{{ kind }}">
+            <a href="{{ project.system.url }}" class="artist-portfolio__card">
+              <div class="artist-portfolio__image">
                 {%- if cover != blank -%}
-                  {{ cover | image_url: width: 600 | image_tag:
-                    loading: 'lazy',
-                    widths: '300, 600',
-                    sizes: '(min-width: 750px) 30vw, 50vw',
-                    alt: project.name.value | escape }}
+                  {{
+                    cover
+                    | image_url: width: 700
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '350, 500, 700',
+                      sizes: '(min-width: 750px) 30vw, 90vw',
+                      alt: project.name.value | escape
+                  }}
                 {%- endif -%}
-                <span class="artist-projects__label">{{ project.name.value | escape }}</span>
-              </a>
-            </li>
-          {%- endfor -%}
-        </ul>
-      </section>
-    {%- endif -%}
+              </div>
+              <div class="artist-portfolio__info">
+                <span class="artist-portfolio__title-group">
+                  <span class="artist-portfolio__title">{{ project.name.value | escape }}</span>
+                  <span class="artist-portfolio__kind">{{ kind_label }}</span>
+                </span>
+                <svg class="artist-portfolio__arrow" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 20 20">
+                  {%- render 'icon', icon: 'arrow_ne' -%}
+                </svg>
+              </div>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </section>
 
-    {%- if collections != blank and collections.size > 0 -%}
-      <section class="artist-collections">
-        <h2 class="artist-collections__title">{{ section.settings.collections_title | default: 'Portfolio' }}</h2>
-        <ul class="artist-collections__grid" role="list">
-          {%- for collection in collections -%}
-            <li class="artist-collections__item">
-              <a href="{{ collection.url }}" class="artist-collections__link">
-                {%- if collection.featured_image -%}
-                  {{ collection.featured_image | image_url: width: 600 | image_tag:
-                    loading: 'lazy',
-                    widths: '300, 600',
-                    sizes: '(min-width: 750px) 30vw, 50vw',
-                    alt: collection.title | escape }}
-                {%- endif -%}
-                <span class="artist-collections__label">{{ collection.title | escape }}</span>
-              </a>
-            </li>
-          {%- endfor -%}
-        </ul>
-      </section>
-    {%- endif -%}
+    <script>
+      (function () {
+        var sectionId = {{ section.id | json }};
+        var tabsWrap = document.getElementById('artist-portfolio-tabs-' + sectionId);
+        var grid = document.getElementById('artist-portfolio-grid-' + sectionId);
+        if (!tabsWrap || !grid) return;
 
-  </div>
+        var tabs = Array.from(tabsWrap.querySelectorAll('.artist-portfolio__tab'));
+        var items = Array.from(grid.querySelectorAll('.artist-portfolio__item'));
+
+        tabs.forEach(function (tab) {
+          tab.addEventListener('click', function () {
+            tabs.forEach(function (t) { t.classList.remove('artist-portfolio__tab--active'); });
+            tab.classList.add('artist-portfolio__tab--active');
+
+            var kind = tab.dataset.kind;
+            items.forEach(function (item) {
+              item.style.display = (kind === 'all' || item.dataset.kind === kind) ? '' : 'none';
+            });
+          });
+        });
+      })();
+    </script>
+  {%- endif -%}
+
 </div>
 
 {%- style -%}
-  .artist-page { padding-block: 48px; color: var(--color-foreground); }
-  .artist-page__inner { display: flex; flex-direction: column; gap: var(--artist-gap, 48px); }
-  .artist-hero { display: grid; gap: 32px; align-items: center; }
-  @media (min-width: 750px) {
-    .artist-hero { grid-template-columns: 1.4fr 1fr; }
+  .artist-page { display: flex; flex-direction: column; }
+
+  /* Hero */
+  .artist-hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 32px;
+    min-height: 30rem;
+    box-sizing: border-box;
+    overflow: clip;
   }
-  .artist-hero__media img { width: 100%; height: auto; border-radius: 8px; display: block; }
-  .artist-hero__intro { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
-  .artist-hero__avatar img { width: 96px; height: 96px; object-fit: cover; border-radius: 50%; display: block; }
-  .artist-hero__name { margin: 0; }
-  .artist-hero__specialty { margin: 0; color: var(--color-foreground-subdued); text-transform: uppercase; letter-spacing: .06em; font-size: .9rem; }
-  .artist-hero__cta { margin-top: 8px; }
-  .artist-bio { display: grid; gap: 32px; max-width: var(--narrow-page-width, 60ch); }
-  @media (min-width: 750px) { .artist-bio { grid-template-columns: 1fr 1fr; max-width: none; } }
-  .artist-bio__col { line-height: 1.7; }
-  .artist-projects__title, .artist-collections__title { margin-bottom: 24px; }
-  .artist-projects__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; list-style: none; margin: 0; padding: 0; }
-  @media (min-width: 750px) { .artist-projects__grid { grid-template-columns: repeat(3, 1fr); } }
-  .artist-projects__link { display: block; text-decoration: none; color: inherit; }
-  .artist-projects__link img { width: 100%; height: auto; border-radius: 8px; display: block; aspect-ratio: 1; object-fit: cover; }
-  .artist-projects__label { display: block; margin-top: 8px; font-weight: 600; }
-  .artist-collections__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; list-style: none; margin: 0; padding: 0; }
-  @media (min-width: 750px) { .artist-collections__grid { grid-template-columns: repeat(3, 1fr); } }
-  .artist-collections__link { display: block; text-decoration: none; color: inherit; }
-  .artist-collections__link img { width: 100%; height: auto; border-radius: 8px; display: block; aspect-ratio: 1; object-fit: cover; }
-  .artist-collections__label { display: block; margin-top: 8px; font-weight: 600; }
+  @media (min-width: 750px) {
+    .artist-hero { height: 644px; min-height: 0; padding: 64px 96px; }
+  }
+  .artist-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .artist-hero__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .artist-hero__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(17, 16, 9, 0.9) 7.3%,
+      rgba(17, 16, 9, 0) 40.2%,
+      rgba(17, 16, 9, 0.9) 82.9%
+    );
+  }
+  @media (min-width: 750px) {
+    .artist-hero__media::after {
+      background: linear-gradient(
+        74deg,
+        rgba(17, 16, 9, 0.8) 26.5%,
+        rgba(17, 16, 9, 0) 61.1%,
+        rgba(17, 16, 9, 0.8) 90.7%
+      );
+    }
+  }
+  .artist-hero__content {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto auto;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .artist-hero__breadcrumb { grid-column: 1; grid-row: 1; }
+  .artist-hero__group { display: flex; flex-direction: column; gap: 6px; grid-column: 1; grid-row: 3; }
+  .artist-hero__cta { grid-column: 1; grid-row: 4; margin-top: 12px; }
+  @media (min-width: 750px) {
+    .artist-hero__content {
+      flex: 0 1 auto;
+      grid-template-columns: auto auto;
+      grid-template-rows: auto auto;
+      column-gap: 24px;
+      align-items: end;
+      justify-content: space-between;
+    }
+    .artist-hero__breadcrumb { grid-column: 1; grid-row: 1; }
+    .artist-hero__group { grid-column: 1; grid-row: 2; gap: 24px; margin-top: 10px; max-width: 38.4rem; }
+    .artist-hero__cta { grid-column: 2; grid-row: 1 / span 2; align-self: end; margin-top: 0; }
+  }
+  .artist-hero__breadcrumb {
+    margin: 0;
+    color: #ce5454;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  @media (min-width: 750px) { .artist-hero__breadcrumb { letter-spacing: 0.18em; } }
+  .artist-hero__breadcrumb a { color: inherit; text-decoration: none; }
+  .artist-hero__breadcrumb a:hover { text-decoration: underline; }
+  .artist-hero__name {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: 400;
+    color: #f8f5ed;
+    font-size: 1.75rem;
+    letter-spacing: -0.03em;
+  }
+  @media (min-width: 750px) {
+    .artist-hero__name { font-size: 4.125rem; letter-spacing: -0.02em; line-height: 1.06; }
+  }
+  .artist-hero__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; order: 2; }
+  @media (min-width: 750px) { .artist-hero__tags { order: 0; } }
+  .artist-hero__tag {
+    border: 2px solid #f8f5ed;
+    border-radius: 99px;
+    padding: 2px 24px;
+    color: #f8f5ed;
+    font-style: italic;
+    font-size: 0.875rem;
+  }
+  @media (min-width: 750px) { .artist-hero__tag { font-size: 1.125rem; } }
+  .artist-hero__summary {
+    margin: 12px 0 0;
+    color: #f5f5f5;
+    font-size: 1rem;
+    line-height: 1.375;
+    order: 1;
+  }
+  @media (min-width: 750px) {
+    .artist-hero__summary { color: rgba(248, 245, 237, 0.86); font-size: 1.25rem; line-height: 1.5; max-width: 30rem; order: 0; }
+  }
+  .artist-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 24px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  @media (min-width: 750px) { .artist-hero__cta { width: auto; font-size: 1.125rem; } }
+
+  /* Details */
+  .artist-details { background: #e3dfd6; color: #1d1616; padding: 32px; }
+  @media (min-width: 750px) { .artist-details { padding: 48px 202px 64px; } }
+  .artist-details__inner { display: flex; flex-direction: column; gap: 24px; }
+  @media (min-width: 750px) { .artist-details__inner { flex-direction: row; align-items: flex-end; gap: 24px; } }
+  .artist-details__col { flex: 1 1 0; min-width: 0; }
+  .artist-details__heading {
+    margin: 0 0 8px;
+    font-family: var(--font-heading--family);
+    font-weight: 400;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+  @media (min-width: 750px) { .artist-details__heading { font-size: 2rem; } }
+  .artist-details__text { margin: 0; opacity: 0.85; font-size: 1rem; line-height: 1.19; }
+  @media (min-width: 750px) { .artist-details__text { font-size: 1.125rem; line-height: 1.45; } }
+
+  /* Portfolio */
+  .artist-portfolio { padding: 32px; display: flex; flex-direction: column; align-items: center; gap: 24px; color: #1d1616; }
+  @media (min-width: 750px) { .artist-portfolio { padding: 64px 96px; gap: 64px; } }
+  .artist-portfolio__filter { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; width: fit-content; }
+  .artist-portfolio__filter-label { color: #1d1616; text-align: left; font-weight: 700; font-size: 0.875rem; letter-spacing: 0.02em; }
+  @media (min-width: 750px) { .artist-portfolio__filter-label { font-size: 1.125rem; } }
+  .artist-portfolio__tabs {
+    display: flex;
+    gap: 8px;
+    background: #e3dfd6;
+    border: 2px solid #1d1616;
+    border-radius: 12px;
+    padding: 8px;
+  }
+  @media (min-width: 750px) { .artist-portfolio__tabs { border-radius: 16px; padding: 16px; gap: 16px; } }
+  .artist-portfolio__tab {
+    background: transparent;
+    border: 2px solid #1d1616;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
+    color: #1d1616;
+    cursor: pointer;
+  }
+  @media (min-width: 750px) { .artist-portfolio__tab { padding: 12px 24px; font-size: 1.125rem; } }
+  .artist-portfolio__tab--active { background: #ce5454; }
+
+  .artist-portfolio__grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px 24px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  .artist-portfolio__item { flex: 1 1 100%; max-width: 100%; }
+  @media (min-width: 750px) { .artist-portfolio__item { flex: 1 1 calc((100% - 48px) / 3); max-width: calc((100% - 48px) / 3); } }
+  .artist-portfolio__card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 16px;
+    border: 1px solid rgba(29, 22, 22, 0.22);
+    border-radius: 8px;
+    text-decoration: none;
+    color: #1d1616;
+    height: 100%;
+    box-sizing: border-box;
+  }
+  @media (min-width: 750px) { .artist-portfolio__card { gap: 24px; padding-bottom: 24px; } }
+  .artist-portfolio__image { aspect-ratio: 1; overflow: hidden; border-radius: 6px 6px 0 0; }
+  @media (min-width: 750px) { .artist-portfolio__image { aspect-ratio: auto; height: 392px; } }
+  .artist-portfolio__image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .artist-portfolio__info { display: flex; align-items: flex-end; justify-content: space-between; gap: 0.5rem; padding-inline: 16px; }
+  @media (min-width: 750px) { .artist-portfolio__info { padding-inline: 24px; } }
+  .artist-portfolio__title-group { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .artist-portfolio__title { font-family: var(--font-heading--family); font-size: 1.5rem; line-height: 1.18; }
+  .artist-portfolio__kind { font-family: var(--font-paragraph--family); font-style: italic; font-size: 1.125rem; opacity: 0.85; }
+  .artist-portfolio__arrow { flex-shrink: 0; width: 28px; height: 28px; color: #ce5454; }
 {%- endstyle -%}
 
 {% schema %}
@@ -158,7 +392,23 @@
       "type": "text",
       "id": "booking_label",
       "label": "Booking button label",
-      "default": "Request a booking"
+      "default": "Book Consultation"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f8f5ed"
+    },
+    {
+      "type": "header",
+      "content": "Details section"
+    },
+    {
+      "type": "text",
+      "id": "details_heading",
+      "label": "Details heading",
+      "default": "Details"
     },
     {
       "type": "header",
@@ -166,15 +416,9 @@
     },
     {
       "type": "text",
-      "id": "projects_title",
-      "label": "Projects heading",
-      "default": "Projects"
-    },
-    {
-      "type": "text",
-      "id": "collections_title",
-      "label": "Collections heading",
-      "default": "Portfolio"
+      "id": "filter_label",
+      "label": "Filter label",
+      "default": "Filter Artist's Work"
     },
     {
       "type": "range",

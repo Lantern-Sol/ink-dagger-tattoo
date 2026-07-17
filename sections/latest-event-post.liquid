@@ -1,0 +1,795 @@
+{%- liquid
+  assign blog = section.settings.blog
+  assign tag_limit = section.settings.tag_limit | default: 2
+  assign show_countdown = section.settings.show_countdown
+
+  if blog != blank and blog.articles_count > 0
+    assign article = blog.articles.first
+  endif
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --event-hero-accent: {{ section.settings.accent_color | default: '#ce5454' }};
+    --event-hero-section-bg: {{ section.settings.background_color | default: '#f8f5ed' }};
+    --event-hero-panel-bg: {{ section.settings.panel_color | default: '#1d1616' }};
+    --event-hero-poster-bg: {{ section.settings.poster_fallback_color | default: '#efe8d8' }};
+  }
+{%- endstyle -%}
+
+{%- if article == blank -%}
+  {%- if request.design_mode -%}
+    <div class="event-hero__placeholder">
+      Select a blog with at least one published article to show the latest event post.
+    </div>
+  {%- endif -%}
+{%- else -%}
+  {%- liquid
+    assign event_date_field = article.metafields.custom.event_date
+    assign event_end_date_field = article.metafields.custom.event_end_date
+    assign alt_heading_field = article.metafields.custom.main_event_alternate_heading
+    assign subtitle_field = article.metafields.custom.main_event_subtitle
+    assign event_info_field = article.metafields.custom.event_info
+
+    if event_date_field != blank
+      assign event_date_iso = event_date_field.value
+      assign day_number = event_date_iso | date: '%d'
+      assign month_short = event_date_iso | date: '%b' | upcase
+      assign year_number = event_date_iso | date: '%Y'
+      assign weekday_short = event_date_iso | date: '%a' | upcase
+      assign start_time = event_date_iso | date: '%l%p' | strip | remove: ' '
+    endif
+
+    if event_end_date_field != blank
+      assign event_end_date_iso = event_end_date_field.value
+      assign end_time = event_end_date_iso | date: '%l%p' | strip | remove: ' '
+    endif
+
+    assign plain_description = article.content | strip_html | strip_newlines | truncate: 220
+    assign calendar_url = request.origin | append: article.url
+  -%}
+
+  {%- capture subtitle_text -%}
+    {%- if subtitle_field != blank -%}
+      · {{ subtitle_field.value | join: ' · ' }} ·
+    {%- endif -%}
+  {%- endcapture -%}
+  {%- assign subtitle_text = subtitle_text | strip -%}
+
+  {%- capture tag_text -%}
+    {%- if event_info_field != blank -%}
+      {%- for info in event_info_field.value limit: tag_limit -%}
+        {%- unless forloop.first %} · {% endunless -%}{{ info | upcase }}
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endcapture -%}
+  {%- assign tag_text = tag_text | strip -%}
+
+  <div
+    class="event-hero spacing-style"
+    style="{%- render 'spacing-style', settings: section.settings -%}"
+  >
+    <div class="event-hero__card">
+      <div class="event-hero__poster">
+        {%- if article.image != blank -%}
+          {{ article.image | image_url: width: 1200 | image_tag:
+            loading: 'lazy',
+            widths: '400, 600, 900, 1200',
+            sizes: '(min-width: 990px) 50vw, 100vw',
+            class: 'event-hero__poster-img',
+            alt: article.title | escape
+          }}
+        {%- endif -%}
+        <div class="event-hero__poster-overlay">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="event-hero__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+          {%- endif -%}
+          <div class="event-hero__poster-bottom">
+            <h2 class="event-hero__title">{{ article.title }}</h2>
+            {%- if subtitle_text != blank -%}
+              <p class="event-hero__subtitle">{{ subtitle_text }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+
+      <div class="event-hero__info">
+        {%- if event_date_iso != blank -%}
+          <div class="event-hero__date-row">
+            <span class="event-hero__day-number">{{ day_number }}</span>
+            <div class="event-hero__date-meta">
+              <p class="event-hero__month-year">{{ month_short }} · {{ year_number }}</p>
+              <p class="event-hero__weekday-time">
+                {{ weekday_short }} · {{ start_time }}{% if end_time != blank %} — {{ end_time }}{% endif %}
+              </p>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <div class="event-hero__body">
+          {%- if tag_text != blank -%}
+            <p class="event-hero__tag">{{ tag_text }}</p>
+          {%- endif -%}
+          {%- if alt_heading_field != blank -%}
+            <div class="event-hero__alt-heading">{{ alt_heading_field | metafield_tag }}</div>
+          {%- endif -%}
+          {%- if plain_description != blank -%}
+            <p class="event-hero__description">{{ plain_description }}</p>
+          {%- endif -%}
+        </div>
+
+        {%- if show_countdown and event_date_iso != blank -%}
+          <div
+            class="event-hero__countdown"
+            id="event-hero-countdown-{{ section.id }}"
+            data-event-hero-countdown
+            data-target="{{ event_date_iso }}"
+          >
+            <div class="event-hero__countdown-unit">
+              <span data-unit="days">00</span>
+              <label>Days</label>
+            </div>
+            <div class="event-hero__countdown-unit">
+              <span data-unit="hours">00</span>
+              <label>Hrs</label>
+            </div>
+            <div class="event-hero__countdown-unit">
+              <span data-unit="minutes">00</span>
+              <label>Min</label>
+            </div>
+            <div class="event-hero__countdown-unit">
+              <span data-unit="seconds">00</span>
+              <label>Sec</label>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <div class="event-hero__actions">
+          <a href="{{ article.url }}" class="event-hero__rsvp-btn">
+            {{- section.settings.rsvp_label | escape -}}
+          </a>
+          <button
+            type="button"
+            class="event-hero__calendar-btn"
+            id="event-hero-calendar-{{ section.id }}"
+            data-event-hero-calendar
+            data-title="{{ article.title | escape }}"
+            data-start="{{ event_date_iso }}"
+            data-end="{{ event_end_date_iso }}"
+            data-url="{{ calendar_url | escape }}"
+            data-description="{{ plain_description | escape }}"
+          >
+            {{- section.settings.calendar_label | escape -}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var sectionId = {{ section.id | json }};
+      var countdownEl = document.getElementById('event-hero-countdown-' + sectionId);
+      var calendarBtn = document.getElementById('event-hero-calendar-' + sectionId);
+
+      function pad(value) {
+        return String(value).padStart(2, '0');
+      }
+
+      if (countdownEl) {
+        var target = new Date(countdownEl.dataset.target).getTime();
+        var daysEl = countdownEl.querySelector('[data-unit="days"]');
+        var hoursEl = countdownEl.querySelector('[data-unit="hours"]');
+        var minutesEl = countdownEl.querySelector('[data-unit="minutes"]');
+        var secondsEl = countdownEl.querySelector('[data-unit="seconds"]');
+        var intervalId;
+
+        function tick() {
+          var diff = target - Date.now();
+          if (diff <= 0) {
+            daysEl.textContent = hoursEl.textContent = minutesEl.textContent = secondsEl.textContent = '00';
+            countdownEl.classList.add('event-hero__countdown--ended');
+            clearInterval(intervalId);
+            return;
+          }
+          var totalSeconds = Math.floor(diff / 1000);
+          daysEl.textContent = pad(Math.floor(totalSeconds / 86400));
+          hoursEl.textContent = pad(Math.floor((totalSeconds % 86400) / 3600));
+          minutesEl.textContent = pad(Math.floor((totalSeconds % 3600) / 60));
+          secondsEl.textContent = pad(totalSeconds % 60);
+        }
+
+        tick();
+        intervalId = setInterval(tick, 1000);
+      }
+
+      if (calendarBtn) {
+        calendarBtn.addEventListener('click', function () {
+          var data = calendarBtn.dataset;
+
+          function toIcsDate(isoString) {
+            if (!isoString) return '';
+            var date = new Date(isoString);
+            return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+          }
+
+          function escapeIcsText(text) {
+            return (text || '')
+              .replace(/\\\\/g, '\\\\\\\\')
+              .replace(/;/g, '\\\\;')
+              .replace(/,/g, '\\\\,')
+              .replace(/\n/g, '\\\\n');
+          }
+
+          var uid = sectionId + '-' + Date.now() + '@ink-dagger-tattoo';
+          var lines = [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//Ink & Dagger Tattoo//Event//EN',
+            'BEGIN:VEVENT',
+            'UID:' + uid,
+            'DTSTAMP:' + toIcsDate(new Date().toISOString()),
+            'DTSTART:' + toIcsDate(data.start),
+            'DTEND:' + toIcsDate(data.end || data.start),
+            'SUMMARY:' + escapeIcsText(data.title),
+            'DESCRIPTION:' + escapeIcsText(data.description),
+            'URL:' + data.url,
+            'END:VEVENT',
+            'END:VCALENDAR'
+          ];
+
+          var blob = new Blob([lines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+          var url = URL.createObjectURL(blob);
+          var link = document.createElement('a');
+          link.href = url;
+          link.download = (data.title || 'event').toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.ics';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        });
+      }
+    })();
+  </script>
+{%- endif -%}
+
+{% stylesheet %}
+  .event-hero {
+    background: var(--event-hero-section-bg);
+  }
+
+  .event-hero__placeholder {
+    padding: 32px;
+    text-align: center;
+    color: var(--color-foreground-subdued);
+  }
+
+  .event-hero__card {
+    display: grid;
+    grid-template-columns: 1fr;
+    background: var(--event-hero-panel-bg);
+    border: 1px solid rgba(248, 245, 237, 0.14);
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: var(--page-content-width, 1280px);
+    margin-inline: auto;
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__card {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* Poster panel */
+  .event-hero__poster {
+    position: relative;
+    background: var(--event-hero-poster-bg);
+    min-height: 248px;
+    display: flex;
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__poster {
+      min-height: 540px;
+    }
+  }
+
+  .event-hero__poster-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .event-hero__poster-overlay {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px;
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__poster-overlay {
+      padding: 40px;
+    }
+  }
+
+  .event-hero__eyebrow {
+    margin: 0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--event-hero-accent);
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__eyebrow {
+      font-size: 12px;
+    }
+  }
+
+  .event-hero__poster-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__poster-bottom {
+      gap: 24px;
+    }
+  }
+
+  .event-hero__title {
+    margin: 0;
+    font-family: var(--font-h1--family);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 24px;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--event-hero-accent);
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__title {
+      font-size: 64px;
+    }
+  }
+
+  .event-hero__subtitle {
+    margin: 0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--event-hero-accent);
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__subtitle {
+      font-size: 14px;
+    }
+  }
+
+  /* Info panel */
+  .event-hero__info {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    color: #f8f5ed;
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__info {
+      padding: 48px;
+    }
+  }
+
+  .event-hero__date-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(248, 245, 237, 0.14);
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__date-row {
+      padding-bottom: 24px;
+    }
+  }
+
+  .event-hero__day-number {
+    font-family: var(--font-h1--family);
+    font-size: 54px;
+    line-height: 1;
+    color: #f8f5ed;
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__day-number {
+      font-size: 88px;
+    }
+  }
+
+  .event-hero__date-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .event-hero__month-year {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    color: var(--event-hero-accent);
+  }
+
+  .event-hero__weekday-time {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: #cfc8b9;
+  }
+
+  .event-hero__body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-block: 16px;
+    border-bottom: 1px solid rgba(248, 245, 237, 0.14);
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__body {
+      gap: 12px;
+      padding-block: 24px;
+    }
+  }
+
+  .event-hero__tag {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--event-hero-accent);
+  }
+
+  .event-hero__alt-heading {
+    font-family: var(--font-h1--family);
+    font-size: 20px;
+    line-height: 1.2;
+    color: #f8f5ed;
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__alt-heading {
+      font-size: 36px;
+    }
+  }
+
+  .event-hero__alt-heading p {
+    margin: 0;
+  }
+
+  .event-hero__description {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #cfc8b9;
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__description {
+      font-size: 15px;
+    }
+  }
+
+  .event-hero__countdown {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding-block: 9px;
+    border-bottom: 1px solid rgba(248, 245, 237, 0.14);
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__countdown {
+      padding-block: 21px;
+    }
+  }
+
+  .event-hero__countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__countdown-unit {
+      align-items: flex-start;
+    }
+  }
+
+  .event-hero__countdown-unit span {
+    font-family: var(--font-h1--family);
+    font-size: 24px;
+    color: #f8f5ed;
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__countdown-unit span {
+      font-size: 44px;
+    }
+  }
+
+  .event-hero__countdown-unit label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: #cfc8b9;
+  }
+
+  .event-hero__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 16px;
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__actions {
+      flex-direction: row;
+      gap: 12px;
+    }
+  }
+
+  .event-hero__rsvp-btn,
+  .event-hero__calendar-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__rsvp-btn,
+    .event-hero__calendar-btn {
+      flex: 1;
+    }
+  }
+
+  .event-hero__rsvp-btn {
+    background: var(--event-hero-accent);
+    border: 3px solid #fff;
+    color: #fff;
+  }
+
+  .event-hero__calendar-btn {
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    opacity: 0.5;
+  }
+
+  @media (min-width: 990px) {
+    .event-hero__calendar-btn {
+      border-width: 3px;
+    }
+  }
+
+  .event-hero__calendar-btn:hover {
+    opacity: 0.8;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Latest Event Post",
+  "tag": "section",
+  "class": "latest-event-post-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog",
+      "info": "Always shows the latest article from this blog."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "FLAGSHIP · NEXT UP"
+    },
+    {
+      "type": "range",
+      "id": "tag_limit",
+      "label": "Category tags shown",
+      "info": "Pulled from the article's Event Info metafield.",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "checkbox",
+      "id": "show_countdown",
+      "label": "Show countdown timer",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "rsvp_label",
+      "label": "RSVP button label",
+      "default": "RSVP — IT'S FREE →"
+    },
+    {
+      "type": "text",
+      "id": "calendar_label",
+      "label": "Add to calendar button label",
+      "default": "+ ADD TO CALENDAR"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "info": "The area around the card",
+      "default": "#f8f5ed"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#ce5454"
+    },
+    {
+      "type": "color",
+      "id": "panel_color",
+      "label": "Info panel background",
+      "default": "#1d1616"
+    },
+    {
+      "type": "color",
+      "id": "poster_fallback_color",
+      "label": "Poster fallback background",
+      "default": "#efe8d8"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Mobile padding"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_mobile_padding",
+      "label": "Use different padding on mobile",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start-mobile",
+      "label": "Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 32,
+      "visible_if": "{{ section.settings.use_mobile_padding }}"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end-mobile",
+      "label": "Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 32,
+      "visible_if": "{{ section.settings.use_mobile_padding }}"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start-mobile",
+      "label": "Left",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 16,
+      "visible_if": "{{ section.settings.use_mobile_padding }}"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end-mobile",
+      "label": "Right",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 16,
+      "visible_if": "{{ section.settings.use_mobile_padding }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Latest Event Post"
+    }
+  ]
+}
+{% endschema %}

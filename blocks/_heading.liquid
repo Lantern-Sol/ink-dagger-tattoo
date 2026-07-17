@@ -335,6 +335,19 @@
       "visible_if": "{{ block.settings.read_only != true }}"
     },
     {
+      "type": "richtext",
+      "id": "accent_text",
+      "label": "Accent text",
+      "info": "If this exactly matches part of the heading text above, that part is highlighted in the accent color.",
+      "visible_if": "{{ block.settings.read_only != true }}"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default"
+    },
+    {
       "type": "checkbox",
       "id": "read_only",
       "label": "t:settings.read_only",

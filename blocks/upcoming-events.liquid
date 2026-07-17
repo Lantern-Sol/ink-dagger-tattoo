@@ -1,0 +1,449 @@
+{%- liquid
+  assign blog = block.settings.blog
+  assign tag_limit = block.settings.tag_limit | default: 2
+  assign guest_line_limit = block.settings.guest_line_limit | default: 12
+  assign rsvp_label = block.settings.rsvp_label | default: 'RSVP →'
+  assign rsvp_label_mobile = block.settings.rsvp_label_mobile | default: "RSVP — IT'S FREE →"
+
+  assign article_1 = blank
+
+  if blog != blank
+    for article in blog.articles limit: 2
+      unless forloop.first
+        assign article_1 = article
+      endunless
+    endfor
+  endif
+-%}
+
+<div
+  {{ block.shopify_attributes }}
+  class="upcoming-events spacing-style"
+  style="
+    --upcoming-events-accent: {{ block.settings.accent_color | default: '#ce5454' }};
+    --upcoming-events-text: {{ block.settings.text_color | default: '#f8f5ed' }};
+    --upcoming-events-subdued: {{ block.settings.subdued_color | default: '#cfc8b9' }};
+    {%- render 'spacing-style', settings: block.settings -%}
+  "
+>
+  {%- if blog == blank -%}
+    {%- if request.design_mode -%}
+      <p class="upcoming-events__placeholder">Select a blog to show its upcoming events.</p>
+    {%- endif -%}
+  {%- elsif article_1 == blank -%}
+    {%- if request.design_mode -%}
+      <p class="upcoming-events__placeholder">This blog needs at least two more published articles after the latest one to show upcoming events.</p>
+    {%- endif -%}
+  {%- else -%}
+    {%- for article in blog.articles limit: 3 -%}
+      {%- unless forloop.first -%}
+        {%- liquid
+          assign event_date_field = article.metafields.custom.event_date
+          assign event_date_iso = event_date_field.value
+          assign day_number = event_date_iso | date: '%d'
+          assign month_short = event_date_iso | date: '%b' | upcase
+          assign weekday_short = event_date_iso | date: '%a' | upcase
+          assign start_time = event_date_iso | date: '%l%p' | strip | remove: ' '
+
+          assign event_image = article.image
+          assign guest_line = article.excerpt | strip_html | strip_newlines | strip | truncatewords: guest_line_limit
+
+          assign extra_info_field = article.metafields.custom.event_extra_info
+          assign event_info_field = article.metafields.custom.event_info
+        -%}
+
+        {%- capture tag_text -%}
+          {%- if event_info_field != blank -%}
+            {%- for info in event_info_field.value limit: tag_limit -%}
+              {%- unless forloop.first %} · {% endunless -%}{{ info | upcase }}
+            {%- endfor -%}
+          {%- endif -%}
+        {%- endcapture -%}
+        {%- assign tag_text = tag_text | strip -%}
+
+        {%- capture extra_info_text -%}
+          {%- if extra_info_field != blank -%}
+            · {{ extra_info_field.value | join: ' · ' | upcase }}
+          {%- endif -%}
+        {%- endcapture -%}
+        {%- assign extra_info_text = extra_info_text | strip -%}
+
+        <div class="upcoming-events__row">
+          <div class="upcoming-events__date">
+            {%- if event_date_iso != blank -%}
+              <p class="upcoming-events__date-month">{{ month_short }}</p>
+              <p class="upcoming-events__date-day">{{ day_number }}</p>
+              <p class="upcoming-events__date-time">{{ weekday_short }} · {{ start_time }}</p>
+            {%- endif -%}
+          </div>
+
+          <div class="upcoming-events__image">
+            {%- if event_image != blank -%}
+              {{
+                event_image
+                | image_url: width: 440
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '220, 330, 440',
+                  sizes: '220px',
+                  class: 'upcoming-events__image-img',
+                  alt: article.title | escape
+              }}
+            {%- endif -%}
+          </div>
+
+          <div class="upcoming-events__content">
+            {%- if tag_text != blank -%}
+              <p class="upcoming-events__tag">{{ tag_text }}</p>
+            {%- endif -%}
+            <h3 class="upcoming-events__title">{{ article.title }}</h3>
+            {%- if guest_line != blank or extra_info_text != blank -%}
+              <div class="upcoming-events__meta">
+                {%- if guest_line != blank -%}
+                  <span class="upcoming-events__guests">{{ guest_line }}</span>
+                {%- endif -%}
+                {%- if extra_info_text != blank -%}
+                  <span class="upcoming-events__extra">{{ extra_info_text }}</span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+
+          <div class="upcoming-events__cta">
+            <a href="{{ article.url }}" class="upcoming-events__rsvp-btn">
+              <span class="upcoming-events__rsvp-label--desktop">{{ rsvp_label | escape }}</span>
+              <span class="upcoming-events__rsvp-label--mobile">{{ rsvp_label_mobile | escape }}</span>
+            </a>
+          </div>
+        </div>
+      {%- endunless -%}
+    {%- endfor -%}
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .upcoming-events__placeholder {
+    padding: 32px;
+    text-align: center;
+    color: var(--upcoming-events-subdued);
+  }
+
+  .upcoming-events__row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      'date image'
+      'content content'
+      'cta cta';
+    align-items: center;
+    gap: 16px;
+    padding-block: 24px;
+    border-top: 1px solid rgba(248, 245, 237, 0.14);
+  }
+
+  @media (min-width: 990px) {
+    .upcoming-events__row {
+      grid-template-columns: 140px 220px minmax(0, 1fr) 200px;
+      grid-template-areas: 'date image content cta';
+      gap: 32px;
+      padding-block: 33px 32px;
+    }
+  }
+
+  .upcoming-events__date {
+    grid-area: date;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 83px;
+  }
+
+  @media (min-width: 990px) {
+    .upcoming-events__date {
+      align-items: center;
+    }
+  }
+
+  .upcoming-events__date-month {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    color: var(--upcoming-events-accent);
+  }
+
+  .upcoming-events__date-day {
+    margin: 0;
+    font-family: var(--font-h1--family);
+    font-size: 54px;
+    line-height: 0.9;
+    color: var(--upcoming-events-text);
+  }
+
+  @media (min-width: 990px) {
+    .upcoming-events__date-day {
+      font-size: 64px;
+    }
+  }
+
+  .upcoming-events__date-time {
+    margin: 4px 0 0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    white-space: nowrap;
+    color: var(--upcoming-events-subdued);
+  }
+
+  .upcoming-events__image {
+    grid-area: image;
+    justify-self: end;
+  }
+
+  .upcoming-events__image-img {
+    display: block;
+    width: 220px;
+    height: 89px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  @media (min-width: 990px) {
+    .upcoming-events__image-img {
+      height: 140px;
+    }
+  }
+
+  .upcoming-events__content {
+    grid-area: content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+  }
+
+  @media (min-width: 990px) {
+    .upcoming-events__content {
+      align-items: flex-start;
+      text-align: left;
+    }
+  }
+
+  .upcoming-events__tag {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--upcoming-events-accent);
+  }
+
+  .upcoming-events__title {
+    margin: 0;
+    font-family: var(--font-h1--family);
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1.05;
+    color: var(--upcoming-events-text);
+  }
+
+  @media (min-width: 990px) {
+    .upcoming-events__title {
+      font-size: 30px;
+    }
+  }
+
+  .upcoming-events__meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 16px;
+    padding-top: 6px;
+  }
+
+  @media (min-width: 990px) {
+    .upcoming-events__meta {
+      justify-content: flex-start;
+    }
+  }
+
+  .upcoming-events__guests,
+  .upcoming-events__extra {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .upcoming-events__guests {
+    color: var(--upcoming-events-subdued);
+  }
+
+  .upcoming-events__extra {
+    color: var(--upcoming-events-accent);
+    white-space: nowrap;
+  }
+
+  .upcoming-events__cta {
+    grid-area: cta;
+    width: 100%;
+  }
+
+  @media (min-width: 990px) {
+    .upcoming-events__cta {
+      justify-self: end;
+      width: 159px;
+    }
+  }
+
+  .upcoming-events__rsvp-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 16px 32px;
+    border-radius: 8px;
+    border: 2px solid #fff;
+    background: var(--upcoming-events-accent);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  @media (min-width: 990px) {
+    .upcoming-events__rsvp-btn {
+      border-width: 3px;
+    }
+  }
+
+  .upcoming-events__rsvp-label--desktop {
+    display: none;
+  }
+
+  .upcoming-events__rsvp-label--mobile {
+    display: inline;
+  }
+
+  @media (min-width: 990px) {
+    .upcoming-events__rsvp-label--desktop {
+      display: inline;
+    }
+
+    .upcoming-events__rsvp-label--mobile {
+      display: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Upcoming Events",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows the next two events from a blog, skipping the latest one (already featured in the main even section)."
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog",
+      "info": "Pick the blog the events are posted to."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "range",
+      "id": "tag_limit",
+      "label": "Category tags shown",
+      "info": "Pulled from each article's Event Info metafield.",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "guest_line_limit",
+      "label": "Guest line word limit",
+      "info": "Truncates the article excerpt shown under the title.",
+      "min": 3,
+      "max": 30,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "rsvp_label",
+      "label": "RSVP button label (desktop)",
+      "default": "RSVP →"
+    },
+    {
+      "type": "text",
+      "id": "rsvp_label_mobile",
+      "label": "RSVP button label (mobile)",
+      "default": "RSVP — IT'S FREE →"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#ce5454"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#f8f5ed"
+    },
+    {
+      "type": "color",
+      "id": "subdued_color",
+      "label": "Subdued text color",
+      "default": "#cfc8b9"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Upcoming Events",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

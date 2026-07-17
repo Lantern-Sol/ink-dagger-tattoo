@@ -12,6 +12,18 @@
     },
     {
       "type": "richtext",
+      "id": "accent_text",
+      "label": "Accent text",
+      "info": "If this exactly matches part of the text above, that part is highlighted in the accent color."
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "richtext",
       "id": "mobile_text",
       "label": "Mobile text (Optional)",
       "info": "Replaces the text content for mobile devices"
@@ -60,8 +72,7 @@
       "type": "text_alignment",
       "id": "alignment",
       "label": "t:settings.alignment",
-      "default": "left",
-      "visible_if": "{{ block.settings.width == '100%' }}"
+      "default": "left"
     },
     {
       "type": "header",

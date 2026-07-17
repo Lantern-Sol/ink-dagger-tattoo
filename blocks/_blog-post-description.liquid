@@ -26,6 +26,9 @@
     if is_rte
       echo ' rte '
     endif
+    if block_settings.truncate_to_two_lines
+      echo ' line-clamp-2 '
+    endif
   endcapture
 %}
 
@@ -70,6 +73,14 @@
 {% stylesheet %}
   .blog-post-card__content-text a {
     color: currentcolor;
+  }
+
+  .blog-post-card__content-text.line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 
   .blog-post-card__content-text a:hover {
@@ -321,6 +332,13 @@
       "id": "text_color",
       "label": "t:settings.text_color",
       "placeholder": "t:settings.default"
+    },
+    {
+      "type": "checkbox",
+      "id": "truncate_to_two_lines",
+      "label": "Limit to 2 lines",
+      "info": "Truncates the text with an ellipsis once it exceeds 2 lines, regardless of word count.",
+      "default": false
     },
     {
       "type": "header",

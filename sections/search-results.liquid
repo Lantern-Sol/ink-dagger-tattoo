@@ -35,6 +35,8 @@
       {% if search.results_count > 0 %}
         {% content_for 'block', type: 'filters', id: 'filters', results: search, results_size: search.results_count %}
         {% assign products = search.results | where: 'object_type', 'product' %}
+        {% assign pages = search.results | where: 'object_type', 'page' %}
+        {% assign articles = search.results | where: 'object_type', 'article' %}
       {% else %}
         {% assign collection = settings.empty_state_collection | default: collections.all %}
         {% assign default_title = 'content.search_results_resource_products' | t %}
@@ -61,17 +63,76 @@
         {% endfor %}
       {% endcapture %}
 
-      {% render 'product-grid',
-        section: section,
-        children: children,
-        products: products,
-        paginate: paginate,
-        enable_infinite_scroll: section.settings.enable_infinite_scroll,
-        title: title
-      %}
+      {% if products.size > 0 %}
+        {% render 'product-grid',
+          section: section,
+          children: children,
+          products: products,
+          paginate: paginate,
+          enable_infinite_scroll: section.settings.enable_infinite_scroll,
+          title: title
+        %}
+      {% endif %}
+
+      {% if pages.size > 0 %}
+        <div class="search-results__resource-list">
+          <h2 class="search-results__resource-title h4">
+            {{ 'content.search_results_resource_pages' | t }}
+          </h2>
+          <ul
+            class="search-results__resource-grid list-unstyled"
+            role="list"
+          >
+            {% for page in pages %}
+              <li>
+                {% render 'resource-card', resource_type: 'page', resource: page, image_aspect_ratio: '4 / 5' %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if articles.size > 0 %}
+        <div class="search-results__resource-list">
+          <h2 class="search-results__resource-title h4">
+            {{ 'content.search_results_resource_articles' | t }}
+          </h2>
+          <ul
+            class="search-results__resource-grid list-unstyled"
+            role="list"
+          >
+            {% for article in articles %}
+              <li>
+                {% render 'resource-card', resource_type: 'article', resource: article, image_aspect_ratio: '4 / 5' %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
     {% endpaginate %}
   </div>
 </results-list>
+
+{% stylesheet %}
+  .search-results__resource-list {
+    padding-inline: var(--page-margin);
+    padding-block-end: var(--padding-4xl);
+  }
+
+  .search-results__resource-title {
+    margin-block-end: var(--margin-lg);
+  }
+
+  .search-results__resource-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--gap-md);
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
