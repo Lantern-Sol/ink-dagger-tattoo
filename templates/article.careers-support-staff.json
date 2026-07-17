@@ -327,6 +327,88 @@
               },
               "blocks": {}
             },
+            "group_JobTags": {
+              "type": "group",
+              "name": "t:names.group",
+              "settings": {
+                "content_direction": "row",
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "gap": 8,
+                "width": "fit-content"
+              },
+              "blocks": {
+                "group_TagFrontOfHouse": {
+                  "type": "group",
+                  "name": "t:names.group",
+                  "settings": {
+                    "content_direction": "row",
+                    "horizontal_alignment": "center",
+                    "vertical_alignment": "center",
+                    "width": "fit-content",
+                    "border": "solid",
+                    "border_width": 2,
+                    "border_opacity": 100,
+                    "border_color": "{{ settings.color_palette.background }}",
+                    "border_radius": 99,
+                    "padding-block-start": 2,
+                    "padding-block-end": 2,
+                    "padding-inline-start": 24,
+                    "padding-inline-end": 24
+                  },
+                  "blocks": {
+                    "text_TagFrontOfHouse": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p><em>Front of House</em></p>",
+                        "width": "fit-content",
+                        "type_preset": "custom",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1.125rem",
+                        "text_color": "{{ settings.color_palette.background }}"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": ["text_TagFrontOfHouse"]
+                },
+                "group_TagPartTime": {
+                  "type": "group",
+                  "name": "t:names.group",
+                  "settings": {
+                    "content_direction": "row",
+                    "horizontal_alignment": "center",
+                    "vertical_alignment": "center",
+                    "width": "fit-content",
+                    "border": "solid",
+                    "border_width": 2,
+                    "border_opacity": 100,
+                    "border_color": "{{ settings.color_palette.background }}",
+                    "border_radius": 99,
+                    "padding-block-start": 2,
+                    "padding-block-end": 2,
+                    "padding-inline-start": 24,
+                    "padding-inline-end": 24
+                  },
+                  "blocks": {
+                    "text_TagPartTime": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p><em>Part-Time</em></p>",
+                        "width": "fit-content",
+                        "type_preset": "custom",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1.125rem",
+                        "text_color": "{{ settings.color_palette.background }}"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": ["text_TagPartTime"]
+                }
+              },
+              "block_order": ["group_TagFrontOfHouse", "group_TagPartTime"]
+            },
             "group_7dRPNH": {
               "type": "group",
               "name": "t:names.group",
@@ -428,6 +510,7 @@
             "text_xz6YK4",
             "text_irCCjG",
             "text_eyXKFz",
+            "group_JobTags",
             "group_7dRPNH"
           ]
         }
@@ -473,6 +556,1082 @@
         "use_mobile_padding": false,
         "padding-block-start-mobile": 0,
         "padding-block-end-mobile": 0
+      }
+    },
+    "section_Details": {
+      "type": "section",
+      "blocks": {
+        "group_DetailsRoot": {
+          "type": "group",
+          "name": "t:names.group",
+          "settings": {
+            "content_direction": "column",
+            "gap": 32,
+            "width": "fill"
+          },
+          "blocks": {
+            "group_DetailsHeader": {
+              "type": "group",
+              "name": "t:names.group",
+              "settings": {
+                "content_direction": "row",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "space-between",
+                "vertical_alignment": "flex-end",
+                "gap": 32,
+                "width": "fill"
+              },
+              "blocks": {
+                "group_DetailsHeading": {
+                  "type": "group",
+                  "name": "t:names.group",
+                  "settings": {
+                    "content_direction": "column",
+                    "gap": 8,
+                    "width": "fit-content"
+                  },
+                  "blocks": {
+                    "text_DetailsEyebrow": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>THE ROLE</p>",
+                        "width": "fit-content",
+                        "type_preset": "h6",
+                        "text_color": "#ce5454"
+                      },
+                      "blocks": {}
+                    },
+                    "text_DetailsHeading": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Details</p>",
+                        "width": "fit-content",
+                        "type_preset": "custom",
+                        "font": "var(--font-heading--family)",
+                        "font_size": "2.5rem",
+                        "letter_spacing": "tight",
+                        "type_preset_mobile": "h4",
+                        "text_color": "#1d1616"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": ["text_DetailsEyebrow", "text_DetailsHeading"]
+                },
+                "group_DetailsTags": {
+                  "type": "group",
+                  "name": "t:names.group",
+                  "settings": {
+                    "content_direction": "row",
+                    "horizontal_alignment": "flex-end",
+                    "vertical_alignment": "center",
+                    "gap": 8,
+                    "width": "fill"
+                  },
+                  "blocks": {
+                    "group_TagPartTimeD": {
+                      "type": "group",
+                      "name": "t:names.group",
+                      "settings": {
+                        "content_direction": "row",
+                        "horizontal_alignment": "center",
+                        "vertical_alignment": "center",
+                        "width": "fit-content",
+                        "background_color": "#f8f5ed",
+                        "border": "solid",
+                        "border_width": 2,
+                        "border_opacity": 100,
+                        "border_color": "#1d1616",
+                        "border_radius": 99,
+                        "padding-block-start": 8,
+                        "padding-block-end": 8,
+                        "padding-inline-start": 16,
+                        "padding-inline-end": 16
+                      },
+                      "blocks": {
+                        "text_TagPartTimeD": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>Part-Time</p>",
+                            "width": "fit-content",
+                            "type_preset": "custom",
+                            "font": "var(--font-body--family)",
+                            "enable_custom_font_weight": true,
+                            "weight": "600",
+                            "font_size": "0.875rem",
+                            "text_color": "#1d1616"
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": ["text_TagPartTimeD"]
+                    },
+                    "group_TagPayRange": {
+                      "type": "group",
+                      "name": "t:names.group",
+                      "settings": {
+                        "content_direction": "row",
+                        "horizontal_alignment": "center",
+                        "vertical_alignment": "center",
+                        "width": "fit-content",
+                        "background_color": "#f8f5ed",
+                        "border": "solid",
+                        "border_width": 2,
+                        "border_opacity": 100,
+                        "border_color": "#1d1616",
+                        "border_radius": 99,
+                        "padding-block-start": 8,
+                        "padding-block-end": 8,
+                        "padding-inline-start": 16,
+                        "padding-inline-end": 16
+                      },
+                      "blocks": {
+                        "text_TagPayRange": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>$13/hr &rarr; $15/hr after training</p>",
+                            "width": "fit-content",
+                            "type_preset": "custom",
+                            "font": "var(--font-body--family)",
+                            "enable_custom_font_weight": true,
+                            "weight": "600",
+                            "font_size": "0.875rem",
+                            "text_color": "#1d1616"
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": ["text_TagPayRange"]
+                    },
+                    "group_TagWeekend": {
+                      "type": "group",
+                      "name": "t:names.group",
+                      "settings": {
+                        "content_direction": "row",
+                        "horizontal_alignment": "center",
+                        "vertical_alignment": "center",
+                        "width": "fit-content",
+                        "background_color": "#f8f5ed",
+                        "border": "solid",
+                        "border_width": 2,
+                        "border_opacity": 100,
+                        "border_color": "#1d1616",
+                        "border_radius": 99,
+                        "padding-block-start": 8,
+                        "padding-block-end": 8,
+                        "padding-inline-start": 16,
+                        "padding-inline-end": 16
+                      },
+                      "blocks": {
+                        "text_TagWeekend": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>Weekend &amp; evening availability required</p>",
+                            "width": "fit-content",
+                            "type_preset": "custom",
+                            "font": "var(--font-body--family)",
+                            "enable_custom_font_weight": true,
+                            "weight": "600",
+                            "font_size": "0.875rem",
+                            "text_color": "#1d1616"
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": ["text_TagWeekend"]
+                    },
+                    "group_TagPathFT": {
+                      "type": "group",
+                      "name": "t:names.group",
+                      "settings": {
+                        "content_direction": "row",
+                        "horizontal_alignment": "center",
+                        "vertical_alignment": "center",
+                        "width": "fit-content",
+                        "background_color": "#f8f5ed",
+                        "border": "solid",
+                        "border_width": 2,
+                        "border_opacity": 100,
+                        "border_color": "#1d1616",
+                        "border_radius": 99,
+                        "padding-block-start": 8,
+                        "padding-block-end": 8,
+                        "padding-inline-start": 16,
+                        "padding-inline-end": 16
+                      },
+                      "blocks": {
+                        "text_TagPathFT": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>Potential path to full-time</p>",
+                            "width": "fit-content",
+                            "type_preset": "custom",
+                            "font": "var(--font-body--family)",
+                            "enable_custom_font_weight": true,
+                            "weight": "600",
+                            "font_size": "0.875rem",
+                            "text_color": "#1d1616"
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": ["text_TagPathFT"]
+                    }
+                  },
+                  "block_order": ["group_TagPartTimeD", "group_TagPayRange", "group_TagWeekend", "group_TagPathFT"]
+                }
+              },
+              "block_order": ["group_DetailsHeading", "group_DetailsTags"]
+            },
+            "group_DetailsColumns": {
+              "type": "group",
+              "name": "t:names.group",
+              "settings": {
+                "content_direction": "row",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "flex-start",
+                "gap": 96,
+                "width": "fill"
+              },
+              "blocks": {
+                "group_WhatYoullDo": {
+                  "type": "group",
+                  "name": "t:names.group",
+                  "settings": {
+                    "content_direction": "column",
+                    "gap": 12,
+                    "width": "fill"
+                  },
+                  "blocks": {
+                    "text_WhatYoullDoHeading": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p><strong>What You'll Do</strong></p>",
+                        "width": "100%",
+                        "type_preset": "h4",
+                        "text_color": "#1d1616"
+                      },
+                      "blocks": {}
+                    },
+                    "text_WYD_1": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>&mdash; Creating exceptional client experiences from first contact through checkout</p>",
+                        "accent_text": "<p>&mdash;</p>",
+                        "accent_color": "#ce5454",
+                        "width": "100%",
+                        "type_preset": "paragraph",
+                        "opacity": 85,
+                        "text_color": "#1d1616"
+                      },
+                      "blocks": {}
+                    },
+                    "text_WYD_2": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>&mdash; Managing appointment scheduling and client communications</p>",
+                        "accent_text": "<p>&mdash;</p>",
+                        "accent_color": "#ce5454",
+                        "width": "100%",
+                        "type_preset": "paragraph",
+                        "opacity": 85,
+                        "text_color": "#1d1616"
+                      },
+                      "blocks": {}
+                    },
+                    "text_WYD_3": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>&mdash; Coordinating client requests and directing inquiries appropriately</p>",
+                        "accent_text": "<p>&mdash;</p>",
+                        "accent_color": "#ce5454",
+                        "width": "100%",
+                        "type_preset": "paragraph",
+                        "opacity": 85,
+                        "text_color": "#1d1616"
+                      },
+                      "blocks": {}
+                    },
+                    "text_WYD_4": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>&mdash; Processing payments, retainers, and transactions accurately</p>",
+                        "accent_text": "<p>&mdash;</p>",
+                        "accent_color": "#ce5454",
+                        "width": "100%",
+                        "type_preset": "paragraph",
+                        "opacity": 85,
+                        "text_color": "#1d1616"
+                      },
+                      "blocks": {}
+                    },
+                    "text_WYD_5": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>&mdash; Supporting retail sales &mdash; aftercare products, apparel, and merchandise</p>",
+                        "accent_text": "<p>&mdash;</p>",
+                        "accent_color": "#ce5454",
+                        "width": "100%",
+                        "type_preset": "paragraph",
+                        "opacity": 85,
+                        "text_color": "#1d1616"
+                      },
+                      "blocks": {}
+                    },
+                    "text_WYD_6": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>&mdash; Assisting artists with day-to-day operational needs</p>",
+                        "accent_text": "<p>&mdash;</p>",
+                        "accent_color": "#ce5454",
+                        "width": "100%",
+                        "type_preset": "paragraph",
+                        "opacity": 85,
+                        "text_color": "#1d1616"
+                      },
+                      "blocks": {}
+                    },
+                    "text_WYD_7": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>&mdash; Maintaining studio cleanliness and health department standards</p>",
+                        "accent_text": "<p>&mdash;</p>",
+                        "accent_color": "#ce5454",
+                        "width": "100%",
+                        "type_preset": "paragraph",
+                        "opacity": 85,
+                        "text_color": "#1d1616"
+                      },
+                      "blocks": {}
+                    },
+                    "text_WYD_8": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>&mdash; Capturing behind-the-scenes content for studio marketing</p>",
+                        "accent_text": "<p>&mdash;</p>",
+                        "accent_color": "#ce5454",
+                        "width": "100%",
+                        "type_preset": "paragraph",
+                        "opacity": 85,
+                        "text_color": "#1d1616"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_WhatYoullDoHeading",
+                    "text_WYD_1",
+                    "text_WYD_2",
+                    "text_WYD_3",
+                    "text_WYD_4",
+                    "text_WYD_5",
+                    "text_WYD_6",
+                    "text_WYD_7",
+                    "text_WYD_8"
+                  ]
+                },
+                "group_ColumnsDivider": {
+                  "type": "group",
+                  "name": "t:names.group",
+                  "settings": {
+                    "content_direction": "column",
+                    "width": "custom",
+                    "custom_width": 1,
+                    "height": "fill",
+                    "background_color": "#1d161638",
+                    "hide_on_mobile": true
+                  },
+                  "blocks": {}
+                },
+                "group_WhoThrives": {
+                  "type": "group",
+                  "name": "t:names.group",
+                  "settings": {
+                    "content_direction": "column",
+                    "gap": 12,
+                    "width": "fill"
+                  },
+                  "blocks": {
+                    "text_WhoThrivesHeading": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p><strong>Who Thrives in This Role</strong></p>",
+                        "width": "100%",
+                        "type_preset": "h4",
+                        "text_color": "#1d1616"
+                      },
+                      "blocks": {}
+                    },
+                    "text_WT_1": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>&mdash; Enjoys staying busy and solving problems</p>",
+                        "accent_text": "<p>&mdash;</p>",
+                        "accent_color": "#ce5454",
+                        "width": "100%",
+                        "type_preset": "paragraph",
+                        "opacity": 85,
+                        "text_color": "#1d1616"
+                      },
+                      "blocks": {}
+                    },
+                    "text_WT_2": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>&mdash; Communicates confidently and professionally</p>",
+                        "accent_text": "<p>&mdash;</p>",
+                        "accent_color": "#ce5454",
+                        "width": "100%",
+                        "type_preset": "paragraph",
+                        "opacity": 85,
+                        "text_color": "#1d1616"
+                      },
+                      "blocks": {}
+                    },
+                    "text_WT_3": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>&mdash; Highly organized and detail-oriented</p>",
+                        "accent_text": "<p>&mdash;</p>",
+                        "accent_color": "#ce5454",
+                        "width": "100%",
+                        "type_preset": "paragraph",
+                        "opacity": 85,
+                        "text_color": "#1d1616"
+                      },
+                      "blocks": {}
+                    },
+                    "text_WT_4": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>&mdash; Takes initiative without needing constant direction</p>",
+                        "accent_text": "<p>&mdash;</p>",
+                        "accent_color": "#ce5454",
+                        "width": "100%",
+                        "type_preset": "paragraph",
+                        "opacity": 85,
+                        "text_color": "#1d1616"
+                      },
+                      "blocks": {}
+                    },
+                    "text_WT_5": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>&mdash; Appreciates both structure and creativity</p>",
+                        "accent_text": "<p>&mdash;</p>",
+                        "accent_color": "#ce5454",
+                        "width": "100%",
+                        "type_preset": "paragraph",
+                        "opacity": 85,
+                        "text_color": "#1d1616"
+                      },
+                      "blocks": {}
+                    },
+                    "text_WT_6": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>&mdash; Has a strong sense of accountability and professionalism</p>",
+                        "accent_text": "<p>&mdash;</p>",
+                        "accent_color": "#ce5454",
+                        "width": "100%",
+                        "type_preset": "paragraph",
+                        "opacity": 85,
+                        "text_color": "#1d1616"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_WhoThrivesHeading",
+                    "text_WT_1",
+                    "text_WT_2",
+                    "text_WT_3",
+                    "text_WT_4",
+                    "text_WT_5",
+                    "text_WT_6"
+                  ]
+                }
+              },
+              "block_order": ["group_WhatYoullDo", "group_ColumnsDivider", "group_WhoThrives"]
+            }
+          },
+          "block_order": ["group_DetailsHeader", "group_DetailsColumns"]
+        }
+      },
+      "block_order": ["group_DetailsRoot"],
+      "settings": {
+        "content_direction": "column",
+        "section_width": "page-width",
+        "background_color": "#f8f5ed",
+        "padding-block-start": 64,
+        "padding-block-end": 64,
+        "use_mobile_padding": true,
+        "padding-block-start-mobile": 40,
+        "padding-block-end-mobile": 40,
+        "padding-inline-start-mobile": 32,
+        "padding-inline-end-mobile": 32
+      }
+    },
+    "section_PreferredOffer": {
+      "type": "section",
+      "blocks": {
+        "group_PreferredRoot": {
+          "type": "group",
+          "name": "t:names.group",
+          "settings": {
+            "content_direction": "column",
+            "gap": 32,
+            "width": "fill"
+          },
+          "blocks": {
+            "group_PreferredExperience": {
+              "type": "group",
+              "name": "t:names.group",
+              "settings": {
+                "content_direction": "column",
+                "gap": 16,
+                "width": "fill"
+              },
+              "blocks": {
+                "text_PrefEyebrow": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>PREFERRED EXPERIENCE</p>",
+                    "width": "fit-content",
+                    "type_preset": "h6",
+                    "text_color": "#ce5454"
+                  },
+                  "blocks": {}
+                },
+                "text_PrefIntro": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Experience is helpful, but attitude, professionalism, and work ethic matter most. Backgrounds that often translate well:</p>",
+                    "width": "100%",
+                    "type_preset": "paragraph",
+                    "opacity": 85,
+                    "text_color": "#1d1616"
+                  },
+                  "blocks": {}
+                },
+                "group_PrefTags": {
+                  "type": "group",
+                  "name": "t:names.group",
+                  "settings": {
+                    "content_direction": "row",
+                    "horizontal_alignment": "flex-start",
+                    "vertical_alignment": "center",
+                    "gap": 8,
+                    "width": "fill"
+                  },
+                  "blocks": {
+                    "group_TagHospitality": {
+                      "type": "group",
+                      "name": "t:names.group",
+                      "settings": {
+                        "content_direction": "row",
+                        "horizontal_alignment": "center",
+                        "vertical_alignment": "center",
+                        "width": "fit-content",
+                        "border": "solid",
+                        "border_width": 2,
+                        "border_opacity": 100,
+                        "border_color": "#1d1616",
+                        "border_radius": 99,
+                        "padding-block-start": 8,
+                        "padding-block-end": 8,
+                        "padding-inline-start": 16,
+                        "padding-inline-end": 16
+                      },
+                      "blocks": {
+                        "text_TagHospitality": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>Hospitality</p>",
+                            "width": "fit-content",
+                            "type_preset": "custom",
+                            "font": "var(--font-body--family)",
+                            "enable_custom_font_weight": true,
+                            "weight": "600",
+                            "font_size": "0.875rem",
+                            "text_color": "#1d1616"
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": ["text_TagHospitality"]
+                    },
+                    "group_TagRetail": {
+                      "type": "group",
+                      "name": "t:names.group",
+                      "settings": {
+                        "content_direction": "row",
+                        "horizontal_alignment": "center",
+                        "vertical_alignment": "center",
+                        "width": "fit-content",
+                        "border": "solid",
+                        "border_width": 2,
+                        "border_opacity": 100,
+                        "border_color": "#1d1616",
+                        "border_radius": 99,
+                        "padding-block-start": 8,
+                        "padding-block-end": 8,
+                        "padding-inline-start": 16,
+                        "padding-inline-end": 16
+                      },
+                      "blocks": {
+                        "text_TagRetail": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>Retail</p>",
+                            "width": "fit-content",
+                            "type_preset": "custom",
+                            "font": "var(--font-body--family)",
+                            "enable_custom_font_weight": true,
+                            "weight": "600",
+                            "font_size": "0.875rem",
+                            "text_color": "#1d1616"
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": ["text_TagRetail"]
+                    },
+                    "group_TagSalonSpa": {
+                      "type": "group",
+                      "name": "t:names.group",
+                      "settings": {
+                        "content_direction": "row",
+                        "horizontal_alignment": "center",
+                        "vertical_alignment": "center",
+                        "width": "fit-content",
+                        "border": "solid",
+                        "border_width": 2,
+                        "border_opacity": 100,
+                        "border_color": "#1d1616",
+                        "border_radius": 99,
+                        "padding-block-start": 8,
+                        "padding-block-end": 8,
+                        "padding-inline-start": 16,
+                        "padding-inline-end": 16
+                      },
+                      "blocks": {
+                        "text_TagSalonSpa": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>Salon or Spa</p>",
+                            "width": "fit-content",
+                            "type_preset": "custom",
+                            "font": "var(--font-body--family)",
+                            "enable_custom_font_weight": true,
+                            "weight": "600",
+                            "font_size": "0.875rem",
+                            "text_color": "#1d1616"
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": ["text_TagSalonSpa"]
+                    },
+                    "group_TagCustomerService": {
+                      "type": "group",
+                      "name": "t:names.group",
+                      "settings": {
+                        "content_direction": "row",
+                        "horizontal_alignment": "center",
+                        "vertical_alignment": "center",
+                        "width": "fit-content",
+                        "border": "solid",
+                        "border_width": 2,
+                        "border_opacity": 100,
+                        "border_color": "#1d1616",
+                        "border_radius": 99,
+                        "padding-block-start": 8,
+                        "padding-block-end": 8,
+                        "padding-inline-start": 16,
+                        "padding-inline-end": 16
+                      },
+                      "blocks": {
+                        "text_TagCustomerService": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>Customer Service</p>",
+                            "width": "fit-content",
+                            "type_preset": "custom",
+                            "font": "var(--font-body--family)",
+                            "enable_custom_font_weight": true,
+                            "weight": "600",
+                            "font_size": "0.875rem",
+                            "text_color": "#1d1616"
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": ["text_TagCustomerService"]
+                    },
+                    "group_TagEventCoordination": {
+                      "type": "group",
+                      "name": "t:names.group",
+                      "settings": {
+                        "content_direction": "row",
+                        "horizontal_alignment": "center",
+                        "vertical_alignment": "center",
+                        "width": "fit-content",
+                        "border": "solid",
+                        "border_width": 2,
+                        "border_opacity": 100,
+                        "border_color": "#1d1616",
+                        "border_radius": 99,
+                        "padding-block-start": 8,
+                        "padding-block-end": 8,
+                        "padding-inline-start": 16,
+                        "padding-inline-end": 16
+                      },
+                      "blocks": {
+                        "text_TagEventCoordination": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>Event Coordination</p>",
+                            "width": "fit-content",
+                            "type_preset": "custom",
+                            "font": "var(--font-body--family)",
+                            "enable_custom_font_weight": true,
+                            "weight": "600",
+                            "font_size": "0.875rem",
+                            "text_color": "#1d1616"
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": ["text_TagEventCoordination"]
+                    },
+                    "group_TagAdminSupport": {
+                      "type": "group",
+                      "name": "t:names.group",
+                      "settings": {
+                        "content_direction": "row",
+                        "horizontal_alignment": "center",
+                        "vertical_alignment": "center",
+                        "width": "fit-content",
+                        "border": "solid",
+                        "border_width": 2,
+                        "border_opacity": 100,
+                        "border_color": "#1d1616",
+                        "border_radius": 99,
+                        "padding-block-start": 8,
+                        "padding-block-end": 8,
+                        "padding-inline-start": 16,
+                        "padding-inline-end": 16
+                      },
+                      "blocks": {
+                        "text_TagAdminSupport": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>Administrative Support</p>",
+                            "width": "fit-content",
+                            "type_preset": "custom",
+                            "font": "var(--font-body--family)",
+                            "enable_custom_font_weight": true,
+                            "weight": "600",
+                            "font_size": "0.875rem",
+                            "text_color": "#1d1616"
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": ["text_TagAdminSupport"]
+                    },
+                    "group_TagSales": {
+                      "type": "group",
+                      "name": "t:names.group",
+                      "settings": {
+                        "content_direction": "row",
+                        "horizontal_alignment": "center",
+                        "vertical_alignment": "center",
+                        "width": "fit-content",
+                        "border": "solid",
+                        "border_width": 2,
+                        "border_opacity": 100,
+                        "border_color": "#1d1616",
+                        "border_radius": 99,
+                        "padding-block-start": 8,
+                        "padding-block-end": 8,
+                        "padding-inline-start": 16,
+                        "padding-inline-end": 16
+                      },
+                      "blocks": {
+                        "text_TagSales": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>Sales</p>",
+                            "width": "fit-content",
+                            "type_preset": "custom",
+                            "font": "var(--font-body--family)",
+                            "enable_custom_font_weight": true,
+                            "weight": "600",
+                            "font_size": "0.875rem",
+                            "text_color": "#1d1616"
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": ["text_TagSales"]
+                    }
+                  },
+                  "block_order": [
+                    "group_TagHospitality",
+                    "group_TagRetail",
+                    "group_TagSalonSpa",
+                    "group_TagCustomerService",
+                    "group_TagEventCoordination",
+                    "group_TagAdminSupport",
+                    "group_TagSales"
+                  ]
+                }
+              },
+              "block_order": ["text_PrefEyebrow", "text_PrefIntro", "group_PrefTags"]
+            },
+            "divider_PreferredRule": {
+              "type": "_divider",
+              "settings": {
+                "thickness": 4,
+                "divider_color": "#d8d3c7",
+                "width_percent": 100
+              },
+              "blocks": {}
+            },
+            "group_WhatWeOffer": {
+              "type": "group",
+              "name": "t:names.group",
+              "settings": {
+                "content_direction": "column",
+                "gap": 16,
+                "width": "fill"
+              },
+              "blocks": {
+                "text_OfferEyebrow": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>WHAT WE OFFER</p>",
+                    "width": "fit-content",
+                    "type_preset": "h6",
+                    "text_color": "#ce5454"
+                  },
+                  "blocks": {}
+                },
+                "group_OfferColumns": {
+                  "type": "group",
+                  "name": "t:names.group",
+                  "settings": {
+                    "content_direction": "row",
+                    "vertical_on_mobile": true,
+                    "gap": 64,
+                    "width": "fill"
+                  },
+                  "blocks": {
+                    "group_OfferCol1": {
+                      "type": "group",
+                      "name": "t:names.group",
+                      "settings": {
+                        "content_direction": "column",
+                        "gap": 12,
+                        "width": "fill"
+                      },
+                      "blocks": {
+                        "text_Offer_1": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>&mdash; Paid training and ongoing development</p>",
+                            "accent_text": "<p>&mdash;</p>",
+                            "accent_color": "#ce5454",
+                            "width": "100%",
+                            "type_preset": "paragraph",
+                            "opacity": 85,
+                            "text_color": "#1d1616"
+                          },
+                          "blocks": {}
+                        },
+                        "text_Offer_2": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>&mdash; Opportunity for advancement into a full-time role</p>",
+                            "accent_text": "<p>&mdash;</p>",
+                            "accent_color": "#ce5454",
+                            "width": "100%",
+                            "type_preset": "paragraph",
+                            "opacity": 85,
+                            "text_color": "#1d1616"
+                          },
+                          "blocks": {}
+                        },
+                        "text_Offer_3": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>&mdash; Employee discounts on merchandise and services</p>",
+                            "accent_text": "<p>&mdash;</p>",
+                            "accent_color": "#ce5454",
+                            "width": "100%",
+                            "type_preset": "paragraph",
+                            "opacity": 85,
+                            "text_color": "#1d1616"
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": ["text_Offer_1", "text_Offer_2", "text_Offer_3"]
+                    },
+                    "group_OfferCol2": {
+                      "type": "group",
+                      "name": "t:names.group",
+                      "settings": {
+                        "content_direction": "column",
+                        "gap": 12,
+                        "width": "fill"
+                      },
+                      "blocks": {
+                        "text_Offer_4": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>&mdash; Clear operational systems and support</p>",
+                            "accent_text": "<p>&mdash;</p>",
+                            "accent_color": "#ce5454",
+                            "width": "100%",
+                            "type_preset": "paragraph",
+                            "opacity": 85,
+                            "text_color": "#1d1616"
+                          },
+                          "blocks": {}
+                        },
+                        "text_Offer_5": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>&mdash; Creative, energetic work environment</p>",
+                            "accent_text": "<p>&mdash;</p>",
+                            "accent_color": "#ce5454",
+                            "width": "100%",
+                            "type_preset": "paragraph",
+                            "opacity": 85,
+                            "text_color": "#1d1616"
+                          },
+                          "blocks": {}
+                        },
+                        "text_Offer_6": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>&mdash; Direct exposure to the tattoo industry and creative professionals</p>",
+                            "accent_text": "<p>&mdash;</p>",
+                            "accent_color": "#ce5454",
+                            "width": "100%",
+                            "type_preset": "paragraph",
+                            "opacity": 85,
+                            "text_color": "#1d1616"
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": ["text_Offer_4", "text_Offer_5", "text_Offer_6"]
+                    }
+                  },
+                  "block_order": ["group_OfferCol1", "group_OfferCol2"]
+                }
+              },
+              "block_order": ["text_OfferEyebrow", "group_OfferColumns"]
+            }
+          },
+          "block_order": ["group_PreferredExperience", "divider_PreferredRule", "group_WhatWeOffer"]
+        }
+      },
+      "block_order": ["group_PreferredRoot"],
+      "settings": {
+        "content_direction": "column",
+        "section_width": "page-width",
+        "background_color": "#e3dfd6",
+        "padding-block-start": 64,
+        "padding-block-end": 64,
+        "use_mobile_padding": true,
+        "padding-block-start-mobile": 40,
+        "padding-block-end-mobile": 40,
+        "padding-inline-start-mobile": 32,
+        "padding-inline-end-mobile": 32
+      }
+    },
+    "section_HowToApply": {
+      "type": "section",
+      "blocks": {
+        "group_HowToApplyRoot": {
+          "type": "group",
+          "name": "t:names.group",
+          "settings": {
+            "content_direction": "column",
+            "gap": 24,
+            "width": "fill"
+          },
+          "blocks": {
+            "group_HowToApplyHeading": {
+              "type": "group",
+              "name": "t:names.group",
+              "settings": {
+                "content_direction": "column",
+                "gap": 8,
+                "width": "fit-content"
+              },
+              "blocks": {
+                "text_HowToApplyEyebrow": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>HOW TO APPLY</p>",
+                    "width": "fit-content",
+                    "type_preset": "h6",
+                    "text_color": "#ce5454"
+                  },
+                  "blocks": {}
+                },
+                "text_HowToApplyHeading": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Tell us about yourself</p>",
+                    "width": "fit-content",
+                    "type_preset": "custom",
+                    "font": "var(--font-heading--family)",
+                    "font_size": "2.5rem",
+                    "letter_spacing": "tight",
+                    "type_preset_mobile": "h4",
+                    "text_color": "#1d1616"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": ["text_HowToApplyEyebrow", "text_HowToApplyHeading"]
+            },
+            "text_HowToApplyIntro": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Ink &amp; Dagger has built its reputation through exceptional artwork, professionalism, and client care. Our support staff is essential to that mission &mdash; tell us why you're interested and what makes you a strong fit.</p>",
+                "width": "100%",
+                "max_width": "narrow",
+                "type_preset": "paragraph",
+                "opacity": 85,
+                "text_color": "#1d1616"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": ["group_HowToApplyHeading", "text_HowToApplyIntro"]
+        }
+      },
+      "block_order": ["group_HowToApplyRoot"],
+      "settings": {
+        "content_direction": "column",
+        "section_width": "page-width",
+        "background_color": "#f8f5ed",
+        "padding-block-start": 80,
+        "padding-block-end": 80,
+        "use_mobile_padding": true,
+        "padding-block-start-mobile": 40,
+        "padding-block-end-mobile": 40,
+        "padding-inline-start-mobile": 32,
+        "padding-inline-end-mobile": 32
       }
     },
     "section_Jzn4Ni": {
@@ -1078,6 +2237,9 @@
   "order": [
     "section",
     "hero_x3XikH",
+    "section_Details",
+    "section_PreferredOffer",
+    "section_HowToApply",
     "section_Jzn4Ni"
   ]
 }
