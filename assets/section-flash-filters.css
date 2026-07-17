@@ -253,6 +253,11 @@
   .product-grid .product-card__content product-price:has(.price--range) {
     grid-row: 4;
   }
+
+  .product-grid .product-card__content > .group-block > .group-block-content:has(.price--range) [class*='__size'] {
+    grid-area: price;
+    justify-self: end;
+  }
 }
 
 .main-collection-grid .pagination {
