@@ -5,6 +5,7 @@
   @param {product} product_resource - The product to render
   @param {boolean} [show_unit_price] - Whether to show the unit price
   @param {boolean} [show_sale_price_first] - Whether to show the sale price first
+  @param {boolean} [hide_from_prefix] - Hide the "from" prefix on varying prices
 {%- enddoc -%}
 
 {%- liquid
@@ -41,7 +42,7 @@
     assign price_max = product_resource.price_max
     assign has_volume_pricing = product_resource.quantity_price_breaks_configured? | default: false
 
-    if product_resource.price_varies and has_volume_pricing == false
+    if product_resource.price_varies and has_volume_pricing == false and hide_from_prefix != true
       assign show_from_prefix = true
     endif
   else

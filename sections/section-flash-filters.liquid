@@ -1,10 +1,3 @@
-{% comment %}
-  Flash Library — tag filter pill bar.
-  Client-side filtering, no page reload — same pattern as sections/artist-cards.liquid
-  and sections/main-artist.liquid: pills toggle card visibility via a data map.
-  Cards are matched by product id against the tag map rendered below.
-{% endcomment %}
-
 {{ 'section-flash-filters.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
@@ -60,54 +53,109 @@
     </div>
   </div>
 
-  <script type="application/json" id="flash-filters-map-{{ section.id }}">
-    {
-      {%- paginate collection.products by 250 -%}
-        {%- for product in collection.products -%}
-          "{{ product.id }}": [
-            {%- for tag in product.tags -%}
-              {{ tag | handleize | json }}{% unless forloop.last %},{% endunless %}
-            {%- endfor -%}
-          ]{% unless forloop.last %},{% endunless %}
-        {%- endfor -%}
-      {%- endpaginate -%}
-    }
-  </script>
-
   <script>
     (function () {
       var sectionId = {{ section.id | json }};
+      var collectionUrl = {{ collection.url | json }};
+      var loadMoreLabel = {{ section.settings.load_more_label | default: 'Load more designs' | json }};
       var bar = document.getElementById('flash-filters-' + sectionId);
-      var mapEl = document.getElementById('flash-filters-map-' + sectionId);
-      if (!bar || !mapEl) return;
-
-      var tagMap = {};
-      try {
-        tagMap = JSON.parse(mapEl.textContent);
-      } catch (e) {
-        return;
-      }
+      if (!bar) return;
 
       var pills = Array.from(bar.querySelectorAll('.flash-filters__pill'));
       var activeTag = null;
+      var currentPage = 1;
+      var lastPage = 1;
+      var loading = false;
+      var wrapper = null;
+      var button = null;
 
-      function cards() {
-        return Array.from(document.querySelectorAll('.product-grid__item[data-product-id]'));
+      function baseUrl() {
+        return activeTag ? collectionUrl + '/' + activeTag : collectionUrl;
       }
 
-      function applyFilter() {
-        cards().forEach(function (card) {
-          if (!activeTag) {
-            card.style.display = '';
-            return;
+      function grid() {
+        return document.querySelector('.product-grid');
+      }
+
+      function fetchPage(page) {
+        var url = baseUrl() + (page > 1 ? '?page=' + page : '');
+        return fetch(url).then(function (r) {
+          return r.text();
+        }).then(function (html) {
+          return new DOMParser().parseFromString(html, 'text/html');
+        });
+      }
+
+      function syncButton() {
+        var g = grid();
+        if (!g) return;
+        if (!wrapper) {
+          wrapper = document.createElement('div');
+          wrapper.className = 'flash-load-more';
+          button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'flash-load-more__button';
+          button.textContent = loadMoreLabel;
+          button.addEventListener('click', loadNextPage);
+          wrapper.appendChild(button);
+        }
+        var container = g.closest('.main-collection-grid') || g.parentElement;
+        if (!wrapper.parentElement) container.appendChild(wrapper);
+        wrapper.hidden = currentPage >= lastPage;
+      }
+
+      function readState(doc) {
+        var g = doc.querySelector('.product-grid');
+        lastPage = g ? parseInt(g.dataset.lastPage || '1', 10) : 1;
+      }
+
+      function setBusy(state) {
+        loading = state;
+        if (button) {
+          if (state) {
+            button.setAttribute('aria-busy', 'true');
+          } else {
+            button.removeAttribute('aria-busy');
           }
-          var tags = tagMap[card.dataset.productId] || [];
-          card.style.display = tags.indexOf(activeTag) !== -1 ? '' : 'none';
+        }
+      }
+
+      function replaceGrid() {
+        if (loading) return;
+        setBusy(true);
+        currentPage = 1;
+        fetchPage(1).then(function (doc) {
+          var g = grid();
+          var fetched = doc.querySelector('.product-grid');
+          if (g && fetched) {
+            g.innerHTML = fetched.innerHTML;
+            readState(doc);
+            history.replaceState({}, '', baseUrl());
+          }
+          syncButton();
+        }).catch(function () {}).finally(function () {
+          setBusy(false);
+        });
+      }
+
+      function loadNextPage() {
+        if (loading || currentPage >= lastPage) return;
+        setBusy(true);
+        fetchPage(currentPage + 1).then(function (doc) {
+          var g = grid();
+          doc.querySelectorAll('.product-grid__item').forEach(function (li) {
+            g.appendChild(li);
+          });
+          currentPage += 1;
+          syncButton();
+        }).catch(function () {}).finally(function () {
+          setBusy(false);
         });
       }
 
       pills.forEach(function (pill) {
         pill.addEventListener('click', function () {
+          if (loading) return;
           var tag = pill.dataset.tag;
           pills.forEach(function (p) {
             p.classList.remove('flash-filters__pill--active');
@@ -118,16 +166,30 @@
             activeTag = tag;
             pill.classList.add('flash-filters__pill--active');
           }
-          applyFilter();
+          replaceGrid();
         });
       });
 
-      {% comment %} Re-apply when infinite scroll appends more cards {% endcomment %}
-      var grid = document.querySelector('.product-grid');
-      if (grid && 'MutationObserver' in window) {
-        new MutationObserver(function () {
-          if (activeTag) applyFilter();
-        }).observe(grid, { childList: true, subtree: true });
+      function init() {
+        var g = grid();
+        if (!g) return;
+        var pathParts = location.pathname.split('/').filter(Boolean);
+        var lastPart = pathParts[pathParts.length - 1];
+        pills.forEach(function (p) {
+          if (p.dataset.tag === lastPart) {
+            activeTag = lastPart;
+            p.classList.add('flash-filters__pill--active');
+          }
+        });
+        currentPage = parseInt(new URLSearchParams(location.search).get('page') || '1', 10);
+        lastPage = parseInt(g.dataset.lastPage || '1', 10);
+        syncButton();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
       }
     })();
   </script>
@@ -159,7 +221,13 @@
       "id": "excluded_tags",
       "label": "Hidden tags",
       "info": "Comma-separated list of tags that should not appear as pills (e.g. internal tags).",
-      "default": "flash"
+      "default": "flash, inquire"
+    },
+    {
+      "type": "text",
+      "id": "load_more_label",
+      "label": "Load more button label",
+      "default": "Load more designs"
     }
   ],
   "presets": [{ "name": "Flash Filter Pills" }]
