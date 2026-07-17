@@ -574,6 +574,7 @@
                         "show_highest_price": true,
                         "inquire_tag": "inquire",
                         "inquire_label": "Inquire for pricing",
+                        "price_range_metafield": "flash.price_range",
                         "show_installments": false,
                         "show_tax_info": false,
                         "type_preset": "custom",
