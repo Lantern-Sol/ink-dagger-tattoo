@@ -1056,7 +1056,52 @@
                     "hide_on_mobile": false,
                     "hide_on_desktop": false
                   },
-                  "blocks": {}
+                  "blocks": {
+                    "text_U4AJBA": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Meet your artist, discuss the design, and get a quote — with 0 pressure and 0 commitment.</p>",
+                        "mobile_text": "",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "height_mode": "auto",
+                        "desktop_height": "",
+                        "mobile_height": "",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "enable_custom_font_weight": false,
+                        "weight": "400",
+                        "font_size": "",
+                        "line_height": "normal",
+                        "custom_line_height": 1.5,
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "type_preset_mobile": "custom",
+                        "mobile_font_size": "0.875rem",
+                        "mobile_custom_line_height": 1.5,
+                        "text_color": "{{ settings.color_palette.color1 }}",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "opacity": 78,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0,
+                        "use_mobile_padding": false,
+                        "padding-block-start-mobile": 0,
+                        "padding-block-end-mobile": 0,
+                        "padding-inline-start-mobile": 0,
+                        "padding-inline-end-mobile": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_U4AJBA"
+                  ]
                 }
               },
               "block_order": [
@@ -1133,7 +1178,7 @@
               "name": "t:names.button",
               "settings": {
                 "label": "Get Help Choosing an Artist",
-                "link": "shopify://collections/all",
+                "link": "shopify://pages/contact",
                 "open_in_new_tab": false,
                 "style_class": "button",
                 "custom_button_background": "{{ settings.color_palette.foreground }}",

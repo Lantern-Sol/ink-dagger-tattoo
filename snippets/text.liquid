@@ -14,6 +14,13 @@
   assign visible_text = plain_text
   assign text_width = width | default: block_settings.width
 
+  assign heading_text = block_settings.text
+  assign accent_phrase = block_settings.accent_text | strip_newlines | strip_html | strip
+  if accent_phrase != blank and heading_text contains accent_phrase
+    assign accent_replacement = '<span class="text-accent">' | append: accent_phrase | append: '</span>'
+    assign heading_text = heading_text | replace: accent_phrase, accent_replacement
+  endif
+
   if block_settings.font_size contains 'heading-lg' or block_settings.font_size contains 'heading-xl'
     assign type = 'display'
   elsif block_settings.font_size contains 'heading'
@@ -26,11 +33,9 @@
   endif
 
   capture text_block_classes
-    if text_width == '100%'
-      echo 'text-block--align-' | append: block_settings.alignment
-      if block_settings.max_width == 'none'
-        echo ' text-block--full-width '
-      endif
+    echo 'text-block--align-' | append: block_settings.alignment
+    if text_width == '100%' and block_settings.max_width == 'none'
+      echo ' text-block--full-width '
     endif
     if block_settings.type_preset == 'custom'
       echo ' custom-typography '
@@ -63,12 +68,16 @@
       --color: {{ block_settings.text_color }};
       --color-rgb: {{ block_settings.text_color.rgb }};
     {% endif %}
+    {% if block_settings.emphasis_color != blank %}
+      --emphasis-color: {{ block_settings.emphasis_color }};
+    {% endif %}
+    {% if block_settings.accent_color != blank %}
+      --accent-color: {{ block_settings.accent_color }};
+    {% endif %}
 
     --width: {{ text_width }};
     --max-width: var(--max-width--{{ type }}-{{ block_settings.max_width }});
-    {% if text_width == "100%" %}
-      --text-align: {{ block_settings.alignment }};
-    {% endif %}
+    --text-align: {{ block_settings.alignment }};
     {% if block_settings.background %}
       --text-background-color: {{ block_settings.background_color | default: 'rgb(255 255 255 / 1.0)' }};
       --text-corner-radius: {{ block_settings.corner_radius }}px;
@@ -101,10 +110,10 @@
 {% elsif plain_text != blank %}
   <{{ element }} {{ attributes | strip_newlines | strip }}>
     {% if plain_text_mobile != blank %}
-      {{ block.settings.text | replace_first: '>',' class="hidden--mobile">' | replace: '®', '<sup>®</sup>' }}
+      {{ heading_text | replace_first: '>',' class="hidden--mobile">' | replace: '®', '<sup>®</sup>' }}
       {{ block.settings.mobile_text | replace_first: '>',' class="hidden--desktop">' | replace: '®', '<sup>®</sup>' }}
     {% else %}
-      {{ block.settings.text | replace: '®', '<sup>®</sup>' }}
+      {{ heading_text | replace: '®', '<sup>®</sup>' }}
     {% endif %}
   </{{ element }}>
 {% endif %}
@@ -173,6 +182,11 @@
     [style*='--horizontal-alignment-mobile: flex-end'] > .text-block {
       --text-align-default: right;
     }
+  }
+
+  .text-block em,
+  .text-block i {
+    color: var(--emphasis-color, inherit);
   }
 
   .text-block {
@@ -299,6 +313,10 @@
   .custom-color,
   .custom-color > :is(h1, h2, h3, h4, h5, h6, p, *) {
     color: var(--color);
+  }
+
+  .text-accent {
+    color: var(--accent-color, currentColor);
   }
 
   /*

@@ -1,46 +1,378 @@
 {%- comment -%}
-  Renders a "project" metaobject as a full project page.
-  Fields: name, description, collector, artist (-> artist metaobject), images (list of images)
+  Renders a "project" OR "style" metaobject as a full detail page — the mode
+  is auto-detected from metaobject.system.type, so both
+  templates/metaobject/project.json and templates/metaobject/style.json point
+  at this one section.
+
+  Project fields: name, description, collector, artist, images, kind, style
+  Style fields:   name, description, collection_description, artist
+
+  Style pages share the project layout except: no style-tag pills (the artist
+  attribution sits directly under the heading, per Figma 509:682), the two
+  description columns come from two separate fields (no sentence splitting),
+  the banner caption reads "Artist / Style / Style name", and the banner +
+  gallery aggregate the first image of each `project` entry referencing this
+  style (limited to the style's artist when one is set) — gallery items link
+  to their project page.
 {%- endcomment -%}
 
 {%- liquid
-  assign project = metaobject
-  assign artist = project.artist.value
-  assign images = project.images.value
+  assign is_style = false
+  if metaobject.system.type == 'style'
+    assign is_style = true
+  endif
 -%}
 
-<div class="project-page section" style="--project-gap: {{ section.settings.gap }}px;">
-  <div class="project-page__inner page-width-content">
+{%- if is_style -%}
+  {%- liquid
+    assign style_entry = metaobject
+    assign artist = style_entry.artist.value
+
+    # The style's own artist reference wins, but when it isn't set yet fall
+    # back to the artist of the first project referencing this style — the
+    # caption, attribution and "More by" carousel should always have an
+    # artist to render when any tagged project exists.
+    if artist == blank
+      paginate shop.metaobjects.project.values by 250
+        for style_project in shop.metaobjects.project.values
+          if style_project.style.value.system.id == style_entry.system.id and style_project.artist.value != blank
+            assign artist = style_project.artist.value
+            break
+          endif
+        endfor
+      endpaginate
+    endif
+
+    assign heading = style_entry.name.value
+    assign description_left = style_entry.description.value
+    assign description_right = style_entry.collection_description.value
+
+    assign kind_text = section.settings.style_kind_label | default: 'Style'
+    if artist != blank and artist.name.value != blank
+      assign caption_text = artist.name.value | append: ' / ' | append: kind_text
+    else
+      assign caption_text = kind_text
+    endif
+    if heading != blank
+      assign caption_text = caption_text | append: ' / ' | append: heading
+    endif
+
+    # Figma 509:682 renders the artist's name inside the opening description
+    # as a link — inject it when the name appears verbatim in the text.
+    if artist != blank and description_left != blank
+      assign artist_name = artist.name.value
+      if description_left contains artist_name
+        assign artist_link = '<a href="' | append: artist.system.url | append: '">' | append: artist_name | append: '</a>'
+        assign description_left = description_left | replace_first: artist_name, artist_link
+      endif
+    endif
+  -%}
+
+  {%- comment -%}
+    Aggregate imagery from project entries referencing this style. Wrapped in
+    paginate-by-250 because shop.metaobjects.*.values caps at 50 entries
+    otherwise (same technique as style-cards.liquid). Prefer the style's own
+    artist's projects, but fall back to all projects in the style when the
+    artist has none assigned yet — the gallery must never go blank just
+    because project entries haven't been tagged.
+  {%- endcomment -%}
+  {%- liquid
+    # "Style gallery shows" setting: one artist's collection (default, per
+    # Figma) or every artist working in the style. Artist mode only kicks in
+    # when that artist actually has tagged projects — otherwise fall back to
+    # all artists so the gallery never renders blank.
+    assign filter_artist = blank
+    if section.settings.style_gallery_scope != 'all' and artist != blank
+      paginate shop.metaobjects.project.values by 250
+        for style_project in shop.metaobjects.project.values
+          if style_project.style.value.system.id != style_entry.system.id
+            continue
+          endif
+          if style_project.artist.value.system.id != artist.system.id
+            continue
+          endif
+          # NOTE: `.first` property access silently returns nil on metafield
+          # list drops — only the `| first` filter works.
+          assign probe_image = style_project.images.value | first
+          if probe_image != blank
+            assign filter_artist = artist
+            break
+          endif
+        endfor
+      endpaginate
+    endif
+  -%}
+  {%- capture style_banner_html -%}
+    {%- paginate shop.metaobjects.project.values by 250 -%}
+      {%- for style_project in shop.metaobjects.project.values -%}
+        {%- liquid
+          if style_project.style.value.system.id != style_entry.system.id
+            continue
+          endif
+          if filter_artist != blank and style_project.artist.value.system.id != filter_artist.system.id
+            continue
+          endif
+          assign banner_image = style_project.images.value | first
+          if banner_image == blank
+            continue
+          endif
+          if banner_image.media_type == 'video'
+            assign banner_image = banner_image.preview_image
+          endif
+        -%}
+        {{ banner_image | image_url: width: 1600 | image_tag:
+          loading: 'eager',
+          widths: '480, 760, 1100, 1600',
+          sizes: '100vw',
+          alt: heading | escape }}
+        {%- break -%}
+      {%- endfor -%}
+    {%- endpaginate -%}
+  {%- endcapture -%}
+  {%- assign style_banner_html = style_banner_html | strip -%}
+
+  {%- comment -%}
+    The style gallery shows EVERY image of every matching project (the whole
+    collection), not one cover per project. Images link to their project's
+    page; videos render inline (a link would fight the playback controls).
+  {%- endcomment -%}
+  {%- capture style_gallery_html -%}
+    {%- paginate shop.metaobjects.project.values by 250 -%}
+      {%- for style_project in shop.metaobjects.project.values -%}
+        {%- liquid
+          if style_project.style.value.system.id != style_entry.system.id
+            continue
+          endif
+          if filter_artist != blank and style_project.artist.value.system.id != filter_artist.system.id
+            continue
+          endif
+        -%}
+        {%- for media in style_project.images.value -%}
+          {%- if media.media_type == 'video' -%}
+            <figure class="project-gallery__item">
+              {{ media | video_tag:
+                controls: true,
+                muted: true,
+                loop: true,
+                playsinline: true,
+                preload: 'metadata',
+                image_size: '1400x' }}
+            </figure>
+          {%- else -%}
+            <a class="project-gallery__item" href="{{ style_project.system.url }}">
+              {{ media | image_url: width: 1400 | image_tag:
+                loading: 'lazy',
+                widths: '320, 540, 760, 1100, 1400',
+                sizes: '(min-width: 750px) 45vw, 100vw',
+                alt: style_project.name.value | escape }}
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+    {%- endpaginate -%}
+  {%- endcapture -%}
+  {%- assign style_gallery_html = style_gallery_html | strip -%}
+
+{%- else -%}
+  {%- liquid
+    assign project = metaobject
+    assign artist = project.artist.value
+    assign images = project.images.value
+    assign banner = images | first
+    # The images list is a file_reference list, so it can contain videos —
+    # the banner is always rendered as a still, via the video's preview image.
+    if banner.media_type == 'video'
+      assign banner = banner.preview_image
+    endif
+    assign style = project.style.value
+    assign heading = project.name.value
+    assign collector = project.collector.value
+
+    # Reverse-lookup the style's parent category (same technique as style-cards.liquid / artist-cards.liquid)
+    assign style_category = blank
+    if style != blank
+      for cat in shop.metaobjects.style_category.values
+        for cat_style in cat.styles.value
+          if cat_style.system.id == style.system.id
+            assign style_category = cat
+            break
+          endif
+        endfor
+        if style_category != blank
+          break
+        endif
+      endfor
+    endif
+
+    assign description = project.description.value
+
+    # Caption joins only the values that actually exist — no placeholders,
+    # no dangling separators.
+    assign caption_text = ''
+    if artist != blank and artist.name.value != blank
+      assign caption_text = artist.name.value
+    endif
+    if project.kind.value != blank
+      if caption_text != blank
+        assign caption_text = caption_text | append: ' / ' | append: project.kind.value
+      else
+        assign caption_text = project.kind.value
+      endif
+    endif
+    if project.name.value != blank
+      if caption_text != blank
+        assign caption_text = caption_text | append: ' / ' | append: project.name.value
+      else
+        assign caption_text = project.name.value
+      endif
+    endif
+
+    # Split the description across the two columns (left: opening portion under
+    # the heading; right: remainder above the CTA), matching the Figma layout.
+    # A project without a description renders no paragraphs at all — the layout
+    # (and the Book Consultation CTA) must not depend on this field being set.
+    assign description_left = ''
+    assign description_right = ''
+
+    if description != blank
+      # Real descriptions are a single continuous paragraph (no line breaks),
+      # so split by sentence count rather than assuming paragraph breaks exist.
+      assign sentences = description | split: '. '
+      assign sentence_count = sentences.size
+      assign split_at = sentence_count | divided_by: 2
+
+      assign description_right = description
+      if sentence_count > 1 and split_at > 0
+        assign left_sentences = sentences | slice: 0, split_at
+        assign right_sentences = sentences | slice: split_at, sentence_count
+        assign description_left = left_sentences | join: '. '
+        assign description_right = right_sentences | join: '. '
+        assign description_left_last_char = description_left | slice: -1, 1
+        if description_left != blank and description_left_last_char != '.'
+          assign description_left = description_left | append: '.'
+        endif
+      endif
+    endif
+  -%}
+{%- endif -%}
+
+{%- if is_style -%}
+  {%- if style_banner_html != blank -%}
+    <div class="project-banner">
+      {{ style_banner_html }}
+      {%- if caption_text != blank -%}
+        <p class="project-banner__caption">{{ caption_text | escape }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+{%- elsif banner != blank -%}
+  <div class="project-banner">
+    {{
+      banner
+      | image_url: width: 1600
+      | image_tag:
+        loading: 'eager',
+        widths: '480, 760, 1100, 1600',
+        sizes: '100vw',
+        alt: project.name.value | escape
+    }}
+    {%- if caption_text != blank -%}
+      <p class="project-banner__caption">{{ caption_text | escape }}</p>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+<div class="project-page" style="--project-gap: {{ section.settings.gap }}px;">
+  <div class="project-page__inner">
 
     <header class="project-header">
-      <h1 class="project-header__name">{{ project.name.value | escape }}</h1>
-      <p class="project-header__meta">
-        {%- if artist != blank -%}
-          <span class="project-header__artist">
+      <div class="project-header__col">
+        {%- if heading != blank -%}
+          <h1 class="project-header__name">{{ heading | escape }}</h1>
+        {%- endif -%}
+
+        {%- comment -%}
+          Tags render only from real data — a project without a style gets no
+          tag row at all (no placeholder pills, no empty spans).
+        {%- endcomment -%}
+        {%- unless is_style -%}
+          {%- if style != blank and style.name.value != blank -%}
+            <div class="project-header__tags">
+              <span class="project-header__tag">{{ style.name.value | escape }}</span>
+              {%- if style_category != blank and style_category.name.value != blank and style_category.name.value != style.name.value -%}
+                <span class="project-header__tag">{{ style_category.name.value | escape }}</span>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endunless -%}
+
+        {%- if artist != blank and artist.name.value != blank -%}
+          <p class="project-header__artist">
             {{ section.settings.artist_label | default: 'Artist:' }}
             <a href="{{ artist.system.url }}">{{ artist.name.value | escape }}</a>
-          </span>
+          </p>
         {%- endif -%}
-        {%- if project.collector.value != blank -%}
-          <span class="project-header__collector">
-            {{ section.settings.collector_label | default: 'Collector:' }} {{ project.collector.value | escape }}
-          </span>
+
+        {%- if is_style != true and section.settings.show_collector and collector != blank -%}
+          <p class="project-header__artist project-header__collector">
+            {{ section.settings.collector_label | default: 'Collector:' }}
+            {{ collector | escape }}
+          </p>
         {%- endif -%}
-      </p>
-      {%- if project.description.value != blank -%}
-        <div class="project-header__description">{{ project.description.value | newline_to_br }}</div>
-      {%- endif -%}
+
+        {%- if description_left != blank -%}
+          <p class="project-header__description">{{ description_left }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="project-header__col project-header__col--end">
+        {%- if description_right != blank -%}
+          <div class="project-header__description">{{ description_right }}</div>
+        {%- endif -%}
+
+        <a
+          class="project-header__cta button-custom"
+          href="{{ section.settings.booking_url | default: '#' }}"
+          style="--button-background-color: #ce5454; --button-color: #1d1616; --button-border-color: #1d1616; --button-border-width: 3px; border-radius: 8px;"
+        >
+          {{ section.settings.booking_label | default: 'Book Consultation' }}
+          <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 20">
+            {%- render 'icon', icon: 'arrow_ne' -%}
+          </svg>
+        </a>
+      </div>
     </header>
 
-    {%- if images != blank and images.size > 0 -%}
+    {%- if is_style -%}
+      {%- if style_gallery_html != blank -%}
+        <div class="project-gallery">
+          {{ style_gallery_html }}
+        </div>
+      {%- endif -%}
+    {%- elsif images != blank and images.size > 0 -%}
       <div class="project-gallery">
-        {%- for image in images -%}
+        {%- for media in images -%}
           <figure class="project-gallery__item">
-            {{ image | image_url: width: 1400 | image_tag:
-              loading: 'lazy',
-              widths: '320, 540, 760, 1100, 1400',
-              sizes: '(min-width: 750px) 45vw, 100vw',
-              alt: project.name.value | escape }}
+            {%- if media.media_type == 'video' -%}
+              {%- comment -%}
+                Vertical process videos share the gallery's portrait frame
+                (same border/radius/crop as the photos) instead of a forced
+                widescreen box. Muted + playsinline so mobile allows playback.
+              {%- endcomment -%}
+              {{ media | video_tag:
+                controls: true,
+                muted: true,
+                loop: true,
+                playsinline: true,
+                preload: 'metadata',
+                image_size: '1400x' }}
+            {%- else -%}
+              {{ media | image_url: width: 1400 | image_tag:
+                loading: 'lazy',
+                widths: '320, 540, 760, 1100, 1400',
+                sizes: '(min-width: 750px) 45vw, 100vw',
+                alt: project.name.value | escape }}
+            {%- endif -%}
           </figure>
         {%- endfor -%}
       </div>
@@ -49,27 +381,164 @@
   </div>
 </div>
 
+{%- if is_style -%}
+  {%- comment -%}
+    On style pages the carousel shows the artist's other styles instead of
+    projects (Figma 509:1109) — same cards, sourced from `style` entries.
+  {%- endcomment -%}
+  {% render 'related-projects',
+    artist: artist,
+    current: style_entry,
+    mode: 'styles',
+    kind_label: section.settings.related_styles_kind_label
+  %}
+{%- elsif artist != blank -%}
+  {% render 'related-projects', artist: artist, current: project %}
+{%- endif -%}
+
+{%- comment -%}
+  The "not sure where to start" micro-FAQ band is composed from theme blocks
+  in templates/metaobject/project.json (same pattern as page.artists.json /
+  page.booking.json) so merchants can edit it in the customizer.
+{%- endcomment -%}
+
 {%- style -%}
-  .project-page { padding-block: 48px; color: var(--color-foreground); }
-  .project-page__inner { display: flex; flex-direction: column; gap: var(--project-gap, 48px); }
-  .project-header { display: flex; flex-direction: column; gap: 12px; max-width: var(--narrow-page-width, 70ch); }
-  .project-header__name { margin: 0; }
-  .project-header__meta { margin: 0; display: flex; flex-wrap: wrap; gap: 8px 24px; color: var(--color-foreground-subdued); text-transform: uppercase; letter-spacing: .05em; font-size: .85rem; }
-  .project-header__meta a { color: inherit; }
-  .project-header__description { line-height: 1.7; }
-  .project-gallery { display: grid; grid-template-columns: 1fr; gap: 16px; }
-  @media (min-width: 750px) { .project-gallery { grid-template-columns: repeat(2, 1fr); } }
-  .project-gallery__item { margin: 0; }
-  .project-gallery__item img { width: 100%; height: auto; display: block; border-radius: 8px; }
+  .project-banner { position: relative; }
+  .project-banner img { width: 100%; height: 14.6875rem; object-fit: cover; display: block; }
+  @media (min-width: 750px) { .project-banner img { height: 27rem; } }
+  .project-banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      rgba(17, 16, 9, 0.9) 7.3%,
+      rgba(17, 16, 9, 0) 40.2%,
+      rgba(17, 16, 9, 0.9) 82.9%
+    );
+  }
+  @media (min-width: 750px) {
+    .project-banner::after {
+      background: linear-gradient(
+        to bottom,
+        rgba(17, 16, 9, 0.8) 7.3%,
+        rgba(17, 16, 9, 0) 44.8%,
+        rgba(17, 16, 9, 0.8) 82.9%
+      );
+    }
+  }
+  .project-banner__caption {
+    position: absolute;
+    z-index: 2;
+    left: max(32px, calc((100% - 90rem) / 2 + 32px));
+    right: max(32px, calc((100% - 90rem) / 2 + 32px));
+    bottom: 2rem;
+    margin: 0;
+    color: #ce5454;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  @media (min-width: 750px) {
+    .project-banner__caption {
+      left: max(96px, calc((100% - 90rem) / 2 + 96px));
+      right: max(96px, calc((100% - 90rem) / 2 + 96px));
+      bottom: 3.25rem;
+      letter-spacing: 0.18em;
+    }
+  }
+  .project-page { padding-block: 32px; background: {{ settings.color_palette.color1 }}; color: {{ settings.color_palette.background }}; }
+  @media (min-width: 750px) { .project-page { padding-block: 64px; } }
+  .project-page__inner {
+    box-sizing: border-box;
+    max-width: 90rem;
+    margin-inline: auto;
+    padding-inline: 32px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  @media (min-width: 750px) {
+    .project-page__inner {
+      padding-inline: 96px;
+      gap: var(--project-gap, 64px);
+    }
+  }
+  .project-header { display: flex; flex-direction: column; gap: 24px; max-width: 64.75rem; margin-inline: auto; width: 100%; }
+  @media (min-width: 750px) { .project-header { flex-direction: row; align-items: flex-end; gap: 24px; } }
+  .project-header__col { display: flex; flex-direction: column; gap: 24px; flex: 1 1 0; }
+  @media (min-width: 750px) { .project-header__col { gap: 16px; } }
+  .project-header__col--end { justify-content: flex-end; }
+  .project-header__name { margin: 0; font-family: var(--font-heading--family); font-size: 1.5rem; font-weight: 400; letter-spacing: -0.021em; }
+  @media (min-width: 750px) { .project-header__name { font-size: 2rem; letter-spacing: -0.015em; } }
+  .project-header__tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .project-header__tag { border: 2px solid {{ settings.color_palette.background }}; border-radius: 99px; padding: 2px 24px; font-style: italic; font-size: 1.125rem; }
+  .project-header__artist { margin: 0; color: {{ settings.color_palette.foreground }}; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.18em; font-weight: 700; font-size: 0.8125rem; }
+  .project-header__artist a { color: inherit; }
+  .project-header__description { margin: 0; opacity: 0.85; line-height: 1.19; font-size: 1rem; }
+  @media (min-width: 750px) { .project-header__description { line-height: 1.45; font-size: 1.125rem; } }
+  .project-header__description a { color: {{ settings.color_palette.foreground }}; text-decoration: underline; }
+  .project-header__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 24px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+  .project-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; }
+  @media (min-width: 750px) { .project-gallery { gap: 64px; } }
+  .project-gallery__item { margin: 0; display: block; }
+  .project-gallery__item img,
+  .project-gallery__item video {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 592 / 804;
+    object-fit: cover;
+    display: block;
+    border: 3px solid #ce5454;
+    border-radius: 10px;
+    box-sizing: border-box;
+  }
+  .project-gallery__item video { background: #1d1616; }
+  @media (min-width: 750px) { .project-gallery__item img, .project-gallery__item video { border-radius: 12px; } }
 {%- endstyle -%}
 
 {% schema %}
 {
-  "name": "Project",
+  "name": "Project / Style",
   "tag": "section",
   "settings": [
     { "type": "text", "id": "artist_label", "label": "Artist label", "default": "Artist:" },
-    { "type": "text", "id": "collector_label", "label": "Collector label", "default": "Collector:" },
+    { "type": "checkbox", "id": "show_collector", "label": "Show collector", "default": false },
+    { "type": "text", "id": "collector_label", "label": "Collector label", "default": "Collector:", "visible_if": "{{ section.settings.show_collector }}" },
+    { "type": "text", "id": "style_kind_label", "label": "Style caption label", "default": "Style", "info": "Middle segment of the banner caption on style pages, e.g. \"Artist / Style / Black & Gray Realism\"." },
+    {
+      "type": "select",
+      "id": "style_gallery_scope",
+      "label": "Style gallery shows",
+      "options": [
+        { "value": "artist", "label": "Style artist's projects only" },
+        { "value": "all", "label": "Projects from all artists" }
+      ],
+      "default": "artist",
+      "info": "Style pages only. \"Artist only\" falls back to all artists while the style's artist has no tagged projects, so the gallery is never empty."
+    },
+    { "type": "text", "id": "related_styles_kind_label", "label": "Related style card subtitle", "default": "Tattoo Style", "info": "Italic line under each card title in the style page's \"More by\" carousel." },
+    {
+      "type": "header",
+      "content": "Booking"
+    },
+    { "type": "url", "id": "booking_url", "label": "Booking link" },
+    { "type": "text", "id": "booking_label", "label": "Booking button label", "default": "Book Consultation" },
     {
       "type": "range",
       "id": "gap",

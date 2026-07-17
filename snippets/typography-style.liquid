@@ -18,6 +18,26 @@
   {% assign mobile_is_custom = true %}
 {% endif %}
 
+{%- comment -%}
+  Resolve `type` (display/heading/body) up front, from a custom font size when
+  one is set, so both the always-on letter-spacing override below and the
+  custom-preset block further down can use it. Blank when not resolvable
+  (e.g. a preset like h1-h7 with no custom font size) — callers that need a
+  var(--letter-spacing--{type}-*) fall back to 'body', which always exists.
+{%- endcomment -%}
+{%- unless type -%}
+  {%- if settings.font_size != '' -%}
+    {%- assign font_size_value = settings.font_size | split: 'rem' | first | times: 1.0 -%}
+    {%- if font_size_value > 4.5 -%}
+      {%- assign type = 'display' -%}
+    {%- elsif font_size_value > 3.5 -%}
+      {%- assign type = 'heading' -%}
+    {%- else -%}
+      {%- assign type = 'body' -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endunless -%}
+
 {%- capture variables -%}
   {%- if preset != 'rte' and settings.color != "" -%}
     --color: {{ settings.color }};
@@ -29,6 +49,30 @@
   {%- endcomment -%}
   {%- if settings.wrap != blank -%}
     --text-wrap: {{ settings.wrap }};
+  {%- endif -%}
+  {%- comment -%}
+    Letter spacing is overridable on any preset (h1-h7 / rte / paragraph /
+    custom), same as --color above — merchants shouldn't need to switch a
+    block to "Custom" typography just to fix tracking on a preset heading.
+    h1-h7 presets read letter-spacing from their own scoped variable
+    (--font-h6--letter-spacing, etc. — see base.css), not --letter-spacing,
+    so the override has to target whichever variable this preset actually
+    consumes. Falls back to a "body" scale when no font-size-driven type is
+    available (i.e. non-custom presets), since --letter-spacing--body-*
+    always exists.
+  {%- endcomment -%}
+  {%- if settings.letter_spacing != blank -%}
+    {%- assign letter_spacing_type = type | default: 'body' -%}
+    {%- assign letter_spacing_value = settings.custom_letter_spacing | append: 'px' -%}
+    {%- unless settings.letter_spacing == 'custom' -%}
+      {%- assign letter_spacing_value = 'var(--letter-spacing--' | append: letter_spacing_type | append: '-' | append: settings.letter_spacing | append: ')' -%}
+    {%- endunless -%}
+    {%- case preset -%}
+      {%- when 'h1' or 'h2' or 'h3' or 'h4' or 'h5' or 'h6' or 'h7' -%}
+        --font-{{ preset }}--letter-spacing: {{ letter_spacing_value }};
+      {%- else -%}
+        --letter-spacing: {{ letter_spacing_value }};
+    {%- endcase -%}
   {%- endif -%}
   {%- comment -%}
     Emit mobile-only typography vars whenever the mobile preset is custom.
@@ -45,25 +89,6 @@
     {%- endif -%}
   {%- endif -%}
   {%- if preset == 'custom' -%}
-    {% liquid
-      unless type
-        comment
-          When choosing to customize the font, picking a specific font size
-          determines the type of text block.
-        endcomment
-        if settings.font_size != ''
-          assign font_size_value = settings.font_size | split: 'rem' | first | times: 1.0
-
-          if font_size_value > 4.5
-            assign type = 'display'
-          elsif font_size_value > 3.5
-            assign type = 'heading'
-          else
-            assign type = 'body'
-          endif
-        endif
-      endunless
-    %}
     {%- if settings.font_size != blank -%}
       {%- liquid
         assign font_size_rem = settings.font_size | split: 'rem' | first | times: 1.0
@@ -100,7 +125,6 @@
     {% else %}
       --line-height: {% if settings.line_height == 'custom' %} {{ settings.custom_line_height }} {% else %}var(--line-height--{{ type }}-{{ settings.line_height }}){% endif %};
     {% endif %}
-    --letter-spacing: var(--letter-spacing--{{ type }}-{{ settings.letter_spacing }});
   {%- endif -%}
 {%- endcapture -%}
 {{- variables | strip | strip_newlines -}}

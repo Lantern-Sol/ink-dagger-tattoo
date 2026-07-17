@@ -11,6 +11,9 @@
   assign show_category_tabs = section.settings.show_category_tabs
   assign tabs_alignment = section.settings.tabs_alignment | default: 'center'
   assign show_pagination = section.settings.show_pagination
+  assign pagination_type = section.settings.pagination_type | default: 'numbered'
+  assign load_more_label = section.settings.load_more_label | default: 'Load more stories'
+  assign load_more_style = section.settings.load_more_style | default: 'button'
   assign featured_bg_image = section.settings.featured_card_background_image
   assign featured_bg_position = section.settings.featured_card_background_position | default: 'cover'
   assign featured_bg_overlay_opacity = section.settings.featured_card_background_overlay_opacity | default: 0
@@ -23,6 +26,7 @@
   endif
 
   assign all_label = section.settings.all_tab_label | default: 'All'
+  assign filter_label = section.settings.filter_label
 
   assign current_tag = ''
   if current_tags != blank
@@ -32,6 +36,66 @@
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
   endif
+
+  # Filter label typography — mirrors the "type_preset" system on blocks/text.liquid,
+  # hand-rolled here (rather than via snippets/typography-style.liquid) because that
+  # snippet expects one flat, unprefixed settings object and this section needs two
+  # independent typography groups (label + tabs) on a single section.settings object.
+  assign filter_label_type_preset = section.settings.filter_label_type_preset | default: 'h6'
+  assign filter_label_class = filter_label_type_preset
+  assign filter_label_style = ''
+  if filter_label_type_preset == 'custom'
+    assign filter_label_class = 'custom-typography'
+    assign filter_label_style = filter_label_style | append: '--font-family:' | append: section.settings.filter_label_font | append: ';'
+    if section.settings.filter_label_enable_custom_font_weight and section.settings.filter_label_weight != blank
+      assign filter_label_style = filter_label_style | append: '--font-weight:' | append: section.settings.filter_label_weight | append: ';'
+    endif
+    if section.settings.filter_label_font_size != blank
+      assign filter_label_class = filter_label_class | append: ' custom-font-size'
+      assign filter_label_style = filter_label_style | append: '--font-size:' | append: section.settings.filter_label_font_size | append: ';'
+    endif
+    if section.settings.filter_label_line_height == 'custom'
+      assign filter_label_style = filter_label_style | append: '--line-height:' | append: section.settings.filter_label_custom_line_height | append: ';'
+    else
+      assign filter_label_style = filter_label_style | append: '--line-height:var(--line-height--body-' | append: section.settings.filter_label_line_height | append: ');'
+    endif
+    assign filter_label_style = filter_label_style | append: '--letter-spacing:var(--letter-spacing--body-' | append: section.settings.filter_label_letter_spacing | append: ');'
+    assign filter_label_style = filter_label_style | append: '--text-transform:' | append: section.settings.filter_label_case | append: ';'
+  endif
+
+  # Tab pill typography — same pattern as the filter label above.
+  assign tab_type_preset = section.settings.tab_type_preset | default: 'custom'
+  assign tab_type_class = tab_type_preset
+  assign tab_type_style = ''
+  if tab_type_preset == 'custom'
+    assign tab_type_class = 'custom-typography'
+    assign tab_type_style = tab_type_style | append: '--font-family:' | append: section.settings.tab_font | append: ';'
+    if section.settings.tab_enable_custom_font_weight and section.settings.tab_weight != blank
+      assign tab_type_style = tab_type_style | append: '--font-weight:' | append: section.settings.tab_weight | append: ';'
+    endif
+    if section.settings.tab_font_size != blank
+      assign tab_type_class = tab_type_class | append: ' custom-font-size'
+      assign tab_type_style = tab_type_style | append: '--font-size:' | append: section.settings.tab_font_size | append: ';'
+    endif
+    if section.settings.tab_line_height == 'custom'
+      assign tab_type_style = tab_type_style | append: '--line-height:' | append: section.settings.tab_custom_line_height | append: ';'
+    else
+      assign tab_type_style = tab_type_style | append: '--line-height:var(--line-height--body-' | append: section.settings.tab_line_height | append: ');'
+    endif
+    assign tab_type_style = tab_type_style | append: '--letter-spacing:var(--letter-spacing--body-' | append: section.settings.tab_letter_spacing | append: ');'
+    assign tab_type_style = tab_type_style | append: '--text-transform:' | append: section.settings.tab_case | append: ';'
+  endif
+
+  # Tabs band + pill appearance
+  assign tabs_band_style = ''
+  if section.settings.tabs_background_color != blank
+    assign tabs_band_style = tabs_band_style | append: '--tabs-band-bg:' | append: section.settings.tabs_background_color | append: ';'
+  endif
+  if section.settings.tabs_divider_color != blank
+    assign tabs_band_style = tabs_band_style | append: '--tabs-band-divider:' | append: section.settings.tabs_divider_color | append: ';'
+  endif
+  assign tabs_band_style = tabs_band_style | append: '--tabs-band-spacing:' | append: section.settings.tabs_bottom_spacing | append: 'px;--tabs-band-spacing-mobile:' | append: section.settings.tabs_bottom_spacing_mobile | append: 'px;'
+  assign tab_pill_style = '--tab-bg:' | append: section.settings.tab_background_color | append: ';--tab-active-bg:' | append: section.settings.tab_active_background_color | append: ';--tab-text:' | append: section.settings.tab_text_color | append: ';--tab-border-color:' | append: section.settings.tab_border_color | append: ';--tab-border-width:' | append: section.settings.tab_border_width | append: 'px;--tab-radius:' | append: section.settings.tab_corner_radius | append: 'px;'
 %}
 
 <blog-posts-list section-id="{{ section.id }}">
@@ -56,35 +120,42 @@
     {% content_for 'blocks' %}
 
     {%- if show_category_tabs -%}
-      <nav
-        class="blog-category-tabs blog-category-tabs--{{ tabs_alignment }}"
-        aria-label="Article categories"
-      >
-        <ul class="blog-category-tabs__list" role="list">
-          <li class="blog-category-tabs__item">
-            <a
-              href="{{ blog.url }}"
-              class="blog-category-tabs__link{% if current_tag == blank %} is-active{% endif %} h6"
-              {% if current_tag == blank %}aria-current="page"{% endif %}
-            >{{ all_label }}</a>
-          </li>
-          {%- for tag in blog.all_tags -%}
+      <div class="blog-category-tabs-band" style="{{ tabs_band_style }}">
+        <nav
+          class="blog-category-tabs blog-category-tabs--{{ tabs_alignment }}"
+          aria-label="Article categories"
+        >
+          {%- if filter_label != blank -%}
+            <div class="blog-category-tabs__label {{ filter_label_class }}" style="{{ filter_label_style }}">{{ filter_label }}</div>
+          {%- endif -%}
+          <ul class="blog-category-tabs__list" role="list" style="{{ tab_pill_style }}">
             <li class="blog-category-tabs__item">
               <a
-                href="{{ blog.url }}/tagged/{{ tag | handleize }}"
-                class="blog-category-tabs__link{% if tag == current_tag %} is-active{% endif %} h6"
-                {% if tag == current_tag %}aria-current="page"{% endif %}
-              >{{ tag }}</a>
+                href="{{ blog.url }}"
+                class="blog-category-tabs__link {{ tab_type_class }}{% if current_tag == blank %} is-active{% endif %}"
+                style="{{ tab_type_style }}"
+                {% if current_tag == blank %}aria-current="page"{% endif %}
+              >{{ all_label }}</a>
             </li>
-          {%- endfor -%}
-        </ul>
-      </nav>
+            {%- for tag in blog.all_tags -%}
+              <li class="blog-category-tabs__item">
+                <a
+                  href="{{ blog.url }}/tagged/{{ tag | handleize }}"
+                  class="blog-category-tabs__link {{ tab_type_class }}{% if tag == current_tag %} is-active{% endif %}"
+                  style="{{ tab_type_style }}"
+                  {% if tag == current_tag %}aria-current="page"{% endif %}
+                >{{ tag }}</a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      </div>
     {%- endif -%}
 
     {%- if show_pagination -%}
       {% paginate blog.articles by posts_per_page %}
         {%- assign paginated_articles = blog.articles -%}
-        <div ref="grid" class="blog-posts-container">
+        <div ref="grid" class="blog-posts-container" data-last-page="{{ paginate.pages }}">
           {% for article in paginated_articles %}
             {% liquid
               assign col_span = 2
@@ -103,6 +174,9 @@
                   assign col_span = 1
                   assign scale = 0.8
                 endif
+              elsif layout_type == 'grid'
+                assign col_span = 1
+                assign scale = 0.8
               else
                 case items_on_page
                   when 1
@@ -156,7 +230,7 @@
 
               @media screen and (max-width: 749px) {
                 [data-blog-index="{{ section.id }}-{{ forloop.index }}"] {
-                  --col-span: {% if layout_type == 'featured-grid' %}1{% else %}6{% endif %};
+                  --col-span: {% if layout_type == 'featured-grid' or layout_type == 'grid' %}1{% else %}6{% endif %};
                   --blog-post-card-scale: 0.5;
                 }
               }
@@ -169,13 +243,28 @@
               "
               data-testid="blog-post-item"
               data-blog-index="{{ section.id }}-{{ forloop.index }}"
+              ref="cards[]"
+              data-page="{{ paginate.current_page }}"
               {% if is_featured and featured_inline_style != blank %}style="{{ featured_inline_style }}"{% endif %}
             >
               {% content_for 'block', id: 'static-blog-post-card', type: '_blog-post-card', article: article %}
             </div>
           {% endfor %}
         </div>
-        {%- render 'pagination-controls', paginate: paginate -%}
+        {%- if pagination_type == 'load_more' -%}
+          {%- if paginate.next -%}
+            <div class="blog-posts-load-more">
+              <a
+                href="{{ paginate.next.url }}"
+                class="{{ load_more_style }} blog-posts-load-more__button"
+                data-load-more-button
+                data-next-url="{{ paginate.next.url }}"
+              >{{ load_more_label }}</a>
+            </div>
+          {%- endif -%}
+        {%- else -%}
+          {%- render 'pagination-controls', paginate: paginate -%}
+        {%- endif -%}
       {% endpaginate %}
     {%- else -%}
       <div ref="grid" class="blog-posts-container">
@@ -197,6 +286,9 @@
                 assign col_span = 1
                 assign scale = 0.8
               endif
+            elsif layout_type == 'grid'
+              assign col_span = 1
+              assign scale = 0.8
             else
               case items_on_page
                 when 1
@@ -250,7 +342,7 @@
 
             @media screen and (max-width: 749px) {
               [data-blog-index="{{ section.id }}-{{ forloop.index }}"] {
-                --col-span: {% if layout_type == 'featured-grid' %}1{% elsif is_horizontal %}6{% else %}3{% endif %};
+                --col-span: {% if layout_type == 'featured-grid' or layout_type == 'grid' %}1{% elsif is_horizontal %}6{% else %}3{% endif %};
                 --blog-post-card-scale: 0.5;
               }
             }
@@ -413,19 +505,69 @@
   }
 
   /**
-   * Category tabs strip
+   * Grid layout: every article renders as a uniform grid cell, no featured/hero post.
    */
-  .blog-category-tabs {
-    width: 100%;
-    margin-block: var(--gap-md, 16px) 2.5rem;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+  .blog-posts--grid .blog-posts-container {
+    grid-template-columns: repeat(var(--blog-posts-columns, 4), 1fr);
   }
 
-  .blog-category-tabs::-webkit-scrollbar {
-    display: none;
+  @media screen and (max-width: 749px) {
+    .blog-posts--grid .blog-posts-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /**
+   * "Load more" pagination button
+   */
+  .blog-posts-load-more {
+    display: flex;
+    justify-content: center;
+    margin-block-start: var(--gap-xl, 32px);
+  }
+
+  @media screen and (max-width: 749px) {
+    .blog-posts-load-more__button {
+      width: 100%;
+    }
+  }
+
+  /**
+   * Category tabs band
+   */
+  .blog-category-tabs-band {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    margin-block-end: var(--tabs-band-spacing, 40px);
+    background-color: var(--tabs-band-bg, transparent);
+    border-block: 1px solid var(--tabs-band-divider, transparent);
+  }
+
+  .blog-category-tabs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: var(--page-width, 1440px);
+    margin-inline: auto;
+    padding: 8px 151px;
+  }
+
+  .blog-category-tabs--center {
+    justify-content: center;
+  }
+
+  .blog-category-tabs--right {
+    justify-content: flex-end;
+  }
+
+  .blog-category-tabs__label {
+    flex: 0 0 auto;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .blog-category-tabs__label p {
+    margin: 0;
   }
 
   .blog-category-tabs__list {
@@ -434,19 +576,16 @@
     padding: 0;
     display: flex;
     flex-wrap: nowrap;
-    gap: clamp(1rem, 2.5vw, 2.5rem);
-    width: max-content;
-    min-width: 100%;
+    align-items: center;
+    gap: 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
 
-  .blog-category-tabs--center .blog-category-tabs__list {
-    justify-content: center;
-    margin-inline: auto;
-  }
-
-  .blog-category-tabs--right .blog-category-tabs__list {
-    justify-content: flex-end;
-    margin-inline-start: auto;
+  .blog-category-tabs__list::-webkit-scrollbar {
+    display: none;
   }
 
   .blog-category-tabs__item {
@@ -454,38 +593,42 @@
   }
 
   .blog-category-tabs__link {
-    display: inline-block;
-    padding: 0.5rem 0;
-    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 20px;
+    color: var(--tab-text);
+    background-color: var(--tab-bg);
+    border: var(--tab-border-width, 2px) solid var(--tab-border-color);
+    border-radius: var(--tab-radius, 8px);
     text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: var(--font-size--sm, 0.875rem);
-    border-block-end: 2px solid transparent;
-    transition: border-color 120ms ease, opacity 120ms ease;
-    opacity: 0.7;
+    transition: background-color 120ms ease, border-color 120ms ease;
     white-space: nowrap;
   }
 
-  .blog-category-tabs__link:hover,
-  .blog-category-tabs__link:focus-visible {
-    opacity: 1;
-  }
-
   .blog-category-tabs__link.is-active {
-    opacity: 1;
-    border-block-end-color: currentColor;
+    background-color: var(--tab-active-bg, var(--tab-bg));
   }
 
   @media screen and (max-width: 749px) {
-    .blog-category-tabs__link.h6 {
-      font-family: var(--font-h7--family);
-      font-style: var(--font-h7--style);
-      font-weight: var(--font-h7--weight);
-      font-size: var(--font-h7--size);
-      line-height: var(--font-h7--line-height);
-      letter-spacing: var(--font-h7--letter-spacing);
-      text-transform: var(--font-h7--case);
+    .blog-category-tabs-band {
+      margin-block-end: var(--tabs-band-spacing-mobile, 24px);
+    }
+
+    .blog-category-tabs {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 16px 32px;
+    }
+
+    .blog-category-tabs__list {
+      width: auto;
+      gap: 8px;
+      margin-inline-end: -32px;
+    }
+
+    .blog-category-tabs__link {
+      padding: 8px 16px;
     }
   }
 {% endstylesheet %}
@@ -539,7 +682,8 @@
       "label": "Layout",
       "options": [
         { "value": "smart-mix", "label": "Smart mix (hero + standard + compact)" },
-        { "value": "featured-grid", "label": "Featured + uniform grid" }
+        { "value": "featured-grid", "label": "Featured + uniform grid" },
+        { "value": "grid", "label": "Grid (no featured post)" }
       ],
       "default": "featured-grid"
     },
@@ -551,7 +695,7 @@
       "max": 4,
       "step": 1,
       "default": 3,
-      "visible_if": "{{ section.settings.layout_type == 'featured-grid' }}"
+      "visible_if": "{{ section.settings.layout_type == 'featured-grid' or section.settings.layout_type == 'grid' }}"
     },
     {
       "type": "image_picker",
@@ -604,6 +748,35 @@
       "visible_if": "{{ section.settings.show_pagination }}"
     },
     {
+      "type": "select",
+      "id": "pagination_type",
+      "label": "Pagination type",
+      "options": [
+        { "value": "numbered", "label": "Numbered pages" },
+        { "value": "load_more", "label": "\"Load more\" button" }
+      ],
+      "default": "numbered",
+      "visible_if": "{{ section.settings.show_pagination }}"
+    },
+    {
+      "type": "text",
+      "id": "load_more_label",
+      "label": "\"Load more\" button label",
+      "default": "Load more stories",
+      "visible_if": "{{ section.settings.show_pagination and section.settings.pagination_type == 'load_more' }}"
+    },
+    {
+      "type": "select",
+      "id": "load_more_style",
+      "label": "\"Load more\" button style",
+      "options": [
+        { "value": "button", "label": "t:options.primary" },
+        { "value": "button-secondary", "label": "t:options.secondary" }
+      ],
+      "default": "button",
+      "visible_if": "{{ section.settings.show_pagination and section.settings.pagination_type == 'load_more' }}"
+    },
+    {
       "type": "header",
       "content": "Category tabs"
     },
@@ -632,6 +805,355 @@
       ],
       "default": "center",
       "visible_if": "{{ section.settings.show_category_tabs }}"
+    },
+    {
+      "type": "richtext",
+      "id": "filter_label",
+      "label": "Filter label",
+      "info": "Shown before (desktop) or above (mobile) the tabs. Leave blank to hide.",
+      "default": "<p><em>Filter by:</em></p>",
+      "visible_if": "{{ section.settings.show_category_tabs }}"
+    },
+    {
+      "type": "color",
+      "id": "tabs_background_color",
+      "label": "Tabs bar background color",
+      "placeholder": "t:settings.default",
+      "visible_if": "{{ section.settings.show_category_tabs }}"
+    },
+    {
+      "type": "color",
+      "id": "tabs_divider_color",
+      "label": "Tabs bar divider color",
+      "info": "Top and bottom hairline. Leave blank to hide.",
+      "placeholder": "t:settings.default",
+      "visible_if": "{{ section.settings.show_category_tabs }}"
+    },
+    {
+      "type": "color",
+      "id": "tab_background_color",
+      "label": "Tab background color",
+      "default": "#f8f5ed",
+      "visible_if": "{{ section.settings.show_category_tabs }}"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_background_color",
+      "label": "Active tab background color",
+      "default": "#f1ebdb",
+      "visible_if": "{{ section.settings.show_category_tabs }}"
+    },
+    {
+      "type": "color",
+      "id": "tab_text_color",
+      "label": "Tab text color",
+      "default": "#1d1616",
+      "visible_if": "{{ section.settings.show_category_tabs }}"
+    },
+    {
+      "type": "color",
+      "id": "tab_border_color",
+      "label": "Tab border color",
+      "default": "#1d1616",
+      "visible_if": "{{ section.settings.show_category_tabs }}"
+    },
+    {
+      "type": "range",
+      "id": "tab_border_width",
+      "label": "Tab border width",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 2,
+      "visible_if": "{{ section.settings.show_category_tabs }}"
+    },
+    {
+      "type": "range",
+      "id": "tab_corner_radius",
+      "label": "Tab corner radius",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 8,
+      "visible_if": "{{ section.settings.show_category_tabs }}"
+    },
+    {
+      "type": "range",
+      "id": "tabs_bottom_spacing",
+      "label": "Space below tabs bar",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40,
+      "visible_if": "{{ section.settings.show_category_tabs }}"
+    },
+    {
+      "type": "range",
+      "id": "tabs_bottom_spacing_mobile",
+      "label": "Space below tabs bar (mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 24,
+      "visible_if": "{{ section.settings.show_category_tabs }}"
+    },
+    {
+      "type": "header",
+      "content": "Filter label typography"
+    },
+    {
+      "type": "select",
+      "id": "filter_label_type_preset",
+      "label": "t:settings.preset",
+      "options": [
+        { "value": "rte", "label": "t:options.default" },
+        { "value": "paragraph", "label": "t:options.paragraph" },
+        { "value": "h1", "label": "t:options.h1" },
+        { "value": "h2", "label": "t:options.h2" },
+        { "value": "h3", "label": "t:options.h3" },
+        { "value": "h4", "label": "t:options.h4" },
+        { "value": "h5", "label": "t:options.h5" },
+        { "value": "h6", "label": "t:options.h6" },
+        { "value": "h7", "label": "t:options.h7" },
+        { "value": "custom", "label": "t:options.custom" }
+      ],
+      "default": "h6",
+      "info": "t:info.edit_presets_in_theme_settings",
+      "visible_if": "{{ section.settings.show_category_tabs }}"
+    },
+    {
+      "type": "select",
+      "id": "filter_label_font",
+      "label": "t:settings.font",
+      "options": [
+        { "value": "var(--font-body--family)", "label": "t:options.body" },
+        { "value": "var(--font-subheading--family)", "label": "t:options.subheading" },
+        { "value": "var(--font-heading--family)", "label": "t:options.heading" },
+        { "value": "var(--font-accent--family)", "label": "t:options.accent" }
+      ],
+      "default": "var(--font-heading--family)",
+      "visible_if": "{{ section.settings.show_category_tabs and section.settings.filter_label_type_preset == 'custom' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "filter_label_enable_custom_font_weight",
+      "label": "Custom font weight",
+      "default": false,
+      "visible_if": "{{ section.settings.show_category_tabs and section.settings.filter_label_type_preset == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "filter_label_weight",
+      "label": "Weight",
+      "options": [
+        { "value": "100", "label": "Thin" },
+        { "value": "200", "label": "Extra Light" },
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "400",
+      "visible_if": "{{ section.settings.show_category_tabs and section.settings.filter_label_type_preset == 'custom' and section.settings.filter_label_enable_custom_font_weight }}"
+    },
+    {
+      "type": "select",
+      "id": "filter_label_font_size",
+      "label": "t:settings.size",
+      "options": [
+        { "value": "", "label": "t:options.default" },
+        { "value": "0.625rem", "label": "10px" },
+        { "value": "0.75rem", "label": "12px" },
+        { "value": "0.875rem", "label": "14px" },
+        { "value": "0.9375rem", "label": "15px" },
+        { "value": "1rem", "label": "16px" },
+        { "value": "1.125rem", "label": "18px" },
+        { "value": "1.25rem", "label": "20px" },
+        { "value": "1.3125rem", "label": "21px" },
+        { "value": "1.5rem", "label": "24px" },
+        { "value": "1.875rem", "label": "30px" },
+        { "value": "2rem", "label": "32px" }
+      ],
+      "default": "1.125rem",
+      "visible_if": "{{ section.settings.show_category_tabs and section.settings.filter_label_type_preset == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "filter_label_line_height",
+      "label": "t:settings.line_height",
+      "options": [
+        { "value": "tight", "label": "t:options.tight" },
+        { "value": "normal", "label": "t:options.normal" },
+        { "value": "loose", "label": "t:options.loose" },
+        { "value": "custom", "label": "Custom" }
+      ],
+      "default": "normal",
+      "visible_if": "{{ section.settings.show_category_tabs and section.settings.filter_label_type_preset == 'custom' }}"
+    },
+    {
+      "type": "range",
+      "id": "filter_label_custom_line_height",
+      "label": "Line height value",
+      "min": 1,
+      "max": 3,
+      "step": 0.1,
+      "default": 1.5,
+      "visible_if": "{{ section.settings.show_category_tabs and section.settings.filter_label_type_preset == 'custom' and section.settings.filter_label_line_height == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "filter_label_letter_spacing",
+      "label": "t:settings.letter_spacing",
+      "options": [
+        { "value": "tight", "label": "t:options.tight" },
+        { "value": "normal", "label": "t:options.normal" },
+        { "value": "loose", "label": "t:options.loose" }
+      ],
+      "default": "normal",
+      "visible_if": "{{ section.settings.show_category_tabs and section.settings.filter_label_type_preset == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "filter_label_case",
+      "label": "t:settings.case",
+      "options": [
+        { "value": "none", "label": "t:options.default" },
+        { "value": "uppercase", "label": "t:options.uppercase" }
+      ],
+      "default": "none",
+      "visible_if": "{{ section.settings.show_category_tabs and section.settings.filter_label_type_preset == 'custom' }}"
+    },
+    {
+      "type": "header",
+      "content": "Tab typography"
+    },
+    {
+      "type": "select",
+      "id": "tab_type_preset",
+      "label": "t:settings.preset",
+      "options": [
+        { "value": "rte", "label": "t:options.default" },
+        { "value": "paragraph", "label": "t:options.paragraph" },
+        { "value": "h1", "label": "t:options.h1" },
+        { "value": "h2", "label": "t:options.h2" },
+        { "value": "h3", "label": "t:options.h3" },
+        { "value": "h4", "label": "t:options.h4" },
+        { "value": "h5", "label": "t:options.h5" },
+        { "value": "h6", "label": "t:options.h6" },
+        { "value": "h7", "label": "t:options.h7" },
+        { "value": "custom", "label": "t:options.custom" }
+      ],
+      "default": "custom",
+      "info": "t:info.edit_presets_in_theme_settings",
+      "visible_if": "{{ section.settings.show_category_tabs }}"
+    },
+    {
+      "type": "select",
+      "id": "tab_font",
+      "label": "t:settings.font",
+      "options": [
+        { "value": "var(--font-body--family)", "label": "t:options.body" },
+        { "value": "var(--font-subheading--family)", "label": "t:options.subheading" },
+        { "value": "var(--font-heading--family)", "label": "t:options.heading" },
+        { "value": "var(--font-accent--family)", "label": "t:options.accent" }
+      ],
+      "default": "var(--font-body--family)",
+      "visible_if": "{{ section.settings.show_category_tabs and section.settings.tab_type_preset == 'custom' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "tab_enable_custom_font_weight",
+      "label": "Custom font weight",
+      "default": true,
+      "visible_if": "{{ section.settings.show_category_tabs and section.settings.tab_type_preset == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "tab_weight",
+      "label": "Weight",
+      "options": [
+        { "value": "100", "label": "Thin" },
+        { "value": "200", "label": "Extra Light" },
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "600",
+      "visible_if": "{{ section.settings.show_category_tabs and section.settings.tab_type_preset == 'custom' and section.settings.tab_enable_custom_font_weight }}"
+    },
+    {
+      "type": "select",
+      "id": "tab_font_size",
+      "label": "t:settings.size",
+      "options": [
+        { "value": "", "label": "t:options.default" },
+        { "value": "0.625rem", "label": "10px" },
+        { "value": "0.75rem", "label": "12px" },
+        { "value": "0.875rem", "label": "14px" },
+        { "value": "0.9375rem", "label": "15px" },
+        { "value": "1rem", "label": "16px" },
+        { "value": "1.125rem", "label": "18px" },
+        { "value": "1.25rem", "label": "20px" }
+      ],
+      "default": "0.875rem",
+      "visible_if": "{{ section.settings.show_category_tabs and section.settings.tab_type_preset == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "tab_line_height",
+      "label": "t:settings.line_height",
+      "options": [
+        { "value": "tight", "label": "t:options.tight" },
+        { "value": "normal", "label": "t:options.normal" },
+        { "value": "loose", "label": "t:options.loose" },
+        { "value": "custom", "label": "Custom" }
+      ],
+      "default": "normal",
+      "visible_if": "{{ section.settings.show_category_tabs and section.settings.tab_type_preset == 'custom' }}"
+    },
+    {
+      "type": "range",
+      "id": "tab_custom_line_height",
+      "label": "Line height value",
+      "min": 1,
+      "max": 3,
+      "step": 0.1,
+      "default": 1.5,
+      "visible_if": "{{ section.settings.show_category_tabs and section.settings.tab_type_preset == 'custom' and section.settings.tab_line_height == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "tab_letter_spacing",
+      "label": "t:settings.letter_spacing",
+      "options": [
+        { "value": "tight", "label": "t:options.tight" },
+        { "value": "normal", "label": "t:options.normal" },
+        { "value": "loose", "label": "t:options.loose" }
+      ],
+      "default": "normal",
+      "visible_if": "{{ section.settings.show_category_tabs and section.settings.tab_type_preset == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "tab_case",
+      "label": "t:settings.case",
+      "options": [
+        { "value": "none", "label": "t:options.default" },
+        { "value": "uppercase", "label": "t:options.uppercase" }
+      ],
+      "default": "none",
+      "visible_if": "{{ section.settings.show_category_tabs and section.settings.tab_type_preset == 'custom' }}"
     },
     {
       "type": "header",

@@ -4,6 +4,7 @@
   @param {string} icon - The icon name from block.settings.icon
   @param {object} image_upload - The uploaded image from block.settings.image_upload
   @param {number} width - The width setting from block.settings.width
+  @param {number} [mobile_width] - Mobile-specific width override; falls back to width when omitted
   @param {string} class_name - CSS class name for the rendered element
   @param {object} [attributes] - Additional HTML attributes to add to the element
 {%- enddoc -%}
@@ -31,9 +32,14 @@
     assign widths = '240, 352, 832, 1200'
   %}
 
-  {% assign width = width |  divided_by: 16.0 %}
-  {% assign mobile_width = mobile_width | divided_by: 16.0 %}
-  {% assign image_style = '--width: ' | append: width | append: 'rem;--mobile-width: ' | append: mobile_width | append: 'rem;' %}
+  {% liquid
+    assign width = width | divided_by: 16.0
+    assign image_style = '--width: ' | append: width | append: 'rem;'
+    if mobile_width != blank
+      assign mobile_width = mobile_width | divided_by: 16.0
+      assign image_style = image_style | append: '--mobile-width: ' | append: mobile_width | append: 'rem;'
+    endif
+  %}
   {{
     image_upload
     | image_url: width: 1200

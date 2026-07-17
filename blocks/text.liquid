@@ -12,6 +12,18 @@
     },
     {
       "type": "richtext",
+      "id": "accent_text",
+      "label": "Accent text",
+      "info": "If this exactly matches part of the text above, that part is highlighted in the accent color."
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "richtext",
       "id": "mobile_text",
       "label": "Mobile text (Optional)",
       "info": "Replaces the text content for mobile devices"
@@ -60,8 +72,7 @@
       "type": "text_alignment",
       "id": "alignment",
       "label": "t:settings.alignment",
-      "default": "left",
-      "visible_if": "{{ block.settings.width == '100%' }}"
+      "default": "left"
     },
     {
       "type": "header",
@@ -259,6 +270,10 @@
           "label": "16px"
         },
         {
+          "value": "1.0625rem",
+          "label": "17px"
+        },
+        {
           "value": "1.125rem",
           "label": "18px"
         },
@@ -293,6 +308,14 @@
         {
           "value": "3.5rem",
           "label": "56px"
+        },
+        {
+          "value": "4rem",
+          "label": "64px"
+        },
+        {
+          "value": "4.125rem",
+          "label": "66px"
         },
         {
           "value": "4.5rem",
@@ -357,7 +380,12 @@
       "type": "select",
       "id": "letter_spacing",
       "label": "t:settings.letter_spacing",
+      "info": "Works on any typography preset, not just Custom.",
       "options": [
+        {
+          "value": "",
+          "label": "t:options.default"
+        },
         {
           "value": "tight",
           "label": "t:options.tight"
@@ -369,10 +397,28 @@
         {
           "value": "loose",
           "label": "t:options.loose"
+        },
+        {
+          "value": "wide",
+          "label": "t:options.wide"
+        },
+        {
+          "value": "custom",
+          "label": "t:options.custom"
         }
       ],
-      "default": "normal",
-      "visible_if": "{{ block.settings.type_preset == 'custom' }}"
+      "default": ""
+    },
+    {
+      "type": "range",
+      "id": "custom_letter_spacing",
+      "label": "Letter spacing value",
+      "min": -2,
+      "max": 8,
+      "step": 0.1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.letter_spacing == 'custom' }}"
     },
     {
       "type": "select",
@@ -500,6 +546,14 @@
           "label": "56px"
         },
         {
+          "value": "4rem",
+          "label": "64px"
+        },
+        {
+          "value": "4.125rem",
+          "label": "66px"
+        },
+        {
           "value": "4.5rem",
           "label": "72px"
         },
@@ -541,6 +595,13 @@
       "type": "color",
       "id": "text_color",
       "label": "t:settings.text_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "emphasis_color",
+      "label": "Italic text color",
+      "info": "Colors any <em>/<i> text inside this block (e.g. a highlighted word). Leave blank to inherit the normal text color.",
       "placeholder": "t:settings.default"
     },
     {
