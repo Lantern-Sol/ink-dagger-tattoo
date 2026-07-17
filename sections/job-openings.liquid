@@ -1,0 +1,511 @@
+{%- liquid
+  assign blog = section.settings.blog
+  assign has_color_override = false
+  if section.settings.background_color != blank or section.settings.text_color != blank
+    assign has_color_override = true
+  endif
+  assign accent_color = section.settings.accent_color | default: '#ce5454'
+  assign columns = section.settings.columns | default: 3
+  assign all_jobs_label = section.settings.all_jobs_label | default: 'All Jobs'
+  assign filter_label = section.settings.filter_label | default: 'Filter Open Roles'
+  assign top_pad = section.settings['padding-block-start'] | default: 64
+  assign bot_pad = section.settings['padding-block-end'] | default: 64
+-%}
+
+{%- if has_color_override -%}
+  {%- render 'contrast-override',
+    background_color: section.settings.background_color,
+    text_color: section.settings.text_color,
+    section_id: section.id -%}
+{%- endif -%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --job-openings-accent: {{ accent_color }};
+    --job-openings-columns: {{ columns }};
+    {%- if section.settings.pill_background_color != blank -%}
+      --job-openings-pill-bg: {{ section.settings.pill_background_color }};
+    {%- endif -%}
+    {%- if section.settings.filter_band_background_color != blank -%}
+      --job-openings-band-bg: {{ section.settings.filter_band_background_color }};
+    {%- endif -%}
+    {%- if section.settings.card_border_color != blank -%}
+      --job-openings-card-border: {{ section.settings.card_border_color }};
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<div
+  class="job-openings{% if has_color_override %} color-custom-{{ section.id }}{% endif %}"
+  style="padding-top: {{ top_pad }}px; padding-bottom: {{ bot_pad }}px;"
+>
+  {%- if blog != blank and blog.articles_count > 0 -%}
+    {%- assign job_types_raw = '' -%}
+    {%- for article in blog.articles -%}
+      {%- assign job_type = article.metafields.custom.job_type.value | strip -%}
+      {%- if job_type != blank -%}
+        {%- assign job_types_raw = job_types_raw | append: job_type | append: '||' -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- assign job_type_candidates = job_types_raw | split: '||' -%}
+    {%- assign job_type_list_str = '' -%}
+    {%- for candidate in job_type_candidates -%}
+      {%- assign candidate_key = candidate | downcase -%}
+      {%- assign existing_keys = job_type_list_str | downcase | split: '||' -%}
+      {%- unless existing_keys contains candidate_key -%}
+        {%- assign job_type_list_str = job_type_list_str | append: candidate | append: '||' -%}
+      {%- endunless -%}
+    {%- endfor -%}
+    {%- assign job_type_list = job_type_list_str | split: '||' | sort_natural -%}
+
+    <div class="job-openings__filter">
+      <div class="job-openings__filter-inner">
+        {%- if filter_label != blank -%}
+          <span class="job-openings__filter-label">{{ filter_label | escape }}</span>
+        {%- endif -%}
+        <div class="job-openings__pills" id="job-openings-pills-{{ section.id }}">
+          <button
+            type="button"
+            class="job-openings__pill job-openings__pill--active"
+            data-job-type=""
+          >{{ all_jobs_label | escape }}</button>
+          {%- if job_type_list.size > 1 -%}
+            {%- for job_type in job_type_list -%}
+              <button
+                type="button"
+                class="job-openings__pill"
+                data-job-type="{{ job_type | downcase | escape }}"
+              >{{ job_type | escape }}</button>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    <div class="job-openings__grid" id="job-openings-grid-{{ section.id }}">
+      {%- for article in blog.articles -%}
+        {%- assign job_type = article.metafields.custom.job_type.value | strip -%}
+        {%- assign excerpt = article.excerpt | default: article.content -%}
+        <a
+          href="{{ article.url }}"
+          class="job-openings__card"
+          data-job-type="{{ job_type | downcase | escape }}"
+        >
+          {%- if article.image -%}
+            <div class="job-openings__card-image">
+              {{ article.image | image_url: width: 800 | image_tag:
+                loading: 'lazy',
+                widths: '320, 480, 640, 800',
+                sizes: '(min-width: 750px) calc(33vw - 40px), 100vw',
+                alt: article.title | escape }}
+            </div>
+          {%- endif -%}
+          <div class="job-openings__card-content">
+            <div class="job-openings__card-text">
+              <h3 class="job-openings__card-title">{{ article.title }}</h3>
+              {%- if excerpt != blank -%}
+                <p class="job-openings__card-excerpt">{{ excerpt | strip_html | truncatewords: 24 }}</p>
+              {%- endif -%}
+            </div>
+            <span class="job-openings__card-icon">
+              {%- render 'icon-or-image', icon: 'arrow_ne', image_upload: blank, width: 28, class_name: 'job-openings__icon' -%}
+            </span>
+          </div>
+        </a>
+      {%- else -%}
+        <p class="job-openings__empty">No open roles at the moment.</p>
+      {%- endfor -%}
+    </div>
+  {%- elsif blog != blank -%}
+    <p class="job-openings__empty">No open roles at the moment.</p>
+  {%- else -%}
+    <p class="job-openings__empty">Select a blog with posts to display open roles.</p>
+  {%- endif -%}
+</div>
+
+{%- if blog != blank and job_type_list.size > 1 -%}
+<script>
+  (function () {
+    var sectionId = {{ section.id | json }};
+    var grid = document.getElementById('job-openings-grid-' + sectionId);
+    var pillsContainer = document.getElementById('job-openings-pills-' + sectionId);
+
+    if (!grid || !pillsContainer) return;
+
+    var cards = Array.from(grid.querySelectorAll('.job-openings__card'));
+    var pills = Array.from(pillsContainer.querySelectorAll('.job-openings__pill'));
+
+    pills.forEach(function (pill) {
+      pill.addEventListener('click', function () {
+        var jobType = pill.dataset.jobType || '';
+
+        pills.forEach(function (p) { p.classList.remove('job-openings__pill--active'); });
+        pill.classList.add('job-openings__pill--active');
+
+        cards.forEach(function (card) {
+          var matches = jobType === '' || card.dataset.jobType === jobType;
+          card.style.display = matches ? '' : 'none';
+        });
+      });
+    });
+  })();
+</script>
+{%- endif -%}
+
+{% stylesheet %}
+  .job-openings {
+    position: relative;
+  }
+
+  .job-openings__filter,
+  .job-openings__grid {
+    box-sizing: border-box;
+    max-width: var(--page-content-width, 1280px);
+    margin-inline: auto;
+    padding-inline: 32px;
+    width: 100%;
+  }
+
+  @media (min-width: 750px) {
+    .job-openings__filter,
+    .job-openings__grid {
+      padding-inline: 96px;
+    }
+  }
+
+  /* Filter */
+  .job-openings__filter {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  @media (min-width: 750px) {
+    .job-openings__filter {
+      margin-bottom: 64px;
+    }
+  }
+
+  .job-openings__filter-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  @media (min-width: 750px) {
+    .job-openings__filter-inner {
+      align-items: flex-start;
+      width: auto;
+      max-width: 100%;
+    }
+  }
+
+  .job-openings__filter-label {
+    font-family: var(--font-body--family);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    color: var(--color-foreground, #1d1616);
+  }
+
+  @media (min-width: 750px) {
+    .job-openings__filter-label {
+      font-size: 18px;
+    }
+  }
+
+  .job-openings__pills {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background: var(--job-openings-band-bg, #e3dfd6);
+    border: 2px solid #1d1616;
+    border-radius: 12px;
+  }
+
+  @media (min-width: 750px) {
+    .job-openings__pills {
+      gap: 16px;
+      padding: 16px 24px;
+      border-radius: 16px;
+    }
+  }
+
+  .job-openings__pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    background: var(--job-openings-pill-bg, #f8f5ed);
+    border: 2px solid #1d1616;
+    border-radius: 8px;
+    font-family: var(--font-body--family);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    color: #1d1616;
+    cursor: pointer;
+    white-space: nowrap;
+    text-align: center;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  @media (min-width: 750px) {
+    .job-openings__pill {
+      min-width: 184px;
+      padding: 12px 24px;
+      font-size: 18px;
+    }
+  }
+
+  .job-openings__pill--active {
+    background: var(--job-openings-accent, #ce5454);
+  }
+
+  /* Grid */
+  .job-openings__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  @media (min-width: 750px) {
+    .job-openings__grid {
+      grid-template-columns: repeat(var(--job-openings-columns, 3), 1fr);
+      gap: 24px;
+    }
+  }
+
+  .job-openings__empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--color-foreground-subdued);
+  }
+
+  /* Card */
+  .job-openings__card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 24px;
+    border: 1px solid var(--job-openings-card-border, rgba(29, 22, 22, 0.22));
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow var(--hover-transition-duration, 0.25s) var(--hover-transition-timing, ease-out);
+  }
+
+  @media (min-width: 750px) {
+    .job-openings__card {
+      gap: 24px;
+    }
+  }
+
+  .job-openings__card[style*="display: none"],
+  .job-openings__card[style*="display:none"] {
+    display: none !important;
+  }
+
+  .job-openings__card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .job-openings__card-image {
+    aspect-ratio: 399 / 392;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .job-openings__card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--hover-transition-duration, 0.25s) var(--hover-transition-timing, ease-out);
+  }
+
+  .job-openings__card:hover .job-openings__card-image img {
+    transform: scale(var(--hover-subtle-zoom-amount, 1.015));
+  }
+
+  .job-openings__card-content {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    padding-inline: 16px;
+  }
+
+  @media (min-width: 750px) {
+    .job-openings__card-content {
+      padding-inline: 24px;
+    }
+  }
+
+  .job-openings__card-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .job-openings__card-title {
+    margin: 0;
+    font-family: var(--font-h1--family);
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.18;
+    color: var(--color-foreground, #1d1616);
+  }
+
+  .job-openings__card-excerpt {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-style: italic;
+    font-size: 16px;
+    opacity: 0.85;
+    color: var(--color-foreground, #1d1616);
+  }
+
+  @media (min-width: 750px) {
+    .job-openings__card-excerpt {
+      font-size: 18px;
+    }
+  }
+
+  .job-openings__card-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    color: var(--job-openings-accent, #ce5454);
+  }
+
+  .job-openings__icon {
+    display: block;
+    width: 28px;
+    height: 28px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Job Openings",
+  "tag": "section",
+  "class": "job-openings-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "t:settings.blog",
+      "info": "Choose the blog whose posts are open job listings. Each post needs a Job Type value set under Metafields on the post."
+    },
+    {
+      "type": "header",
+      "content": "Filter"
+    },
+    {
+      "type": "text",
+      "id": "filter_label",
+      "label": "Filter label",
+      "default": "Filter Open Roles"
+    },
+    {
+      "type": "text",
+      "id": "all_jobs_label",
+      "label": "\"All\" pill label",
+      "default": "All Jobs"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "info": "Used for the active filter pill and the card link icon.",
+      "default": "#ce5454"
+    },
+    {
+      "type": "color",
+      "id": "filter_band_background_color",
+      "label": "Filter bar background color",
+      "default": "#e3dfd6"
+    },
+    {
+      "type": "color",
+      "id": "pill_background_color",
+      "label": "Pill background color",
+      "default": "#f8f5ed"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "Job Openings",
+      "category": "t:categories.storytelling",
+      "settings": {
+        "accent_color": "#ce5454"
+      }
+    }
+  ]
+}
+{% endschema %}
