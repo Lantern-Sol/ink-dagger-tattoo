@@ -5,7 +5,8 @@
 }
 
 .flash-filters__inner {
-  max-width: var(--page-content-width);
+  /* Figma 217:1435 — content column is 1138px, centered */
+  max-width: 71.125rem;
   margin-inline: auto;
   display: flex;
   align-items: center;
@@ -69,17 +70,26 @@
     padding-inline: 0;
   }
 
+  /* Full-bleed scroll row: the list runs edge to edge, but 2rem padding
+     INSIDE the scroll container keeps the first and last pill off the
+     viewport edges (Figma 296:1484 side spacing) */
   .flash-filters__list {
     gap: 0.5rem;
     width: 100%;
     overflow-x: auto;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+    padding-inline: 2rem;
+    scroll-padding-inline: 2rem;
     padding-block-end: 0.125rem;
   }
 
   .flash-filters__list::-webkit-scrollbar {
     display: none;
+  }
+
+  .flash-filters__label {
+    margin-inline: 2rem;
   }
 
   .flash-filters__pill {
@@ -92,6 +102,14 @@
    scope is effectively the Flash Library collection page. */
 .product-grid .card-gallery {
   --gallery-aspect-ratio: 275 / 304;
+}
+
+/* Figma 217:1451 — exactly 4 columns of ~275px in the 1138px grid; the theme's
+   auto-fit column math can't produce this (no setting exists for a fixed count) */
+@media screen and (min-width: 750px) {
+  .product-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
 }
 
 /* Keep the card's title/meta groups on one line on mobile — the theme defaults
