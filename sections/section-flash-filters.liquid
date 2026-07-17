@@ -58,6 +58,7 @@
       var sectionId = {{ section.id | json }};
       var collectionUrl = {{ collection.url | json }};
       var loadMoreLabel = {{ section.settings.load_more_label | default: 'Load more designs' | json }};
+      var loadingLabel = {{ section.settings.loading_label | default: 'Loading…' | json }};
       var bar = document.getElementById('flash-filters-' + sectionId);
       if (!bar) return;
 
@@ -77,6 +78,20 @@
         return document.querySelector('.product-grid');
       }
 
+      function themeInfiniteScroll() {
+        var list = document.querySelector('results-list');
+        return list && list.getAttribute('infinite-scroll') === 'true';
+      }
+
+      function maxOrder(g) {
+        var max = 0;
+        Array.prototype.forEach.call(g.children, function (child) {
+          var value = parseInt(child.style.order, 10);
+          if (value > max) max = value;
+        });
+        return max;
+      }
+
       function fetchPage(page) {
         var url = baseUrl() + (page > 1 ? '?page=' + page : '');
         return fetch(url).then(function (r) {
@@ -88,7 +103,7 @@
 
       function syncButton() {
         var g = grid();
-        if (!g) return;
+        if (!g || themeInfiniteScroll()) return;
         if (!wrapper) {
           wrapper = document.createElement('div');
           wrapper.className = 'flash-load-more';
@@ -99,8 +114,7 @@
           button.addEventListener('click', loadNextPage);
           wrapper.appendChild(button);
         }
-        var container = g.closest('.main-collection-grid') || g.parentElement;
-        if (!wrapper.parentElement) container.appendChild(wrapper);
+        if (!wrapper.parentElement) g.parentElement.appendChild(wrapper);
         wrapper.hidden = currentPage >= lastPage;
       }
 
@@ -112,6 +126,8 @@
       function setBusy(state) {
         loading = state;
         if (button) {
+          button.disabled = state;
+          button.textContent = state ? loadingLabel : loadMoreLabel;
           if (state) {
             button.setAttribute('aria-busy', 'true');
           } else {
@@ -131,6 +147,8 @@
             g.innerHTML = fetched.innerHTML;
             readState(doc);
             history.replaceState({}, '', baseUrl());
+          } else {
+            lastPage = 1;
           }
           syncButton();
         }).catch(function () {}).finally(function () {
@@ -143,7 +161,10 @@
         setBusy(true);
         fetchPage(currentPage + 1).then(function (doc) {
           var g = grid();
+          var order = maxOrder(g);
           doc.querySelectorAll('.product-grid__item').forEach(function (li) {
+            order += 1;
+            li.style.order = order;
             g.appendChild(li);
           });
           currentPage += 1;
@@ -228,6 +249,12 @@
       "id": "load_more_label",
       "label": "Load more button label",
       "default": "Load more designs"
+    },
+    {
+      "type": "text",
+      "id": "loading_label",
+      "label": "Load more loading label",
+      "default": "Loading…"
     }
   ],
   "presets": [{ "name": "Flash Filter Pills" }]
