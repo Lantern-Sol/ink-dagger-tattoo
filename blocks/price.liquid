@@ -7,6 +7,12 @@
   if block_settings.inquire_tag != blank and product_resource.tags contains block_settings.inquire_tag
     assign inquire_active = true
   endif
+
+  assign price_range_value = blank
+  if block_settings.price_range_metafield != blank
+    assign range_parts = block_settings.price_range_metafield | split: '.'
+    assign price_range_value = product_resource.metafields[range_parts[0]][range_parts[1]].value
+  endif
 -%}
 
 {% liquid
@@ -56,6 +62,8 @@
 >
   {% if inquire_active %}
     <span class="price price--inquire">{{ block_settings.inquire_label }}</span>
+  {% elsif price_range_value != blank %}
+    <span class="price">{{ price_range_value }}</span>
   {% elsif block_settings.show_highest_price %}
     <span class="price">{{ product_resource.price_max | money_without_trailing_zeros }}</span>
   {% else %}
@@ -155,6 +163,12 @@
       "label": "Inquire label",
       "default": "Inquire for pricing",
       "visible_if": "{{ block.settings.inquire_tag != blank }}"
+    },
+    {
+      "type": "text",
+      "id": "price_range_metafield",
+      "label": "Price range metafield",
+      "info": "Namespace.key of a text metafield (e.g. flash.price_range). When the product has a value there, it is shown instead of the price. Checkout still charges the variant price."
     },
     {
       "type": "checkbox",
