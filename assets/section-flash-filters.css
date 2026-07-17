@@ -1,0 +1,122 @@
+/* Flash Library — tag filter pill bar (+ flash product-card polish, loads only on templates using this section) */
+
+.flash-filters {
+  border-block: 1px solid rgb(29 22 22 / 0.12);
+}
+
+.flash-filters__inner {
+  max-width: var(--page-content-width);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding-inline: 1rem;
+}
+
+.flash-filters__label {
+  font-family: var(--font-heading--family);
+  font-style: italic;
+  font-size: 1.125rem;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.flash-filters__list {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.flash-filters__pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6875rem 1.25rem;
+  border: 2px solid var(--flash-filters-ink);
+  border-radius: 0.5rem;
+  background-color: var(--flash-filters-pill-bg);
+  color: var(--flash-filters-ink);
+  font-family: var(--font-body--family);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: normal;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.flash-filters__pill:hover {
+  background-color: #f1ebdb;
+}
+
+.flash-filters__pill--active,
+.flash-filters__pill--active:hover {
+  background-color: var(--flash-filters-pill-bg-active);
+  color: var(--flash-filters-pill-text-active);
+}
+
+@media screen and (max-width: 749px) {
+  .flash-filters__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8125rem;
+    padding-inline: 0;
+  }
+
+  .flash-filters__list {
+    gap: 0.5rem;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-block-end: 0.125rem;
+  }
+
+  .flash-filters__list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .flash-filters__pill {
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* Flash collection product cards — match the Figma card image ratio (275:304).
+   This file only loads on templates that use the flash-filters section, so the
+   scope is effectively the Flash Library collection page. */
+.product-grid .card-gallery {
+  --gallery-aspect-ratio: 275 / 304;
+}
+
+/* Keep the card's title/meta groups on one line on mobile — the theme defaults
+   row groups to --flex-wrap-mobile: wrap, which stacks every item */
+@media screen and (max-width: 749px) {
+  .product-grid .product-card__content .layout-panel-flex--row {
+    flex-flow: row nowrap !important;
+    justify-content: space-between !important;
+    align-items: baseline !important;
+  }
+
+  .product-grid .product-card__content .layout-panel-flex--row .text-block p {
+    white-space: nowrap;
+  }
+}
+
+.flash-card-price {
+  font-family: var(--font-body--family);
+  font-size: 1rem;
+  color: #1d1616;
+  line-height: normal;
+}
+
+@media screen and (max-width: 749px) {
+  .flash-card-price {
+    font-size: 0.75rem;
+  }
+}
