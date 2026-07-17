@@ -131,12 +131,20 @@
           "label": "40px"
         },
         {
+          "value": "2.75rem",
+          "label": "44px"
+        },
+        {
           "value": "3rem",
           "label": "48px"
         },
         {
           "value": "3.5rem",
           "label": "56px"
+        },
+        {
+          "value": "4.125rem",
+          "label": "66px"
         },
         {
           "value": "4.5rem",
@@ -187,7 +195,12 @@
       "type": "select",
       "id": "letter_spacing",
       "label": "t:settings.letter_spacing",
+      "info": "Works on any typography preset, not just Custom.",
       "options": [
+        {
+          "value": "",
+          "label": "t:options.default"
+        },
         {
           "value": "tight",
           "label": "t:options.tight"
@@ -199,10 +212,24 @@
         {
           "value": "loose",
           "label": "t:options.loose"
+        },
+        {
+          "value": "custom",
+          "label": "t:options.custom"
         }
       ],
-      "default": "normal",
-      "visible_if": "{{ block.settings.type_preset == 'custom' }}"
+      "default": ""
+    },
+    {
+      "type": "range",
+      "id": "custom_letter_spacing",
+      "label": "Letter spacing value",
+      "min": -2,
+      "max": 8,
+      "step": 0.1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.letter_spacing == 'custom' }}"
     },
     {
       "type": "select",
@@ -281,6 +308,7 @@
         { "value": "2.5rem", "label": "40px" },
         { "value": "3rem", "label": "48px" },
         { "value": "3.5rem", "label": "56px" },
+        { "value": "4.125rem", "label": "66px" },
         { "value": "4.5rem", "label": "72px" },
         { "value": "5.5rem", "label": "88px" },
         { "value": "7.5rem", "label": "120px" },

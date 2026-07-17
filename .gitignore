@@ -1,2 +1,13 @@
 # Migration tooling/data — not part of the Shopify theme
 migration/
+
+# Shopify CLI dev server logs
+shopify_dev.log
+shopify_errors.log
+*.log
+
+# Local Claude Code tooling / scratch — not part of the theme
+.claude/
+.playwright-mcp/
+.shopify-theme-context
+.shopifyignore
