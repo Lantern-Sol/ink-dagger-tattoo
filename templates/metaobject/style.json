@@ -24,6 +24,19 @@
         "gap": 64
       }
     },
+    "style_gallery": {
+      "type": "main-style-gallery",
+      "settings": {
+        "background_color": "{{ settings.color_palette.color1 }}",
+        "text_color": "{{ settings.color_palette.background }}",
+        "booking_url": "shopify://pages/booking",
+        "booking_label": "Book Consultation",
+        "load_more_label": "Load More Works",
+        "empty_state_text": "More work coming soon.",
+        "padding-block-start": 64,
+        "padding-block-end": 64
+      }
+    },
     "divider_AGnngY": {
       "type": "divider",
       "name": "t:names.divider_section",
@@ -1057,6 +1070,7 @@
   },
   "order": [
     "main",
+    "style_gallery",
     "divider_AGnngY",
     "micro_faq",
     "divider_89exLX"

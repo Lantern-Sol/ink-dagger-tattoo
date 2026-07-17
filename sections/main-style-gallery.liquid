@@ -1,0 +1,348 @@
+{%- comment -%}
+  Renders a `style` metaobject as a general style gallery: every artist's
+  work tagged with this style, in one shuffled grid, with a zoom modal.
+  Hero + "More by" recommendations are deferred (see style-gallery-plan.txt) —
+  this section is scoped to the grid + Load More + modal only.
+{%- endcomment -%}
+
+{%- liquid
+  assign style = metaobject
+  assign initial_count = 16
+  assign gallery_items = ''
+  assign gallery_items = gallery_items | split: '@@'
+
+  assign has_color_override = false
+  if section.settings.background_color != blank or section.settings.text_color != blank
+    assign has_color_override = true
+  endif
+-%}
+
+{%- if has_color_override -%}
+  {%- render 'contrast-override',
+    background_color: section.settings.background_color,
+    text_color: section.settings.text_color,
+    section_id: section.id -%}
+{%- endif -%}
+
+{%- paginate shop.metaobjects.project.values by 250 -%}
+  {%- for project_entry in shop.metaobjects.project.values -%}
+    {%- liquid
+      if project_entry.style.value.system.id != style.system.id
+        continue
+      endif
+      assign entry_artist = project_entry.artist.value
+    -%}
+    {%- for media in project_entry.images.value -%}
+      {%- if media.media_type == 'video' -%}
+        {%- continue -%}
+      {%- endif -%}
+      {%- capture item_html -%}
+        <button
+          type="button"
+          class="style-gallery__thumb"
+          on:click="/openModal"
+          data-modal-src="{{ media | image_url: width: 1200 }}"
+          data-modal-alt="{{ project_entry.name.value | escape }}"
+          {%- if entry_artist != blank -%}
+            data-artist-name="{{ entry_artist.name.value | escape }}"
+            data-artist-specialties="{{ entry_artist.specialty.value | escape }}"
+            data-artist-photo="{{ entry_artist.profile_image.value | image_url: width: 300 }}"
+            data-artist-url="{{ entry_artist.system.url }}"
+          {%- endif -%}
+          aria-label="{{ 'style_gallery.view_image' | t }}"
+        >
+          {{ media | image_url: width: 700 | image_tag:
+            loading: 'lazy',
+            widths: '300, 450, 600, 700',
+            sizes: '(min-width: 750px) 288px, 158px',
+            class: 'style-gallery__thumb-image',
+            alt: project_entry.name.value | escape }}
+        </button>
+      {%- endcapture -%}
+      {%- assign item_array = item_html | split: '@@STYLE_GALLERY_ITEM@@' -%}
+      {%- assign gallery_items = gallery_items | concat: item_array -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endpaginate -%}
+
+{%- assign gallery_items = gallery_items | shuffle -%}
+{%- assign total_count = gallery_items.size -%}
+{%- assign visible_items = gallery_items | slice: 0, initial_count -%}
+{%- assign remaining_items = gallery_items | slice: initial_count, total_count -%}
+
+<style-gallery-component>
+  <div
+    class="style-gallery{% if has_color_override %} color-custom-{{ section.id }}{% endif %}"
+    style="padding-block: {{ section.settings['padding-block-start'] | default: 64 }}px {{ section.settings['padding-block-end'] | default: 64 }}px;"
+  >
+    <div class="style-gallery__header">
+      <div class="style-gallery__header-col">
+        {%- if style.name.value != blank -%}
+          <h1 class="style-gallery__title">{{ style.name.value | escape }}</h1>
+        {%- endif -%}
+        {%- if style.general_style_description.value != blank -%}
+          <p class="style-gallery__description">{{ style.general_style_description.value }}</p>
+        {%- endif -%}
+      </div>
+      <a
+        class="style-gallery__cta button-custom"
+        href="{{ section.settings.booking_url | default: '#' }}"
+        style="--button-background-color: #ce5454; --button-color: #1d1616; --button-border-color: #1d1616; --button-border-width: 3px; border-radius: 8px;"
+      >
+        {{ section.settings.booking_label | default: 'Book Consultation' }}
+        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 20">
+          {%- render 'icon', icon: 'arrow_ne' -%}
+        </svg>
+      </a>
+    </div>
+
+    {%- if total_count == 0 -%}
+      <p class="style-gallery__empty">{{ section.settings.empty_state_text | default: 'More work coming soon.' }}</p>
+    {%- else -%}
+      <ul class="style-gallery__grid" role="list">
+        {%- for item in visible_items -%}
+          <li class="style-gallery__item">{{ item }}</li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if total_count > initial_count -%}
+        <template class="style-gallery__templates">
+          {%- for item in remaining_items -%}
+            <li class="style-gallery__item">{{ item }}</li>
+          {%- endfor -%}
+        </template>
+        <div class="style-gallery__load-more">
+          <button type="button" class="button-secondary" on:click="/loadMore">
+            {{ section.settings.load_more_label | default: 'Load More Works' }}
+          </button>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+
+  {%- render 'picture-modal' -%}
+</style-gallery-component>
+
+<script src="{{ 'style-gallery.js' | asset_url }}" type="module"></script>
+
+{% stylesheet %}
+  .style-gallery__header {
+    box-sizing: border-box;
+    max-width: var(--page-content-width, 1280px);
+    margin-inline: auto;
+    padding-inline: 32px;
+    padding-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  @media (min-width: 750px) {
+    .style-gallery__header {
+      padding-inline: 96px;
+      padding-bottom: 48px;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+  }
+
+  .style-gallery__header-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .style-gallery__title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: 1.75rem;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 750px) {
+    .style-gallery__title {
+      font-size: 2.5rem;
+    }
+  }
+
+  .style-gallery__description {
+    margin: 0;
+    max-width: 48rem;
+    opacity: 0.85;
+    line-height: 1.45;
+  }
+
+  .style-gallery__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 24px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 750px) {
+    .style-gallery__cta {
+      width: auto;
+      font-size: 1rem;
+    }
+  }
+
+  .style-gallery__grid {
+    box-sizing: border-box;
+    max-width: var(--page-content-width, 1280px);
+    margin-inline: auto;
+    padding-inline: 32px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 16px;
+    column-gap: 8px;
+    list-style: none;
+    margin-block: 0;
+  }
+
+  @media (min-width: 750px) {
+    .style-gallery__grid {
+      padding-inline: 96px;
+      grid-template-columns: repeat(4, 1fr);
+      row-gap: 24px;
+      column-gap: 32px;
+    }
+  }
+
+  .style-gallery__thumb {
+    display: block;
+    width: 100%;
+    aspect-ratio: 158 / 219;
+    padding: 0;
+    background: none;
+    border: 1px solid #ce5454;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  @media (min-width: 750px) {
+    .style-gallery__thumb {
+      aspect-ratio: 288 / 400;
+    }
+  }
+
+  .style-gallery__thumb-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .style-gallery__load-more {
+    display: flex;
+    justify-content: center;
+    padding-top: 16px;
+  }
+
+  .style-gallery__load-more[hidden] {
+    display: none;
+  }
+
+  @media (min-width: 750px) {
+    .style-gallery__load-more {
+      padding-top: 24px;
+    }
+  }
+
+  .style-gallery__empty {
+    text-align: center;
+    padding-block: 64px;
+    color: var(--color-foreground-subdued, #6b6b6b);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Style Gallery",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "header",
+      "content": "Booking"
+    },
+    {
+      "type": "url",
+      "id": "booking_url",
+      "label": "Booking link"
+    },
+    {
+      "type": "text",
+      "id": "booking_label",
+      "label": "Booking button label",
+      "default": "Book Consultation"
+    },
+    {
+      "type": "header",
+      "content": "Gallery"
+    },
+    {
+      "type": "text",
+      "id": "load_more_label",
+      "label": "Load more button label",
+      "default": "Load More Works"
+    },
+    {
+      "type": "text",
+      "id": "empty_state_text",
+      "label": "Empty state text",
+      "default": "More work coming soon."
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ]
+}
+{% endschema %}
