@@ -1261,7 +1261,7 @@
               "name": "t:names.button",
               "settings": {
                 "label": "Start Your Application",
-                "link": "",
+                "link": "#shopify-section-template--22442635231417__job_openings_RkdX7U",
                 "open_in_new_tab": false,
                 "style_class": "button-secondary",
                 "custom_button_background": "{{ settings.color_palette.foreground }}",
