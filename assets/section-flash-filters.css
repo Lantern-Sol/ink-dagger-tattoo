@@ -19,6 +19,7 @@
   font-family: var(--font-heading--family);
   font-style: italic;
   font-size: 1.125rem;
+  color: var(--flash-filters-ink);
   margin: 0;
   white-space: nowrap;
 }
