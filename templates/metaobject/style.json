@@ -1053,10 +1053,20 @@
         "padding-block-start-mobile": 16,
         "padding-block-end-mobile": 16
       }
+    },
+    "style_gallery": {
+      "type": "main-style-gallery",
+      "settings": {
+        "load_more_label": "Load More Works",
+        "empty_state_text": "More work coming soon.",
+        "padding-block-start": 64,
+        "padding-block-end": 64
+      }
     }
   },
   "order": [
     "main",
+    "style_gallery",
     "divider_AGnngY",
     "micro_faq",
     "divider_89exLX"
