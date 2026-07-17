@@ -101,15 +101,42 @@
 /* Flash collection product cards — match the Figma card image ratio (275:304).
    This file only loads on templates that use the flash-filters section, so the
    scope is effectively the Flash Library collection page. */
-.product-grid .card-gallery {
-  --gallery-aspect-ratio: 275 / 304;
+/* Figma card image ratio is 275:304 (≈ 0.905, same on mobile at 160:177) —
+   the gallery's inline --gallery-aspect-ratio wins over any var override,
+   so the property itself is overridden */
+.product-grid .product-media-container {
+  aspect-ratio: 275 / 304 !important;
 }
 
-/* Figma 217:1451 — exactly 4 columns of ~275px in the 1138px grid; the theme's
-   auto-fit column math can't produce this (no setting exists for a fixed count) */
+/* Figma 217:1451 — exactly 4 columns of ~275px in a 1138px-max centered grid;
+   the theme's auto-fit column math and settings can't produce either, so both
+   live here. 32px inline padding guards smaller desktop widths. */
 @media screen and (min-width: 750px) {
+  .main-collection-grid {
+    max-width: calc(71.125rem + 4rem);
+    margin-inline: auto;
+    padding-inline: 2rem !important;
+  }
+
   .product-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Figma mobile grid (296:1500): 32px section padding, 17px row / 8px column gap —
+   main-collection has no mobile gap or padding settings */
+@media screen and (max-width: 749px) {
+  .main-collection-grid {
+    padding-inline: 2rem;
+  }
+
+  .product-grid {
+    --product-grid-gap: 17px 8px !important;
+  }
+
+  .product-grid-container {
+    --padding-block-start: 32px;
+    --padding-block-end: 32px;
   }
 }
 

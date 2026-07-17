@@ -583,8 +583,8 @@
         "full_width_on_mobile": true,
         "columns_gap_horizontal": 13,
         "columns_gap_vertical": 32,
-        "padding-inline-start": 96,
-        "padding-inline-end": 96,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0,
         "padding-block-start": 64,
         "padding-block-end": 64,
         "background_color": "#f8f5ed"
