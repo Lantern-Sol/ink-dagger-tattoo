@@ -63,7 +63,7 @@
   {% if inquire_active %}
     <span class="price price--inquire">{{ block_settings.inquire_label }}</span>
   {% elsif price_range_value != blank %}
-    <span class="price">{{ price_range_value }}</span>
+    <span class="price price--range">{{ price_range_value }}</span>
   {% elsif block_settings.show_highest_price %}
     <span class="price">{{ product_resource.price_max | money_without_trailing_zeros }}</span>
   {% else %}
