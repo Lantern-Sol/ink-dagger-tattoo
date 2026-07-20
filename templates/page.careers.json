@@ -73,52 +73,6 @@
             "hide_on_desktop": false
           },
           "blocks": {
-            "text_wzrhtd": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<p><strong>HOME / Jobs Hub</strong></p>",
-                "accent_text": "",
-                "accent_color": "",
-                "mobile_text": "",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "height_mode": "auto",
-                "desktop_height": "",
-                "mobile_height": "",
-                "type_preset": "h6",
-                "font": "var(--font-body--family)",
-                "enable_custom_font_weight": false,
-                "weight": "400",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "custom_line_height": 1.5,
-                "letter_spacing": "normal",
-                "custom_letter_spacing": 0,
-                "case": "none",
-                "wrap": "pretty",
-                "type_preset_mobile": "rte",
-                "mobile_font_size": "1rem",
-                "mobile_custom_line_height": 1.5,
-                "text_color": "",
-                "emphasis_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "opacity": 100,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0,
-                "use_mobile_padding": false,
-                "padding-block-start-mobile": 0,
-                "padding-block-end-mobile": 0,
-                "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0
-              },
-              "blocks": {}
-            },
             "text_jz9ETT": {
               "type": "text",
               "name": "t:names.heading",
@@ -212,13 +166,26 @@
             }
           },
           "block_order": [
-            "text_wzrhtd",
             "text_jz9ETT",
             "text_r7rTDk"
           ]
+        },
+        "breadcrumb_HeroJobs": {
+          "type": "breadcrumb",
+          "settings": {
+            "home_label": "Home",
+            "breadcrumb_label": "Jobs Hub",
+            "padding-inline-start": 100,
+            "padding-inline-end": 0,
+            "use_mobile_padding": true,
+            "padding-inline-start-mobile": 32,
+            "padding-inline-end-mobile": 32
+          },
+          "blocks": {}
         }
       },
       "block_order": [
+        "breadcrumb_HeroJobs",
         "group_nFyzyq"
       ],
       "settings": {

@@ -1,0 +1,241 @@
+{%- liquid
+  assign parent_label = ''
+  assign parent_link = ''
+  assign current_label = ''
+
+  case template.name
+    when 'article'
+      assign parent_label = blog.title
+      assign parent_link = blog.url
+      assign current_label = article.title
+    when 'product'
+      assign parent_collection = collection
+      if parent_collection.handle == blank
+        assign parent_collection = product.collections.first
+      endif
+      if parent_collection.handle != blank
+        assign parent_label = parent_collection.title
+        assign parent_link = parent_collection.url
+      endif
+      assign current_label = product.title
+    when 'blog'
+      assign current_label = blog.title
+    when 'collection'
+      assign current_label = collection.title
+    when 'page'
+      assign current_label = page.title
+    when 'search'
+      assign current_label = 'Search'
+  endcase
+
+  comment
+    breadcrumb_label overrides whichever segment is the merchant-facing "name"
+    for this context: the parent (e.g. blog title -> "Jobs Hub") when there's a
+    genuine parent/current split, otherwise the current-page segment itself.
+  endcomment
+  if block.settings.breadcrumb_label != blank
+    if parent_label != blank
+      assign parent_label = block.settings.breadcrumb_label
+    else
+      assign current_label = block.settings.breadcrumb_label
+    endif
+  endif
+-%}
+<nav
+  class="breadcrumb-block spacing-style"
+  aria-label="Breadcrumb"
+  style="{% render 'spacing-style', settings: block.settings %}"
+  {{ block.shopify_attributes }}
+>
+  <a
+    href="{{ routes.root_url }}"
+    class="breadcrumb-block__link"
+  >{{ block.settings.home_label | default: 'Home' }}</a>
+  {%- if parent_label != blank -%}
+    <span
+      class="breadcrumb-block__separator"
+      aria-hidden="true"
+    >/</span>
+    {%- if parent_link != blank -%}
+      <a
+        href="{{ parent_link }}"
+        class="breadcrumb-block__link"
+      >{{ parent_label }}</a>
+    {%- else -%}
+      <span
+        class="breadcrumb-block__current"
+        aria-current="page"
+      >{{ parent_label }}</span>
+    {%- endif -%}
+  {%- endif -%}
+  {%- if current_label != blank -%}
+    <span
+      class="breadcrumb-block__separator"
+      aria-hidden="true"
+    >/</span>
+    <span
+      class="breadcrumb-block__current"
+      aria-current="page"
+    >{{ current_label }}</span>
+  {%- endif -%}
+</nav>
+
+{% stylesheet %}
+  .breadcrumb-block {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4em;
+    font-family: var(--font-h6--family);
+    font-style: var(--font-h6--style);
+    font-weight: 700;
+    font-size: var(--font-h6--size);
+    line-height: var(--font-h6--line-height);
+    letter-spacing: var(--font-h6--letter-spacing);
+    text-transform: var(--font-h6--case);
+    color: #ce5454;
+  }
+
+  .breadcrumb-block__link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .breadcrumb-block__link:hover,
+  .breadcrumb-block__link:focus-visible {
+    text-decoration: underline;
+  }
+
+  .breadcrumb-block__separator {
+    opacity: 0.7;
+  }
+
+  .breadcrumb-block__current {
+    color: inherit;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Breadcrumb",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "home_label",
+      "label": "Home label",
+      "default": "Home"
+    },
+    {
+      "type": "text",
+      "id": "breadcrumb_label",
+      "label": "Second segment label",
+      "info": "Leave blank to use the current blog, collection, or page title automatically. The link is detected automatically (e.g. the blog an article belongs to) and is omitted when there's no parent to link to."
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile padding"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_mobile_padding",
+      "label": "Use mobile padding",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start-mobile",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.use_mobile_padding }}"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end-mobile",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.use_mobile_padding }}"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start-mobile",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.use_mobile_padding }}"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end-mobile",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.use_mobile_padding }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Breadcrumb",
+      "category": "t:categories.text"
+    }
+  ]
+}
+{% endschema %}
