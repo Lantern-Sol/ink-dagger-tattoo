@@ -287,7 +287,7 @@
                 "video": "shopify://files/videos/inkanddagger-styles-placeholder.mp4",
                 "video_url": "",
                 "video_autoplay": false,
-                "video_loop": true,
+                "video_loop": false,
                 "alt": "",
                 "custom_width": 100,
                 "custom_width_mobile": 100,
