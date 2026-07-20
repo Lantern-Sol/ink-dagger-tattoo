@@ -1,8 +1,7 @@
 {%- comment -%}
-  Renders a `style` metaobject as a general style gallery: every artist's
-  work tagged with this style, in one shuffled grid, with a zoom modal.
-  Hero + "More by" recommendations are deferred (see style-gallery-plan.txt) —
-  this section is scoped to the grid + Load More + modal only.
+  Renders a `style` metaobject as a general style gallery: hero banner +
+  title/description/CTA, every artist's work tagged with this style in one
+  shuffled grid with a zoom modal, and a "More Styles" carousel.
 {%- endcomment -%}
 
 {%- liquid
@@ -10,6 +9,8 @@
   assign initial_count = 16
   assign gallery_items = ''
   assign gallery_items = gallery_items | split: '@@'
+  assign hero_image = blank
+  assign styles_url = pages['styles'].url | default: '/pages/styles'
 
   assign has_color_override = false
   if section.settings.background_color != blank or section.settings.text_color != blank
@@ -36,12 +37,16 @@
       {%- if media.media_type == 'video' -%}
         {%- continue -%}
       {%- endif -%}
+      {%- if hero_image == blank -%}
+        {%- assign hero_image = media -%}
+      {%- endif -%}
       {%- capture item_html -%}
         <button
           type="button"
           class="style-gallery__thumb"
           on:click="/openModal"
-          data-modal-src="{{ media | image_url: width: 1200 }}"
+          data-modal-src="{{ media | image_url: width: 900 }}"
+          data-modal-srcset="{{ media | image_url: width: 400 }} 400w, {{ media | image_url: width: 700 }} 700w, {{ media | image_url: width: 1000 }} 1000w, {{ media | image_url: width: 1400 }} 1400w"
           data-modal-alt="{{ project_entry.name.value | escape }}"
           {%- if entry_artist != blank -%}
             data-artist-name="{{ entry_artist.name.value | escape }}"
@@ -70,11 +75,66 @@
 {%- assign visible_items = gallery_items | slice: 0, initial_count -%}
 {%- assign remaining_items = gallery_items | slice: initial_count, total_count -%}
 
+{%- capture more_styles_html -%}
+  {%- paginate shop.metaobjects.project.values by 250 -%}
+    {%- for other_style in shop.metaobjects.style.values -%}
+      {%- if other_style.system.id == style.system.id -%}
+        {%- continue -%}
+      {%- endif -%}
+      {%- liquid
+        assign other_style_image = blank
+        for project_entry in shop.metaobjects.project.values
+          if project_entry.style.value.system.id == other_style.system.id
+            assign other_style_image = project_entry.images.value | first
+            break
+          endif
+        endfor
+      -%}
+      {%- if other_style_image == blank -%}
+        {%- continue -%}
+      {%- endif -%}
+      <li class="style-gallery__more-item">
+        <a class="style-gallery__more-card" href="{{ other_style.system.url }}">
+          {{ other_style_image | image_url: width: 700 | image_tag:
+            loading: 'lazy',
+            widths: '350, 500, 700',
+            sizes: '(min-width: 750px) 33vw, 90vw',
+            class: 'style-gallery__more-image',
+            alt: other_style.name.value | escape }}
+          <span class="style-gallery__more-info">
+            <span class="style-gallery__more-name">{{ other_style.name.value | escape }}</span>
+            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 20 20">
+              {%- render 'icon', icon: 'arrow_ne' -%}
+            </svg>
+          </span>
+        </a>
+      </li>
+    {%- endfor -%}
+  {%- endpaginate -%}
+{%- endcapture -%}
+
 <style-gallery-component>
   <div
     class="style-gallery{% if has_color_override %} color-custom-{{ section.id }}{% endif %}"
     style="padding-block: {{ section.settings['padding-block-start'] | default: 64 }}px {{ section.settings['padding-block-end'] | default: 64 }}px;"
   >
+    {%- if hero_image != blank -%}
+      <div class="style-gallery__banner">
+        {{ hero_image | image_url: width: 1600 | image_tag:
+          loading: 'eager',
+          widths: '750, 1100, 1440, 1600',
+          sizes: '100vw',
+          class: 'style-gallery__banner-image',
+          alt: style.name.value | escape }}
+        {%- if section.settings.toggle_overlay and section.settings.overlay_color != blank -%}
+          <div class="style-gallery__banner-overlay" style="background-color: color-mix(in srgb, {{ section.settings.overlay_color }} {{ section.settings.overlay_opacity | default: 50 }}%, transparent);"></div>
+        {%- endif -%}
+        <p class="style-gallery__breadcrumb">
+          <a class="style-gallery__breadcrumb-link" href="{{ routes.root_url }}">Home</a> / <a class="style-gallery__breadcrumb-link" href="{{ styles_url }}">Styles</a>{% if style.name.value != blank %} / {{ style.name.value | escape }}{% endif %}
+        </p>
+      </div>
+    {%- endif -%}
+
     <div class="style-gallery__header">
       <div class="style-gallery__header-col">
         {%- if style.name.value != blank -%}
@@ -101,7 +161,13 @@
     {%- else -%}
       <ul class="style-gallery__grid" role="list">
         {%- for item in visible_items -%}
-          <li class="style-gallery__item">{{ item }}</li>
+          {%- liquid
+            assign grid_item = item
+            if forloop.index0 < 4
+              assign grid_item = item | replace: 'loading="lazy"', 'loading="eager"'
+            endif
+          -%}
+          <li class="style-gallery__item">{{ grid_item }}</li>
         {%- endfor -%}
       </ul>
 
@@ -120,12 +186,97 @@
     {%- endif -%}
   </div>
 
+  {%- if more_styles_html != blank -%}
+    <div class="style-gallery__more">
+      <h2 class="style-gallery__more-title">{{ section.settings.more_styles_heading | default: 'More Styles' }}</h2>
+      <div class="style-gallery__more-layout">
+        <ul class="style-gallery__more-track" role="list">
+          {{ more_styles_html }}
+        </ul>
+        <div class="style-gallery__more-controls">
+          <button type="button" class="style-gallery__more-nav style-gallery__more-nav--prev" on:click="/moreStylesPrev" aria-label="{{ 'style_gallery.previous_image' | t }}">
+            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+              {%- render 'icon', icon: 'arrow' -%}
+            </svg>
+          </button>
+          <div class="style-gallery__more-dots" data-more-styles-dots></div>
+          <button type="button" class="style-gallery__more-nav style-gallery__more-nav--next" on:click="/moreStylesNext" aria-label="{{ 'style_gallery.next_image' | t }}">
+            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+              {%- render 'icon', icon: 'arrow' -%}
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
   {%- render 'picture-modal' -%}
 </style-gallery-component>
 
 <script src="{{ 'style-gallery.js' | asset_url }}" type="module"></script>
 
 {% stylesheet %}
+  .style-gallery__banner {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 390 / 235;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+
+  @media (min-width: 750px) {
+    .style-gallery__banner {
+      aspect-ratio: 1440 / 432;
+      margin-bottom: 48px;
+    }
+  }
+
+  .style-gallery__banner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .style-gallery__banner-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .style-gallery__breadcrumb {
+    position: absolute;
+    z-index: 1;
+    bottom: 32px;
+    left: 32px;
+    right: 32px;
+    margin: 0;
+    color: #ce5454;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .style-gallery__breadcrumb .style-gallery__breadcrumb-link {
+    color: #ce5454;
+    text-decoration: none;
+  }
+
+  .style-gallery__breadcrumb .style-gallery__breadcrumb-link:hover {
+    color: #ce5454 !important;
+    text-decoration: underline;
+  }
+
+  @media (min-width: 750px) {
+    .style-gallery__breadcrumb {
+      bottom: 32px;
+      left: 96px;
+      right: 96px;
+      letter-spacing: 0.18em;
+    }
+  }
+
   .style-gallery__header {
     box-sizing: border-box;
     max-width: var(--page-content-width, 1280px);
@@ -267,6 +418,218 @@
     padding-block: 64px;
     color: var(--color-foreground-subdued, #6b6b6b);
   }
+
+  .style-gallery__more {
+    padding: 32px;
+    background: #e3dfd6;
+    border-top: 4px solid #cfc8b9;
+  }
+
+  @media (min-width: 750px) {
+    .style-gallery__more {
+      padding: 32px 96px 64px;
+    }
+  }
+
+  .style-gallery__more-title {
+    margin: 0 0 24px;
+    font-family: 'Libre Baskerville', var(--font-heading--family), serif;
+    font-weight: 400;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    color: #ce5454;
+  }
+
+  @media (min-width: 750px) {
+    .style-gallery__more-title {
+      font-size: 32px;
+      margin-bottom: 32px;
+    }
+  }
+
+  .style-gallery__more-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .style-gallery__more-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    max-width: 100%;
+  }
+
+  @media (min-width: 750px) {
+    .style-gallery__more-layout {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas: 'prev track next' '. dots .';
+      align-items: center;
+      gap: 16px;
+    }
+
+    .style-gallery__more-track {
+      grid-area: track;
+    }
+
+    .style-gallery__more-controls {
+      display: contents;
+    }
+
+    .style-gallery__more-nav--prev {
+      grid-area: prev;
+    }
+
+    .style-gallery__more-nav--next {
+      grid-area: next;
+    }
+
+    .style-gallery__more-dots {
+      grid-area: dots;
+      justify-self: center;
+    }
+  }
+
+  .style-gallery__more-nav {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: transparent;
+    color: #1d1616;
+    border: 2px solid #1d1616;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .style-gallery__more-nav svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .style-gallery__more-nav--prev svg {
+    transform: rotate(180deg);
+  }
+
+  .style-gallery__more-track {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .style-gallery__more-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 750px) {
+    .style-gallery__more-track {
+      gap: 32px;
+    }
+  }
+
+  .style-gallery__more-item {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+  }
+
+  @media (min-width: 750px) {
+    .style-gallery__more-item {
+      flex: 0 0 calc((100% - 64px) / 3);
+    }
+  }
+
+  .style-gallery__more-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 16px;
+    border: 1px solid rgba(29, 22, 22, 0.22);
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+    color: #1d1616;
+  }
+
+  @media (min-width: 750px) {
+    .style-gallery__more-card {
+      gap: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+  .style-gallery__more-image {
+    width: 100%;
+    aspect-ratio: 329 / 351;
+    object-fit: cover;
+    display: block;
+  }
+
+  @media (min-width: 750px) {
+    .style-gallery__more-image {
+      aspect-ratio: 346 / 392;
+    }
+  }
+
+  .style-gallery__more-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 16px;
+  }
+
+  @media (min-width: 750px) {
+    .style-gallery__more-info {
+      padding-inline: 24px;
+    }
+  }
+
+  .style-gallery__more-name {
+    font-family: 'Libre Baskerville', var(--font-heading--family), serif;
+    font-size: 24px;
+  }
+
+  .style-gallery__more-info svg {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    color: #ce5454;
+  }
+
+  .style-gallery__more-dots {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .style-gallery__more-dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    background: #4c4546;
+    cursor: pointer;
+  }
+
+  .style-gallery__more-dot--active {
+    background: #ce5454;
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -287,6 +650,32 @@
       "type": "color",
       "id": "text_color",
       "label": "Text color"
+    },
+    {
+      "type": "header",
+      "content": "Hero banner"
+    },
+    {
+      "type": "checkbox",
+      "id": "toggle_overlay",
+      "label": "Enable overlay",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#1d1616"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 50
     },
     {
       "type": "header",
@@ -318,6 +707,16 @@
       "id": "empty_state_text",
       "label": "Empty state text",
       "default": "More work coming soon."
+    },
+    {
+      "type": "header",
+      "content": "More Styles"
+    },
+    {
+      "type": "text",
+      "id": "more_styles_heading",
+      "label": "Heading",
+      "default": "More Styles"
     },
     {
       "type": "header",

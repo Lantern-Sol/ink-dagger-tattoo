@@ -1,4 +1,5 @@
 import { Component } from '@theme/component';
+import { debounce } from '@theme/utilities';
 
 /**
  * Wraps the style gallery grid + Load More + picture modal for a single
@@ -16,10 +17,13 @@ export class StyleGalleryComponent extends Component {
   /** @type {HTMLElement[]} */
   #items = [];
   #index = 0;
+  /** @type {number | null} */
+  #moreStylesRaf = null;
 
   connectedCallback() {
     super.connectedCallback();
     this.#refreshItems();
+    this.#initMoreStyles();
   }
 
   #refreshItems() {
@@ -70,6 +74,8 @@ export class StyleGalleryComponent extends Component {
 
     const image = this.querySelector('[data-modal-image]');
     if (image instanceof HTMLImageElement) {
+      if (!image.sizes) image.sizes = '(min-width: 750px) 421px, 326px';
+      image.srcset = thumb.dataset.modalSrcset ?? '';
       image.src = thumb.dataset.modalSrc ?? '';
       image.alt = thumb.dataset.modalAlt ?? '';
     }
@@ -106,6 +112,63 @@ export class StyleGalleryComponent extends Component {
         })
       );
     }
+  }
+
+  moreStylesPrev() {
+    const track = this.querySelector('.style-gallery__more-track');
+    if (track instanceof HTMLElement) track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
+  }
+
+  moreStylesNext() {
+    const track = this.querySelector('.style-gallery__more-track');
+    if (track instanceof HTMLElement) track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
+  }
+
+  #initMoreStyles() {
+    const track = this.querySelector('.style-gallery__more-track');
+    const dotsWrap = this.querySelector('[data-more-styles-dots]');
+    if (!(track instanceof HTMLElement) || !dotsWrap) return;
+    if (!track.children.length) return;
+
+    const buildDots = () => {
+      const pageCount = Math.max(1, Math.round(track.scrollWidth / track.clientWidth));
+
+      dotsWrap.replaceChildren(
+        ...Array.from({ length: pageCount }, (_, pageIndex) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'style-gallery__more-dot';
+          dot.setAttribute('aria-label', `Go to slide ${pageIndex + 1}`);
+          dot.addEventListener('click', () => {
+            track.scrollTo({ left: track.clientWidth * pageIndex, behavior: 'smooth' });
+          });
+          return dot;
+        })
+      );
+
+      updateActiveDot();
+    };
+
+    const updateActiveDot = () => {
+      const activePage = Math.round(track.scrollLeft / track.clientWidth);
+
+      Array.from(dotsWrap.children).forEach((dot, index) => {
+        dot.classList.toggle('style-gallery__more-dot--active', index === activePage);
+      });
+    };
+
+    track.addEventListener('scroll', () => {
+      if (this.#moreStylesRaf !== null) return;
+
+      this.#moreStylesRaf = requestAnimationFrame(() => {
+        this.#moreStylesRaf = null;
+        updateActiveDot();
+      });
+    });
+
+    window.addEventListener('resize', debounce(buildDots, 200));
+
+    buildDots();
   }
 }
 

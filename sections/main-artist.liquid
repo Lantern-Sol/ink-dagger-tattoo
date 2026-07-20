@@ -87,13 +87,31 @@
   {%- endif -%}
 
   {%- if projects != blank and projects.size > 0 -%}
+    {%- liquid
+      assign has_project_kind = false
+      assign has_gallery_kind = false
+      for project in projects
+        assign kind = project.kind.value | default: 'Project'
+        if kind == 'Gallery'
+          assign has_gallery_kind = true
+        else
+          assign has_project_kind = true
+        endif
+      endfor
+      assign show_kind_tabs = false
+      if has_project_kind and has_gallery_kind
+        assign show_kind_tabs = true
+      endif
+    -%}
     <section class="artist-portfolio" id="artist-portfolio-{{ section.id }}">
       <div class="artist-portfolio__filter">
         <span class="artist-portfolio__filter-label">{{ section.settings.filter_label | default: "Filter Artist's Work" }}</span>
         <div class="artist-portfolio__tabs" id="artist-portfolio-tabs-{{ section.id }}">
           <button type="button" class="artist-portfolio__tab artist-portfolio__tab--active" data-kind="all">All Work</button>
-          <button type="button" class="artist-portfolio__tab" data-kind="Project">Projects</button>
-          <button type="button" class="artist-portfolio__tab" data-kind="Gallery">Styles</button>
+          {%- if show_kind_tabs -%}
+            <button type="button" class="artist-portfolio__tab" data-kind="Project">Projects</button>
+            <button type="button" class="artist-portfolio__tab" data-kind="Gallery">Styles</button>
+          {%- endif -%}
         </div>
       </div>
 
