@@ -1583,8 +1583,8 @@
                 "mobile_horizontal_alignment_flex_direction_column": "flex-start",
                 "mobile_vertical_alignment_flex_direction_column": "center",
                 "gap": 96,
-                "use_mobile_gap": false,
-                "mobile_gap": 12,
+                "use_mobile_gap": true,
+                "mobile_gap": 24,
                 "width": "fill",
                 "custom_width": 100,
                 "width_mobile": "fill",
@@ -1736,8 +1736,8 @@
                     "text_WYD_1": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>&mdash; Creating exceptional client experiences from first contact through checkout</p>",
-                        "accent_text": "<p>&mdash;</p>",
+                        "text": "<p>— Creating exceptional client experiences from first contact through checkout</p>",
+                        "accent_text": "<p>—</p>",
                         "accent_color": "#ce5454",
                         "mobile_text": "",
                         "width": "100%",
