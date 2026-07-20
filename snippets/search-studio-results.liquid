@@ -1,0 +1,196 @@
+{%- doc -%}
+  Renders search matches from studio metaobjects (artists, styles, projects).
+
+  @param {string} terms - The search query.
+  @param {string} heading - Heading shown above the results.
+  @param {string} artist_label - Card label for artist matches.
+  @param {string} style_label - Card label for style matches.
+  @param {string} project_label - Card label for project matches.
+{%- enddoc -%}
+
+{% liquid
+  assign terms_clean = terms | downcase | strip
+  assign words = terms_clean | split: ' '
+  assign artist_count = 0
+  assign style_count = 0
+  assign project_count = 0
+%}
+
+{% if terms_clean != blank and terms_clean.size > 1 %}
+  {% capture artist_cards %}
+    {%- for artist_entry in shop.metaobjects.artist.values -%}
+      {%- if artist_count >= 4 -%}{%- break -%}{%- endif -%}
+      {%- liquid
+        assign hay = artist_entry.name.value | append: ' ' | append: artist_entry.specialty.value | downcase
+        assign matched = false
+        if hay contains terms_clean
+          assign matched = true
+        else
+          for word in words
+            if word.size < 3
+              continue
+            endif
+            if hay contains word
+              assign matched = true
+              break
+            endif
+          endfor
+        endif
+      -%}
+      {%- if matched -%}
+        {%- assign artist_count = artist_count | plus: 1 -%}
+        <li>
+          <div class="resource-card" data-resource-type="page">
+            <a class="resource-card__link" href="{{ artist_entry.system.url }}">
+              <span class="visually-hidden">{{ artist_entry.name.value | escape }}</span>
+            </a>
+            <div class="resource-card__media" style="--resource-card-aspect-ratio: 4 / 5;">
+              {%- if artist_entry.profile_image.value != blank -%}
+                {{ artist_entry.profile_image.value | image_url: width: 600 | image_tag: loading: 'lazy', class: 'resource-card__image', widths: '240, 352, 832, 1200', sizes: 'auto', alt: artist_entry.name.value | escape }}
+              {%- else -%}
+                <div aria-hidden="true" class="resource-card__image-placeholder">
+                  {{- artist_entry.name.value | truncate: 60 -}}
+                </div>
+              {%- endif -%}
+            </div>
+            <div class="resource-card__content">
+              <p class="resource-card__title h5">{{ artist_entry.name.value | escape }}</p>
+              {%- if artist_label != blank -%}
+                <p class="resource-card__subtext paragraph">{{ artist_label }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  {% endcapture %}
+
+  {% capture style_cards %}
+    {%- for style_entry in shop.metaobjects.style.values -%}
+      {%- if style_count >= 4 -%}{%- break -%}{%- endif -%}
+      {%- liquid
+        assign hay = style_entry.name.value | downcase
+        assign matched = false
+        if hay contains terms_clean
+          assign matched = true
+        else
+          for word in words
+            if word.size < 3
+              continue
+            endif
+            if hay contains word
+              assign matched = true
+              break
+            endif
+          endfor
+        endif
+      -%}
+      {%- if matched -%}
+        {%- assign style_count = style_count | plus: 1 -%}
+        {%- assign style_cover = blank -%}
+        {%- for project_entry in shop.metaobjects.project.values -%}
+          {%- assign project_style = project_entry.style.value -%}
+          {%- if project_style != blank and project_style.system.id == style_entry.system.id -%}
+            {%- assign style_cover_ref = project_entry.images.value | first -%}
+            {%- assign style_cover = style_cover_ref.preview_image | default: style_cover_ref -%}
+            {%- if style_cover != blank -%}{%- break -%}{%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+        <li>
+          <div class="resource-card" data-resource-type="page">
+            <a class="resource-card__link" href="{{ style_entry.system.url }}">
+              <span class="visually-hidden">{{ style_entry.name.value | escape }}</span>
+            </a>
+            <div class="resource-card__media" style="--resource-card-aspect-ratio: 4 / 5;">
+              {%- if style_cover != blank -%}
+                {{ style_cover | image_url: width: 600 | image_tag: loading: 'lazy', class: 'resource-card__image', widths: '240, 352, 832, 1200', sizes: 'auto', alt: style_entry.name.value | escape }}
+              {%- else -%}
+                <div aria-hidden="true" class="resource-card__image-placeholder">
+                  {{- style_entry.name.value | truncate: 60 -}}
+                </div>
+              {%- endif -%}
+            </div>
+            <div class="resource-card__content">
+              <p class="resource-card__title h5">{{ style_entry.name.value | escape }}</p>
+              {%- if style_label != blank -%}
+                <p class="resource-card__subtext paragraph">{{ style_label }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  {% endcapture %}
+
+  {% capture project_cards %}
+    {%- paginate shop.metaobjects.project.values by 250 -%}
+      {%- for project_entry in shop.metaobjects.project.values -%}
+        {%- if project_count >= 4 -%}{%- break -%}{%- endif -%}
+        {%- liquid
+          assign hay = project_entry.name.value | downcase
+          assign matched = false
+          if hay contains terms_clean
+            assign matched = true
+          else
+            for word in words
+              if word.size < 3
+                continue
+              endif
+              if hay contains word
+                assign matched = true
+                break
+              endif
+            endfor
+          endif
+        -%}
+        {%- if matched -%}
+          {%- assign project_count = project_count | plus: 1 -%}
+          {%- assign project_cover_ref = project_entry.images.value | first -%}
+          {%- assign project_cover = project_cover_ref.preview_image | default: project_cover_ref -%}
+          <li>
+            <div class="resource-card" data-resource-type="page">
+              <a class="resource-card__link" href="{{ project_entry.system.url }}">
+                <span class="visually-hidden">{{ project_entry.name.value | escape }}</span>
+              </a>
+              <div class="resource-card__media" style="--resource-card-aspect-ratio: 4 / 5;">
+                {%- if project_cover != blank -%}
+                  {{ project_cover | image_url: width: 600 | image_tag: loading: 'lazy', class: 'resource-card__image', widths: '240, 352, 832, 1200', sizes: 'auto', alt: project_entry.name.value | escape }}
+                {%- else -%}
+                  <div aria-hidden="true" class="resource-card__image-placeholder">
+                    {{- project_entry.name.value | truncate: 60 -}}
+                  </div>
+                {%- endif -%}
+              </div>
+              <div class="resource-card__content">
+                <p class="resource-card__title h5">{{ project_entry.name.value | escape }}</p>
+                {%- if project_label != blank -%}
+                  <p class="resource-card__subtext paragraph">{{ project_label }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endpaginate -%}
+  {% endcapture %}
+
+  {% assign studio_total = artist_count | plus: style_count | plus: project_count %}
+
+  {% if studio_total > 0 %}
+    <div class="search-results__resource-list search-results__resource-list--studio">
+      {% if heading != blank %}
+        <h2 class="search-results__resource-title h4">
+          {{ heading }}
+        </h2>
+      {% endif %}
+      <ul
+        class="search-results__resource-grid list-unstyled"
+        role="list"
+      >
+        {{ artist_cards }}
+        {{ style_cards }}
+        {{ project_cards }}
+      </ul>
+    </div>
+  {% endif %}
+{% endif %}

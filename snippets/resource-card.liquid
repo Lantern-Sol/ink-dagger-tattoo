@@ -16,7 +16,11 @@
 
 {% liquid
   if image_aspect_ratio == blank or image_aspect_ratio == 'adapt'
-    assign ratio = resource.featured_image.aspect_ratio
+    if resource_type == 'article'
+      assign ratio = resource.image.aspect_ratio
+    else
+      assign ratio = resource.featured_image.aspect_ratio
+    endif
   else
     assign ratio = image_aspect_ratio
   endif
@@ -134,6 +138,18 @@
         >
           {{- resource.title | truncate: 60 -}}
         </div>
+      {%- endif -%}
+    {%- elsif resource_type == 'article' -%}
+      {%- if resource.image != blank -%}
+        {{
+          resource.image
+          | image_url: width: image_width
+          | image_tag:
+            loading: 'lazy',
+            class: 'resource-card__image',
+            widths: widths,
+            sizes: image_sizes
+        }}
       {%- endif -%}
     {%- elsif resource_type == 'collection' -%}
       {%- if resource.products.size > 0 -%}
