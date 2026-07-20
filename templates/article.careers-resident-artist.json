@@ -2563,7 +2563,7 @@
                 "text_PrefEyebrow": {
                   "type": "text",
                   "settings": {
-                    "text": "<p><strong>PREFERRED EXPERIENCE</strong></p>",
+                    "text": "<p><strong>STYLE FOCUS</strong></p>",
                     "accent_text": "",
                     "accent_color": "",
                     "mobile_text": "",
@@ -2608,7 +2608,7 @@
                 "text_PrefIntro": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Experience is helpful, but attitude, professionalism, and work ethic matter most. Backgrounds that often translate well:</p>",
+                    "text": "<p>We're especially looking to grow our roster in:</p>",
                     "accent_text": "",
                     "accent_color": "",
                     "mobile_text": "",
@@ -2775,7 +2775,7 @@
                         "text_TagHospitality": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Hospitality</p>",
+                            "text": "<p>Black & Grey Realism</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -2886,7 +2886,7 @@
                         "text_TagRetail": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Retail</p>",
+                            "text": "<p>Traditional & Neo-Traditional</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -2997,7 +2997,7 @@
                         "text_TagSalonSpa": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Salon or Spa</p>",
+                            "text": "<p>Fine Line</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -3108,7 +3108,7 @@
                         "text_TagCustomerService": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Customer Service</p>",
+                            "text": "<p>Color Illustrative</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -3219,7 +3219,7 @@
                         "text_TagEventCoordination": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Event Coordination</p>",
+                            "text": "<p>Japanese</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -3265,228 +3265,6 @@
                       "block_order": [
                         "text_TagEventCoordination"
                       ]
-                    },
-                    "group_TagAdminSupport": {
-                      "type": "group",
-                      "name": "t:names.group",
-                      "settings": {
-                        "content_direction": "row",
-                        "vertical_on_mobile": true,
-                        "horizontal_alignment": "center",
-                        "vertical_alignment": "center",
-                        "align_baseline": false,
-                        "horizontal_alignment_flex_direction_column": "flex-start",
-                        "vertical_alignment_flex_direction_column": "center",
-                        "use_mobile_alignment": false,
-                        "mobile_horizontal_alignment": "flex-start",
-                        "mobile_vertical_alignment": "center",
-                        "mobile_horizontal_alignment_flex_direction_column": "flex-start",
-                        "mobile_vertical_alignment_flex_direction_column": "center",
-                        "gap": 12,
-                        "use_mobile_gap": false,
-                        "mobile_gap": 12,
-                        "width": "fit-content",
-                        "custom_width": 100,
-                        "width_mobile": "fit-content",
-                        "custom_width_mobile": 100,
-                        "height": "fit",
-                        "custom_height": 100,
-                        "background_media": "none",
-                        "background_color": "",
-                        "video_position": "cover",
-                        "background_image_position": "cover",
-                        "toggle_overlay": false,
-                        "overlay_color": "#00000026",
-                        "overlay_style": "solid",
-                        "gradient_direction": "to top",
-                        "border": "solid",
-                        "border_width": 2,
-                        "border_opacity": 100,
-                        "border_color": "#1d1616",
-                        "border_radius": 99,
-                        "use_mobile_border_style": false,
-                        "border_mobile_style": "solid",
-                        "enable_shadow": false,
-                        "shadow_horizontal_offset": 4,
-                        "shadow_vertical_offset": 4,
-                        "shadow_blur": 0,
-                        "shadow_color": "#000000",
-                        "link": "",
-                        "open_in_new_tab": false,
-                        "placeholder": "",
-                        "padding-block-start": 8,
-                        "padding-block-end": 8,
-                        "padding-inline-start": 16,
-                        "padding-inline-end": 16,
-                        "use_mobile_padding": false,
-                        "padding-block-start-mobile": 0,
-                        "padding-block-end-mobile": 0,
-                        "padding-inline-start-mobile": 0,
-                        "padding-inline-end-mobile": 0,
-                        "hide_on_mobile": false,
-                        "hide_on_desktop": false
-                      },
-                      "blocks": {
-                        "text_TagAdminSupport": {
-                          "type": "text",
-                          "settings": {
-                            "text": "<p>Administrative Support</p>",
-                            "accent_text": "",
-                            "accent_color": "",
-                            "mobile_text": "",
-                            "width": "fit-content",
-                            "max_width": "normal",
-                            "alignment": "left",
-                            "height_mode": "auto",
-                            "desktop_height": "",
-                            "mobile_height": "",
-                            "type_preset": "custom",
-                            "font": "var(--font-body--family)",
-                            "enable_custom_font_weight": true,
-                            "weight": "600",
-                            "font_size": "0.875rem",
-                            "line_height": "normal",
-                            "custom_line_height": 1.5,
-                            "letter_spacing": "",
-                            "custom_letter_spacing": 0,
-                            "case": "none",
-                            "wrap": "pretty",
-                            "type_preset_mobile": "rte",
-                            "mobile_font_size": "1rem",
-                            "mobile_custom_line_height": 1.5,
-                            "text_color": "#1d1616",
-                            "emphasis_color": "",
-                            "background": false,
-                            "background_color": "#00000026",
-                            "corner_radius": 0,
-                            "opacity": 100,
-                            "padding-block-start": 0,
-                            "padding-block-end": 0,
-                            "padding-inline-start": 0,
-                            "padding-inline-end": 0,
-                            "use_mobile_padding": false,
-                            "padding-block-start-mobile": 0,
-                            "padding-block-end-mobile": 0,
-                            "padding-inline-start-mobile": 0,
-                            "padding-inline-end-mobile": 0
-                          },
-                          "blocks": {}
-                        }
-                      },
-                      "block_order": [
-                        "text_TagAdminSupport"
-                      ]
-                    },
-                    "group_TagSales": {
-                      "type": "group",
-                      "name": "t:names.group",
-                      "settings": {
-                        "content_direction": "row",
-                        "vertical_on_mobile": true,
-                        "horizontal_alignment": "center",
-                        "vertical_alignment": "center",
-                        "align_baseline": false,
-                        "horizontal_alignment_flex_direction_column": "flex-start",
-                        "vertical_alignment_flex_direction_column": "center",
-                        "use_mobile_alignment": false,
-                        "mobile_horizontal_alignment": "flex-start",
-                        "mobile_vertical_alignment": "center",
-                        "mobile_horizontal_alignment_flex_direction_column": "flex-start",
-                        "mobile_vertical_alignment_flex_direction_column": "center",
-                        "gap": 12,
-                        "use_mobile_gap": false,
-                        "mobile_gap": 12,
-                        "width": "fit-content",
-                        "custom_width": 100,
-                        "width_mobile": "fit-content",
-                        "custom_width_mobile": 100,
-                        "height": "fit",
-                        "custom_height": 100,
-                        "background_media": "none",
-                        "background_color": "",
-                        "video_position": "cover",
-                        "background_image_position": "cover",
-                        "toggle_overlay": false,
-                        "overlay_color": "#00000026",
-                        "overlay_style": "solid",
-                        "gradient_direction": "to top",
-                        "border": "solid",
-                        "border_width": 2,
-                        "border_opacity": 100,
-                        "border_color": "#1d1616",
-                        "border_radius": 99,
-                        "use_mobile_border_style": false,
-                        "border_mobile_style": "solid",
-                        "enable_shadow": false,
-                        "shadow_horizontal_offset": 4,
-                        "shadow_vertical_offset": 4,
-                        "shadow_blur": 0,
-                        "shadow_color": "#000000",
-                        "link": "",
-                        "open_in_new_tab": false,
-                        "placeholder": "",
-                        "padding-block-start": 8,
-                        "padding-block-end": 8,
-                        "padding-inline-start": 16,
-                        "padding-inline-end": 16,
-                        "use_mobile_padding": false,
-                        "padding-block-start-mobile": 0,
-                        "padding-block-end-mobile": 0,
-                        "padding-inline-start-mobile": 0,
-                        "padding-inline-end-mobile": 0,
-                        "hide_on_mobile": false,
-                        "hide_on_desktop": false
-                      },
-                      "blocks": {
-                        "text_TagSales": {
-                          "type": "text",
-                          "settings": {
-                            "text": "<p>Sales</p>",
-                            "accent_text": "",
-                            "accent_color": "",
-                            "mobile_text": "",
-                            "width": "fit-content",
-                            "max_width": "normal",
-                            "alignment": "left",
-                            "height_mode": "auto",
-                            "desktop_height": "",
-                            "mobile_height": "",
-                            "type_preset": "custom",
-                            "font": "var(--font-body--family)",
-                            "enable_custom_font_weight": true,
-                            "weight": "600",
-                            "font_size": "0.875rem",
-                            "line_height": "normal",
-                            "custom_line_height": 1.5,
-                            "letter_spacing": "",
-                            "custom_letter_spacing": 0,
-                            "case": "none",
-                            "wrap": "pretty",
-                            "type_preset_mobile": "rte",
-                            "mobile_font_size": "1rem",
-                            "mobile_custom_line_height": 1.5,
-                            "text_color": "#1d1616",
-                            "emphasis_color": "",
-                            "background": false,
-                            "background_color": "#00000026",
-                            "corner_radius": 0,
-                            "opacity": 100,
-                            "padding-block-start": 0,
-                            "padding-block-end": 0,
-                            "padding-inline-start": 0,
-                            "padding-inline-end": 0,
-                            "use_mobile_padding": false,
-                            "padding-block-start-mobile": 0,
-                            "padding-block-end-mobile": 0,
-                            "padding-inline-start-mobile": 0,
-                            "padding-inline-end-mobile": 0
-                          },
-                          "blocks": {}
-                        }
-                      },
-                      "block_order": [
-                        "text_TagSales"
-                      ]
                     }
                   },
                   "block_order": [
@@ -3494,9 +3272,7 @@
                     "group_TagRetail",
                     "group_TagSalonSpa",
                     "group_TagCustomerService",
-                    "group_TagEventCoordination",
-                    "group_TagAdminSupport",
-                    "group_TagSales"
+                    "group_TagEventCoordination"
                   ]
                 }
               },
@@ -3749,7 +3525,7 @@
                         "text_Offer_1": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>— Paid training and ongoing development</p>",
+                            "text": "<p>— Competitive commission structure</p>",
                             "accent_text": "<p>—</p>",
                             "accent_color": "#ce5454",
                             "mobile_text": "",
@@ -3794,7 +3570,7 @@
                         "text_Offer_2": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>— Opportunity for advancement into a full-time role</p>",
+                            "text": "<p>— Built-in clientele from studio marketing & walk-in</p>",
                             "accent_text": "<p>—</p>",
                             "accent_color": "#ce5454",
                             "mobile_text": "",
@@ -3839,7 +3615,7 @@
                         "text_Offer_3": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>— Employee discounts on merchandise and services</p>",
+                            "text": "<p>— Professional photography for your portfolio</p>",
                             "accent_text": "<p>—</p>",
                             "accent_color": "#ce5454",
                             "mobile_text": "",
@@ -3952,7 +3728,7 @@
                         "text_Offer_4": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>— Clear operational systems and support</p>",
+                            "text": "<p>— A private, fully-equipped station</p>",
                             "accent_text": "<p>—</p>",
                             "accent_color": "#ce5454",
                             "mobile_text": "",
@@ -3997,7 +3773,7 @@
                         "text_Offer_5": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>— Creative, energetic work environment</p>",
+                            "text": "<p>— Access to a 15-artist creative community</p>",
                             "accent_text": "<p>—</p>",
                             "accent_color": "#ce5454",
                             "mobile_text": "",
@@ -4042,7 +3818,7 @@
                         "text_Offer_6": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>— Direct exposure to the tattoo industry and creative professionals</p>",
+                            "text": "<p>— Regular Art Nights and skill-sharing sessions</p>",
                             "accent_text": "<p>—</p>",
                             "accent_color": "#ce5454",
                             "mobile_text": "",
@@ -4458,7 +4234,7 @@
                 "text_dHeJpR": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Ink & Dagger has built its reputation through exceptional artwork, professionalism, and client care. Our support staff is essential to that mission — tell us why you're interested and what makes you a strong fit.</p>",
+                    "text": "<p>Ink & Dagger has built its reputation through exceptional artwork, professionalism, and consistency. Our resident artists are the heart of that reputation — we're looking for someone ready to make this studio their creative home.</p>",
                     "accent_text": "",
                     "accent_color": "",
                     "mobile_text": "",
@@ -4839,7 +4615,7 @@
                     "text_rgtXxy": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>No — hospitality, retail, or customer service backgrounds all translate well. We provide paid training for anything studio-specific.</p>",
+                        "text": "<p>Fill out the form with your portfolio and experience. We review every submission and reach out directly if it's a fit.</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
@@ -4889,7 +4665,7 @@
                 "accordion_row_tN8hyr": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Do I need previous tattoo industry experience?",
+                    "heading": "Do I need to relocate to Roswell?",
                     "open_by_default": false,
                     "type_preset": "h4",
                     "font": "var(--font-body--family)",
@@ -4909,7 +4685,7 @@
                     "text_xzkTXA": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Smaller tattoos are priced based on size, detail, and placement. Larger work is priced by the session. Each artist has a typical range shown during booking. Sessions are paid as you go, typically spaced around 4 weeks apart.</p>",
+                        "text": "<p>Resident artists work exclusively from our Roswell studio, so you'll need to be local or willing to relocate.</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
@@ -4959,7 +4735,7 @@
                 "accordion_row_xwGaFh": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "What does the weekend and evening schedule look like?",
+                    "heading": "How is commission structured?",
                     "open_by_default": false,
                     "type_preset": "h4",
                     "font": "var(--font-body--family)",
@@ -4979,7 +4755,7 @@
                     "text_8QBHmN": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Ink & Dagger is open Monday through Sunday, 11am to 7pm. This role requires weekend and some evening availability, with hours discussed during the interview.</p>",
+                        "text": "<p>Commission is negotiated based on experience and specialty — we'll walk through specifics once we've reviewed your portfolio.</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
@@ -5029,7 +4805,7 @@
                 "accordion_row_r9Hcre": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Is there room to grow into a full-time role?",
+                    "heading": "What happens if I'm currently working at another studio?",
                     "open_by_default": false,
                     "type_preset": "h4",
                     "font": "var(--font-body--family)",
@@ -5049,7 +4825,7 @@
                     "text_7mjVE8": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Yes — this position has a clear path to full-time for the right person, based on performance and studio needs.</p>",
+                        "text": "<p>We can coordinate a start date around your notice period — let us know your timeline in the application.</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
