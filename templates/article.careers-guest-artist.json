@@ -4735,7 +4735,7 @@
                 "accordion_row_xwGaFh": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "How is commission structured?",
+                    "heading": "How long can I book a guest spot for?",
                     "open_by_default": false,
                     "type_preset": "h4",
                     "font": "var(--font-body--family)",
@@ -4755,7 +4755,7 @@
                     "text_8QBHmN": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Commission is negotiated based on experience and specialty — we'll walk through specifics once we've reviewed your portfolio.</p>",
+                        "text": "<p>Typical guest spots run 3–7 days, though we can discuss longer stays depending on studio availability.</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
@@ -4805,7 +4805,7 @@
                 "accordion_row_r9Hcre": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "What happens if I'm currently working at another studio?",
+                    "heading": "Do I need my own equipment?",
                     "open_by_default": false,
                     "type_preset": "h4",
                     "font": "var(--font-body--family)",
@@ -4825,7 +4825,7 @@
                     "text_7mjVE8": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>We can coordinate a start date around your notice period — let us know your timeline in the application.</p>",
+                        "text": "<p>Yes, guest artists are expected to bring their own machine, ink, and supplies. Let us know in your application if you need anything specific from us.</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
