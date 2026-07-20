@@ -29,11 +29,15 @@
       "settings": {
         "background_color": "{{ settings.color_palette.color1 }}",
         "text_color": "{{ settings.color_palette.background }}",
+        "toggle_overlay": true,
+        "overlay_color": "#1d1616",
+        "overlay_opacity": 70,
         "booking_url": "shopify://pages/booking",
         "booking_label": "Book Consultation",
         "load_more_label": "Load More Works",
         "empty_state_text": "More work coming soon.",
-        "padding-block-start": 64,
+        "more_styles_heading": "More Styles",
+        "padding-block-start": 0,
         "padding-block-end": 64
       }
     },
