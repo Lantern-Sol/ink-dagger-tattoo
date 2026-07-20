@@ -25,6 +25,30 @@
   <div
     class="collection-wrapper grid gap-style"
   >
+    {% liquid
+      assign filters_active = false
+      for filter in search.filters
+        if filter.active_values.size > 0
+          assign filters_active = true
+          break
+        endif
+        if filter.min_value.value != blank or filter.max_value.value != blank
+          assign filters_active = true
+          break
+        endif
+      endfor
+    %}
+
+    {% if section.settings.enable_studio_results and search.performed %}
+      {% render 'search-studio-results',
+        terms: search.terms,
+        heading: section.settings.studio_heading,
+        artist_label: section.settings.studio_artist_label,
+        style_label: section.settings.studio_style_label,
+        project_label: section.settings.studio_project_label
+      %}
+    {% endif %}
+
     {% assign products_per_page = 24 %}
 
     {% if section.settings.enable_infinite_scroll == false %}
@@ -35,8 +59,6 @@
       {% if search.results_count > 0 %}
         {% content_for 'block', type: 'filters', id: 'filters', results: search, results_size: search.results_count %}
         {% assign products = search.results | where: 'object_type', 'product' %}
-        {% assign pages = search.results | where: 'object_type', 'page' %}
-        {% assign articles = search.results | where: 'object_type', 'article' %}
       {% else %}
         {% assign collection = settings.empty_state_collection | default: collections.all %}
         {% assign default_title = 'content.search_results_resource_products' | t %}
@@ -74,48 +96,68 @@
         %}
       {% endif %}
 
-      {% if pages.size > 0 %}
-        <div class="search-results__resource-list">
-          <h2 class="search-results__resource-title h4">
-            {{ 'content.search_results_resource_pages' | t }}
-          </h2>
-          <ul
-            class="search-results__resource-grid list-unstyled"
-            role="list"
-          >
-            {% for page in pages %}
-              <li>
-                {% render 'resource-card', resource_type: 'page', resource: page, image_aspect_ratio: '4 / 5' %}
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-      {% endif %}
-
-      {% if articles.size > 0 %}
-        <div class="search-results__resource-list">
-          <h2 class="search-results__resource-title h4">
-            {{ 'content.search_results_resource_articles' | t }}
-          </h2>
-          <ul
-            class="search-results__resource-grid list-unstyled"
-            role="list"
-          >
-            {% for article in articles %}
-              <li>
-                {% render 'resource-card', resource_type: 'article', resource: article, image_aspect_ratio: '4 / 5' %}
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-      {% endif %}
     {% endpaginate %}
+
+    {% if search.performed and search.results_count > 0 %}
+      {% if filters_active %}
+        {% if section.settings.filtered_note != blank %}
+          <div class="search-results__resource-list">
+            <p class="search-results__filtered-note paragraph">
+              {{ section.settings.filtered_note }}
+            </p>
+          </div>
+        {% endif %}
+      {% else %}
+        {% paginate search.results by 250 %}
+          {% assign resource_pages = search.results | where: 'object_type', 'page' %}
+          {% assign resource_articles = search.results | where: 'object_type', 'article' %}
+
+          {% if resource_pages.size > 0 %}
+            <div class="search-results__resource-list">
+              <h2 class="search-results__resource-title h4">
+                {{ 'content.search_results_resource_pages' | t }}
+              </h2>
+              <ul
+                class="search-results__resource-grid list-unstyled"
+                role="list"
+              >
+                {% for page in resource_pages %}
+                  <li>
+                    {% render 'resource-card', resource_type: 'page', resource: page, image_aspect_ratio: '4 / 5' %}
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+
+          {% if resource_articles.size > 0 %}
+            <div class="search-results__resource-list">
+              <h2 class="search-results__resource-title h4">
+                {{ 'content.search_results_resource_articles' | t }}
+              </h2>
+              <ul
+                class="search-results__resource-grid list-unstyled"
+                role="list"
+              >
+                {% for article in resource_articles %}
+                  <li>
+                    {% render 'resource-card', resource_type: 'article', resource: article, image_aspect_ratio: '4 / 5' %}
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        {% endpaginate %}
+      {% endif %}
+    {% endif %}
   </div>
 </results-list>
 
 {% stylesheet %}
   .search-results__resource-list {
+    grid-column: var(--full-width, 1 / -1);
     padding-inline: var(--page-margin);
+    padding-block-start: var(--padding-4xl);
     padding-block-end: var(--padding-4xl);
   }
 
@@ -132,6 +174,11 @@
       grid-template-columns: repeat(4, 1fr);
     }
   }
+
+  .search-results__filtered-note {
+    margin-block: 0;
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -141,6 +188,50 @@
     {
       "type": "paragraph",
       "content": "t:content.edit_empty_state_collection_in_theme_settings"
+    },
+    {
+      "type": "header",
+      "content": "Search results content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_studio_results",
+      "label": "Show artist, style, and project matches",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "studio_heading",
+      "label": "Studio results heading",
+      "default": "From the studio",
+      "visible_if": "{{ section.settings.enable_studio_results }}"
+    },
+    {
+      "type": "text",
+      "id": "studio_artist_label",
+      "label": "Artist card label",
+      "default": "Artist",
+      "visible_if": "{{ section.settings.enable_studio_results }}"
+    },
+    {
+      "type": "text",
+      "id": "studio_style_label",
+      "label": "Style card label",
+      "default": "Tattoo style",
+      "visible_if": "{{ section.settings.enable_studio_results }}"
+    },
+    {
+      "type": "text",
+      "id": "studio_project_label",
+      "label": "Project card label",
+      "default": "Project",
+      "visible_if": "{{ section.settings.enable_studio_results }}"
+    },
+    {
+      "type": "text",
+      "id": "filtered_note",
+      "label": "Note shown when filters hide pages and blog posts",
+      "default": "Pages and blog posts are hidden while filters are applied."
     },
     {
       "type": "select",
