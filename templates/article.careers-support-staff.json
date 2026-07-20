@@ -129,6 +129,23 @@
     "hero_x3XikH": {
       "type": "hero",
       "blocks": {
+        "breadcrumb_HeroJobs": {
+          "type": "breadcrumb",
+          "settings": {
+            "home_label": "Home",
+            "breadcrumb_label": "Jobs Hub",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 100,
+            "padding-inline-end": 0,
+            "use_mobile_padding": true,
+            "padding-block-start-mobile": 0,
+            "padding-block-end-mobile": 0,
+            "padding-inline-start-mobile": 32,
+            "padding-inline-end-mobile": 32
+          },
+          "blocks": {}
+        },
         "group_WY6PMa": {
           "type": "group",
           "name": "t:names.group",
@@ -720,7 +737,7 @@
                     "mobile_font_size": "1.125rem",
                     "letter_spacing": "",
                     "uppercase": false,
-                    "icon": "arrow_down",
+                    "icon": "none",
                     "icon_size": 16,
                     "icon_position": "after",
                     "icon_color": "",
@@ -738,19 +755,6 @@
             "group_UkfRiV",
             "group_Ut9W4W"
           ]
-        },
-        "breadcrumb_HeroJobs": {
-          "type": "breadcrumb",
-          "settings": {
-            "home_label": "Home",
-            "breadcrumb_label": "Jobs Hub",
-            "padding-inline-start": 100,
-            "padding-inline-end": 0,
-            "use_mobile_padding": true,
-            "padding-inline-start-mobile": 32,
-            "padding-inline-end-mobile": 32
-          },
-          "blocks": {}
         }
       },
       "block_order": [
