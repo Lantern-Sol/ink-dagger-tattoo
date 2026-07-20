@@ -211,7 +211,7 @@
               "type": "text",
               "name": "t:names.heading",
               "settings": {
-                "text": "<p>Resident Artist</p>",
+                "text": "<p>Guest Artist</p>",
                 "accent_text": "",
                 "accent_color": "{{ settings.color_palette.foreground }}",
                 "mobile_text": "",
@@ -256,7 +256,7 @@
             "text_eyXKFz": {
               "type": "text",
               "settings": {
-                "text": "<p>Join our core team and tattoo exclusively at Ink & Dagger's Roswell studio.</p>",
+                "text": "<p>Tattoo at Ink & Dagger while you're on the road — no exclusivity required.</p>",
                 "accent_text": "",
                 "accent_color": "",
                 "mobile_text": "",
@@ -601,7 +601,7 @@
                     "text_TagPartTime": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Resident</p>",
+                        "text": "<p>Guest Spot</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
@@ -1209,7 +1209,7 @@
                         "text_TagPartTimeD": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Full-Time, exclusive to Ink & Dagger</p>",
+                            "text": "<p>Touring artists only</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -1320,7 +1320,7 @@
                         "text_TagPayRange": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Commission-based, negotiated by experience</p>",
+                            "text": "<p>Commission-based</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -1431,7 +1431,7 @@
                         "text_TagWeekend": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Flexible booking schedule</p>",
+                            "text": "<p>Typical stays: 3–7 days</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -1542,7 +1542,7 @@
                         "text_TagPathFT": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Chair available for immediate start</p>",
+                            "text": "<p>Travel coordinated with our team</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -1773,7 +1773,7 @@
                     "text_WYD_1": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>— Tattoo clients exclusively at Ink & Dagger</p>",
+                        "text": "<p>— Tattoo at the studio during your scheduled guest spot</p>",
                         "accent_text": "<p>—</p>",
                         "accent_color": "#ce5454",
                         "mobile_text": "",
@@ -1818,7 +1818,7 @@
                     "text_WYD_2": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>— Maintain and grow a personal book of clients</p>",
+                        "text": "<p>— Bring your own established clientele or take walk-ins</p>",
                         "accent_text": "<p>—</p>",
                         "accent_color": "#ce5454",
                         "mobile_text": "",
@@ -1863,7 +1863,7 @@
                     "text_WYD_3": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>— Participate in studio Art Nights and community events</p>",
+                        "text": "<p>— Coordinate travel and set-up with our team in advance</p>",
                         "accent_text": "<p>—</p>",
                         "accent_color": "#ce5454",
                         "mobile_text": "",
@@ -1908,7 +1908,7 @@
                     "text_WYD_4": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>— Uphold sterilization and safety standards</p>",
+                        "text": "<p>— Follow studio sterilization and safety standards</p>",
                         "accent_text": "<p>—</p>",
                         "accent_color": "#ce5454",
                         "mobile_text": "",
@@ -1953,7 +1953,7 @@
                     "text_WYD_5": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>— Collaborate with the resident artist team on projects</p>",
+                        "text": "<p>— Promote your guest spot dates on your own channels</p>",
                         "accent_text": "<p>—</p>",
                         "accent_color": "#ce5454",
                         "mobile_text": "",
@@ -2127,7 +2127,7 @@
                     "text_WT_1": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>— Licensed and experienced in your specialty style(s)</p>",
+                        "text": "<p>— Established artist currently touring or building a guest-spot circuit</p>",
                         "accent_text": "<p>—</p>",
                         "accent_color": "#ce5454",
                         "mobile_text": "",
@@ -2172,7 +2172,7 @@
                     "text_WT_2": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>— A strong, consistent portfolio of recent work</p>",
+                        "text": "<p>— Distinct style and a strong portfolio</p>",
                         "accent_text": "<p>—</p>",
                         "accent_color": "#ce5454",
                         "mobile_text": "",
@@ -2217,7 +2217,7 @@
                     "text_WT_6": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>— Reliable, collaborative presence in the studio</p>",
+                        "text": "<p>— Easy to coordinate on scheduling and travel</p>",
                         "accent_text": "<p>—</p>",
                         "accent_color": "#ce5454",
                         "mobile_text": "",
@@ -2262,7 +2262,7 @@
                     "text_WT_3": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>— Committed to working exclusively with us</p>",
+                        "text": "<p>— Comfortable working in a new space short-term</p>",
                         "accent_text": "<p>—</p>",
                         "accent_color": "#ce5454",
                         "mobile_text": "",
@@ -2307,7 +2307,7 @@
                     "text_WT_4": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>— Comfortable managing your own client relationships</p>",
+                        "text": "<p>— Proactive about promoting your own guest spot</p>",
                         "accent_text": "<p>—</p>",
                         "accent_color": "#ce5454",
                         "mobile_text": "",
@@ -2775,7 +2775,7 @@
                         "text_TagHospitality": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Black & Grey Realism</p>",
+                            "text": "<p>Realism</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -2886,7 +2886,7 @@
                         "text_TagRetail": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Traditional & Neo-Traditional</p>",
+                            "text": "<p>Traditional</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -2997,7 +2997,7 @@
                         "text_TagSalonSpa": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Fine Line</p>",
+                            "text": "<p>Ornamental</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -3108,7 +3108,7 @@
                         "text_TagCustomerService": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Color Illustrative</p>",
+                            "text": "<p>Illustrative Color</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -3219,7 +3219,7 @@
                         "text_TagEventCoordination": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Japanese</p>",
+                            "text": "<p>Portraiture</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -3525,7 +3525,7 @@
                         "text_Offer_1": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>— Competitive commission structure</p>",
+                            "text": "<p>— A fully-equipped station, no setup required</p>",
                             "accent_text": "<p>—</p>",
                             "accent_color": "#ce5454",
                             "mobile_text": "",
@@ -3570,7 +3570,7 @@
                         "text_Offer_2": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>— Built-in clientele from studio marketing & walk-in</p>",
+                            "text": "<p>— Studio marketing and social promotion for your visit</p>",
                             "accent_text": "<p>—</p>",
                             "accent_color": "#ce5454",
                             "mobile_text": "",
@@ -3615,7 +3615,7 @@
                         "text_Offer_3": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>— Professional photography for your portfolio</p>",
+                            "text": "<p>— Access to walk-in and referral traffic</p>",
                             "accent_text": "<p>—</p>",
                             "accent_color": "#ce5454",
                             "mobile_text": "",
@@ -3728,7 +3728,7 @@
                         "text_Offer_4": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>— A private, fully-equipped station</p>",
+                            "text": "<p>— A welcoming, professional artist community</p>",
                             "accent_text": "<p>—</p>",
                             "accent_color": "#ce5454",
                             "mobile_text": "",
@@ -3773,7 +3773,7 @@
                         "text_Offer_5": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>— Access to a 15-artist creative community</p>",
+                            "text": "<p>— Simple booking and scheduling support</p>",
                             "accent_text": "<p>—</p>",
                             "accent_color": "#ce5454",
                             "mobile_text": "",
@@ -3818,7 +3818,7 @@
                         "text_Offer_6": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>— Regular Art Nights and skill-sharing sessions</p>",
+                            "text": "<p>— Flexible scheduling for touring artists</p>",
                             "accent_text": "<p>—</p>",
                             "accent_color": "#ce5454",
                             "mobile_text": "",
@@ -4234,7 +4234,7 @@
                 "text_dHeJpR": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Ink & Dagger has built its reputation through exceptional artwork, professionalism, and consistency. Our resident artists are the heart of that reputation — we're looking for someone ready to make this studio their creative home.</p>",
+                    "text": "<p>We host guest artists from across the country who bring fresh style and energy to our Roswell studio. If you're touring or building a Southeast following, we'd love to host you.</p>",
                     "accent_text": "",
                     "accent_color": "",
                     "mobile_text": "",
@@ -4615,7 +4615,7 @@
                     "text_rgtXxy": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Fill out the form with your portfolio and experience. We review every submission and reach out directly if it's a fit.</p>",
+                        "text": "<p>Fill out the form with your portfolio and available travel dates. We review every submission and reach out directly if it's a fit.</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
@@ -4665,7 +4665,7 @@
                 "accordion_row_tN8hyr": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Do I need to relocate to Roswell?",
+                    "heading": "Do I need to be local?",
                     "open_by_default": false,
                     "type_preset": "h4",
                     "font": "var(--font-body--family)",
@@ -4685,7 +4685,7 @@
                     "text_xzkTXA": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Resident artists work exclusively from our Roswell studio, so you'll need to be local or willing to relocate.</p>",
+                        "text": "<p>No — Guest Artist spots are built for touring artists. We just need your available dates in advance.</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
