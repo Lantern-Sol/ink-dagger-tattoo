@@ -2826,7 +2826,7 @@
                     "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
-                    "max_width": "normal",
+                    "max_width": "none",
                     "alignment": "left",
                     "height_mode": "auto",
                     "desktop_height": "",
