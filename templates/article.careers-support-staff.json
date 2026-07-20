@@ -737,7 +737,7 @@
                     "mobile_font_size": "1.125rem",
                     "letter_spacing": "",
                     "uppercase": false,
-                    "icon": "none",
+                    "icon": "arrow_down",
                     "icon_size": 16,
                     "icon_position": "after",
                     "icon_color": "",
