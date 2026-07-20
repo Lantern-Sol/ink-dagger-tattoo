@@ -4920,7 +4920,7 @@
                     "text_rgtXxy": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Fill out the form with your experience and portfolio, if applicable. We review every submission and reach out directly if it's a fit.</p>",
+                        "text": "<p>No — hospitality, retail, or customer service backgrounds all translate well. We provide paid training for anything studio-specific.</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
@@ -4970,7 +4970,7 @@
                 "accordion_row_tN8hyr": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "What happens after I apply?",
+                    "heading": "Do I need previous tattoo industry experience?",
                     "open_by_default": false,
                     "type_preset": "h4",
                     "font": "var(--font-body--family)",
@@ -5040,7 +5040,7 @@
                 "accordion_row_xwGaFh": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Do I need to be local?",
+                    "heading": "What does the weekend and evening schedule look like?",
                     "open_by_default": false,
                     "type_preset": "h4",
                     "font": "var(--font-body--family)",
@@ -5060,7 +5060,7 @@
                     "text_8QBHmN": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Choose the right artist for your project and allow them to work within their specialty. The best results come from collaboration and giving the artist appropriate creative freedom.</p>",
+                        "text": "<p>Ink & Dagger is open Monday through Sunday, 11am to 7pm. This role requires weekend and some evening availability, with hours discussed during the interview.</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
@@ -5110,7 +5110,7 @@
                 "accordion_row_r9Hcre": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "How long until I hear back?",
+                    "heading": "Is there room to grow into a full-time role?",
                     "open_by_default": false,
                     "type_preset": "h4",
                     "font": "var(--font-body--family)",
@@ -5130,7 +5130,7 @@
                     "text_7mjVE8": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>No. <strong>All reference-based tattoos are redrawn to ensure originality, quality, and longevity.</strong></p>",
+                        "text": "<p>Yes — this position has a clear path to full-time for the right person, based on performance and studio needs.</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
