@@ -954,7 +954,7 @@
                     "text_DetailsEyebrow": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>THE ROLE</p>",
+                        "text": "<p><strong>THE ROLE</strong></p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
@@ -1065,7 +1065,7 @@
                     "mobile_vertical_alignment_flex_direction_column": "center",
                     "gap": 8,
                     "use_mobile_gap": false,
-                    "mobile_gap": 12,
+                    "mobile_gap": 0,
                     "width": "fill",
                     "custom_width": 100,
                     "width_mobile": "fill",
@@ -2710,7 +2710,7 @@
                 "text_PrefEyebrow": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>PREFERRED EXPERIENCE</p>",
+                    "text": "<p><strong>PREFERRED EXPERIENCE</strong></p>",
                     "accent_text": "",
                     "accent_color": "",
                     "mobile_text": "",
@@ -3729,7 +3729,7 @@
                 "text_OfferEyebrow": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>WHAT WE OFFER</p>",
+                    "text": "<p><strong>WHAT WE OFFER</strong></p>",
                     "accent_text": "",
                     "accent_color": "",
                     "mobile_text": "",
