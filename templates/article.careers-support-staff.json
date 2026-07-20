@@ -764,7 +764,7 @@
       ],
       "settings": {
         "media_type_1": "image",
-        "image_1": "shopify://shop_images/homepage-hero.png",
+        "image_1": "{{ article.image }}",
         "parallax_effect": false,
         "hide_media_on_mobile": false,
         "media_type_2": "image",
