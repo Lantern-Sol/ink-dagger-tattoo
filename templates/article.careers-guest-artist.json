@@ -4358,7 +4358,7 @@
         "background_color": "{{ settings.color_palette.color1 }}",
         "section_width": "page-width",
         "padding-block-start": 0,
-        "padding-block-end": 0
+        "padding-block-end": 80
       }
     },
     "section_Jzn4Ni": {
