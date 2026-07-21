@@ -4973,7 +4973,7 @@
         "background_color": "{{ settings.color_palette.color1 }}",
         "section_width": "page-width",
         "padding-block-start": 0,
-        "padding-block-end": 40
+        "padding-block-end": 80
       }
     }
   },
@@ -4983,7 +4983,7 @@
     "section_Details",
     "section_PreferredOffer",
     "section_HowToApply",
-    "section_Jzn4Ni",
-    "custom_liquid_i9mfbN"
+    "custom_liquid_i9mfbN",
+    "section_Jzn4Ni"
   ]
 }
