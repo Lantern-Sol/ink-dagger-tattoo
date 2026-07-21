@@ -1592,6 +1592,7 @@ button.shopify-payment-button__button--unbranded:hover:not([disabled]) {
 .button--has-icon {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5em;
 }
 
