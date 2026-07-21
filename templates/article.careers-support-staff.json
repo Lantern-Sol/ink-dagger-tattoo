@@ -5017,7 +5017,11 @@
                     "heading_opacity": 100,
                     "icon": "number_01",
                     "width": 20,
-                    "icon_color": "{{ settings.color_palette.foreground }}"
+                    "icon_color": "{{ settings.color_palette.foreground }}",
+                    "padding-block-start": 10,
+                    "padding-block-end": 10,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {
                     "text_rgtXxy": {
@@ -5087,7 +5091,11 @@
                     "heading_opacity": 100,
                     "icon": "number_02",
                     "width": 20,
-                    "icon_color": "{{ settings.color_palette.foreground }}"
+                    "icon_color": "{{ settings.color_palette.foreground }}",
+                    "padding-block-start": 10,
+                    "padding-block-end": 10,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {
                     "text_xzkTXA": {
@@ -5157,7 +5165,11 @@
                     "heading_opacity": 100,
                     "icon": "number_03",
                     "width": 20,
-                    "icon_color": "{{ settings.color_palette.foreground }}"
+                    "icon_color": "{{ settings.color_palette.foreground }}",
+                    "padding-block-start": 10,
+                    "padding-block-end": 10,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {
                     "text_8QBHmN": {
@@ -5227,7 +5239,11 @@
                     "heading_opacity": 100,
                     "icon": "number_04",
                     "width": 20,
-                    "icon_color": "{{ settings.color_palette.foreground }}"
+                    "icon_color": "{{ settings.color_palette.foreground }}",
+                    "padding-block-start": 10,
+                    "padding-block-end": 10,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {
                     "text_7mjVE8": {
