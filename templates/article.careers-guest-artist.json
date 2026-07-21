@@ -4340,14 +4340,25 @@
         "hide_on_mobile": false,
         "hide_on_desktop": false,
         "padding-block-start": 80,
-        "padding-block-end": 80,
+        "padding-block-end": 24,
         "padding-inline-start": 100,
         "padding-inline-end": 100,
         "use_mobile_padding": true,
         "padding-block-start-mobile": 40,
-        "padding-block-end-mobile": 40,
+        "padding-block-end-mobile": 24,
         "padding-inline-start-mobile": 32,
         "padding-inline-end-mobile": 32
+      }
+    },
+    "custom_liquid_69dPxD": {
+      "type": "custom-liquid",
+      "name": "t:names.custom_liquid",
+      "settings": {
+        "custom_liquid": "<iframe\n    src=\"https://api.leadconnectorhq.com/widget/form/BxxEBWVk7jSo9YO4nkEi\"\n    style=\"width:100%;height:100%;border:none;border-radius:8px\"\n    id=\"inline-BxxEBWVk7jSo9YO4nkEi\" \n    data-layout=\"{'id':'INLINE'}\"\n    data-trigger-type=\"alwaysShow\"\n    data-trigger-value=\"\"\n    data-activation-type=\"alwaysActivated\"\n    data-activation-value=\"\"\n    data-deactivation-type=\"neverDeactivate\"\n    data-deactivation-value=\"\"\n    data-form-name=\"LS - Guest Artist Application\"\n    data-height=\"1971\"\n    data-layout-iframe-id=\"inline-BxxEBWVk7jSo9YO4nkEi\"\n    data-form-id=\"BxxEBWVk7jSo9YO4nkEi\"\n    title=\"LS - Guest Artist Application\"\n    \n        >\n</iframe>\n<script src=\"https://link.msgsndr.com/js/form_embed.js\"></script>",
+        "background_color": "{{ settings.color_palette.color1 }}",
+        "section_width": "page-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "section_Jzn4Ni": {
@@ -4964,17 +4975,6 @@
         "padding-inline-start-mobile": 32,
         "padding-inline-end-mobile": 32
       }
-    },
-    "custom_liquid_69dPxD": {
-      "type": "custom-liquid",
-      "name": "t:names.custom_liquid",
-      "settings": {
-        "custom_liquid": "<iframe\n    src=\"https://api.leadconnectorhq.com/widget/form/BxxEBWVk7jSo9YO4nkEi\"\n    style=\"width:100%;height:100%;border:none;border-radius:8px\"\n    id=\"inline-BxxEBWVk7jSo9YO4nkEi\" \n    data-layout=\"{'id':'INLINE'}\"\n    data-trigger-type=\"alwaysShow\"\n    data-trigger-value=\"\"\n    data-activation-type=\"alwaysActivated\"\n    data-activation-value=\"\"\n    data-deactivation-type=\"neverDeactivate\"\n    data-deactivation-value=\"\"\n    data-form-name=\"LS - Guest Artist Application\"\n    data-height=\"1971\"\n    data-layout-iframe-id=\"inline-BxxEBWVk7jSo9YO4nkEi\"\n    data-form-id=\"BxxEBWVk7jSo9YO4nkEi\"\n    title=\"LS - Guest Artist Application\"\n    \n        >\n</iframe>\n<script src=\"https://link.msgsndr.com/js/form_embed.js\"></script>",
-        "background_color": "{{ settings.color_palette.color1 }}",
-        "section_width": "page-width",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
     }
   },
   "order": [
@@ -4983,7 +4983,7 @@
     "section_Details",
     "section_PreferredOffer",
     "section_HowToApply",
-    "section_Jzn4Ni",
-    "custom_liquid_69dPxD"
+    "custom_liquid_69dPxD",
+    "section_Jzn4Ni"
   ]
 }
