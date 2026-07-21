@@ -4758,6 +4758,17 @@
         "padding-inline-end-mobile": 32
       }
     },
+    "custom_liquid_9zJnQR": {
+      "type": "custom-liquid",
+      "name": "t:names.custom_liquid",
+      "settings": {
+        "custom_liquid": "<iframe\n    src=\"https://api.leadconnectorhq.com/widget/form/cSkYjDsNhShsxKr8343h\"\n    style=\"width:100%;height:100%;border:none;border-radius:8px\"\n    id=\"inline-cSkYjDsNhShsxKr8343h\" \n    data-layout=\"{'id':'INLINE'}\"\n    data-trigger-type=\"alwaysShow\"\n    data-trigger-value=\"\"\n    data-activation-type=\"alwaysActivated\"\n    data-activation-value=\"\"\n    data-deactivation-type=\"neverDeactivate\"\n    data-deactivation-value=\"\"\n    data-form-name=\"LS - Support Staff Application\"\n    data-height=\"2828\"\n    data-layout-iframe-id=\"inline-cSkYjDsNhShsxKr8343h\"\n    data-form-id=\"cSkYjDsNhShsxKr8343h\"\n    title=\"LS - Support Staff Application\"\n    \n        >\n</iframe>\n<script src=\"https://link.msgsndr.com/js/form_embed.js\"></script>",
+        "background_color": "{{ settings.color_palette.color1 }}",
+        "section_width": "page-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "section_Jzn4Ni": {
       "type": "section",
       "blocks": {
@@ -5380,6 +5391,7 @@
     "section_Details",
     "section_PreferredOffer",
     "section_HowToApply",
+    "custom_liquid_9zJnQR",
     "section_Jzn4Ni"
   ]
 }
