@@ -343,6 +343,9 @@
   style="
     --color-background-top-row: rgba({{ section.settings.background_color_top.rgba | default: settings.page_background_color.rgba }});
     --color-background-bottom-row: rgba({{ section.settings.background_color_bottom.rgba | default: settings.page_background_color.rgba }});
+    {% if section.settings.active_link_color != blank %}
+      --color-menu-active-link: {{ section.settings.active_link_color }};
+    {% endif %}
     {% if transparent and text_color_transparent != blank %}
       --color-transparent-text: {{ text_color_transparent }};
       --color-transparent-text-rgb: {{ text_color_transparent.rgb }};
@@ -1620,6 +1623,12 @@
     {
       "type": "header",
       "content": "t:content.colors"
+    },
+    {
+      "type": "color",
+      "id": "active_link_color",
+      "label": "t:settings.active_link_color",
+      "placeholder": "t:settings.default"
     },
     {
       "type": "color",
