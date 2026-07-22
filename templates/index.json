@@ -124,7 +124,7 @@
               "name": "t:names.button",
               "settings": {
                 "label": "Select Your Artist",
-                "link": "shopify://collections/all",
+                "link": "shopify://pages/artists",
                 "open_in_new_tab": false,
                 "style_class": "button-secondary",
                 "custom_button_background": "{{ settings.color_palette.foreground }}",
@@ -1899,7 +1899,11 @@
                             "heading_opacity": 80,
                             "icon": "none",
                             "width": 20,
-                            "icon_color": ""
+                            "icon_color": "",
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
                           },
                           "blocks": {
                             "text_nNfYac": {
@@ -2257,7 +2261,11 @@
                             "heading_opacity": 80,
                             "icon": "none",
                             "width": 20,
-                            "icon_color": ""
+                            "icon_color": "",
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
                           },
                           "blocks": {
                             "text_EXKbAb": {
@@ -2615,7 +2623,11 @@
                             "heading_opacity": 80,
                             "icon": "none",
                             "width": 20,
-                            "icon_color": ""
+                            "icon_color": "",
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
                           },
                           "blocks": {
                             "text_QcUgPg": {
