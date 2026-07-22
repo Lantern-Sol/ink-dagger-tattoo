@@ -227,6 +227,7 @@
                                   {% if childlink.current %}
                                     aria-current="page"
                                   {% endif %}
+                                  {% render 'util-external-link-attributes', link: childlink, enabled: block_settings.open_external_links_in_new_tab %}
                                 >
                                   {% if render_link_image and link.levels == 1 %}
                                     {% render 'link-featured-image',
@@ -294,6 +295,7 @@
                                               {% if grandchildlink.current %}
                                                 aria-current="page"
                                               {% endif %}
+                                              {% render 'util-external-link-attributes', link: grandchildlink, enabled: block_settings.open_external_links_in_new_tab %}
                                             >
                                               {% if render_link_image %}
                                                 {% render 'link-featured-image',
@@ -326,6 +328,7 @@
                                     {% if childlink.current %}
                                       aria-current="page"
                                     {% endif %}
+                                    {% render 'util-external-link-attributes', link: childlink, enabled: block_settings.open_external_links_in_new_tab %}
                                   >
                                     <span class="menu-drawer__menu-item-text wrap-text">
                                       {{- childlink.title | escape -}}
@@ -359,6 +362,7 @@
                                           {% if grandchildlink.current %}
                                             aria-current="page"
                                           {% endif %}
+                                          {% render 'util-external-link-attributes', link: grandchildlink, enabled: block_settings.open_external_links_in_new_tab %}
                                         >
                                           {% if render_link_image %}
                                             {% render 'link-featured-image',
@@ -434,6 +438,7 @@
                     {% if link.current %}
                       aria-current="page"
                     {% endif %}
+                    {% render 'util-external-link-attributes', link: link, enabled: block_settings.open_external_links_in_new_tab %}
                   >
                     <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
                   </a>

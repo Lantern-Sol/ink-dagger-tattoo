@@ -1,0 +1,24 @@
+{%- doc -%}
+  Outputs `target="_blank" rel="noopener noreferrer"` when `enabled` is true and the given
+  linklist link points to an external URL (a manually-entered link whose host doesn't match
+  the current store).
+
+  @param {object} link - Linklist link object.
+  @param {boolean} [enabled] - Whether external links should open in a new tab.
+
+  @example
+  <a href="{{ link.url }}" {% render 'util-external-link-attributes', link: link, enabled: block_settings.open_external_links_in_new_tab %}>
+{%- enddoc -%}
+
+{% liquid
+  assign is_external = false
+
+  if enabled and link.type == 'http_link' and link.url contains '://'
+    unless link.url contains request.host
+      assign is_external = true
+    endunless
+  endif
+%}
+{%- if is_external -%}
+  target="_blank" rel="noopener noreferrer"
+{%- endif -%}

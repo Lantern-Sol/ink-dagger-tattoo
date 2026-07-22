@@ -52,6 +52,7 @@
                   {% if link.current %}
                     aria-current="page"
                   {% endif %}
+                  {% render 'util-external-link-attributes', link: link, enabled: block_settings.open_external_links_in_new_tab %}
                 >
                   {{- link.title -}}
                 </a>
@@ -124,6 +125,7 @@
             {% if link.current %}
               aria-current="page"
             {% endif %}
+            {% render 'util-external-link-attributes', link: link, enabled: block_settings.open_external_links_in_new_tab %}
             ref="menuitem"
           >
             <span class="menu-list__link-title">{{- link.title -}}</span>
@@ -818,6 +820,12 @@
       "id": "menu",
       "label": "t:settings.menu",
       "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_external_links_in_new_tab",
+      "label": "t:settings.open_external_links_in_new_tab",
+      "default": false
     },
     {
       "type": "header",

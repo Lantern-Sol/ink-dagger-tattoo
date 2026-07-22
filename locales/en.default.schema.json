@@ -1011,6 +1011,7 @@
     "navigation_bar_text_color": "Navigation bar text color",
     "opacity": "Opacity",
     "open_by_default": "Open by default",
+    "open_external_links_in_new_tab": "Open external links in a new tab",
     "open_new_tab": "Open link in new tab",
     "open_row_by_default": "Open row by default",
     "overlay": "Overlay",
