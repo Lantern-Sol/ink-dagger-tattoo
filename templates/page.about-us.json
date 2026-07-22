@@ -77,6 +77,8 @@
               "type": "text",
               "settings": {
                 "text": "<p>Established 2007 · Roswell, GA</p>",
+                "accent_text": "",
+                "accent_color": "",
                 "mobile_text": "",
                 "width": "fit-content",
                 "max_width": "normal",
@@ -121,6 +123,8 @@
               "name": "t:names.heading",
               "settings": {
                 "text": "<p>Where Great Tattoos<br/>Begin With Trust</p>",
+                "accent_text": "",
+                "accent_color": "",
                 "mobile_text": "<p>Where Great Tattoos Begin With Trust</p>",
                 "width": "fit-content",
                 "max_width": "normal",
@@ -164,6 +168,8 @@
               "type": "text",
               "settings": {
                 "text": "<p>Custom tattoos created through collaboration, artistry, and experience.</p>",
+                "accent_text": "",
+                "accent_color": "",
                 "mobile_text": "",
                 "width": "fit-content",
                 "max_width": "none",
@@ -208,7 +214,7 @@
               "name": "t:names.button",
               "settings": {
                 "label": "Book a Consultation",
-                "link": "shopify://collections/all",
+                "link": "shopify://pages/booking",
                 "open_in_new_tab": false,
                 "style_class": "button",
                 "custom_button_background": "{{ settings.color_palette.foreground }}",
@@ -415,6 +421,8 @@
                   "name": "t:names.text",
                   "settings": {
                     "text": "<p>Our Story</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
@@ -459,6 +467,8 @@
                   "name": "t:names.heading",
                   "settings": {
                     "text": "<p>Eighteen years<br/>of <em>ink, art & instinct</em></p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "narrow",
@@ -583,6 +593,8 @@
                   "name": "t:names.text",
                   "settings": {
                     "text": "<p>Established in 2007, Ink & Dagger was the realization of founder Russ Abbott's dream. With nearly a decade's experience, Russ aimed to create a unique yet professional space where tattoos and art intertwine seamlessly. Over the years, we've grown in both location—relocating to the core of Roswell—and in scope, accommodating up to 15 resident artists.</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "<p>Established in 2007, Ink & Dagger was the realization of founder Russ Abbott's dream. With nearly a decade's experience, Russ aimed to create a unique yet professional space where tattoos and art intertwine seamlessly. Over the years, we've grown in both location—relocating to the core of Roswell—and in scope, accommodating up to 15 resident artists.</p>",
                     "width": "fit-content",
                     "max_width": "none",
@@ -894,6 +906,8 @@
               "type": "text",
               "settings": {
                 "text": "<p>OUR ETHOS</p>",
+                "accent_text": "",
+                "accent_color": "",
                 "mobile_text": "",
                 "width": "fit-content",
                 "max_width": "normal",
@@ -938,6 +952,8 @@
               "name": "t:names.heading",
               "settings": {
                 "text": "<p>More than just a tattoo studio.</p>",
+                "accent_text": "",
+                "accent_color": "",
                 "mobile_text": "",
                 "width": "fit-content",
                 "max_width": "normal",
@@ -981,6 +997,8 @@
               "type": "text",
               "settings": {
                 "text": "<p>Six commitments that shape every consult, every line, every aftercare check-in.</p>",
+                "accent_text": "",
+                "accent_color": "",
                 "mobile_text": "",
                 "width": "fit-content",
                 "max_width": "none",
@@ -1212,6 +1230,8 @@
                       "type": "text",
                       "settings": {
                         "text": "<p><em>i.</em></p>",
+                        "accent_text": "",
+                        "accent_color": "",
                         "mobile_text": "",
                         "width": "fit-content",
                         "max_width": "none",
@@ -1260,6 +1280,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>Inclusivity</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -1430,6 +1452,8 @@
                       "type": "text",
                       "settings": {
                         "text": "<p><em>ii.</em></p>",
+                        "accent_text": "",
+                        "accent_color": "",
                         "mobile_text": "",
                         "width": "fit-content",
                         "max_width": "none",
@@ -1478,6 +1502,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>Continuous Education</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -1648,6 +1674,8 @@
                       "type": "text",
                       "settings": {
                         "text": "<p><em>iii.</em></p>",
+                        "accent_text": "",
+                        "accent_color": "",
                         "mobile_text": "",
                         "width": "fit-content",
                         "max_width": "none",
@@ -1696,6 +1724,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>Professional Growth</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -1933,6 +1963,8 @@
                       "type": "text",
                       "settings": {
                         "text": "<p><em>iv.</em></p>",
+                        "accent_text": "",
+                        "accent_color": "",
                         "mobile_text": "",
                         "width": "fit-content",
                         "max_width": "none",
@@ -1981,6 +2013,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>Driving the Art Forward</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -2151,6 +2185,8 @@
                       "type": "text",
                       "settings": {
                         "text": "<p><em>v.</em></p>",
+                        "accent_text": "",
+                        "accent_color": "",
                         "mobile_text": "",
                         "width": "fit-content",
                         "max_width": "none",
@@ -2199,6 +2235,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>Well-Being First</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -2369,6 +2407,8 @@
                       "type": "text",
                       "settings": {
                         "text": "<p><em>vi.</em></p>",
+                        "accent_text": "",
+                        "accent_color": "",
                         "mobile_text": "",
                         "width": "fit-content",
                         "max_width": "none",
@@ -2417,6 +2457,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>Boundless Creativity</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -2675,6 +2717,8 @@
                   "name": "t:names.text",
                   "settings": {
                     "text": "<p>In their own words</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
@@ -2785,6 +2829,8 @@
                   "name": "t:names.text",
                   "settings": {
                     "text": "<p>We're more than just a tattoo studio. Our core values lie in inclusivity, continuous education, and professional development. We strive to challenge societal perceptions and stigmas surrounding tattoos while driving the art form forward. We prioritize the well-being of our clients and our team, fostering a space where creativity knows no bounds.</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "none",
@@ -3146,6 +3192,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p><strong>Beyond the chair</strong></p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
@@ -3190,6 +3238,8 @@
                   "name": "t:names.heading",
                   "settings": {
                     "text": "<p>A community, not just a <em>studio</em>.</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
@@ -3233,6 +3283,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>While our daily focus is on creating impeccable tattoos, we occasionally let our hair down. Our One SHOT Wall Art Shows are a testament to that. It's an exhibition of our artists' unbridled creativity, celebrated with karaoke, drinks, food, and the best company - our clients!</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "none",
@@ -3289,6 +3341,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>Housing as many as 15 resident artists and a flow of talented guest artists, Ink & Dagger is a hive of creativity. We host regular \"Art Nights\" to sharpen our skills and share creative methods. Every individual, from our artists to our support team, led by the incredible Harrison Knolle, plays a pivotal role in ensuring our studio is a beacon of artistry and impeccable service.</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "none",
@@ -3411,8 +3465,8 @@
       "type": "divider",
       "name": "t:names.divider_section",
       "settings": {
-        "background_color": "#1D1616",
-        "divider_color": "#1D1616",
+        "background_color": "#1d1616",
+        "divider_color": "#1d1616",
         "section_width": "full-width",
         "thickness": 3,
         "corner_radius": "square",
@@ -3555,6 +3609,8 @@
                   "name": "t:names.text",
                   "settings": {
                     "text": "<p>Innovation in Ink</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
@@ -3614,6 +3670,8 @@
                   "name": "t:names.heading",
                   "settings": {
                     "text": "<p>We believe in<br/><em>collaboration,</em><br/><em>transparency,</em> and<br/>ensuring our clients are<br/>part of the journey,<br/>every step of the way.</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "<p>We believe in <em>collaboration, transparency,</em> and ensuring our clients are part of the journey, every step of the way.</p>",
                     "width": "100%",
                     "max_width": "none",
@@ -3658,6 +3716,8 @@
                   "name": "t:names.text",
                   "settings": {
                     "text": "<p>From our studio, to your skin</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
@@ -3771,6 +3831,8 @@
                   "name": "t:names.text",
                   "settings": {
                     "text": "<p>Approach</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
@@ -3815,6 +3877,8 @@
                   "name": "t:names.text",
                   "settings": {
                     "text": "<p>Our approach to design sets us apart. With our sister company Tattoo Smart, we're at the forefront of utilizing digital design tools. This technology, seamlessly integrated with our iPads, provides our clients with an unparalleled visualization of their tattoos – from their skin to even a 3D model human. We believe in collaboration, transparency, and ensuring our clients are part of the journey, every step of the way.</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "none",
@@ -4042,6 +4106,8 @@
                               "name": "t:names.text",
                               "settings": {
                                 "text": "<p>+</p>",
+                                "accent_text": "",
+                                "accent_color": "",
                                 "mobile_text": "",
                                 "width": "fit-content",
                                 "max_width": "normal",
@@ -4086,6 +4152,8 @@
                               "name": "t:names.text",
                               "settings": {
                                 "text": "<p>Tattoo Smart</p>",
+                                "accent_text": "",
+                                "accent_color": "",
                                 "mobile_text": "",
                                 "width": "fit-content",
                                 "max_width": "normal",
@@ -4197,6 +4265,8 @@
                               "name": "t:names.text",
                               "settings": {
                                 "text": "<p>+</p>",
+                                "accent_text": "",
+                                "accent_color": "",
                                 "mobile_text": "",
                                 "width": "fit-content",
                                 "max_width": "normal",
@@ -4241,6 +4311,8 @@
                               "name": "t:names.text",
                               "settings": {
                                 "text": "<p>iPad-driven design</p>",
+                                "accent_text": "",
+                                "accent_color": "",
                                 "mobile_text": "",
                                 "width": "fit-content",
                                 "max_width": "normal",
@@ -4419,6 +4491,8 @@
                               "name": "t:names.text",
                               "settings": {
                                 "text": "<p>+</p>",
+                                "accent_text": "",
+                                "accent_color": "",
                                 "mobile_text": "",
                                 "width": "fit-content",
                                 "max_width": "normal",
@@ -4463,6 +4537,8 @@
                               "name": "t:names.text",
                               "settings": {
                                 "text": "<p>3D body visualization</p>",
+                                "accent_text": "",
+                                "accent_color": "",
                                 "mobile_text": "",
                                 "width": "fit-content",
                                 "max_width": "normal",
@@ -4574,6 +4650,8 @@
                               "name": "t:names.text",
                               "settings": {
                                 "text": "<p>+</p>",
+                                "accent_text": "",
+                                "accent_color": "",
                                 "mobile_text": "",
                                 "width": "fit-content",
                                 "max_width": "normal",
@@ -4618,6 +4696,8 @@
                               "name": "t:names.text",
                               "settings": {
                                 "text": "<p>Skin-mapped previews</p>",
+                                "accent_text": "",
+                                "accent_color": "",
                                 "mobile_text": "",
                                 "width": "fit-content",
                                 "max_width": "normal",
@@ -4756,8 +4836,8 @@
       "type": "divider",
       "name": "t:names.divider_section",
       "settings": {
-        "background_color": "#1D1616",
-        "divider_color": "#1D1616",
+        "background_color": "#1d1616",
+        "divider_color": "#1d1616",
         "section_width": "full-width",
         "thickness": 3,
         "corner_radius": "square",
@@ -4996,6 +5076,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p><strong>Beyond the chair</strong></p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
@@ -5040,6 +5122,8 @@
                   "name": "t:names.heading",
                   "settings": {
                     "text": "<p>From your first line, to <em>aftercare</em>.</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "normal",
@@ -5083,6 +5167,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>Whether you're getting your first tattoo or adding to your collection, our commitment is to make the experience memorable. From initial consultations to aftercare, our team ensures you're informed, comfortable, and absolutely thrilled with your new tattoo.</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "none",
@@ -5104,7 +5190,7 @@
                     "type_preset_mobile": "rte",
                     "mobile_font_size": "1rem",
                     "mobile_custom_line_height": 1.5,
-                    "text_color": "#1D1616",
+                    "text_color": "#1d1616",
                     "emphasis_color": "",
                     "background": false,
                     "background_color": "#00000026",
@@ -5139,6 +5225,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>At Ink & Dagger, we excel in one thing: Tattoos. That's our commitment and craft. For quick, small tattoos, try calling us at 770-692-4245. For other projects, start with our Booking Form. Provide your details, tattoo idea, and any reference images. Our team will then assess your request and pair you with an artist that aligns with your vision and availability. We're dedicated to ensuring the perfect match between artist and client for the best tattoo experience.</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "fit-content",
                     "max_width": "none",
@@ -5160,7 +5248,7 @@
                     "type_preset_mobile": "rte",
                     "mobile_font_size": "1rem",
                     "mobile_custom_line_height": 1.5,
-                    "text_color": "#1D1616",
+                    "text_color": "#1d1616",
                     "emphasis_color": "",
                     "background": false,
                     "background_color": "#00000026",
@@ -5258,6 +5346,8 @@
                       "name": "t:names.text",
                       "settings": {
                         "text": "<p>Quick & Small Tattoos</p>",
+                        "accent_text": "",
+                        "accent_color": "",
                         "mobile_text": "",
                         "width": "fit-content",
                         "max_width": "normal",
@@ -5302,6 +5392,8 @@
                       "name": "t:names.text",
                       "settings": {
                         "text": "<p>770-692-4245</p>",
+                        "accent_text": "",
+                        "accent_color": "",
                         "mobile_text": "",
                         "width": "fit-content",
                         "max_width": "normal",
@@ -5454,6 +5546,8 @@
           "name": "Title",
           "settings": {
             "text": "<h1>{{ closest.page.title }}</h1>",
+            "accent_text": "",
+            "accent_color": "",
             "mobile_text": "",
             "width": "100%",
             "max_width": "normal",
@@ -5720,6 +5814,8 @@
                       "name": "t:names.heading",
                       "settings": {
                         "text": "<h2>Get the scoop without following us on social media.</h2>",
+                        "accent_text": "",
+                        "accent_color": "",
                         "mobile_text": "",
                         "width": "fit-content",
                         "max_width": "normal",
@@ -5764,6 +5860,8 @@
                       "name": "t:names.text",
                       "settings": {
                         "text": "<p> Stay in the loop! As a subscriber, you’ll be the first to hear about fresh talent joining our team and exclusive community events. Get the scoop straight to your inbox.</p>",
+                        "accent_text": "",
+                        "accent_color": "",
                         "mobile_text": "",
                         "width": "100%",
                         "max_width": "none",
