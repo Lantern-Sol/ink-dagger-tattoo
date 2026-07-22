@@ -2823,7 +2823,7 @@
           "name": "t:names.button",
           "settings": {
             "label": "Check out our feed",
-            "link": "#",
+            "link": "https://www.instagram.com/inkanddaggertattoo/",
             "open_in_new_tab": true,
             "style_class": "button-secondary",
             "custom_button_background": "{{ settings.color_palette.foreground }}",
