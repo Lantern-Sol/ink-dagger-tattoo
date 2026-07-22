@@ -91,6 +91,7 @@
           "static": true,
           "settings": {
             "menu": "main-menu",
+            "open_external_links_in_new_tab": true,
             "inherit_header_color_scheme": true,
             "background_color": "{{ settings.color_palette.background }}",
             "text_color": "",
