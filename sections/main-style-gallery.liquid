@@ -118,8 +118,8 @@
     class="style-gallery{% if has_color_override %} color-custom-{{ section.id }}{% endif %}"
     style="padding-block: {{ section.settings['padding-block-start'] | default: 64 }}px {{ section.settings['padding-block-end'] | default: 64 }}px;"
   >
-    {%- if hero_image != blank -%}
-      <div class="style-gallery__banner">
+    <div class="style-gallery__banner{% if hero_image == blank %} style-gallery__banner--no-image{% endif %}">
+      {%- if hero_image != blank -%}
         {{ hero_image | image_url: width: 1600 | image_tag:
           loading: 'eager',
           widths: '750, 1100, 1440, 1600',
@@ -129,11 +129,11 @@
         {%- if section.settings.toggle_overlay and section.settings.overlay_color != blank -%}
           <div class="style-gallery__banner-overlay" style="background-color: color-mix(in srgb, {{ section.settings.overlay_color }} {{ section.settings.overlay_opacity | default: 50 }}%, transparent);"></div>
         {%- endif -%}
-        <p class="style-gallery__breadcrumb">
-          <a class="style-gallery__breadcrumb-link" href="{{ routes.root_url }}">Home</a> / <a class="style-gallery__breadcrumb-link" href="{{ styles_url }}">Styles</a>{% if style.name.value != blank %} / {{ style.name.value | escape }}{% endif %}
-        </p>
-      </div>
-    {%- endif -%}
+      {%- endif -%}
+      <p class="style-gallery__breadcrumb">
+        <a class="style-gallery__breadcrumb-link" href="{{ routes.root_url }}">Home</a> / <a class="style-gallery__breadcrumb-link" href="{{ styles_url }}">Styles</a>{% if style.name.value != blank %} / {{ style.name.value | escape }}{% endif %}
+      </p>
+    </div>
 
     <div class="style-gallery__header">
       <div class="style-gallery__header-col">
@@ -229,6 +229,21 @@
       aspect-ratio: 1440 / 432;
       margin-bottom: 48px;
     }
+  }
+
+  .style-gallery__banner--no-image {
+    aspect-ratio: auto;
+    padding: 24px 32px;
+  }
+
+  @media (min-width: 750px) {
+    .style-gallery__banner--no-image {
+      padding: 24px 96px;
+    }
+  }
+
+  .style-gallery__banner--no-image .style-gallery__breadcrumb {
+    position: static;
   }
 
   .style-gallery__banner-image {

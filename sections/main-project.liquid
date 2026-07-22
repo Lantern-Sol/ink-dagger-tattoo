@@ -48,13 +48,22 @@
     assign description_right = style_entry.collection_description.value
 
     assign kind_text = section.settings.style_kind_label | default: 'Style'
+
+    assign artist_caption_segment = ''
     if artist != blank and artist.name.value != blank
-      assign caption_text = artist.name.value | append: ' / ' | append: kind_text
+      assign artist_caption_segment = artist.name.value | escape
+      if artist.system.url != blank
+        assign artist_caption_segment = '<a href="' | append: artist.system.url | append: '">' | append: artist_caption_segment | append: '</a>'
+      endif
+    endif
+
+    if artist_caption_segment != blank
+      assign caption_text = artist_caption_segment | append: ' / ' | append: kind_text
     else
       assign caption_text = kind_text
     endif
     if heading != blank
-      assign caption_text = caption_text | append: ' / ' | append: heading
+      assign caption_text = caption_text | append: ' / ' | append: heading | escape
     endif
 
     # The artist's name inside the opening description renders as a link —
@@ -210,20 +219,29 @@
     # no dangling separators.
     assign caption_text = ''
     if artist != blank and artist.name.value != blank
-      assign caption_text = artist.name.value
+      assign caption_text = artist.name.value | escape
+      if artist.system.url != blank
+        assign caption_text = '<a href="' | append: artist.system.url | append: '">' | append: caption_text | append: '</a>'
+      endif
     endif
     if project.kind.value != blank
+      assign kind_escaped = project.kind.value | escape
+      if artist != blank and artist.system.url != blank
+        assign kind_query_value = project.kind.value | url_encode
+        assign kind_escaped = '<a href="' | append: artist.system.url | append: '?kind=' | append: kind_query_value | append: '">' | append: kind_escaped | append: '</a>'
+      endif
       if caption_text != blank
-        assign caption_text = caption_text | append: ' / ' | append: project.kind.value
+        assign caption_text = caption_text | append: ' / ' | append: kind_escaped
       else
-        assign caption_text = project.kind.value
+        assign caption_text = kind_escaped
       endif
     endif
     if project.name.value != blank
+      assign name_escaped = project.name.value | escape
       if caption_text != blank
-        assign caption_text = caption_text | append: ' / ' | append: project.name.value
+        assign caption_text = caption_text | append: ' / ' | append: name_escaped
       else
-        assign caption_text = project.name.value
+        assign caption_text = name_escaped
       endif
     endif
 
@@ -261,7 +279,7 @@
     <div class="project-banner">
       {{ style_banner_html }}
       {%- if caption_text != blank -%}
-        <p class="project-banner__caption">{{ caption_text | escape }}</p>
+        <p class="project-banner__caption">{{ caption_text }}</p>
       {%- endif -%}
     </div>
   {%- endif -%}
@@ -277,7 +295,7 @@
         alt: project.name.value | escape
     }}
     {%- if caption_text != blank -%}
-      <p class="project-banner__caption">{{ caption_text | escape }}</p>
+      <p class="project-banner__caption">{{ caption_text }}</p>
     {%- endif -%}
   </div>
 {%- endif -%}
@@ -441,6 +459,14 @@
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.15em;
+  }
+  .project-banner__caption a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .project-banner__caption a:hover,
+  .project-banner__caption a:focus-visible {
+    text-decoration: underline;
   }
   @media (min-width: 750px) {
     .project-banner__caption {

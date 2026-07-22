@@ -165,17 +165,25 @@
         var tabs = Array.from(tabsWrap.querySelectorAll('.artist-portfolio__tab'));
         var items = Array.from(grid.querySelectorAll('.artist-portfolio__item'));
 
-        tabs.forEach(function (tab) {
-          tab.addEventListener('click', function () {
-            tabs.forEach(function (t) { t.classList.remove('artist-portfolio__tab--active'); });
-            tab.classList.add('artist-portfolio__tab--active');
+        function activateTab(tab) {
+          tabs.forEach(function (t) { t.classList.remove('artist-portfolio__tab--active'); });
+          tab.classList.add('artist-portfolio__tab--active');
 
-            var kind = tab.dataset.kind;
-            items.forEach(function (item) {
-              item.style.display = (kind === 'all' || item.dataset.kind === kind) ? '' : 'none';
-            });
+          var kind = tab.dataset.kind;
+          items.forEach(function (item) {
+            item.style.display = (kind === 'all' || item.dataset.kind === kind) ? '' : 'none';
           });
+        }
+
+        tabs.forEach(function (tab) {
+          tab.addEventListener('click', function () { activateTab(tab); });
         });
+
+        var requestedKind = new URLSearchParams(window.location.search).get('kind');
+        if (requestedKind) {
+          var requestedTab = tabsWrap.querySelector('[data-kind="' + CSS.escape(requestedKind) + '"]');
+          if (requestedTab) activateTab(requestedTab);
+        }
       })();
     </script>
   {%- endif -%}
@@ -381,8 +389,7 @@
     box-sizing: border-box;
   }
   @media (min-width: 750px) { .artist-portfolio__card { gap: 24px; padding-bottom: 24px; } }
-  .artist-portfolio__image { aspect-ratio: 1; overflow: hidden; border-radius: 6px 6px 0 0; }
-  @media (min-width: 750px) { .artist-portfolio__image { aspect-ratio: auto; height: 392px; } }
+  .artist-portfolio__image { aspect-ratio: 3 / 4; overflow: hidden; border-radius: 6px 6px 0 0; }
   .artist-portfolio__image img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .artist-portfolio__info { display: flex; align-items: flex-end; justify-content: space-between; gap: 0.5rem; padding-inline: 16px; }
   @media (min-width: 750px) { .artist-portfolio__info { padding-inline: 24px; } }
