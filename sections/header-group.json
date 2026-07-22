@@ -139,6 +139,7 @@
         "actions_font_size": "0.875rem",
         "actions_font": "body",
         "actions_text_case": "none",
+        "active_link_color": "{{ settings.color_palette.foreground }}",
         "background_color_top": "#1d1616",
         "text_color_top": "#f8f5ed",
         "background_color_bottom": "",
