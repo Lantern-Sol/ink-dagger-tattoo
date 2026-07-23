@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main-blog-post-alternate": {
@@ -7,8 +16,8 @@
         "show_tag_pill": true,
         "show_byline": true,
         "toggle_overlay": true,
-        "overlay_color": "#111009e6",
-        "overlay_style": "gradient",
+        "overlay_color": "#111009CC",
+        "overlay_style": "solid",
         "gradient_direction": "to top",
         "banner_height": 432,
         "banner_height_mobile": 320,
@@ -17,8 +26,8 @@
         "author_link_label": "View artist page",
         "author_card_background": "#f8f5ed",
         "author_card_border": "#1d1616",
-        "content_text_color": "",
-        "content_max_width": 700,
+        "content_text_color": "{{ settings.color_palette.background }}",
+        "content_max_width": 900,
         "background_color": "#f8f5ed",
         "padding-block-start": 0,
         "padding-block-end": 0,
@@ -29,7 +38,6 @@
     },
     "main-blog-post": {
       "type": "main-blog-post",
-      "disabled": true,
       "blocks": {
         "blog-post-title": {
           "type": "text",
@@ -133,6 +141,7 @@
         "blog-post-image",
         "blog-post-content"
       ],
+      "disabled": true,
       "settings": {
         "content_direction": "column",
         "gap": 32,
