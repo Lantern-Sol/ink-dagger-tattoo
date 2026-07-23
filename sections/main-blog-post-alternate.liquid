@@ -1,0 +1,572 @@
+{%- comment -%}
+  Alternate rendering of an article ("blog post") page — adds a full-bleed
+  image banner (breadcrumb / title / byline / tag pill) and an optional
+  "Written by" author card ahead of the article body + native comments.
+
+  The author card only renders when article.author matches an `artist`
+  metaobject's name field exactly (case-sensitive) — this is a simple string
+  match, not a metafield reference, so merchants just need to type the
+  artist's exact name into the article's Author field to get the card.
+{%- endcomment -%}
+
+{%- liquid
+  assign first_tag = ''
+  if article.tags.size > 0
+    assign first_tag = article.tags | first
+  endif
+
+  assign matched_artist = null
+  if article.author != blank
+    paginate shop.metaobjects.artist.values by 250
+      for a in shop.metaobjects.artist.values
+        if a.name.value == article.author
+          assign matched_artist = a
+          break
+        endif
+      endfor
+    endpaginate
+  endif
+
+  assign show_author_card = false
+  if matched_artist != blank and section.settings.show_author_card
+    assign show_author_card = true
+  endif
+
+  assign author_subtitle = ''
+  if show_author_card
+    assign specialties = matched_artist.specialty.value | split: ','
+    assign first_specialty = specialties | first | strip
+    if first_specialty != blank
+      # "Resident Artist" is a fixed label, not a metaobject field — the shop
+      # has no guest-artist distinction on the artist metaobject yet.
+      assign author_subtitle = first_specialty | append: ' · Resident Artist'
+    endif
+  endif
+
+  # Liquid's `if` doesn't support parenthesized grouping, so compound
+  # conditions are precomputed as booleans here rather than inline below.
+  assign has_breadcrumb = false
+  if blog.title != blank or first_tag != blank
+    assign has_breadcrumb = true
+  endif
+
+  assign has_byline = false
+  if article.published_at or article.author != blank
+    assign has_byline = true
+  endif
+-%}
+
+<div
+  class="blog-post-alt spacing-style"
+  style="
+    background-color: {{ section.settings.background_color | default: '#f8f5ed' }};
+    --blog-post-alt-content-max-width: {{ section.settings.content_max_width }}px;
+    {% render 'spacing-style', settings: section.settings %}
+  "
+>
+
+  {%- if article.image != blank -%}
+    <header
+      class="blog-post-alt__banner"
+      style="
+        --banner-height: {{ section.settings.banner_height }}px;
+        --banner-height-mobile: {{ section.settings.banner_height_mobile }}px;
+      "
+    >
+      <div class="blog-post-alt__banner-media">
+        {{
+          article.image
+          | image_url: width: 1600
+          | image_tag:
+            loading: 'eager',
+            widths: '480, 760, 1100, 1600',
+            sizes: '100vw',
+            alt: article.image.alt | default: article.title | escape
+        }}
+        {%- liquid
+          if section.settings.toggle_overlay
+            render 'overlay', settings: section.settings
+          endif
+        -%}
+      </div>
+
+      <div class="blog-post-alt__banner-content">
+        {%- if section.settings.show_breadcrumb and has_breadcrumb -%}
+          <p class="blog-post-alt__breadcrumb">
+            <a href="{{ routes.root_url }}">Home</a>
+            {%- if blog.title != blank -%}
+              / <a href="{{ blog.url }}">{{ blog.title }}</a>
+            {%- endif -%}
+            {%- if first_tag != blank -%}
+              / <a href="{{ blog.url }}/tagged/{{ first_tag | handleize }}">{{ first_tag }}</a>
+            {%- endif -%}
+          </p>
+        {%- endif -%}
+
+        <div class="blog-post-alt__banner-group">
+          <h1 class="blog-post-alt__title">{{ article.title }}</h1>
+
+          {%- if section.settings.show_byline and has_byline -%}
+            <p class="blog-post-alt__byline">
+              {%- if article.published_at -%}
+                <span>{{ article.published_at | time_tag: format: 'date' }}</span>
+              {%- endif -%}
+              {%- if article.author != blank -%}
+                <span>By {{ article.author }}</span>
+              {%- endif -%}
+            </p>
+          {%- endif -%}
+
+          {%- if section.settings.show_tag_pill and first_tag != blank -%}
+            <a class="blog-post-alt__tag" href="{{ blog.url }}/tagged/{{ first_tag | handleize }}">
+              {{- first_tag -}}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </header>
+  {%- endif -%}
+
+  <div class="blog-post-alt__body{% unless show_author_card %} blog-post-alt__body--solo{% endunless %}">
+    <div
+      class="blog-post-alt__content rte"
+      style="
+        {% if section.settings.content_text_color != blank %}
+          --color: {{ section.settings.content_text_color }};
+        {% endif %}
+      "
+    >
+      <rte-formatter>
+        {{ article.content }}
+      </rte-formatter>
+    </div>
+
+    {%- if show_author_card -%}
+      <aside
+        class="blog-post-alt__author"
+        style="
+          --author-card-background: {{ section.settings.author_card_background | default: '#f8f5ed' }};
+          --author-card-border: {{ section.settings.author_card_border | default: '#1d1616' }};
+        "
+      >
+        <div class="blog-post-alt__author-top">
+          {%- if matched_artist.profile_image.value != blank -%}
+            <div class="blog-post-alt__author-avatar">
+              {{
+                matched_artist.profile_image.value
+                | image_url: width: 148
+                | image_tag: loading: 'lazy', widths: '74, 148', sizes: '74px', alt: matched_artist.name.value | escape
+              }}
+            </div>
+          {%- endif -%}
+
+          <div class="blog-post-alt__author-meta">
+            <span class="blog-post-alt__author-label">
+              {{- section.settings.author_label | default: 'Written by' -}}
+            </span>
+            <p class="blog-post-alt__author-name">{{ matched_artist.name.value | escape }}</p>
+            {%- if author_subtitle != blank -%}
+              <p class="blog-post-alt__author-role">{{ author_subtitle }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- if matched_artist.summary.value != blank -%}
+          <p class="blog-post-alt__author-bio">{{ matched_artist.summary.value | escape }}</p>
+        {%- endif -%}
+
+        {%- if matched_artist.system.url != blank -%}
+          <a class="blog-post-alt__author-link" href="{{ matched_artist.system.url }}">
+            {{- section.settings.author_link_label | default: 'View artist page' }}
+            <span aria-hidden="true">→</span>
+          </a>
+        {%- endif -%}
+      </aside>
+    {%- endif -%}
+  </div>
+
+  {%- if blog.comments_enabled? -%}
+    <div class="blog-post-comments-container">
+      <h2 class="h3">{{- 'blogs.article.comments_heading' | t: count: article.comments_count -}}</h2>
+
+      <div class="blog-post-comments">
+        {% paginate article.comments by 10 %}
+          {% for comment in article.comments %}
+            <div class="blog-post-comment">
+              {{ comment.content }}
+              <div class="blog-post-comment__author">
+                <span class="blog-post-comment__author-name">{{- comment.author -}}</span>
+                <span>{{- 'blogs.article.comment_author_separator' | t -}}</span>
+                <span class="blog-post-comment__date">
+                  {{- comment.created_at | time_tag: format: 'date' -}}
+                </span>
+              </div>
+            </div>
+          {% endfor %}
+
+          <div class="blog-post-comments-pagination">
+            {{- paginate | default_pagination -}}
+          </div>
+        {% endpaginate %}
+      </div>
+
+      {% render 'blog-comment-form', article: article, section_id: section.id %}
+    </div>
+  {%- endif -%}
+</div>
+
+<script type="application/ld+json">
+  {{ article | structured_data }}
+</script>
+
+{%- style -%}
+  .blog-post-alt { display: flex; flex-direction: column; }
+
+  /* Banner */
+  .blog-post-alt__banner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: var(--banner-height-mobile, 320px);
+    padding: 32px;
+    box-sizing: border-box;
+    overflow: clip;
+  }
+  @media (min-width: 750px) {
+    .blog-post-alt__banner { min-height: var(--banner-height, 432px); padding: 64px 96px; }
+  }
+  .blog-post-alt__banner-media { position: absolute; inset: 0; z-index: 0; }
+  .blog-post-alt__banner-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .blog-post-alt__banner-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 10px;
+    max-width: 42rem;
+  }
+  /* Mobile: breadcrumb stays put near the top, the group auto-pushes to the
+     bottom — works whether or not the breadcrumb is present/enabled. */
+  .blog-post-alt__banner-group { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
+  @media (min-width: 750px) {
+    /* Desktop: breadcrumb + group sit together at the bottom. */
+    .blog-post-alt__banner-content { justify-content: flex-end; gap: 24px; }
+    .blog-post-alt__banner-group { gap: 24px; margin-top: 0; }
+  }
+  .blog-post-alt__breadcrumb {
+    margin: 0;
+    color: #ce5454;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  @media (min-width: 750px) { .blog-post-alt__breadcrumb { letter-spacing: 0.18em; } }
+  .blog-post-alt__breadcrumb a { color: inherit; text-decoration: none; }
+  .blog-post-alt__breadcrumb a:hover { text-decoration: underline; }
+  .blog-post-alt__title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: 400;
+    color: #f8f5ed;
+    font-size: 1.75rem;
+    letter-spacing: -0.03em;
+  }
+  @media (min-width: 750px) { .blog-post-alt__title { font-size: 4.125rem; letter-spacing: -0.02em; line-height: 1.06; } }
+  .blog-post-alt__byline { margin: 0; display: flex; gap: 24px; color: rgba(248, 245, 237, 0.82); font-size: 1rem; flex-wrap: wrap; }
+  .blog-post-alt__tag {
+    align-self: flex-start;
+    border: 2px solid #f8f5ed;
+    border-radius: 99px;
+    padding: 2px 24px;
+    color: #f8f5ed;
+    font-style: italic;
+    font-size: 0.875rem;
+    text-decoration: none;
+  }
+  @media (min-width: 750px) { .blog-post-alt__tag { font-size: 1.125rem; } }
+
+  /* Body */
+  .blog-post-alt__body { display: flex; flex-direction: column; gap: 32px; padding: 32px; }
+  @media (min-width: 750px) { .blog-post-alt__body { flex-direction: row; align-items: flex-start; gap: 24px; padding: 80px 202px; } }
+  .blog-post-alt__body--solo .blog-post-alt__content { margin-inline: auto; }
+  .blog-post-alt__content {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: var(--blog-post-alt-content-max-width, 700px);
+    color: var(--color, inherit);
+  }
+  .blog-post-alt__content a { color: currentcolor; }
+  .blog-post-alt__content li { line-height: 2.3; }
+  .blog-post-alt__content blockquote {
+    border-left: 3px solid #ce5454;
+    margin: 0;
+    padding: 6px 0 6px 31px;
+    font-family: var(--font-heading--family);
+    font-size: 1.35rem;
+  }
+
+  .blog-post-alt__author {
+    flex: 0 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 40px;
+    background: var(--author-card-background, #f8f5ed);
+    border: 2px solid var(--author-card-border, #1d1616);
+    border-radius: 16px;
+    box-shadow: 8px 8px 0 0 var(--author-card-border, #1d1616);
+  }
+  @media (min-width: 750px) {
+    .blog-post-alt__author { width: 26rem; position: sticky; top: 32px; align-self: flex-start; }
+  }
+  .blog-post-alt__author-top { display: flex; align-self: flex-start; gap: 16px; align-items: center; }
+  @media (min-width: 750px) { .blog-post-alt__author-top { gap: 32px; } }
+  .blog-post-alt__author-avatar { flex-shrink: 0; width: 74px; height: 74px; border-radius: 50%; overflow: hidden; }
+  .blog-post-alt__author-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .blog-post-alt__author-meta { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  @media (min-width: 750px) { .blog-post-alt__author-meta { gap: 8px; } }
+  .blog-post-alt__author-label { color: #ce5454; font-weight: 600; font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.15em; }
+  @media (min-width: 750px) { .blog-post-alt__author-label { font-size: 0.75rem; } }
+  .blog-post-alt__author-name { margin: 0; font-family: var(--font-heading--family); font-size: 0.875rem; color: #1d1616; }
+  @media (min-width: 750px) { .blog-post-alt__author-name { font-size: 1.375rem; } }
+  .blog-post-alt__author-role { margin: 0; color: #4c4546; font-weight: 600; font-size: 0.625rem; }
+  @media (min-width: 750px) { .blog-post-alt__author-role { font-size: 0.875rem; } }
+  .blog-post-alt__author-bio { margin: 0; opacity: 0.85; color: #1d1616; font-size: 1rem; line-height: 1.5; }
+  @media (min-width: 750px) { .blog-post-alt__author-bio { font-size: 1.125rem; } }
+  .blog-post-alt__author-link {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 2px solid #ce5454;
+    color: #ce5454;
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-decoration: none;
+  }
+
+  /* Comments (shared with main-blog-post.liquid) */
+  .blog-post-comments-container { width: 100%; max-width: var(--normal-content-width, 800px); margin: 0 auto; padding-inline: 32px 32px; box-sizing: border-box; }
+  .blog-post-comments { display: flex; flex-direction: column; gap: var(--gap-3xl); }
+  .blog-post-comment__author {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-2xs);
+    margin-top: var(--margin-md);
+    font-size: var(--font-size--body-sm);
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+  }
+  .blog-post-comments-pagination { display: flex; justify-content: center; gap: var(--gap-2xs); }
+  .blog-post-comments-pagination, .blog-post-comments-pagination a { color: var(--color-foreground); }
+  .blog-post-comments-pagination .current { color: var(--color-foreground); }
+  .blog-post-comments-pagination .current, .blog-post-comments-pagination a { display: block; padding: var(--padding-2xs) var(--padding-xs); }
+  .blog-post-comments-pagination .current, .blog-post-comments-pagination a:hover { border-bottom: 1px solid var(--color-foreground); }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Alternate blog post",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Banner"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show breadcrumb",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tag_pill",
+      "label": "Show tag pill",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_byline",
+      "label": "Show date / author line",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "toggle_overlay",
+      "label": "Show overlay",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "alpha": true,
+      "default": "#111009e6",
+      "visible_if": "{{ section.settings.toggle_overlay }}"
+    },
+    {
+      "type": "select",
+      "id": "overlay_style",
+      "label": "Overlay style",
+      "options": [
+        { "value": "solid", "label": "Solid" },
+        { "value": "gradient", "label": "Gradient" }
+      ],
+      "default": "gradient",
+      "visible_if": "{{ section.settings.toggle_overlay }}"
+    },
+    {
+      "type": "select",
+      "id": "gradient_direction",
+      "label": "Gradient direction",
+      "options": [
+        { "value": "to top", "label": "Up" },
+        { "value": "to bottom", "label": "Down" }
+      ],
+      "default": "to top",
+      "visible_if": "{{ section.settings.toggle_overlay and section.settings.overlay_style == 'gradient' }}"
+    },
+    {
+      "type": "range",
+      "id": "banner_height",
+      "label": "Banner height (desktop)",
+      "min": 240,
+      "max": 640,
+      "step": 8,
+      "unit": "px",
+      "default": 432
+    },
+    {
+      "type": "range",
+      "id": "banner_height_mobile",
+      "label": "Banner height (mobile)",
+      "min": 200,
+      "max": 480,
+      "step": 8,
+      "unit": "px",
+      "default": 320
+    },
+    {
+      "type": "header",
+      "content": "Author card"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author_card",
+      "label": "Show \"Written by\" card when the author matches an artist",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "author_label",
+      "label": "Author card eyebrow label",
+      "default": "Written by"
+    },
+    {
+      "type": "text",
+      "id": "author_link_label",
+      "label": "Author card link label",
+      "default": "View artist page"
+    },
+    {
+      "type": "color",
+      "id": "author_card_background",
+      "label": "Author card background",
+      "default": "#f8f5ed"
+    },
+    {
+      "type": "color",
+      "id": "author_card_border",
+      "label": "Author card border",
+      "default": "#1d1616"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "color",
+      "id": "content_text_color",
+      "label": "Content text color",
+      "placeholder": "Default"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content column max width",
+      "min": 480,
+      "max": 900,
+      "step": 10,
+      "unit": "px",
+      "default": 700
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f8f5ed"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "use_mobile_padding",
+      "label": "Use mobile padding",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start-mobile",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ section.settings.use_mobile_padding }}"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end-mobile",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ section.settings.use_mobile_padding }}"
+    }
+  ],
+  "presets": []
+}
+{% endschema %}
