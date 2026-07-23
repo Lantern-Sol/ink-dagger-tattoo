@@ -1,6 +1,6 @@
 {%- comment -%}
   Renders an "artist" metaobject as a full artist bio page.
-  Fields: name, specialty, summary, bio, focus, profile_image, working_portrait, projects (-> project metaobjects)
+  Fields: name, specialty, summary, bio, focus, profile_image, working_portrait, instagram, projects (-> project metaobjects)
 {%- endcomment -%}
 
 {%- liquid
@@ -9,6 +9,7 @@
   assign specialties = artist.specialty.value | split: ','
   assign projects = artist.projects.value
   assign artists_url = pages['artists'].url | default: '/pages/artists'
+  assign instagram_url = artist.instagram.value
 -%}
 
 <div
@@ -38,7 +39,7 @@
         <div class="artist-hero__group">
           <h1 class="artist-hero__name">{{ artist.name.value | escape }}</h1>
 
-          {%- if specialties != blank -%}
+          {%- if specialties != blank or instagram_url != blank -%}
             <div class="artist-hero__tags">
               {%- for tag in specialties -%}
                 {%- assign tag = tag | strip -%}
@@ -46,6 +47,20 @@
                   <span class="artist-hero__tag">{{ tag }}</span>
                 {%- endif -%}
               {%- endfor -%}
+
+              {%- if instagram_url != blank -%}
+                <a
+                  class="artist-hero__social"
+                  href="{{ instagram_url }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                >
+                  <svg class="icon-default" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    {%- render 'icon', icon: 'instagram' -%}
+                  </svg>
+                </a>
+              {%- endif -%}
             </div>
           {%- endif -%}
 
@@ -293,6 +308,18 @@
     font-size: 0.875rem;
   }
   @media (min-width: 750px) { .artist-hero__tag { font-size: 1.125rem; } }
+  .artist-hero__social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border: 2px solid #f8f5ed;
+    border-radius: 50%;
+    color: #f8f5ed;
+  }
+  .artist-hero__social svg { width: 21px; height: 21px; }
   .artist-hero__summary {
     margin: 12px 0 0;
     color: #f5f5f5;

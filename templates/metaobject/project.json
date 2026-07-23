@@ -18,6 +18,9 @@
         "gap": 64
       }
     },
+    "artist_journal": {
+      "type": "artist-journal"
+    },
     "divider_AGnngY": {
       "type": "divider",
       "name": "t:names.divider_section",
@@ -1029,6 +1032,7 @@
   },
   "order": [
     "main",
+    "artist_journal",
     "divider_AGnngY",
     "micro_faq",
     "divider_89exLX"
