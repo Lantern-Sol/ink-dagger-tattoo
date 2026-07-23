@@ -13,13 +13,28 @@
       "type": "main-project",
       "settings": {
         "artist_label": "Artist:",
+        "show_collector": false,
+        "collector_label": "Collector:",
+        "style_kind_label": "Style",
+        "style_gallery_scope": "artist",
+        "related_styles_kind_label": "Tattoo Style",
         "booking_url": "shopify://pages/booking",
         "booking_label": "Book Consultation",
         "gap": 64
       }
     },
     "artist_journal": {
-      "type": "artist-journal"
+      "type": "artist-journal",
+      "settings": {
+        "background_color": "#f8f5ed",
+        "text_color": "#1d1616",
+        "accent_color": "#ce5454",
+        "border_color": "#cfc8b9",
+        "journal_eyebrow": "On the journal",
+        "journal_heading_prefix": "Stories Featuring",
+        "journal_view_all_label": "View all posts",
+        "journal_view_all_url": "shopify://blogs/learn"
+      }
     },
     "divider_AGnngY": {
       "type": "divider",
@@ -106,6 +121,8 @@
               "type": "text",
               "settings": {
                 "text": "<p><strong>not sure where to start</strong></p>",
+                "accent_text": "",
+                "accent_color": "",
                 "mobile_text": "",
                 "width": "fit-content",
                 "max_width": "normal",
@@ -150,6 +167,8 @@
               "name": "t:names.heading",
               "settings": {
                 "text": "<p>We’ll guide you to the right artist</p>",
+                "accent_text": "",
+                "accent_color": "",
                 "mobile_text": "",
                 "width": "fit-content",
                 "max_width": "normal",
@@ -319,6 +338,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p><em>01</em></p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -362,6 +383,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>Tell us your idea</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -405,6 +428,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>Share what you have in mind — style, placement, size, or reference images. Nothing is too vague.</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -515,6 +540,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p><em>02</em></p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -558,6 +585,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>We match you</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -601,6 +630,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>Our team reviews your vision and pairs you with the artist whose portfolio best fits your concept.</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -711,6 +742,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p><em>03</em></p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -754,6 +787,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>What type of tattoo<br/>should I select?</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
@@ -797,6 +832,8 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>Meet your artist, discuss the design, and get a quote — with 0 pressure and 0 commitment.</p>",
+                    "accent_text": "",
+                    "accent_color": "",
                     "mobile_text": "",
                     "width": "100%",
                     "max_width": "normal",
