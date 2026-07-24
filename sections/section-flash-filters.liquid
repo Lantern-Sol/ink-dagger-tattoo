@@ -24,7 +24,8 @@
   assign excluded_match = ',' | append: excluded_tags | append: ','
 -%}
 
-{% if collection != blank and collection.all_tags.size > 0 %}
+{% if collection != blank %}
+  {% if collection.all_tags.size > 0 %}
   <div class="flash-filters flash-filters-{{ section.id }}" id="flash-filters-{{ section.id }}">
     <div class="flash-filters__inner">
       {% if section.settings.label != blank %}
@@ -52,6 +53,7 @@
       </ul>
     </div>
   </div>
+  {% endif %}
 
   <script>
     (function () {
@@ -60,9 +62,7 @@
       var loadMoreLabel = {{ section.settings.load_more_label | default: 'Load more designs' | json }};
       var loadingLabel = {{ section.settings.loading_label | default: 'Loading…' | json }};
       var bar = document.getElementById('flash-filters-' + sectionId);
-      if (!bar) return;
-
-      var pills = Array.from(bar.querySelectorAll('.flash-filters__pill'));
+      var pills = bar ? Array.from(bar.querySelectorAll('.flash-filters__pill')) : [];
       var activeTag = null;
       var currentPage = 1;
       var lastPage = 1;
