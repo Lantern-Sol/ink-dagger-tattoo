@@ -3550,79 +3550,11 @@
         "padding-inline-start-mobile": 20,
         "padding-inline-end-mobile": 20
       }
-    },
-    "flash_sizing_disclaimer": {
-      "type": "section",
-      "blocks": {
-        "text_flash_disclaimer": {
-          "type": "text",
-          "name": "Sizing disclaimer",
-          "settings": {
-            "text": "<p>Sizing down keeps the price the same. Sizing up increases the price and is arranged with our support team at scheduling — not the artist.</p>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "paragraph",
-            "font": "var(--font-body--family)",
-            "font_size": "0.875rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "type_preset_mobile": "custom",
-            "mobile_font_size": "0.8125rem",
-            "mobile_custom_line_height": 1.5,
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "text_flash_disclaimer"
-      ],
-      "name": "Sizing disclaimer",
-      "settings": {
-        "content_direction": "row",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "center",
-        "vertical_alignment": "center",
-        "gap": 64,
-        "use_mobile_gap": true,
-        "mobile_gap": 8,
-        "section_width": "page-width",
-        "section_height": "custom",
-        "section_height_custom": 0,
-        "background_media": "none",
-        "background_color": "{{ settings.color_palette.color1 }}",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_color": "",
-        "border_radius": 0,
-        "hide_on_mobile": false,
-        "hide_on_desktop": false,
-        "padding-block-start": 20,
-        "padding-block-end": 20,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0,
-        "use_mobile_padding": true,
-        "padding-block-start-mobile": 16,
-        "padding-block-end-mobile": 16,
-        "padding-inline-start-mobile": 32,
-        "padding-inline-end-mobile": 32
-      }
     }
   },
   "order": [
     "hero",
     "flash-filters",
-    "flash_sizing_disclaimer",
     "main",
     "micro_faq",
     "testimonials",
