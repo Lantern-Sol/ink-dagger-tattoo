@@ -38,19 +38,7 @@
   </label>
 {% endcapture %}
 
-<div
-  class="spacing-style"
-  style="{% render 'spacing-style', settings: block_settings %}"
-  {{ block.shopify_attributes }}
->
-  {% if block_settings.property_heading != blank %}
-    <p
-      class="__heading"
-    >
-      {{ block_settings.property_heading | escape }}
-    </p>
-  {% endif %}
-
+{%- capture property_body -%}
   {% if block_settings.property_description != blank %}
     <p
       class="__description"
@@ -110,7 +98,39 @@
       </div>
     {% endif %}
   </div>
-</div>
+{%- endcapture -%}
+
+{% if block_settings.collapsible %}
+  <details
+    class="custom-property-disclosure spacing-style"
+    style="{% render 'spacing-style', settings: block_settings %}"
+    {{ block.shopify_attributes }}
+  >
+    <summary class="__summary">
+      <span class="__summary-label">
+        {{ block_settings.property_heading | default: block_settings.property_key | escape }}
+      </span>
+    </summary>
+    <div class="__disclosure-body">
+      {{ property_body }}
+    </div>
+  </details>
+{% else %}
+  <div
+    class="spacing-style"
+    style="{% render 'spacing-style', settings: block_settings %}"
+    {{ block.shopify_attributes }}
+  >
+    {% if block_settings.property_heading != blank %}
+      <p
+        class="__heading"
+      >
+        {{ block_settings.property_heading | escape }}
+      </p>
+    {% endif %}
+    {{ property_body }}
+  </div>
+{% endif %}
 
 {% stylesheet %}
   product-custom-property-component {
@@ -180,8 +200,42 @@
 
   product-custom-property-component .__character-count {
     font-style: italic;
+    font-size: 0.75rem;
     /* stylelint-disable-next-line declaration-no-important */
     color: var(--color-input-text) !important;
+  }
+
+  product-custom-property-component .custom-property-disclosure > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--padding-sm);
+    cursor: pointer;
+    list-style: none;
+    font-weight: 500;
+  }
+
+  product-custom-property-component .custom-property-disclosure > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  product-custom-property-component .custom-property-disclosure > summary::after {
+    content: "";
+    flex: 0 0 auto;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+  }
+
+  product-custom-property-component .custom-property-disclosure[open] > summary::after {
+    transform: rotate(-135deg);
+  }
+
+  product-custom-property-component .custom-property-disclosure > .__disclosure-body {
+    margin-block-start: var(--padding-md);
   }
 
   /* We should consolidate input styles that share the same behavior */
@@ -232,6 +286,13 @@
       "label": "t:settings.product_custom_property.key",
       "default": "t:settings.product_custom_property.default_property_key",
       "info": "t:settings.product_custom_property.key_info"
+    },
+    {
+      "type": "checkbox",
+      "id": "collapsible",
+      "label": "Collapse into a dropdown",
+      "info": "Hides the field behind its heading; buyers click to expand it.",
+      "default": false
     },
     {
       "type": "header",

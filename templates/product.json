@@ -215,6 +215,25 @@
               },
               "block_order": []
             },
+            "flash_size_request": {
+              "type": "product-custom-property",
+              "name": "Larger size request",
+              "settings": {
+                "property_heading": "Want it larger?",
+                "property_description": "Sizing down keeps the price the same. Sizing up increases the price and is arranged with our support team at scheduling — not the artist.",
+                "property_key": "Requested size (inches)",
+                "collapsible": true,
+                "input_type": "text",
+                "max_length": 25,
+                "required": false,
+                "placeholder": "e.g. 9\"",
+                "padding-block-start": 8,
+                "padding-block-end": 8,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
             "text_aEtTtq": {
               "type": "text",
               "name": "Product description",
@@ -245,6 +264,7 @@
             "group_icgrde",
             "divider_VJhene",
             "variant_picker_R3rGDr",
+            "flash_size_request",
             "buy_buttons_eYQEYi",
             "text_aEtTtq"
           ]
