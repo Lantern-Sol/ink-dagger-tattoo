@@ -220,38 +220,14 @@
               "name": "Larger size request",
               "settings": {
                 "property_heading": "Want it larger?",
-                "property_description": "Sizes can go up from the suggested size. Enter your desired size in inches and our team will confirm pricing with you at scheduling.",
+                "property_description": "Sizing down keeps the price the same. Sizing up increases the price and is arranged with our support team at scheduling — not the artist.",
                 "property_key": "Requested size (inches)",
+                "collapsible": true,
                 "input_type": "text",
                 "max_length": 25,
                 "required": false,
                 "placeholder": "e.g. 9\"",
                 "padding-block-start": 8,
-                "padding-block-end": 8,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "flash_sizing_disclaimer": {
-              "type": "text",
-              "name": "Sizing disclaimer",
-              "settings": {
-                "text": "<p>Sizing down keeps the price the same. Sizing up increases the price and is arranged with our support team at scheduling — not the artist.</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "0.875rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
                 "padding-block-end": 8,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
@@ -289,7 +265,6 @@
             "divider_VJhene",
             "variant_picker_R3rGDr",
             "flash_size_request",
-            "flash_sizing_disclaimer",
             "buy_buttons_eYQEYi",
             "text_aEtTtq"
           ]
