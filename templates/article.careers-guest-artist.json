@@ -720,7 +720,7 @@
                   "name": "t:names.button",
                   "settings": {
                     "label": "Apply now",
-                    "link": "#",
+                    "link": "#form-builder",
                     "open_in_new_tab": true,
                     "style_class": "button-secondary",
                     "custom_button_background": "{{ settings.color_palette.foreground }}",
