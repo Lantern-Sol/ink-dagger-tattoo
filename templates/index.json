@@ -3348,7 +3348,7 @@
         "multicolumn_border_animation": false,
         "hide_on_mobile": false,
         "hide_on_desktop": false,
-        "padding-block-start": 32,
+        "padding-block-start": 64,
         "padding-block-end": 32,
         "padding-inline-start": 0,
         "padding-inline-end": 0,
