@@ -581,6 +581,12 @@
     min-height: calc(var(--hero-min-height) - var(--hero-height-offset));
   }
 
+  @media screen and (min-width: 640px) and (pointer: coarse) {
+    .hero {
+      min-height: min(calc(var(--hero-min-height) - var(--hero-height-offset)), 650px);
+    }
+  }
+
   .hero[data-shopify-visual-preview] {
     --hero-min-height: 600px;
 

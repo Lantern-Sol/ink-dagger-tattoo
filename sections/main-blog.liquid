@@ -605,6 +605,16 @@
     background-color: var(--tab-active-bg, var(--tab-bg));
   }
 
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .blog-category-tabs {
+      padding: 8px 32px;
+    }
+
+    .blog-category-tabs__list {
+      margin-inline-end: -32px;
+    }
+  }
+
   @media screen and (max-width: 749px) {
     .blog-category-tabs-band {
       margin-block-end: var(--tabs-band-spacing-mobile, 24px);
