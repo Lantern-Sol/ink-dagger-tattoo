@@ -76,6 +76,7 @@
     "cart_price_font": "subheading",
     "show_cart_note": false,
     "show_add_discount_code": true,
+    "empty_cart_button_link": "shopify://collections/flash-library",
     "icon_stroke": "default",
     "palette_input_border": "{{ settings.color_palette.foreground }}",
     "input_border_width": 3,
