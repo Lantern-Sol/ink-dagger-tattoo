@@ -720,7 +720,7 @@
                   "name": "t:names.button",
                   "settings": {
                     "label": "Apply now",
-                    "link": "#",
+                    "link": "#shopify-section-template--22443153391801__section_HowToApply",
                     "open_in_new_tab": true,
                     "style_class": "button-secondary",
                     "custom_button_background": "{{ settings.color_palette.foreground }}",
