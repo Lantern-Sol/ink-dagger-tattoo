@@ -1,6 +1,6 @@
 import { Component } from '@theme/component';
 import { fetchConfig } from '@theme/utilities';
-import { CartAddEvent, CartUpdateEvent } from '@theme/events';
+import { CartLinesUpdateEvent } from '@shopify/events';
 
 const COOKIE_NAME = 'bm_bundle';
 const COOKIE_DAYS = 365;
@@ -877,7 +877,7 @@ class BuildABoxSection extends Component {
   }
 
   /**
-   * POST a single line to /cart/add.js and dispatch CartAdd/CartUpdate so the
+   * POST a single line to /cart/add.js and dispatch CartLinesUpdateEvent so the
    * theme's cart-drawer (and bubble) refresh.
    *
    * @param {number} variantId
@@ -903,21 +903,28 @@ class BuildABoxSection extends Component {
       throw new Error(data.message || 'cart/add failed');
     }
 
+    const deferredEventPromise = CartLinesUpdateEvent.createPromise();
+
     this.dispatchEvent(
-      new CartAddEvent({}, String(variantId), {
+      new CartLinesUpdateEvent({
+        action: 'add',
+        context: 'build-a-box-modal',
+        lines: [{ merchandiseId: String(variantId), quantity }],
+        promise: deferredEventPromise.promise,
+      })
+    );
+
+    deferredEventPromise.resolve({
+      cart: CartLinesUpdateEvent.createCartFromAjaxResponse(data),
+      detail: {
+        items: data.items,
         source: 'build-a-box-modal',
+        sourceId: String(variantId),
         itemCount: quantity,
         productId: String(variantId),
         sections: data.sections,
-      })
-    );
-    document.dispatchEvent(
-      new CartUpdateEvent(data, String(variantId), {
-        source: 'build-a-box-modal',
-        itemCount: quantity,
-        sections: data.sections,
-      })
-    );
+      },
+    });
 
     return data;
   }
@@ -1138,20 +1145,27 @@ class BundleBar extends Component {
       BundleStore.clear();
 
       const totalCount = items.length;
+      const deferredEventPromise = CartLinesUpdateEvent.createPromise();
+
       this.dispatchEvent(
-        new CartAddEvent({}, this.id || 'bundle-bar', {
-          source: 'bundle-bar',
-          itemCount: totalCount,
-          sections: data.sections,
+        new CartLinesUpdateEvent({
+          action: 'add',
+          context: 'bundle-bar',
+          lines: items.map((item) => ({ merchandiseId: String(item.variant_id), quantity: 1 })),
+          promise: deferredEventPromise.promise,
         })
       );
-      document.dispatchEvent(
-        new CartUpdateEvent(data, this.id || 'bundle-bar', {
+
+      deferredEventPromise.resolve({
+        cart: CartLinesUpdateEvent.createCartFromAjaxResponse(data),
+        detail: {
+          items: data.items,
           source: 'bundle-bar',
+          sourceId: this.id || 'bundle-bar',
           itemCount: totalCount,
           sections: data.sections,
-        })
-      );
+        },
+      });
 
       const drawer = /** @type {any} */ (document.querySelector('cart-drawer-component'));
       if (drawer?.showDialog) drawer.showDialog();
