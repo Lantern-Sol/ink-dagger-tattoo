@@ -2215,9 +2215,9 @@
                           "type": "text",
                           "name": "t:names.text",
                           "settings": {
-                            "text": "<p><strong>Recommended</strong></p>",
+                            "text": "<p><strong>Required</strong></p>",
                             "accent_text": "",
-                            "accent_color": "",
+                            "accent_color": "{{ settings.color_palette.foreground }}",
                             "mobile_text": "",
                             "width": "fit-content",
                             "max_width": "normal",
