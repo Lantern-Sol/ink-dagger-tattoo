@@ -46,6 +46,7 @@
             "aspect_ratio": "adapt",
             "constrain_to_viewport": true,
             "media_fit": "contain",
+            "media_background_color": "{{ settings.color_palette.color1 }}",
             "media_radius": 0,
             "extend_media": false,
             "zoom": true,
