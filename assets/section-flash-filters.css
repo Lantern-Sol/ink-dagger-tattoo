@@ -23,7 +23,9 @@
 
 .flash-filters__list {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
   list-style: none;
   margin: 0;
@@ -69,18 +71,10 @@
   }
 
   .flash-filters__list {
+    flex-wrap: wrap;
     gap: 0.5rem;
     width: 100%;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
     padding-inline: 2rem;
-    scroll-padding-inline: 2rem;
-    padding-block-end: 0.125rem;
-  }
-
-  .flash-filters__list::-webkit-scrollbar {
-    display: none;
   }
 
   .flash-filters__label {
