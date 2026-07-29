@@ -56,16 +56,29 @@
         <div class="artist-cards__filter-categories" id="artist-filter-categories-{{ section.id }}">
           {%- for cat in style_categories -%}
             {%- assign subcategory_list = '' -%}
+            {%- assign cat_has_artist = false -%}
             {%- for style_entry in cat.styles.value -%}
               {%- unless forloop.first -%}{%- assign subcategory_list = subcategory_list | append: ',' -%}{%- endunless -%}
               {%- assign subcategory_list = subcategory_list | append: style_entry.name.value -%}
+              {%- unless cat_has_artist -%}
+                {%- for artist_entry in artists -%}
+                  {%- assign artist_specs = artist_entry.specialty.value | split: ',' -%}
+                  {%- for spec in artist_specs -%}
+                    {%- if spec | strip == style_entry.name.value -%}
+                      {%- assign cat_has_artist = true -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endfor -%}
+              {%- endunless -%}
             {%- endfor -%}
-            <button
-              type="button"
-              class="artist-cards__filter-cat"
-              data-category="{{ cat.name.value | escape }}"
-              data-subcategories="{{ subcategory_list | escape }}"
-            >{{ cat.name.value | escape }}</button>
+            {%- if cat_has_artist -%}
+              <button
+                type="button"
+                class="artist-cards__filter-cat"
+                data-category="{{ cat.name.value | escape }}"
+                data-subcategories="{{ subcategory_list | escape }}"
+              >{{ cat.name.value | escape }}</button>
+            {%- endif -%}
           {%- endfor -%}
         </div>
       </div>
@@ -129,21 +142,6 @@
     var catBtns = Array.from(filterBar.querySelectorAll('.artist-cards__filter-cat'));
 
     if (!catBtns.length) return;
-
-    var presentSpecs = new Set();
-    cards.forEach(function (card) {
-      var raw = card.dataset.specialties || '';
-      raw.split(',').map(function (s) { return s.trim(); }).filter(Boolean).forEach(function (s) {
-        presentSpecs.add(s);
-      });
-    });
-
-    catBtns.forEach(function (btn) {
-      var subcats = parseSubcats(btn);
-      if (!subcats.some(function (s) { return presentSpecs.has(s); })) {
-        btn.style.display = 'none';
-      }
-    });
 
     var activeCategory = null;
     var activeSubcat = null;
