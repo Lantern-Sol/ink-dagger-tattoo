@@ -234,4 +234,11 @@
     color: var(--color-foreground);
     background-color: var(--color-background);
   }
+
+  {% if settings.media_background_color != blank %}
+    .card-gallery .product-media-container,
+    .card-gallery .product-media-container :is(img, .deferred-media__poster-image) {
+      background-color: {{ settings.media_background_color }};
+    }
+  {% endif %}
 {% endstyle %}

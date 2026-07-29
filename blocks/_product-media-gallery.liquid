@@ -238,6 +238,13 @@
       background-color: var(--color-background);
     }
   {% endif %}
+
+  {% if block_settings.media_background_color != blank %}
+    #shopify-section-{{ section.id }} .product-media-container,
+    #shopify-section-{{ section.id }} .product-media-container :is(img, .deferred-media__poster-image) {
+      background-color: {{ block_settings.media_background_color }};
+    }
+  {% endif %}
 {% endstyle %}
 
 {% liquid
@@ -919,6 +926,12 @@
       ],
       "default": "cover",
       "visible_if": "{{ block.settings.aspect_ratio == 'adapt' and block.settings.constrain_to_viewport == true }}"
+    },
+    {
+      "type": "color",
+      "id": "media_background_color",
+      "label": "t:settings.background_color",
+      "info": "t:info.media_background_color"
     },
     {
       "type": "range",

@@ -2416,6 +2416,12 @@
         "content": "t:settings.media"
       },
       {
+        "type": "color",
+        "id": "media_background_color",
+        "label": "t:settings.background_color",
+        "info": "t:info.media_background_color"
+      },
+      {
         "type": "checkbox",
         "id": "show_second_image_on_hover",
         "label": "t:settings.show_second_image_on_hover",

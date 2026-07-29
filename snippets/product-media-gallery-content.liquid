@@ -288,6 +288,13 @@
     }
   {% endif %}
 
+  {% if block_settings.media_background_color != blank %}
+    #shopify-section-{{ section.id }} .product-media-container,
+    #shopify-section-{{ section.id }} .product-media-container :is(img, .deferred-media__poster-image) {
+      background-color: {{ block_settings.media_background_color }};
+    }
+  {% endif %}
+
   {% capture view_transition_styles_contain %}
     ::view-transition-old(gallery-item-open),
     ::view-transition-new(gallery-item-open),
