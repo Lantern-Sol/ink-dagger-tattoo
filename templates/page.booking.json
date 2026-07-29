@@ -2217,7 +2217,7 @@
                           "settings": {
                             "text": "<p><strong>Required</strong></p>",
                             "accent_text": "",
-                            "accent_color": "{{ settings.color_palette.foreground }}",
+                            "accent_color": "",
                             "mobile_text": "",
                             "width": "fit-content",
                             "max_width": "normal",
@@ -2239,7 +2239,7 @@
                             "type_preset_mobile": "rte",
                             "mobile_font_size": "1rem",
                             "mobile_custom_line_height": 1.5,
-                            "text_color": "{{ settings.color_palette.color2 }}",
+                            "text_color": "{{ settings.color_palette.foreground }}",
                             "emphasis_color": "",
                             "background": false,
                             "background_color": "#00000026",
