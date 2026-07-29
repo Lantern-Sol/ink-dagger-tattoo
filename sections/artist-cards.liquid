@@ -64,7 +64,8 @@
                 {%- for artist_entry in artists -%}
                   {%- assign artist_specs = artist_entry.specialty.value | split: ',' -%}
                   {%- for spec in artist_specs -%}
-                    {%- if spec | strip == style_entry.name.value -%}
+                    {%- assign trimmed_spec = spec | strip -%}
+                    {%- if trimmed_spec == style_entry.name.value -%}
                       {%- assign cat_has_artist = true -%}
                     {%- endif -%}
                   {%- endfor -%}
