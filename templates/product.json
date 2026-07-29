@@ -45,7 +45,7 @@
             "thumbnail_width": 44,
             "aspect_ratio": "adapt",
             "constrain_to_viewport": true,
-            "media_fit": "contain",
+            "media_fit": "cover",
             "media_background_color": "{{ settings.color_palette.color1 }}",
             "media_radius": 0,
             "extend_media": false,
