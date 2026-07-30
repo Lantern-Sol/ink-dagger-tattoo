@@ -10,6 +10,9 @@
 {%- endcomment -%}
 
 {%- liquid
+  # Merchant-picked override wins over the article's own featured image.
+  assign banner_image = article.metafields.custom.banner_image.value | default: article.image
+
   assign first_tag = ''
   if article.tags.size > 0
     assign first_tag = article.tags | first
@@ -65,7 +68,7 @@
   "
 >
 
-  {%- if article.image != blank -%}
+  {%- if banner_image != blank -%}
     <header
       class="blog-post-alt__banner"
       style="
@@ -75,13 +78,13 @@
     >
       <div class="blog-post-alt__banner-media">
         {{
-          article.image
+          banner_image
           | image_url: width: 1600
           | image_tag:
             loading: 'eager',
             widths: '480, 760, 1100, 1600',
             sizes: '100vw',
-            alt: article.image.alt | default: article.title | escape
+            alt: banner_image.alt | default: article.title | escape
         }}
         {%- liquid
           if section.settings.toggle_overlay

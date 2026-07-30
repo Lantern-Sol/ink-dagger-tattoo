@@ -111,32 +111,42 @@
       endpaginate
     endif
   -%}
+  {%- comment -%} Merchant-picked override wins over the aggregated project banner. {%- endcomment -%}
+  {%- assign style_banner_override = style_entry.banner_image.value -%}
   {%- capture style_banner_html -%}
-    {%- paginate shop.metaobjects.project.values by 250 -%}
-      {%- for style_project in shop.metaobjects.project.values -%}
-        {%- liquid
-          if style_project.style.value.system.id != style_entry.system.id
-            continue
-          endif
-          if filter_artist != blank and style_project.artist.value.system.id != filter_artist.system.id
-            continue
-          endif
-          assign banner_image = style_project.images.value | first
-          if banner_image == blank
-            continue
-          endif
-          if banner_image.media_type == 'video'
-            assign banner_image = banner_image.preview_image
-          endif
-        -%}
-        {{ banner_image | image_url: width: 1600 | image_tag:
-          loading: 'eager',
-          widths: '480, 760, 1100, 1600',
-          sizes: '100vw',
-          alt: heading | escape }}
-        {%- break -%}
-      {%- endfor -%}
-    {%- endpaginate -%}
+    {%- if style_banner_override != blank -%}
+      {{ style_banner_override | image_url: width: 1600 | image_tag:
+        loading: 'eager',
+        widths: '480, 760, 1100, 1600',
+        sizes: '100vw',
+        alt: heading | escape }}
+    {%- else -%}
+      {%- paginate shop.metaobjects.project.values by 250 -%}
+        {%- for style_project in shop.metaobjects.project.values -%}
+          {%- liquid
+            if style_project.style.value.system.id != style_entry.system.id
+              continue
+            endif
+            if filter_artist != blank and style_project.artist.value.system.id != filter_artist.system.id
+              continue
+            endif
+            assign banner_image = style_project.images.value | first
+            if banner_image == blank
+              continue
+            endif
+            if banner_image.media_type == 'video'
+              assign banner_image = banner_image.preview_image
+            endif
+          -%}
+          {{ banner_image | image_url: width: 1600 | image_tag:
+            loading: 'eager',
+            widths: '480, 760, 1100, 1600',
+            sizes: '100vw',
+            alt: heading | escape }}
+          {%- break -%}
+        {%- endfor -%}
+      {%- endpaginate -%}
+    {%- endif -%}
   {%- endcapture -%}
   {%- assign style_banner_html = style_banner_html | strip -%}
 
@@ -193,6 +203,8 @@
     if banner.media_type == 'video'
       assign banner = banner.preview_image
     endif
+    # Merchant-picked override wins over the auto-selected first image.
+    assign banner = project.banner_image.value | default: banner
     assign style = project.style.value
     assign heading = project.name.value
     assign collector = project.collector.value

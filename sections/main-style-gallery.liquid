@@ -70,6 +70,9 @@
   {%- endfor -%}
 {%- endpaginate -%}
 
+{%- comment -%} Merchant-picked override wins over the auto-selected hero image. {%- endcomment -%}
+{%- assign hero_image = style.banner_image.value | default: hero_image -%}
+
 {%- assign gallery_items = gallery_items | shuffle -%}
 {%- assign total_count = gallery_items.size -%}
 {%- assign visible_items = gallery_items | slice: 0, initial_count -%}

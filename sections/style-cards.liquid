@@ -58,13 +58,23 @@
     <div class="style-cards__grid" id="style-cards-grid-{{ section.id }}">
       {%- for style in styles -%}
         {%- liquid
+          # Merchant-picked cover project wins over the auto-selected first match.
           assign card_image = blank
-          for project_entry in shop.metaobjects.project.values
-            if project_entry.style.value.system.id == style.system.id
-              assign card_image = project_entry.images.value | first
-              break
-            endif
-          endfor
+          assign cover_project = style.cover_project.value
+          if cover_project != blank
+            assign card_image = cover_project.images.value | first
+          endif
+          if card_image == blank
+            for project_entry in shop.metaobjects.project.values
+              if project_entry.style.value.system.id == style.system.id
+                assign card_image = project_entry.images.value | first
+                break
+              endif
+            endfor
+          endif
+          if card_image.media_type == 'video'
+            assign card_image = card_image.preview_image
+          endif
         -%}
         {%- if card_image == blank -%}
           {%- continue -%}
