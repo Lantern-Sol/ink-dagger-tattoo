@@ -45,9 +45,16 @@
         {%- liquid
           assign card_image = blank
           for style_source in shop.metaobjects.project.values
-            if style_source.style.value.system.id != style_item.system.id
+            assign has_style = false
+            for s in style_source.styles.value
+              if s.system.id == style_item.system.id
+                assign has_style = true
+                break
+              endif
+            endfor
+            unless has_style
               continue
-            endif
+            endunless
             if artist != blank and style_source.artist.value.system.id != artist.system.id
               continue
             endif
@@ -105,9 +112,19 @@
         assign cover = cover.preview_image
       endif
       assign count = count | plus: 1
-      # Card subtitle: the project's style name (falls back to its kind);
-      # never static filler text.
-      assign card_kind = related_project.style.value.name.value
+      # Card subtitle: the project's style name(s), joined when it carries
+      # more than one (falls back to its kind); never static filler text.
+      assign card_kind = ''
+      for s in related_project.styles.value
+        if s.name.value == blank
+          continue
+        endif
+        if card_kind == blank
+          assign card_kind = s.name.value
+        else
+          assign card_kind = card_kind | append: ' / ' | append: s.name.value
+        endif
+      endfor
       if card_kind == blank
         assign card_kind = related_project.kind.value
       endif
@@ -308,6 +325,8 @@
     align-items: center;
     justify-content: center;
     gap: 2rem;
+    width: 100%;
+    max-width: 100%;
   }
 
   @media (min-width: 750px) {
@@ -442,12 +461,16 @@
 
   .related-projects__dots {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   .related-projects__dots .related-projects__dot {
+    flex-shrink: 0;
     width: 8px;
     height: 8px;
     padding: 0;

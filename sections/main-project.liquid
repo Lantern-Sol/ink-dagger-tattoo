@@ -35,7 +35,14 @@
     if artist == blank
       paginate shop.metaobjects.project.values by 250
         for style_project in shop.metaobjects.project.values
-          if style_project.style.value.system.id == style_entry.system.id and style_project.artist.value != blank
+          assign has_style = false
+          for s in style_project.styles.value
+            if s.system.id == style_entry.system.id
+              assign has_style = true
+              break
+            endif
+          endfor
+          if has_style and style_project.artist.value != blank
             assign artist = style_project.artist.value
             break
           endif
@@ -94,9 +101,16 @@
     if section.settings.style_gallery_scope != 'all' and artist != blank
       paginate shop.metaobjects.project.values by 250
         for style_project in shop.metaobjects.project.values
-          if style_project.style.value.system.id != style_entry.system.id
+          assign has_style = false
+          for s in style_project.styles.value
+            if s.system.id == style_entry.system.id
+              assign has_style = true
+              break
+            endif
+          endfor
+          unless has_style
             continue
-          endif
+          endunless
           if style_project.artist.value.system.id != artist.system.id
             continue
           endif
@@ -124,9 +138,16 @@
       {%- paginate shop.metaobjects.project.values by 250 -%}
         {%- for style_project in shop.metaobjects.project.values -%}
           {%- liquid
-            if style_project.style.value.system.id != style_entry.system.id
+            assign has_style = false
+            for s in style_project.styles.value
+              if s.system.id == style_entry.system.id
+                assign has_style = true
+                break
+              endif
+            endfor
+            unless has_style
               continue
-            endif
+            endunless
             if filter_artist != blank and style_project.artist.value.system.id != filter_artist.system.id
               continue
             endif
@@ -159,9 +180,16 @@
     {%- paginate shop.metaobjects.project.values by 250 -%}
       {%- for style_project in shop.metaobjects.project.values -%}
         {%- liquid
-          if style_project.style.value.system.id != style_entry.system.id
+          assign has_style = false
+          for s in style_project.styles.value
+            if s.system.id == style_entry.system.id
+              assign has_style = true
+              break
+            endif
+          endfor
+          unless has_style
             continue
-          endif
+          endunless
           if filter_artist != blank and style_project.artist.value.system.id != filter_artist.system.id
             continue
           endif
@@ -205,25 +233,50 @@
     endif
     # Merchant-picked override wins over the auto-selected first image.
     assign banner = project.banner_image.value | default: banner
-    assign style = project.style.value
+    assign styles = project.styles.value
     assign heading = project.name.value
     assign collector = project.collector.value
 
-    # Reverse-lookup the style's parent category (same technique as style-cards.liquid / artist-cards.liquid)
-    assign style_category = blank
-    if style != blank
+    # Build the style + parent-category pill row directly as HTML — a
+    # project can carry more than one style now, and two styles sharing a
+    # category (or a style whose own name matches its category's name,
+    # e.g. "Black & Gray") should only render that pill once.
+    assign seen_pill_names = ''
+    assign style_tags_html = ''
+    for style_item in styles
+      if style_item.name.value == blank
+        continue
+      endif
+      assign seen_pill_names = seen_pill_names | append: style_item.name.value | append: '||'
+      assign safe_name = style_item.name.value | escape
+      assign style_tags_html = style_tags_html | append: '<span class="project-header__tag">' | append: safe_name | append: '</span>'
+    endfor
+
+    assign category_tags_html = ''
+    assign seen_category_ids = ''
+    for style_item in styles
       for cat in shop.metaobjects.style_category.values
+        if seen_category_ids contains cat.system.id
+          continue
+        endif
+        if cat.name.value == blank or seen_pill_names contains cat.name.value
+          continue
+        endif
+        assign cat_matches = false
         for cat_style in cat.styles.value
-          if cat_style.system.id == style.system.id
-            assign style_category = cat
+          if cat_style.system.id == style_item.system.id
+            assign cat_matches = true
             break
           endif
         endfor
-        if style_category != blank
-          break
-        endif
+        unless cat_matches
+          continue
+        endunless
+        assign seen_category_ids = seen_category_ids | append: cat.system.id | append: ','
+        assign safe_cat_name = cat.name.value | escape
+        assign category_tags_html = category_tags_html | append: '<span class="project-header__tag">' | append: safe_cat_name | append: '</span>'
       endfor
-    endif
+    endfor
 
     assign description = project.description.value
 
@@ -326,12 +379,9 @@
           tag row at all (no placeholder pills, no empty spans).
         {%- endcomment -%}
         {%- unless is_style -%}
-          {%- if style != blank and style.name.value != blank -%}
+          {%- if style_tags_html != blank or category_tags_html != blank -%}
             <div class="project-header__tags">
-              <span class="project-header__tag">{{ style.name.value | escape }}</span>
-              {%- if style_category != blank and style_category.name.value != blank and style_category.name.value != style.name.value -%}
-                <span class="project-header__tag">{{ style_category.name.value | escape }}</span>
-              {%- endif -%}
+              {{ style_tags_html }}{{ category_tags_html }}
             </div>
           {%- endif -%}
         {%- endunless -%}

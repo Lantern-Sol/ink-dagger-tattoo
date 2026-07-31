@@ -1,7 +1,7 @@
 {%- comment -%}
   Renders a `style` metaobject as a general style gallery: hero banner +
   title/description/CTA, every artist's work tagged with this style in one
-  shuffled grid with a zoom modal, and a "More Styles" carousel.
+  scrambled-order grid with a zoom modal, and a "More Styles" carousel.
 {%- endcomment -%}
 
 {%- liquid
@@ -9,6 +9,10 @@
   assign initial_count = 16
   assign gallery_items = ''
   assign gallery_items = gallery_items | split: '@@'
+  # The same photo can end up referenced by both a curated Gallery entry and
+  # its own individual Project entry — track which media we've already added
+  # so the same picture never shows twice in the grid.
+  assign seen_media_ids = ''
   assign hero_image = blank
   assign styles_url = pages['styles'].url | default: '/pages/styles'
 
@@ -28,20 +32,40 @@
 {%- paginate shop.metaobjects.project.values by 250 -%}
   {%- for project_entry in shop.metaobjects.project.values -%}
     {%- liquid
-      if project_entry.style.value.system.id != style.system.id
+      assign has_style = false
+      for s in project_entry.styles.value
+        if s.system.id == style.system.id
+          assign has_style = true
+          break
+        endif
+      endfor
+      unless has_style
         continue
-      endif
+      endunless
       assign entry_artist = project_entry.artist.value
+      assign entry_is_gallery = false
+      if project_entry.kind.value == 'Gallery'
+        assign entry_is_gallery = true
+      endif
     -%}
     {%- for media in project_entry.images.value -%}
       {%- if media.media_type == 'video' -%}
         {%- continue -%}
       {%- endif -%}
+      {%- liquid
+        assign media_id_token = '|' | append: media.id | append: '|'
+        if seen_media_ids contains media_id_token
+          continue
+        endif
+        assign seen_media_ids = seen_media_ids | append: media_id_token
+      -%}
       {%- if hero_image == blank -%}
         {%- assign hero_image = media -%}
       {%- endif -%}
+      {%- comment -%} No Liquid shuffle filter — sort by a scrambled key instead. {%- endcomment -%}
+      {%- assign sort_key = media.id | modulo: 900 | plus: 100 -%}
       {%- capture item_html -%}
-        <button
+        {{ sort_key }}@@SORTKEY@@<button
           type="button"
           class="style-gallery__thumb"
           on:click="/openModal"
@@ -66,6 +90,16 @@
       {%- endcapture -%}
       {%- assign item_array = item_html | split: '@@STYLE_GALLERY_ITEM@@' -%}
       {%- assign gallery_items = gallery_items | concat: item_array -%}
+      {%- comment -%}
+        Gallery-kind entries are curated multi-image batches — show every
+        image. Individual Project entries are one tattoo with several
+        documentation photos (healed/fresh/close-up); showing all of them
+        here reads as repeated images, so only the first valid one
+        represents it.
+      {%- endcomment -%}
+      {%- unless entry_is_gallery -%}
+        {%- break -%}
+      {%- endunless -%}
     {%- endfor -%}
   {%- endfor -%}
 {%- endpaginate -%}
@@ -73,7 +107,17 @@
 {%- comment -%} Merchant-picked override wins over the auto-selected hero image. {%- endcomment -%}
 {%- assign hero_image = style.banner_image.value | default: hero_image -%}
 
-{%- assign gallery_items = gallery_items | shuffle -%}
+{%- comment -%} Apply the scrambled order, then strip each item's sort-key prefix back off. {%- endcomment -%}
+{%- assign gallery_items = gallery_items | sort -%}
+{%- assign stripped_items = '' -%}
+{%- assign stripped_items = stripped_items | split: '@@' -%}
+{%- for prefixed_item in gallery_items -%}
+  {%- assign clean_item = prefixed_item | split: '@@SORTKEY@@' | last -%}
+  {%- assign clean_array = clean_item | split: '@@STYLE_GALLERY_ITEM@@' -%}
+  {%- assign stripped_items = stripped_items | concat: clean_array -%}
+{%- endfor -%}
+{%- assign gallery_items = stripped_items -%}
+
 {%- assign total_count = gallery_items.size -%}
 {%- assign visible_items = gallery_items | slice: 0, initial_count -%}
 {%- assign remaining_items = gallery_items | slice: initial_count, total_count -%}
@@ -87,10 +131,18 @@
       {%- liquid
         assign other_style_image = blank
         for project_entry in shop.metaobjects.project.values
-          if project_entry.style.value.system.id == other_style.system.id
-            assign other_style_image = project_entry.images.value | first
-            break
-          endif
+          assign matches_other_style = false
+          for s in project_entry.styles.value
+            if s.system.id == other_style.system.id
+              assign matches_other_style = true
+              break
+            endif
+          endfor
+          unless matches_other_style
+            continue
+          endunless
+          assign other_style_image = project_entry.images.value | first
+          break
         endfor
       -%}
       {%- if other_style_image == blank -%}

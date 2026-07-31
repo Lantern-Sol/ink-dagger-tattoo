@@ -66,10 +66,18 @@
           endif
           if card_image == blank
             for project_entry in shop.metaobjects.project.values
-              if project_entry.style.value.system.id == style.system.id
-                assign card_image = project_entry.images.value | first
-                break
-              endif
+              assign has_style = false
+              for project_style in project_entry.styles.value
+                if project_style.system.id == style.system.id
+                  assign has_style = true
+                  break
+                endif
+              endfor
+              unless has_style
+                continue
+              endunless
+              assign card_image = project_entry.images.value | first
+              break
             endfor
           endif
           if card_image.media_type == 'video'

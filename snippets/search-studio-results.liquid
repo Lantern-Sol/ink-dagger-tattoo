@@ -89,8 +89,16 @@
         {%- assign style_count = style_count | plus: 1 -%}
         {%- assign style_cover = blank -%}
         {%- for project_entry in shop.metaobjects.project.values -%}
-          {%- assign project_style = project_entry.style.value -%}
-          {%- if project_style != blank and project_style.system.id == style_entry.system.id -%}
+          {%- liquid
+            assign has_style = false
+            for s in project_entry.styles.value
+              if s.system.id == style_entry.system.id
+                assign has_style = true
+                break
+              endif
+            endfor
+          -%}
+          {%- if has_style -%}
             {%- assign style_cover_ref = project_entry.images.value | first -%}
             {%- assign style_cover = style_cover_ref.preview_image | default: style_cover_ref -%}
             {%- if style_cover != blank -%}{%- break -%}{%- endif -%}
