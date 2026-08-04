@@ -752,7 +752,7 @@
         "padding-block-end": 64
       }
     },
-    "carousel_WDBUxR": {
+    "carousel_83Naet": {
       "type": "carousel",
       "blocks": {
         "static-header": {
@@ -817,7 +817,7 @@
             "hide_on_desktop": false
           },
           "blocks": {
-            "text_XkcCzg": {
+            "text_ydNJRy": {
               "type": "text",
               "name": "t:names.header",
               "settings": {
@@ -865,7 +865,7 @@
             }
           },
           "block_order": [
-            "text_XkcCzg"
+            "text_ydNJRy"
           ]
         },
         "static-carousel-content": {
@@ -887,7 +887,7 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "card_k9rzQ3": {
+            "card_WgQiKA": {
               "type": "_card",
               "name": "t:names.card",
               "settings": {
@@ -916,7 +916,7 @@
                 "padding-inline-end": 0
               },
               "blocks": {
-                "group_EENrFe": {
+                "group_Hx9KqG": {
                   "type": "group",
                   "name": "t:names.group",
                   "settings": {
@@ -977,11 +977,11 @@
                     "hide_on_desktop": false
                   },
                   "blocks": {
-                    "text_GCYqLR": {
+                    "text_yKbYGY": {
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>\"Been going here for small to medium sized tattoos for years. The difference in quality to these tattoos to my earlier ones are unmatched - these artists are incredibly skilled! Shop itself is super clean and staff are all welcoming. Might take you awhile to be seen but it's worth it.\"</p>",
+                        "text": "<p>The staff and artists here are incredibly friendly and professional, and really make an effort to make sure clients have a great experience. <br/>Starting with my consultation, I walked in with a simple concept, and Stani really took the time to discuss my idea, and he came up with an initial design, completely transforming it into a beautiful realism piece. <br/>Stani is an incredible artist, and I highly recommend him if you are looking for a black and grey realism tattoo. Thank you, Stani and everyone at Ink & Dagger for an awesome experience!</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
@@ -1023,7 +1023,7 @@
                       },
                       "blocks": {}
                     },
-                    "group_JcMQaB": {
+                    "group_rj4Bc3": {
                       "type": "group",
                       "name": "t:names.group",
                       "settings": {
@@ -1084,11 +1084,11 @@
                         "hide_on_desktop": false
                       },
                       "blocks": {
-                        "image_XJC7Mg": {
+                        "image_FQdN8P": {
                           "type": "image",
                           "name": "t:names.image",
                           "settings": {
-                            "image": "shopify://shop_images/craig-brock-illustrative-02.webp",
+                            "image": "shopify://shop_images/unnamed_5.png",
                             "link": "",
                             "hide_on_mobile": false,
                             "hide_on_desktop": false,
@@ -1117,11 +1117,11 @@
                           },
                           "blocks": {}
                         },
-                        "text_eqzFfG": {
+                        "text_BqELFj": {
                           "type": "text",
                           "name": "t:names.text",
                           "settings": {
-                            "text": "<p>Maddison Bruer</p>",
+                            "text": "<p>Deanna Lenore</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -1165,22 +1165,22 @@
                         }
                       },
                       "block_order": [
-                        "image_XJC7Mg",
-                        "text_eqzFfG"
+                        "image_FQdN8P",
+                        "text_BqELFj"
                       ]
                     }
                   },
                   "block_order": [
-                    "text_GCYqLR",
-                    "group_JcMQaB"
+                    "text_yKbYGY",
+                    "group_rj4Bc3"
                   ]
                 }
               },
               "block_order": [
-                "group_EENrFe"
+                "group_Hx9KqG"
               ]
             },
-            "card_rjnj6i": {
+            "card_Tfke6r": {
               "type": "_card",
               "name": "t:names.card",
               "settings": {
@@ -1209,7 +1209,7 @@
                 "padding-inline-end": 0
               },
               "blocks": {
-                "group_xVRB9Y": {
+                "group_zcjeyt": {
                   "type": "group",
                   "name": "t:names.group",
                   "settings": {
@@ -1270,11 +1270,11 @@
                     "hide_on_desktop": false
                   },
                   "blocks": {
-                    "text_feFHPN": {
+                    "text_QkFjp3": {
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>\"Been going here for small to medium sized tattoos for years. The difference in quality to these tattoos to my earlier ones are unmatched - these artists are incredibly skilled! Shop itself is super clean and staff are all welcoming. Might take you awhile to be seen but it's worth it.\"</p>",
+                        "text": "<p>I have been tattooed many times at Ink and Dagger and I highly recommend this location. I have been getting tattooed by Mel Perlman for the past year, and it's been such an amazing experience that I already have 5 of her tattoos. Three of her fabulous flash and two custom tattoos. She is currently designing a sleeve that flows through the four seasons. She did part 1 recently and completely knocked it out of the park. I couldn't be happier. I highly recommend checking out her flash or inquiring about a custom tattoo. Not only is she a great artist, she is a wonderful person to chat with while you are getting your tattoo!</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
@@ -1316,7 +1316,7 @@
                       },
                       "blocks": {}
                     },
-                    "group_wfnewR": {
+                    "group_h4irmV": {
                       "type": "group",
                       "name": "t:names.group",
                       "settings": {
@@ -1377,11 +1377,11 @@
                         "hide_on_desktop": false
                       },
                       "blocks": {
-                        "image_3nXkjM": {
+                        "image_pMzK6X": {
                           "type": "image",
                           "name": "t:names.image",
                           "settings": {
-                            "image": "shopify://shop_images/craig-brock-illustrative-02.webp",
+                            "image": "shopify://shop_images/unnamed_6.png",
                             "link": "",
                             "hide_on_mobile": false,
                             "hide_on_desktop": false,
@@ -1410,11 +1410,11 @@
                           },
                           "blocks": {}
                         },
-                        "text_McGyha": {
+                        "text_XJbBNg": {
                           "type": "text",
                           "name": "t:names.text",
                           "settings": {
-                            "text": "<p>Maddison Bruer</p>",
+                            "text": "<p>Elizabeth Williams</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -1458,22 +1458,22 @@
                         }
                       },
                       "block_order": [
-                        "image_3nXkjM",
-                        "text_McGyha"
+                        "image_pMzK6X",
+                        "text_XJbBNg"
                       ]
                     }
                   },
                   "block_order": [
-                    "text_feFHPN",
-                    "group_wfnewR"
+                    "text_QkFjp3",
+                    "group_h4irmV"
                   ]
                 }
               },
               "block_order": [
-                "group_xVRB9Y"
+                "group_zcjeyt"
               ]
             },
-            "card_RMXH7h": {
+            "card_NgHTbH": {
               "type": "_card",
               "name": "t:names.card",
               "settings": {
@@ -1502,7 +1502,7 @@
                 "padding-inline-end": 0
               },
               "blocks": {
-                "group_tD4eCm": {
+                "group_dp3kKz": {
                   "type": "group",
                   "name": "t:names.group",
                   "settings": {
@@ -1563,11 +1563,11 @@
                     "hide_on_desktop": false
                   },
                   "blocks": {
-                    "text_dRDxfL": {
+                    "text_bGNxqx": {
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>\"Been going here for small to medium sized tattoos for years. The difference in quality to these tattoos to my earlier ones are unmatched - these artists are incredibly skilled! Shop itself is super clean and staff are all welcoming. Might take you awhile to be seen but it's worth it.\"</p>",
+                        "text": "<p>I have now gotten three pieces done at this shop by the incredible Lilith Jacobs. All three have turned out incredible and I cannot say enough good things about Lilith. She is an absolute artist and if you want a piece, I highly recommend her. <br/>The staff as a whole, from the front desk to the management to the other artists are a joy to interact with. The decor is amazing and feels like a space where artists are free to be themselves. Make sure you schedule for when they're playing the entire Shrek 2 soundtrack for extra special ambiance.</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
@@ -1609,7 +1609,7 @@
                       },
                       "blocks": {}
                     },
-                    "group_rdx8HV": {
+                    "group_eEPmF3": {
                       "type": "group",
                       "name": "t:names.group",
                       "settings": {
@@ -1670,11 +1670,11 @@
                         "hide_on_desktop": false
                       },
                       "blocks": {
-                        "image_txnzjX": {
+                        "image_pWPwCE": {
                           "type": "image",
                           "name": "t:names.image",
                           "settings": {
-                            "image": "shopify://shop_images/craig-brock-illustrative-02.webp",
+                            "image": "shopify://shop_images/unnamed_7.png",
                             "link": "",
                             "hide_on_mobile": false,
                             "hide_on_desktop": false,
@@ -1703,11 +1703,11 @@
                           },
                           "blocks": {}
                         },
-                        "text_ctYRQi": {
+                        "text_A4AicB": {
                           "type": "text",
                           "name": "t:names.text",
                           "settings": {
-                            "text": "<p>Maddison Bruer</p>",
+                            "text": "<p>Eamon Frawley</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -1751,22 +1751,22 @@
                         }
                       },
                       "block_order": [
-                        "image_txnzjX",
-                        "text_ctYRQi"
+                        "image_pWPwCE",
+                        "text_A4AicB"
                       ]
                     }
                   },
                   "block_order": [
-                    "text_dRDxfL",
-                    "group_rdx8HV"
+                    "text_bGNxqx",
+                    "group_eEPmF3"
                   ]
                 }
               },
               "block_order": [
-                "group_tD4eCm"
+                "group_dp3kKz"
               ]
             },
-            "card_JHkWyQ": {
+            "card_q8rm7j": {
               "type": "_card",
               "name": "t:names.card",
               "settings": {
@@ -1795,7 +1795,7 @@
                 "padding-inline-end": 0
               },
               "blocks": {
-                "group_JCxwMG": {
+                "group_4jTFGe": {
                   "type": "group",
                   "name": "t:names.group",
                   "settings": {
@@ -1856,11 +1856,11 @@
                     "hide_on_desktop": false
                   },
                   "blocks": {
-                    "text_yjJBFm": {
+                    "text_aefE9H": {
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>\"Been going here for small to medium sized tattoos for years. The difference in quality to these tattoos to my earlier ones are unmatched - these artists are incredibly skilled! Shop itself is super clean and staff are all welcoming. Might take you awhile to be seen but it's worth it.\"</p>",
+                        "text": "<p>Mel did a brilliant job on my cover up!! You would never expect there to be a tattoo under this one. The detail is gorgeous. I am beyond thrilled!!<br/><br/>Mel was very easy to discuss ideas with. She sent the initial design a week before my appointment. I really appreciated the time to think about it and make adjustments before our session.<br/><br/>The salon was clean and welcoming. <br/>I loved the vibe.</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
@@ -1902,7 +1902,7 @@
                       },
                       "blocks": {}
                     },
-                    "group_8PtzXp": {
+                    "group_m7nenN": {
                       "type": "group",
                       "name": "t:names.group",
                       "settings": {
@@ -1963,11 +1963,11 @@
                         "hide_on_desktop": false
                       },
                       "blocks": {
-                        "image_Ajbrcf": {
+                        "image_9wiJaD": {
                           "type": "image",
                           "name": "t:names.image",
                           "settings": {
-                            "image": "shopify://shop_images/craig-brock-illustrative-02.webp",
+                            "image": "shopify://shop_images/unnamed_4.png",
                             "link": "",
                             "hide_on_mobile": false,
                             "hide_on_desktop": false,
@@ -1996,11 +1996,11 @@
                           },
                           "blocks": {}
                         },
-                        "text_wfbTWk": {
+                        "text_yzdp9x": {
                           "type": "text",
                           "name": "t:names.text",
                           "settings": {
-                            "text": "<p>Maddison Bruer</p>",
+                            "text": "<p>Alice Wunderlund</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -2044,27 +2044,27 @@
                         }
                       },
                       "block_order": [
-                        "image_Ajbrcf",
-                        "text_wfbTWk"
+                        "image_9wiJaD",
+                        "text_yzdp9x"
                       ]
                     }
                   },
                   "block_order": [
-                    "text_yjJBFm",
-                    "group_8PtzXp"
+                    "text_aefE9H",
+                    "group_m7nenN"
                   ]
                 }
               },
               "block_order": [
-                "group_JCxwMG"
+                "group_4jTFGe"
               ]
             }
           },
           "block_order": [
-            "card_k9rzQ3",
-            "card_rjnj6i",
-            "card_RMXH7h",
-            "card_JHkWyQ"
+            "card_WgQiKA",
+            "card_Tfke6r",
+            "card_NgHTbH",
+            "card_q8rm7j"
           ]
         }
       },
@@ -2494,7 +2494,7 @@
     "hero_mryz4d",
     "main",
     "artist_cards_gVa788",
-    "carousel_WDBUxR",
+    "carousel_83Naet",
     "section_fVKAFP"
   ]
 }
