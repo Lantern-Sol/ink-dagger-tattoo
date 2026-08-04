@@ -2006,7 +2006,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>\"Been going here for small to medium sized tattoos for years. The difference in quality to these tattoos to my earlier ones are unmatched - these artists are incredibly skilled! Shop itself is super clean and staff are all welcoming. Might take you awhile to be seen but it's worth it.\"</p>",
+                        "text": "<p>Mel did a brilliant job on my cover up!! You would never expect there to be a tattoo under this one. The detail is gorgeous. I am beyond thrilled!!<br/><br/>Mel was very easy to discuss ideas with. She sent the initial design a week before my appointment. I really appreciated the time to think about it and make adjustments before our session.<br/><br/>The salon was clean and welcoming. <br/>I loved the vibe.</p>",
                         "accent_text": "",
                         "accent_color": "",
                         "mobile_text": "",
@@ -2113,7 +2113,7 @@
                           "type": "image",
                           "name": "t:names.image",
                           "settings": {
-                            "image": "shopify://shop_images/craig-brock-illustrative-02.webp",
+                            "image": "shopify://shop_images/unnamed_4.png",
                             "link": "",
                             "hide_on_mobile": false,
                             "hide_on_desktop": false,
@@ -2146,7 +2146,7 @@
                           "type": "text",
                           "name": "t:names.text",
                           "settings": {
-                            "text": "<p>Maddison Bruer</p>",
+                            "text": "<p>Alice Wunderlund</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
