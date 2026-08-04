@@ -78,6 +78,7 @@
     "show_add_discount_code": true,
     "empty_cart_button_link": "shopify://collections/flash-library",
     "icon_stroke": "default",
+    "palette_input_background": "{{ settings.color_palette.background }}",
     "palette_input_border": "{{ settings.color_palette.foreground }}",
     "input_border_width": 3,
     "inputs_border_radius": 8,

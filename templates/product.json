@@ -451,7 +451,7 @@
         "use_mobile_gap": false,
         "mobile_gap": 16,
         "enable_sticky_add_to_cart": true,
-        "background_color": "",
+        "background_color": "{{ settings.color_palette.color1 }}",
         "padding-block-start": 0,
         "padding-block-end": 0
       }
@@ -640,7 +640,7 @@
         "icons_shape": "none",
         "section_width": "page-width",
         "gap": 32,
-        "background_color": "",
+        "background_color": "{{ settings.color_palette.color1 }}",
         "padding-block-start": 48,
         "padding-block-end": 48,
         "use_mobile_padding": false,
