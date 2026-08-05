@@ -1320,7 +1320,7 @@
                         "text_TagPayRange": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Commission-based, negotiated by experience</p>",
+                            "text": "<p>Commission-based</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -1542,7 +1542,7 @@
                         "text_TagPathFT": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Chair available for immediate start</p>",
+                            "text": "<p>Employee-based</p>",
                             "accent_text": "",
                             "accent_color": "",
                             "mobile_text": "",
@@ -2127,7 +2127,7 @@
                     "text_WT_1": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>— Licensed and experienced in your specialty style(s)</p>",
+                        "text": "<p>— Experienced in your specialty style(s)</p>",
                         "accent_text": "<p>—</p>",
                         "accent_color": "#ce5454",
                         "mobile_text": "",
@@ -2307,7 +2307,7 @@
                     "text_WT_4": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>— Comfortable managing your own client relationships</p>",
+                        "text": "<p>— Striving to become the best tattoo artist you can be</p>",
                         "accent_text": "<p>—</p>",
                         "accent_color": "#ce5454",
                         "mobile_text": "",
