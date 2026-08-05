@@ -772,9 +772,42 @@
         "padding-block-start": 36,
         "padding-block-end": 36
       }
+    },
+    "footer_utilities": {
+      "type": "footer-utilities",
+      "blocks": {
+        "copyright": {
+          "type": "footer-copyright",
+          "settings": {
+            "show_powered_by": false,
+            "font_size": "0.875rem",
+            "case": "none"
+          }
+        },
+        "payment_icons": {
+          "type": "payment-icons",
+          "settings": {
+            "horizontal_alignment": "flex-end",
+            "gap": 8
+          }
+        }
+      },
+      "block_order": [
+        "copyright",
+        "payment_icons"
+      ],
+      "settings": {
+        "section_width": "page-width",
+        "gap": 24,
+        "background_color": "#1d1616",
+        "divider_thickness": 1,
+        "padding-block-start": 20,
+        "padding-block-end": 20
+      }
     }
   },
   "order": [
-    "footer"
+    "footer",
+    "footer_utilities"
   ]
 }
