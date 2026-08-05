@@ -2,13 +2,20 @@
   border-block: 1px solid rgb(29 22 22 / 0.12);
 }
 
-.flash-filters__inner {
+.flash-filters__bar {
   max-width: 71.125rem;
   margin-inline: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 0.75rem;
+  padding-inline: 1rem;
+  padding-block-end: 0.5rem;
+}
+
+.flash-filters__pills-bar {
+  max-width: 71.125rem;
+  margin-inline: auto;
   padding-inline: 1rem;
 }
 
@@ -19,6 +26,42 @@
   color: var(--flash-filters-ink);
   margin: 0;
   white-space: nowrap;
+}
+
+.flash-filters__modes {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.flash-filters__mode {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6875rem 1.25rem;
+  border: 2px solid var(--flash-filters-ink);
+  border-radius: 0.5rem;
+  background-color: var(--flash-filters-pill-bg);
+  color: var(--flash-filters-ink);
+  font-family: var(--font-heading--family);
+  font-style: italic;
+  font-size: 1.125rem;
+  line-height: normal;
+  white-space: nowrap;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.flash-filters__mode--active,
+.flash-filters__mode--active:hover {
+  background-color: var(--flash-filters-pill-bg-active);
+  color: var(--flash-filters-pill-text-active);
+  opacity: 1;
+}
+
+.flash-filters__list[hidden] {
+  display: none;
 }
 
 .flash-filters__list {
@@ -63,15 +106,25 @@
 }
 
 @media screen and (max-width: 749px) {
-  .flash-filters__inner {
+  .flash-filters__bar {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.8125rem;
     padding-inline: 0;
   }
 
+  .flash-filters__modes {
+    flex-wrap: wrap;
+    padding-inline: 2rem;
+  }
+
+  .flash-filters__pills-bar {
+    padding-inline: 0;
+  }
+
   .flash-filters__list {
     flex-wrap: wrap;
+    justify-content: flex-start;
     gap: 0.5rem;
     width: 100%;
     padding-inline: 2rem;
@@ -79,6 +132,11 @@
 
   .flash-filters__label {
     margin-inline: 2rem;
+  }
+
+  .flash-filters__mode {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
   }
 
   .flash-filters__pill {

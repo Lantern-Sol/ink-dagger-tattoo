@@ -27,35 +27,124 @@
   if filter_tags.size == 0
     assign filter_tags = collection.tags
   endif
+
+  # Count the style tags that survive the "hidden tags" filter.
+  assign style_count = 0
+  for tag in filter_tags
+    assign tag_key = tag | downcase | remove: ' '
+    assign tag_lookup = ',' | append: tag_key | append: ','
+    unless excluded_match contains tag_lookup
+      assign style_count = style_count | plus: 1
+    endunless
+  endfor
+  assign has_styles = false
+  if style_count > 0
+    assign has_styles = true
+  endif
+
+  # Locate the storefront filter that holds the (grouped) flash size, sourced
+  # from Search & Discovery via collection.filters. The size groups, labels and
+  # facet URLs are all defined in the admin — the theme just renders them.
+  assign size_param = section.settings.size_filter_param | default: 'filter.p.m.flash.size'
+  assign has_sizes = false
+  for available_filter in collection.filters
+    if available_filter.param_name == size_param
+      assign size_filter = available_filter
+      assign has_sizes = true
+      break
+    endif
+  endfor
+  if has_sizes and size_filter.values.size == 0
+    assign has_sizes = false
+  endif
+
+  assign show_modes = false
+  if has_styles and has_sizes
+    assign show_modes = true
+  endif
+  assign default_mode = 'style'
+  unless has_styles
+    assign default_mode = 'size'
+  endunless
 -%}
 
 {% if collection != blank %}
-  {% if filter_tags.size > 0 %}
+  {% if has_styles or has_sizes %}
   <div class="flash-filters flash-filters-{{ section.id }}" id="flash-filters-{{ section.id }}">
-    <div class="flash-filters__inner">
+    <div class="flash-filters__bar">
       {% if section.settings.label != blank %}
         <p class="flash-filters__label">{{ section.settings.label }}</p>
       {% endif %}
-      <ul class="flash-filters__list">
-        {% for tag in filter_tags %}
-          {% liquid
-            assign tag_key = tag | downcase | remove: ' '
-            assign tag_lookup = ',' | append: tag_key | append: ','
-            if excluded_match contains tag_lookup
-              continue
-            endif
-          %}
-          <li>
-            <button
-              type="button"
-              class="flash-filters__pill"
-              data-tag="{{ tag | handleize }}"
-            >
-              {{- tag -}}
-            </button>
-          </li>
-        {% endfor %}
-      </ul>
+      {% if show_modes %}
+        <div class="flash-filters__modes" role="group" aria-label="{{ section.settings.label | escape }}">
+          <button
+            type="button"
+            class="flash-filters__mode{% if default_mode == 'style' %} flash-filters__mode--active{% endif %}"
+            data-mode="style"
+            aria-pressed="{% if default_mode == 'style' %}true{% else %}false{% endif %}"
+          >
+            {{- section.settings.style_label | default: 'Style of Tattoo' -}}
+          </button>
+          <button
+            type="button"
+            class="flash-filters__mode{% if default_mode == 'size' %} flash-filters__mode--active{% endif %}"
+            data-mode="size"
+            aria-pressed="{% if default_mode == 'size' %}true{% else %}false{% endif %}"
+          >
+            {{- section.settings.size_label | default: 'Size' -}}
+          </button>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="flash-filters__pills-bar">
+      {% if has_styles %}
+        <ul
+          class="flash-filters__list flash-filters__list--style"
+          data-filter-group="style"
+          {% if default_mode != 'style' %}hidden{% endif %}
+        >
+          {% for tag in filter_tags %}
+            {% liquid
+              assign tag_key = tag | downcase | remove: ' '
+              assign tag_lookup = ',' | append: tag_key | append: ','
+              if excluded_match contains tag_lookup
+                continue
+              endif
+            %}
+            <li>
+              <button
+                type="button"
+                class="flash-filters__pill"
+                data-tag="{{ tag | handleize }}"
+              >
+                {{- tag -}}
+              </button>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if has_sizes %}
+        <ul
+          class="flash-filters__list flash-filters__list--size"
+          data-filter-group="size"
+          {% if default_mode != 'size' %}hidden{% endif %}
+        >
+          {% for value in size_filter.values %}
+            <li>
+              <button
+                type="button"
+                class="flash-filters__pill{% if value.active %} flash-filters__pill--active{% endif %}"
+                data-size-param="{{ size_filter.param_name | escape }}"
+                data-size-value="{{ value.value | escape }}"
+              >
+                {{- value.label -}}
+              </button>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
     </div>
   </div>
   {% endif %}
@@ -64,11 +153,17 @@
     (function () {
       var sectionId = {{ section.id | json }};
       var collectionUrl = {{ collection.url | json }};
+      var sizeParam = {{ size_param | json }};
       var loadMoreLabel = {{ section.settings.load_more_label | default: 'Load more designs' | json }};
       var loadingLabel = {{ section.settings.loading_label | default: 'Loading…' | json }};
       var bar = document.getElementById('flash-filters-' + sectionId);
-      var pills = bar ? Array.from(bar.querySelectorAll('.flash-filters__pill')) : [];
-      var activeTag = null;
+      if (!bar) return;
+      var modeButtons = Array.from(bar.querySelectorAll('.flash-filters__mode'));
+      var lists = Array.from(bar.querySelectorAll('.flash-filters__list'));
+      var pills = Array.from(bar.querySelectorAll('.flash-filters__pill'));
+      // activeType is 'style', 'size' or null; the two dimensions are mutually exclusive.
+      var activeType = null;
+      var activeValue = null;
       var currentPage = 1;
       var lastPage = 1;
       var loading = false;
@@ -76,7 +171,21 @@
       var button = null;
 
       function baseUrl() {
-        return activeTag ? collectionUrl + '/' + activeTag : collectionUrl;
+        if (activeType === 'style') {
+          return collectionUrl + '/' + activeValue;
+        }
+        if (activeType === 'size') {
+          return collectionUrl + '?' + sizeParam + '=' + encodeURIComponent(activeValue);
+        }
+        return collectionUrl;
+      }
+
+      function pageUrl(page) {
+        var url = baseUrl();
+        if (page > 1) {
+          url += (url.indexOf('?') === -1 ? '?' : '&') + 'page=' + page;
+        }
+        return url;
       }
 
       function grid() {
@@ -98,8 +207,7 @@
       }
 
       function fetchPage(page) {
-        var url = baseUrl() + (page > 1 ? '?page=' + page : '');
-        return fetch(url).then(function (r) {
+        return fetch(pageUrl(page)).then(function (r) {
           return r.text();
         }).then(function (html) {
           return new DOMParser().parseFromString(html, 'text/html');
@@ -179,35 +287,77 @@
         });
       }
 
+      function clearActive() {
+        pills.forEach(function (p) {
+          p.classList.remove('flash-filters__pill--active');
+        });
+      }
+
       pills.forEach(function (pill) {
         pill.addEventListener('click', function () {
           if (loading) return;
-          var tag = pill.dataset.tag;
-          pills.forEach(function (p) {
-            p.classList.remove('flash-filters__pill--active');
-          });
-          if (activeTag === tag) {
-            activeTag = null;
+          var isSize = pill.hasAttribute('data-size-value');
+          var type = isSize ? 'size' : 'style';
+          var value = isSize ? pill.dataset.sizeValue : pill.dataset.tag;
+          var wasActive = activeType === type && activeValue === value;
+          clearActive();
+          if (wasActive) {
+            activeType = null;
+            activeValue = null;
           } else {
-            activeTag = tag;
+            activeType = type;
+            activeValue = value;
             pill.classList.add('flash-filters__pill--active');
           }
           replaceGrid();
         });
       });
 
+      function setMode(mode) {
+        modeButtons.forEach(function (b) {
+          var on = b.dataset.mode === mode;
+          b.classList.toggle('flash-filters__mode--active', on);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        lists.forEach(function (list) {
+          list.hidden = list.dataset.filterGroup !== mode;
+        });
+      }
+
+      modeButtons.forEach(function (b) {
+        b.addEventListener('click', function () {
+          setMode(b.dataset.mode);
+        });
+      });
+
       function init() {
         var g = grid();
         if (!g) return;
-        var pathParts = location.pathname.split('/').filter(Boolean);
-        var lastPart = pathParts[pathParts.length - 1];
+        var params = new URLSearchParams(location.search);
+        var sizeValue = params.get(sizeParam);
+        if (sizeValue) {
+          activeType = 'size';
+          activeValue = sizeValue;
+        } else {
+          var pathParts = location.pathname.split('/').filter(Boolean);
+          var lastPart = pathParts[pathParts.length - 1];
+          pills.forEach(function (p) {
+            if (!p.hasAttribute('data-size-value') && p.dataset.tag === lastPart) {
+              activeType = 'style';
+              activeValue = lastPart;
+            }
+          });
+        }
         pills.forEach(function (p) {
-          if (p.dataset.tag === lastPart) {
-            activeTag = lastPart;
-            p.classList.add('flash-filters__pill--active');
-          }
+          var isSize = p.hasAttribute('data-size-value');
+          var type = isSize ? 'size' : 'style';
+          var value = isSize ? p.dataset.sizeValue : p.dataset.tag;
+          p.classList.toggle('flash-filters__pill--active', type === activeType && value === activeValue);
         });
-        currentPage = parseInt(new URLSearchParams(location.search).get('page') || '1', 10);
+        if (modeButtons.length && activeType) {
+          setMode(activeType);
+        }
+        currentPage = parseInt(params.get('page') || '1', 10);
         lastPage = parseInt(g.dataset.lastPage || '1', 10);
         syncButton();
       }
@@ -243,11 +393,38 @@
       "default": "#b0aba0"
     },
     {
+      "type": "header",
+      "content": "Filter dimensions"
+    },
+    {
+      "type": "text",
+      "id": "style_label",
+      "label": "Style toggle label",
+      "default": "Style of Tattoo"
+    },
+    {
+      "type": "text",
+      "id": "size_label",
+      "label": "Size toggle label",
+      "default": "Size"
+    },
+    {
       "type": "text",
       "id": "excluded_tags",
       "label": "Hidden tags",
-      "info": "Comma-separated list of tags that should not appear as pills (e.g. internal tags).",
+      "info": "Comma-separated list of tags that should not appear as style pills (e.g. internal tags).",
       "default": "flash, inquire"
+    },
+    {
+      "type": "text",
+      "id": "size_filter_param",
+      "label": "Size filter parameter",
+      "info": "The storefront filter that holds the flash size, set up in Search & Discovery (group the raw sizes into 3\"–10\" there). Format: filter.p.m.<namespace>.<key>.",
+      "default": "filter.p.m.flash.size"
+    },
+    {
+      "type": "header",
+      "content": "Load more"
     },
     {
       "type": "text",
