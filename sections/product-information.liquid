@@ -395,6 +395,18 @@
       "default": "content-center-aligned"
     },
     {
+      "type": "range",
+      "id": "desktop_side_margin",
+      "label": "Desktop side margin",
+      "info": "Minimum space on each side of the section on desktop. Applies when Width is set to Page.",
+      "min": 0,
+      "max": 300,
+      "step": 5,
+      "unit": "px",
+      "default": 50,
+      "visible_if": "{{ section.settings.content_width == 'content-center-aligned' }}"
+    },
+    {
       "type": "select",
       "id": "desktop_media_position",
       "label": "t:settings.media_position",

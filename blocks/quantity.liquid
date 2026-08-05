@@ -3,6 +3,11 @@
   {% style %}
     .{{ wrapper_class }} {
       {%- render 'input-custom-styles', block_settings: block.settings -%}
+      {%- if block.settings.input_button_color != blank -%}
+        --color-quantity-button: {{ block.settings.input_button_color }};
+      {%- endif -%}
+      --icon-stroke-width: {{ block.settings.icon_stroke_width }}px;
+      --quantity-number-font-family: var(--font-{{ block.settings.number_font }}--family);
       --style-border-width-inputs: {{ block.settings.border_width }}px;
       --style-border-radius-inputs: {{ block.settings.border_radius }}px;
       --style-border-radius-buttons-primary: {{ block.settings.border_radius }}px;
@@ -55,6 +60,12 @@
     },
     {
       "type": "color",
+      "id": "input_button_color",
+      "label": "t:settings.plus_minus_buttons",
+      "visible_if": "{{ block.settings.input_style == \"custom\" }}"
+    },
+    {
+      "type": "color",
       "id": "input_border_color",
       "label": "t:settings.borders",
       "default": "{{ settings.color_palette.foreground }}",
@@ -80,6 +91,42 @@
       "step": 1,
       "unit": "px",
       "default": 0,
+      "visible_if": "{{ block.settings.input_style == \"custom\" }}"
+    },
+    {
+      "type": "range",
+      "id": "icon_stroke_width",
+      "label": "t:settings.plus_minus_thickness",
+      "min": 0.5,
+      "max": 4,
+      "step": 0.5,
+      "unit": "px",
+      "default": 1.5,
+      "visible_if": "{{ block.settings.input_style == \"custom\" }}"
+    },
+    {
+      "type": "select",
+      "id": "number_font",
+      "label": "t:settings.number_font",
+      "options": [
+        {
+          "value": "body",
+          "label": "t:options.body"
+        },
+        {
+          "value": "subheading",
+          "label": "t:options.subheading"
+        },
+        {
+          "value": "heading",
+          "label": "t:options.heading"
+        },
+        {
+          "value": "accent",
+          "label": "t:options.accent"
+        }
+      ],
+      "default": "body",
       "visible_if": "{{ block.settings.input_style == \"custom\" }}"
     }
   ],

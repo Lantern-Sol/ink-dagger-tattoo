@@ -3364,7 +3364,7 @@ label:has(input[type='checkbox']:disabled) {
   width: var(--minimum-touch-target);
   height: var(--minimum-touch-target);
   flex-shrink: 0;
-  color: var(--color-input-text);
+  color: var(--color-quantity-button, var(--color-input-text));
 }
 
 .quantity-selector .quantity-minus {
@@ -3415,6 +3415,7 @@ label:has(input[type='checkbox']:disabled) {
   max-width: calc(var(--quantity-selector-width) - var(--minimum-touch-target) * 2);
   border-radius: var(--style-border-radius-buttons);
   color: var(--color-input-text);
+  font-family: var(--quantity-number-font-family, inherit);
   background-color: transparent;
 }
 

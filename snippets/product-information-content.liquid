@@ -87,7 +87,7 @@
 ></div>
 <div
   class="product-information section section--{{ content_width }} spacing-style{% if settings.background_color != blank %} color-custom-{{ section_id }}{% endif %} relative"
-  style="{% render 'spacing-style', settings: settings %} --gap: {{ settings.gap }}px; --mobile-gap: {% if settings.use_mobile_gap %}{{ settings.mobile_gap }}{% else %}{{ settings.gap }}{% endif %}px;"
+  style="{% render 'spacing-style', settings: settings %} --gap: {{ settings.gap }}px; --mobile-gap: {% if settings.use_mobile_gap %}{{ settings.mobile_gap }}{% else %}{{ settings.gap }}{% endif %}px;{% if settings.desktop_side_margin != blank %} --section-page-margin-desktop: {{ settings.desktop_side_margin }}px;{% endif %}"
   data-testid="product-information"
 >
   {% if settings.desktop_media_position == 'left' and product_has_media and request.page_type == 'product' %}
@@ -126,6 +126,13 @@
 {% stylesheet %}
   .product-information {
     gap: var(--gap) 0;
+  }
+
+  /* Merchant-configurable minimum desktop side margin (page-width only) */
+  @media screen and (min-width: 750px) {
+    .product-information.section--page-width {
+      --page-margin: var(--section-page-margin-desktop, 50px);
+    }
   }
 
   /* Base grid layout */
