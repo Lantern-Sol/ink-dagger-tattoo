@@ -35,11 +35,15 @@
   .payment-icons__list {
     display: flex;
     align-items: center;
-    justify-content: var(--alignment);
+    justify-content: center;
     flex-wrap: wrap;
     gap: var(--icon-gap);
     margin: 0;
     padding: 0;
+
+    @media screen and (min-width: 750px) {
+      justify-content: var(--alignment);
+    }
   }
 
   .payment-icons__item {

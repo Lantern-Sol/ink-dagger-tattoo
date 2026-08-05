@@ -13,10 +13,8 @@
 >
   <span class="footer-utilities__text">
     &copy; {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url -}}
-    {%- if block_settings.show_powered_by -%}
-      , {{ powered_by_link }}
-    {%- endif -%}
+    {{ shop.name | link_to: routes.root_url -}}.
+    All rights reserved. <a href="https://www.lanternsol.com/" target="_blank" rel="noopener">Designed by Lantern Sol</a>
   </span>
 </div>
 
