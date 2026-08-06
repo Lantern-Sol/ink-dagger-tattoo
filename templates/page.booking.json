@@ -4750,7 +4750,6 @@
             },
             "callout-card": {
               "type": "group",
-              "disabled": true,
               "settings": {
                 "content_direction": "column",
                 "vertical_on_mobile": true,
@@ -4902,8 +4901,8 @@
                 "callout-link": {
                   "type": "button",
                   "settings": {
-                    "label": "Contact with us in the chat below",
-                    "link": "",
+                    "label": "Contact us  →",
+                    "link": "#mangomint-chat",
                     "open_in_new_tab": false,
                     "style_class": "button-unstyled",
                     "custom_button_background": "{{ settings.color_palette.foreground }}",
@@ -4920,7 +4919,7 @@
                     "mobile_font_size": "",
                     "letter_spacing": "",
                     "uppercase": false,
-                    "icon": "chat_bubble",
+                    "icon": "none",
                     "icon_size": 16,
                     "icon_position": "after",
                     "icon_color": "",
