@@ -37,6 +37,17 @@
 
     {{ content_for_header }}
     <script>window.Mangomint = window.Mangomint || {}; window.Mangomint.CompanyId = 971538;</script><script src="https://booking.mangomint.com/app.js" async></script>
+    <script>
+      // Open the Mangomint web chat when any link pointing to #mangomint-chat is clicked.
+      document.addEventListener('click', function (event) {
+        var trigger = event.target.closest('a[href$="#mangomint-chat"], [data-mangomint-chat]');
+        if (!trigger) return;
+        event.preventDefault();
+        if (window.Mangomint && typeof window.Mangomint.openWebChat === 'function') {
+          window.Mangomint.openWebChat();
+        }
+      });
+    </script>
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
